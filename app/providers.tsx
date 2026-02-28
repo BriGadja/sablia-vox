@@ -17,7 +17,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             retry: 3,
           },
         },
-      })
+      }),
   )
 
   return (

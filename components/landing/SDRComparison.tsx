@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import { Card } from '@/components/shared/Card';
-import { Check, X, TrendingUp } from 'lucide-react';
+import { Check, TrendingUp, X } from 'lucide-react'
+import { Card } from '@/components/shared/Card'
 
 const comparisonData = [
   {
@@ -52,7 +52,7 @@ const comparisonData = [
     voipia: '800%+ en 3 mois',
     advantage: 'voipia',
   },
-];
+]
 
 export function SDRComparison() {
   return (
@@ -61,14 +61,11 @@ export function SDRComparison() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-900/10 via-transparent to-transparent" />
 
       <div className="container mx-auto px-4 relative z-10">
-
         {/* Section header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 backdrop-blur-sm mb-6">
             <TrendingUp className="w-4 h-4 text-orange-400" />
-            <span className="text-sm font-semibold text-orange-300">
-              Comparatif objectif
-            </span>
+            <span className="text-sm font-semibold text-orange-300">Comparatif objectif</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="text-white">SDR classique</span>
@@ -78,7 +75,8 @@ export function SDRComparison() {
             </span>
           </h2>
           <p className="text-xl text-gray-300">
-            Découvrez pourquoi plus de 50 entreprises ont déjà fait le choix de l&apos;automatisation.
+            Découvrez pourquoi plus de 50 entreprises ont déjà fait le choix de
+            l&apos;automatisation.
           </p>
         </div>
 
@@ -123,9 +121,7 @@ export function SDRComparison() {
                 <div className="flex items-center justify-center text-center">
                   <div className="space-y-1">
                     <p className="text-gray-300 text-sm">{row.sdr}</p>
-                    {row.advantage !== 'sdr' && (
-                      <X className="w-4 h-4 text-red-400 mx-auto" />
-                    )}
+                    {row.advantage !== 'sdr' && <X className="w-4 h-4 text-red-400 mx-auto" />}
                   </div>
                 </div>
 
@@ -164,13 +160,14 @@ export function SDRComparison() {
         {/* Bottom note */}
         <div className="text-center mt-8">
           <p className="text-sm text-gray-400">
-            💡 <strong className="text-white">L&apos;humain reste indispensable</strong> pour conclure les deals complexes.
+            💡 <strong className="text-white">L&apos;humain reste indispensable</strong> pour
+            conclure les deals complexes.
             <br />
-            Voipia s&apos;occupe de la qualification et du premier contact, vos équipes se concentrent sur la conversion.
+            Voipia s&apos;occupe de la qualification et du premier contact, vos équipes se
+            concentrent sur la conversion.
           </p>
         </div>
-
       </div>
     </section>
-  );
+  )
 }

@@ -1,3 +1,3 @@
 export { AppSidebar } from './AppSidebar'
-export { sidebarConfig, settingsNavItem } from './SidebarConfig'
-export type { NavItem, NavGroup } from './SidebarConfig'
+export type { NavGroup, NavItem } from './SidebarConfig'
+export { settingsNavItem, sidebarConfig } from './SidebarConfig'

@@ -2,14 +2,14 @@
 
 import { memo, useMemo } from 'react'
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
 } from 'recharts'
 
 interface VoicemailByAgentProps {
@@ -43,7 +43,7 @@ function VoicemailByAgentInner({ data }: VoicemailByAgentProps) {
           'Taux de messagerie': item.rate,
         }))
         .sort((a, b) => b['Taux de messagerie'] - a['Taux de messagerie']),
-    [data]
+    [data],
   )
 
   return (

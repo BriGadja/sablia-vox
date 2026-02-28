@@ -1,15 +1,7 @@
 'use client'
 
 import { memo, useMemo } from 'react'
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts'
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import type { MonthlyConsumptionHistory } from '@/lib/types/consumption'
 
 interface MonthlyComparisonChartProps {
@@ -36,9 +28,7 @@ function MonthlyComparisonChartInner({ data }: MonthlyComparisonChartProps) {
   if (!data || data.length === 0) {
     return (
       <div className="bg-black/20 border border-white/20 rounded-xl p-3 flex flex-col h-full">
-        <h3 className="text-sm font-semibold text-white mb-2 flex-shrink-0">
-          Historique mensuel
-        </h3>
+        <h3 className="text-sm font-semibold text-white mb-2 flex-shrink-0">Historique mensuel</h3>
         <div className="flex-1 flex items-center justify-center text-white/50 text-sm">
           Aucune donnee disponible
         </div>
@@ -48,14 +38,9 @@ function MonthlyComparisonChartInner({ data }: MonthlyComparisonChartProps) {
 
   return (
     <div className="bg-black/20 border border-white/20 rounded-xl p-3 flex flex-col h-full">
-      <h3 className="text-sm font-semibold text-white mb-2 flex-shrink-0">
-        Historique mensuel
-      </h3>
+      <h3 className="text-sm font-semibold text-white mb-2 flex-shrink-0">Historique mensuel</h3>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={chartData}
-          margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-        >
+        <BarChart data={chartData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
           <XAxis
             dataKey="month"
@@ -89,18 +74,14 @@ function MonthlyComparisonChartInner({ data }: MonthlyComparisonChartProps) {
               return [
                 `${value.toFixed(2)} €`,
                 <span key="details" className="text-xs text-white/60">
-                  {payload?.calls} appels | {payload?.minutes?.toFixed(0)}min | {payload?.sms} SMS | {payload?.emails} emails
-                </span>
+                  {payload?.calls} appels | {payload?.minutes?.toFixed(0)}min | {payload?.sms} SMS |{' '}
+                  {payload?.emails} emails
+                </span>,
               ]
             }}
             labelFormatter={(label) => `Mois: ${label}`}
           />
-          <Bar
-            dataKey="cost"
-            fill="#8b5cf6"
-            radius={[4, 4, 0, 0]}
-            name="Consommation"
-          />
+          <Bar dataKey="cost" fill="#8b5cf6" radius={[4, 4, 0, 0]} name="Consommation" />
         </BarChart>
       </ResponsiveContainer>
     </div>

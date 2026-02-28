@@ -1,7 +1,7 @@
 'use client'
 
-import { KPICard } from '../KPICard'
 import type { UserConsumptionResponse } from '@/lib/types/consumption'
+import { KPICard } from '../KPICard'
 
 interface ConsumptionKPIGridProps {
   data: UserConsumptionResponse | undefined
@@ -42,9 +42,8 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
   const totalSeconds = current_period.total_seconds % 60
 
   // Cout moyen par appel (si appels > 0)
-  const avgCostPerCall = current_period.total_calls > 0
-    ? current_period.call_cost / current_period.total_calls
-    : 0
+  const avgCostPerCall =
+    current_period.total_calls > 0 ? current_period.call_cost / current_period.total_calls : 0
 
   const kpis = [
     {

@@ -1,11 +1,11 @@
 'use client'
 
-import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
-import { useAgentCardsData } from '@/lib/hooks/useDashboardData'
-import { PageHeader } from '@/components/dashboard/PageHeader'
-import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
-import { AgentDeploymentCard } from './AgentDeploymentCard'
 import { Bot, Loader2 } from 'lucide-react'
+import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
+import { PageHeader } from '@/components/dashboard/PageHeader'
+import { useAgentCardsData } from '@/lib/hooks/useDashboardData'
+import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
+import { AgentDeploymentCard } from './AgentDeploymentCard'
 
 /**
  * Agents List Client Component
@@ -24,7 +24,7 @@ export function AgentsListClient() {
   }
 
   // Count by agent type
-  const louisCount = agents?.filter(a => a.agent_type_name === 'louis').length || 0
+  const louisCount = agents?.filter((a) => a.agent_type_name === 'louis').length || 0
 
   return (
     <div className="p-6 space-y-6">
@@ -47,9 +47,7 @@ export function AgentsListClient() {
           {louisCount > 0 && (
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30">
               <Bot className="w-4 h-4 text-blue-400" />
-              <span className="text-sm text-blue-400 font-medium">
-                {louisCount} Louis
-              </span>
+              <span className="text-sm text-blue-400 font-medium">{louisCount} Louis</span>
             </div>
           )}
         </div>
@@ -72,9 +70,7 @@ export function AgentsListClient() {
             <Bot className="w-12 h-12 text-white/20" />
           </div>
           <div className="text-center space-y-2">
-            <p className="text-lg font-semibold text-white">
-              Aucun agent trouvé
-            </p>
+            <p className="text-lg font-semibold text-white">Aucun agent trouvé</p>
             <p className="text-sm text-white/60">
               Vous n&apos;avez pas encore d&apos;agents déployés
             </p>

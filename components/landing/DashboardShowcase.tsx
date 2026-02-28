@@ -1,9 +1,19 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { LayoutDashboard, History, FileText, Phone, Clock, Calendar, CheckCircle, XCircle, MessageSquare } from 'lucide-react';
+import {
+  Calendar,
+  CheckCircle,
+  Clock,
+  FileText,
+  History,
+  LayoutDashboard,
+  MessageSquare,
+  Phone,
+  XCircle,
+} from 'lucide-react'
+import { useState } from 'react'
 
-type TabId = 'dashboard' | 'history' | 'transcriptions';
+type TabId = 'dashboard' | 'history' | 'transcriptions'
 
 const tabs = [
   {
@@ -11,23 +21,26 @@ const tabs = [
     label: 'Tableau de bord',
     icon: LayoutDashboard,
     title: 'Tableau de bord analytique en temps réel',
-    description: 'Visualisez les performances de votre agent IA avec des statistiques claires. Suivez les appels traités et les taux de conversion pour optimiser votre stratégie commerciale.',
+    description:
+      'Visualisez les performances de votre agent IA avec des statistiques claires. Suivez les appels traités et les taux de conversion pour optimiser votre stratégie commerciale.',
   },
   {
     id: 'history' as TabId,
     label: 'Historique',
     icon: History,
     title: 'Historique complet de vos interactions',
-    description: 'Consultez l\'ensemble des appels gérés par votre agent IA. Filtrez et analysez chaque conversation pour ne manquer aucune opportunité commerciale.',
+    description:
+      "Consultez l'ensemble des appels gérés par votre agent IA. Filtrez et analysez chaque conversation pour ne manquer aucune opportunité commerciale.",
   },
   {
     id: 'transcriptions' as TabId,
     label: 'Transcriptions',
     icon: FileText,
     title: 'Transcriptions détaillées',
-    description: 'Accédez à la transcription complète de chaque appel. Analysez le contenu des conversations pour améliorer vos scripts et votre approche commerciale.',
+    description:
+      'Accédez à la transcription complète de chaque appel. Analysez le contenu des conversations pour améliorer vos scripts et votre approche commerciale.',
   },
-];
+]
 
 // Mockup du Dashboard
 function DashboardMockup() {
@@ -158,30 +171,78 @@ function DashboardMockup() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 // Mockup de l'Historique
 function HistoryMockup() {
   const calls = [
-    { name: 'Martin Dupont', phone: '+33 6 12 34 56 78', time: '14:32', duration: '4:21', status: 'rdv', outcome: 'RDV planifié' },
-    { name: 'Sophie Laurent', phone: '+33 6 98 76 54 32', time: '14:15', duration: '2:45', status: 'qualified', outcome: 'Qualifié' },
-    { name: 'Jean Moreau', phone: '+33 6 11 22 33 44', time: '13:58', duration: '1:12', status: 'voicemail', outcome: 'Messagerie' },
-    { name: 'Marie Petit', phone: '+33 6 55 66 77 88', time: '13:42', duration: '5:33', status: 'rdv', outcome: 'RDV planifié' },
-    { name: 'Pierre Bernard', phone: '+33 6 99 88 77 66', time: '13:25', duration: '0:45', status: 'refused', outcome: 'Pas intéressé' },
-    { name: 'Claire Dubois', phone: '+33 6 44 33 22 11', time: '13:10', duration: '3:18', status: 'callback', outcome: 'Rappel demandé' },
-  ];
+    {
+      name: 'Martin Dupont',
+      phone: '+33 6 12 34 56 78',
+      time: '14:32',
+      duration: '4:21',
+      status: 'rdv',
+      outcome: 'RDV planifié',
+    },
+    {
+      name: 'Sophie Laurent',
+      phone: '+33 6 98 76 54 32',
+      time: '14:15',
+      duration: '2:45',
+      status: 'qualified',
+      outcome: 'Qualifié',
+    },
+    {
+      name: 'Jean Moreau',
+      phone: '+33 6 11 22 33 44',
+      time: '13:58',
+      duration: '1:12',
+      status: 'voicemail',
+      outcome: 'Messagerie',
+    },
+    {
+      name: 'Marie Petit',
+      phone: '+33 6 55 66 77 88',
+      time: '13:42',
+      duration: '5:33',
+      status: 'rdv',
+      outcome: 'RDV planifié',
+    },
+    {
+      name: 'Pierre Bernard',
+      phone: '+33 6 99 88 77 66',
+      time: '13:25',
+      duration: '0:45',
+      status: 'refused',
+      outcome: 'Pas intéressé',
+    },
+    {
+      name: 'Claire Dubois',
+      phone: '+33 6 44 33 22 11',
+      time: '13:10',
+      duration: '3:18',
+      status: 'callback',
+      outcome: 'Rappel demandé',
+    },
+  ]
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'rdv': return <Calendar className="w-4 h-4 text-green-400" />;
-      case 'qualified': return <CheckCircle className="w-4 h-4 text-blue-400" />;
-      case 'voicemail': return <MessageSquare className="w-4 h-4 text-amber-400" />;
-      case 'refused': return <XCircle className="w-4 h-4 text-red-400" />;
-      case 'callback': return <Phone className="w-4 h-4 text-violet-400" />;
-      default: return <Phone className="w-4 h-4 text-gray-400" />;
+      case 'rdv':
+        return <Calendar className="w-4 h-4 text-green-400" />
+      case 'qualified':
+        return <CheckCircle className="w-4 h-4 text-blue-400" />
+      case 'voicemail':
+        return <MessageSquare className="w-4 h-4 text-amber-400" />
+      case 'refused':
+        return <XCircle className="w-4 h-4 text-red-400" />
+      case 'callback':
+        return <Phone className="w-4 h-4 text-violet-400" />
+      default:
+        return <Phone className="w-4 h-4 text-gray-400" />
     }
-  };
+  }
 
   return (
     <div className="p-4">
@@ -196,9 +257,15 @@ function HistoryMockup() {
       {/* Call list */}
       <div className="space-y-2">
         {calls.map((call, i) => (
-          <div key={i} className="bg-white/5 rounded-lg p-3 border border-white/5 flex items-center gap-4 hover:bg-white/10 transition-colors">
+          <div
+            key={i}
+            className="bg-white/5 rounded-lg p-3 border border-white/5 flex items-center gap-4 hover:bg-white/10 transition-colors"
+          >
             <div className="w-10 h-10 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 flex items-center justify-center text-white font-semibold text-sm">
-              {call.name.split(' ').map(n => n[0]).join('')}
+              {call.name
+                .split(' ')
+                .map((n) => n[0])
+                .join('')}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-white truncate">{call.name}</p>
@@ -220,19 +287,39 @@ function HistoryMockup() {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 // Mockup des Transcriptions
 function TranscriptionsMockup() {
   const messages = [
-    { speaker: 'Louis', text: 'Bonjour, je suis Louis, l\'assistant de VoIPIA. Comment puis-je vous aider aujourd\'hui ?', time: '0:00' },
-    { speaker: 'Client', text: 'Bonjour, j\'aimerais avoir des informations sur vos services d\'agents IA pour mon entreprise.', time: '0:08' },
-    { speaker: 'Louis', text: 'Bien sûr ! Nous proposons des agents IA vocaux qui peuvent gérer vos appels entrants 24/7, qualifier vos prospects et prendre des rendez-vous. Pouvez-vous me dire quel type d\'activité vous avez ?', time: '0:15' },
-    { speaker: 'Client', text: 'Nous sommes une agence immobilière avec environ 200 leads par mois.', time: '0:32' },
-    { speaker: 'Louis', text: 'Parfait, c\'est exactement le type d\'entreprise pour laquelle nos agents IA sont très efficaces. Souhaitez-vous planifier un rendez-vous avec notre équipe pour une démonstration personnalisée ?', time: '0:40' },
+    {
+      speaker: 'Louis',
+      text: "Bonjour, je suis Louis, l'assistant de VoIPIA. Comment puis-je vous aider aujourd'hui ?",
+      time: '0:00',
+    },
+    {
+      speaker: 'Client',
+      text: "Bonjour, j'aimerais avoir des informations sur vos services d'agents IA pour mon entreprise.",
+      time: '0:08',
+    },
+    {
+      speaker: 'Louis',
+      text: "Bien sûr ! Nous proposons des agents IA vocaux qui peuvent gérer vos appels entrants 24/7, qualifier vos prospects et prendre des rendez-vous. Pouvez-vous me dire quel type d'activité vous avez ?",
+      time: '0:15',
+    },
+    {
+      speaker: 'Client',
+      text: 'Nous sommes une agence immobilière avec environ 200 leads par mois.',
+      time: '0:32',
+    },
+    {
+      speaker: 'Louis',
+      text: "Parfait, c'est exactement le type d'entreprise pour laquelle nos agents IA sont très efficaces. Souhaitez-vous planifier un rendez-vous avec notre équipe pour une démonstration personnalisée ?",
+      time: '0:40',
+    },
     { speaker: 'Client', text: 'Oui, je suis disponible jeudi après-midi.', time: '0:55' },
-  ];
+  ]
 
   return (
     <div className="p-4">
@@ -243,7 +330,9 @@ function TranscriptionsMockup() {
           <p className="text-xs text-gray-500">+33 6 12 34 56 78 • Aujourd&apos;hui 14:32</p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-lg">RDV planifié</span>
+          <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-lg">
+            RDV planifié
+          </span>
           <span className="text-xs text-gray-500">4:21</span>
         </div>
       </div>
@@ -251,20 +340,27 @@ function TranscriptionsMockup() {
       {/* Conversation */}
       <div className="space-y-3 max-h-[280px] overflow-y-auto">
         {messages.map((msg, i) => (
-          <div key={i} className={`flex gap-3 ${msg.speaker === 'Louis' ? '' : 'flex-row-reverse'}`}>
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0 ${
-              msg.speaker === 'Louis'
-                ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white'
-                : 'bg-gray-700 text-gray-300'
-            }`}>
+          <div
+            key={i}
+            className={`flex gap-3 ${msg.speaker === 'Louis' ? '' : 'flex-row-reverse'}`}
+          >
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0 ${
+                msg.speaker === 'Louis'
+                  ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white'
+                  : 'bg-gray-700 text-gray-300'
+              }`}
+            >
               {msg.speaker === 'Louis' ? 'L' : 'C'}
             </div>
             <div className={`flex-1 ${msg.speaker === 'Louis' ? '' : 'text-right'}`}>
-              <div className={`inline-block px-3 py-2 rounded-lg text-sm ${
-                msg.speaker === 'Louis'
-                  ? 'bg-violet-500/20 text-gray-200'
-                  : 'bg-white/10 text-gray-300'
-              }`}>
+              <div
+                className={`inline-block px-3 py-2 rounded-lg text-sm ${
+                  msg.speaker === 'Louis'
+                    ? 'bg-violet-500/20 text-gray-200'
+                    : 'bg-white/10 text-gray-300'
+                }`}
+              >
                 {msg.text}
               </div>
               <p className="text-[10px] text-gray-600 mt-1">{msg.time}</p>
@@ -273,18 +369,17 @@ function TranscriptionsMockup() {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 export function DashboardShowcase() {
-  const [activeTab, setActiveTab] = useState<TabId>('dashboard');
+  const [activeTab, setActiveTab] = useState<TabId>('dashboard')
 
-  const activeTabData = tabs.find(t => t.id === activeTab)!;
+  const activeTabData = tabs.find((t) => t.id === activeTab)!
 
   return (
     <section className="py-24 bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
       <div className="container mx-auto px-4">
-
         {/* Section header */}
         <div className="text-center mb-12">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-sm mb-6">
@@ -361,8 +456,7 @@ export function DashboardShowcase() {
             </div>
           </div>
         </div>
-
       </div>
     </section>
-  );
+  )
 }

@@ -1,7 +1,0 @@
-open supabase\.temp\profile: Le fichier spécifié est introuvable.
-Loading project ref from file: supabase\.temp\project-ref
-Using connection pooler: postgresql://postgres.tcpecjoeelbnnvdkvgvg@aws-1-eu-west-1.pooler.supabase.com:5432/postgres
-Initialising login role...
-Using access token for profile: supabase
-failed to connect as temp role: failed to connect to `host=aws-1-eu-west-1.pooler.supabase.com user=cli_login_postgres.tcpecjoeelbnnvdkvgvg database=postgres`: failed SASL auth (unexpected EOF)
-Retry (1/8): 

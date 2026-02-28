@@ -1,8 +1,8 @@
 'use client'
 
-import { Fragment } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Fragment } from 'react'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -84,9 +84,7 @@ export function DynamicBreadcrumb() {
             {index > 0 && <BreadcrumbSeparator className="text-white/30" />}
             <BreadcrumbItem>
               {crumb.isLast ? (
-                <BreadcrumbPage className="text-white/90">
-                  {crumb.label}
-                </BreadcrumbPage>
+                <BreadcrumbPage className="text-white/90">{crumb.label}</BreadcrumbPage>
               ) : (
                 <BreadcrumbLink asChild>
                   <Link

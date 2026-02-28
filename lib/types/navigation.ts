@@ -6,9 +6,9 @@
  */
 export interface HierarchyAgent {
   deployment_id: string
-  deployment_name: string  // ex: "Louis (setter)"
+  deployment_name: string // ex: "Louis (setter)"
   slug: string
-  agent_type_name: string  // 'louis' | 'arthur' | 'alexandra'
+  agent_type_name: string // 'louis' | 'arthur' | 'alexandra'
   agent_type_display_name: string
   status: 'active' | 'paused' | 'archived'
   last_call_at: string | null

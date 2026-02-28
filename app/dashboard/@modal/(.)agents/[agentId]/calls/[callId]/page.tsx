@@ -1,6 +1,6 @@
-import { redirect, notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { notFound, redirect } from 'next/navigation'
 import { Modal } from '@/components/dashboard/Modal'
+import { createClient } from '@/lib/supabase/server'
 import { CallDetailModalContent } from './CallDetailModalContent'
 
 interface CallDetailModalProps {
@@ -46,11 +46,7 @@ export default async function CallDetailModal({ params }: CallDetailModalProps) 
 
   return (
     <Modal>
-      <CallDetailModalContent
-        callId={callId}
-        agentId={agentId}
-        agentName={agentDeployment.name}
-      />
+      <CallDetailModalContent callId={callId} agentId={agentId} agentName={agentDeployment.name} />
     </Modal>
   )
 }

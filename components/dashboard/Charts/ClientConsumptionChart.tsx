@@ -1,15 +1,7 @@
 'use client'
 
 import { memo, useMemo } from 'react'
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts'
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import type { ClientConsumptionSummary } from '@/lib/types/consumption'
 
 interface ClientConsumptionChartProps {
@@ -22,9 +14,10 @@ function ClientConsumptionChartInner({ data }: ClientConsumptionChartProps) {
     return data
       .slice(0, 10) // Top 10
       .map((item) => ({
-        name: item.client_name.length > 20
-          ? item.client_name.substring(0, 20) + '...'
-          : item.client_name,
+        name:
+          item.client_name.length > 20
+            ? item.client_name.substring(0, 20) + '...'
+            : item.client_name,
         fullName: item.client_name,
         cost: item.total_cost,
       }))

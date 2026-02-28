@@ -2,14 +2,14 @@
 
 import { memo, useMemo } from 'react'
 import {
-  AreaChart,
   Area,
-  XAxis,
-  YAxis,
+  AreaChart,
   CartesianGrid,
-  Tooltip,
   Legend,
   ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts'
 import type { DailyConsumption } from '@/lib/types/consumption'
 
@@ -25,11 +25,11 @@ function ConsumptionEvolutionChartInner({ data }: ConsumptionEvolutionChartProps
           day: '2-digit',
           month: 'short',
         }),
-        'Appels': item.call_cost,
-        'SMS': item.sms_cost,
-        'Emails': item.email_cost,
+        Appels: item.call_cost,
+        SMS: item.sms_cost,
+        Emails: item.email_cost,
       })),
-    [data]
+    [data],
   )
 
   if (!data || data.length === 0) {

@@ -2,14 +2,14 @@
 
 import { memo, useMemo } from 'react'
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
 } from 'recharts'
 import type { DurationByOutcomeData } from '@/lib/types/dashboard'
 
@@ -23,9 +23,7 @@ function DurationByOutcomeChartInner({ data }: DurationByOutcomeChartProps) {
     return data
       .filter((item) => item.avg_duration > 0)
       .map((item) => ({
-        name: item.outcome.length > 18
-          ? item.outcome.substring(0, 18) + '...'
-          : item.outcome,
+        name: item.outcome.length > 18 ? item.outcome.substring(0, 18) + '...' : item.outcome,
         fullName: item.outcome,
         duration: item.avg_duration,
         count: item.count,
@@ -99,9 +97,7 @@ function DurationByOutcomeChartInner({ data }: DurationByOutcomeChartProps) {
                 <span key="details">
                   {formatDuration(value)}
                   <br />
-                  <span className="text-xs text-white/60">
-                    {props?.payload?.count || 0} appels
-                  </span>
+                  <span className="text-xs text-white/60">{props?.payload?.count || 0} appels</span>
                 </span>,
                 props?.payload?.fullName || '',
               ]

@@ -3,15 +3,16 @@
  * Shared parser definitions for dashboard filters using nuqs
  * Can be used in both server and client components
  */
+
+import { format, subDays } from 'date-fns'
 import {
-  parseAsString,
-  parseAsArrayOf,
-  parseAsStringLiteral,
   createLoader,
   createSerializer,
+  parseAsArrayOf,
+  parseAsString,
+  parseAsStringLiteral,
   type UrlKeys,
 } from 'nuqs/server'
-import { subDays, format } from 'date-fns'
 
 // Agent type literals
 const agentTypes = ['louis', 'arthur', 'alexandra'] as const

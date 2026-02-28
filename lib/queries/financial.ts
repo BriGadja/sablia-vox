@@ -1,50 +1,50 @@
 // Financial Dashboard Queries
 // Generated: 2025-01-16
 
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from '@/lib/supabase/client'
 import type {
-  FinancialKPIResponse,
-  FinancialFilters,
-  DrilldownLevel,
-  DrilldownData,
-  ClientFinancialData,
   AgentTypeFinancialData,
-  DeploymentFinancialData,
-  ClientDeploymentData,
-  DeploymentChannelData,
+  AgentUnitPricing,
   ChannelDrilldownResponse,
+  ClientDeploymentData,
+  ClientFinancialData,
+  ConsumptionMetrics,
+  CostBreakdownResponse,
+  DeploymentChannelData,
+  DeploymentFinancialData,
+  DrilldownData,
+  DrilldownLevel,
+  FinancialFilters,
+  FinancialKPIResponse,
+  LeasingMetrics,
   TimeSeriesDataPoint,
   TimeSeriesFilters,
   TimeSeriesGranularity,
-  CostBreakdownResponse,
-  LeasingMetrics,
-  ConsumptionMetrics,
-  AgentUnitPricing,
-} from "@/lib/types/financial";
+} from '@/lib/types/financial'
 
 // ============================================================================
 // Fetch Financial KPI Metrics
 // ============================================================================
 
 export async function fetchFinancialKPIMetrics(
-  filters: FinancialFilters
+  filters: FinancialFilters,
 ): Promise<FinancialKPIResponse> {
-  const supabase = createClient();
+  const supabase = createClient()
 
-  const { data, error } = await supabase.rpc("get_financial_kpi_metrics", {
+  const { data, error } = await supabase.rpc('get_financial_kpi_metrics', {
     p_start_date: filters.startDate,
     p_end_date: filters.endDate,
     p_client_id: filters.clientId || null,
     p_agent_type_name: filters.agentTypeName || null,
     p_deployment_id: filters.deploymentId || null,
-  });
+  })
 
   if (error) {
-    console.error("Error fetching financial KPI metrics:", error);
-    throw new Error(`Failed to fetch financial KPI metrics: ${error.message}`);
+    console.error('Error fetching financial KPI metrics:', error)
+    throw new Error(`Failed to fetch financial KPI metrics: ${error.message}`)
   }
 
-  return data as FinancialKPIResponse;
+  return data as FinancialKPIResponse
 }
 
 // ============================================================================
@@ -53,30 +53,30 @@ export async function fetchFinancialKPIMetrics(
 
 export async function fetchFinancialDrilldown(
   filters: FinancialFilters,
-  level: DrilldownLevel
+  level: DrilldownLevel,
 ): Promise<DrilldownData> {
-  const supabase = createClient();
+  const supabase = createClient()
 
-  const { data, error } = await supabase.rpc("get_financial_drilldown", {
+  const { data, error } = await supabase.rpc('get_financial_drilldown', {
     p_start_date: filters.startDate,
     p_end_date: filters.endDate,
     p_level: level,
     p_client_id: filters.clientId || null,
     p_agent_type_name: filters.agentTypeName || null,
     p_deployment_id: filters.deploymentId || null,
-  });
+  })
 
   if (error) {
-    console.error(`Error fetching ${level} drilldown:`, error);
-    throw new Error(`Failed to fetch ${level} drilldown: ${error.message}`);
+    console.error(`Error fetching ${level} drilldown:`, error)
+    throw new Error(`Failed to fetch ${level} drilldown: ${error.message}`)
   }
 
   // Handle channel drilldown response structure
-  if (level === "channel") {
-    return data as ChannelDrilldownResponse;
+  if (level === 'channel') {
+    return data as ChannelDrilldownResponse
   }
 
-  return (data || []) as DrilldownData;
+  return (data || []) as DrilldownData
 }
 
 // ============================================================================
@@ -84,31 +84,31 @@ export async function fetchFinancialDrilldown(
 // ============================================================================
 
 export async function fetchClientBreakdown(
-  filters: FinancialFilters
+  filters: FinancialFilters,
 ): Promise<ClientFinancialData[]> {
-  const data = await fetchFinancialDrilldown(filters, "client");
-  return data as ClientFinancialData[];
+  const data = await fetchFinancialDrilldown(filters, 'client')
+  return data as ClientFinancialData[]
 }
 
 export async function fetchAgentTypeBreakdown(
-  filters: FinancialFilters
+  filters: FinancialFilters,
 ): Promise<AgentTypeFinancialData[]> {
-  const data = await fetchFinancialDrilldown(filters, "agent_type");
-  return data as AgentTypeFinancialData[];
+  const data = await fetchFinancialDrilldown(filters, 'agent_type')
+  return data as AgentTypeFinancialData[]
 }
 
 export async function fetchDeploymentBreakdown(
-  filters: FinancialFilters
+  filters: FinancialFilters,
 ): Promise<DeploymentFinancialData[]> {
-  const data = await fetchFinancialDrilldown(filters, "deployment");
-  return data as DeploymentFinancialData[];
+  const data = await fetchFinancialDrilldown(filters, 'deployment')
+  return data as DeploymentFinancialData[]
 }
 
 export async function fetchChannelBreakdown(
-  filters: FinancialFilters
+  filters: FinancialFilters,
 ): Promise<ChannelDrilldownResponse> {
-  const data = await fetchFinancialDrilldown(filters, "channel");
-  return data as ChannelDrilldownResponse;
+  const data = await fetchFinancialDrilldown(filters, 'channel')
+  return data as ChannelDrilldownResponse
 }
 
 // ============================================================================
@@ -120,28 +120,28 @@ export async function fetchChannelBreakdown(
  * Returns daily/weekly/monthly metrics aggregated by period
  */
 export async function fetchFinancialTimeSeries(
-  filters: TimeSeriesFilters
+  filters: TimeSeriesFilters,
 ): Promise<TimeSeriesDataPoint[]> {
-  const supabase = createClient();
+  const supabase = createClient()
 
-  const granularity: TimeSeriesGranularity = filters.granularity || 'day';
+  const granularity: TimeSeriesGranularity = filters.granularity || 'day'
 
-  const { data, error } = await supabase.rpc("get_financial_timeseries", {
+  const { data, error } = await supabase.rpc('get_financial_timeseries', {
     p_start_date: filters.startDate,
     p_end_date: filters.endDate,
     p_client_id: filters.clientId || null,
     p_agent_type_name: filters.agentTypeName || null,
     p_deployment_id: filters.deploymentId || null,
     p_granularity: granularity,
-  });
+  })
 
   if (error) {
-    console.error("Error fetching financial time series:", error);
-    throw new Error(`Failed to fetch financial time series: ${error.message}`);
+    console.error('Error fetching financial time series:', error)
+    throw new Error(`Failed to fetch financial time series: ${error.message}`)
   }
 
   // data is returned as JSONB array, parse it
-  return (data || []) as TimeSeriesDataPoint[];
+  return (data || []) as TimeSeriesDataPoint[]
 }
 
 // ============================================================================
@@ -152,107 +152,102 @@ export async function fetchFinancialTimeSeries(
  * Format currency value to EUR
  */
 export function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
+  return new Intl.NumberFormat('fr-FR', {
+    style: 'currency',
+    currency: 'EUR',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(value);
+  }).format(value)
 }
 
 /**
  * Format percentage value
  */
 export function formatPercentage(value: number, decimals: number = 1): string {
-  return `${value.toFixed(decimals)}%`;
+  return `${value.toFixed(decimals)}%`
 }
 
 /**
  * Format number with thousands separator
  */
 export function formatNumber(value: number): string {
-  return new Intl.NumberFormat("fr-FR").format(value);
+  return new Intl.NumberFormat('fr-FR').format(value)
 }
 
 /**
  * Calculate percentage change between two values
  */
-export function calculatePercentageChange(
-  current: number,
-  previous: number
-): number {
-  if (previous === 0) return 0;
-  return ((current - previous) / previous) * 100;
+export function calculatePercentageChange(current: number, previous: number): number {
+  if (previous === 0) return 0
+  return ((current - previous) / previous) * 100
 }
 
 /**
  * Determine if change is positive, negative, or neutral
  */
-export function getChangeType(
-  change: number
-): "positive" | "negative" | "neutral" {
-  if (change > 0) return "positive";
-  if (change < 0) return "negative";
-  return "neutral";
+export function getChangeType(change: number): 'positive' | 'negative' | 'neutral' {
+  if (change > 0) return 'positive'
+  if (change < 0) return 'negative'
+  return 'neutral'
 }
 
 /**
  * Get default date range (last 30 days)
  */
 export function getDefaultDateRange(): { startDate: string; endDate: string } {
-  const endDate = new Date();
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 30);
+  const endDate = new Date()
+  const startDate = new Date()
+  startDate.setDate(startDate.getDate() - 30)
 
   return {
-    startDate: startDate.toISOString().split("T")[0],
-    endDate: endDate.toISOString().split("T")[0],
-  };
+    startDate: startDate.toISOString().split('T')[0],
+    endDate: endDate.toISOString().split('T')[0],
+  }
 }
 
 /**
  * Export financial data to CSV
  */
 export function exportToCSV(
-  data: any[],
-  filename: string = "financial_data.csv"
+  data: Record<string, unknown>[],
+  filename: string = 'financial_data.csv',
 ): void {
   if (!data || data.length === 0) {
-    console.warn("No data to export");
-    return;
+    console.warn('No data to export')
+    return
   }
 
   // Get headers from first object
-  const headers = Object.keys(data[0]);
+  const headers = Object.keys(data[0])
 
   // Build CSV content
   const csvContent = [
-    headers.join(","), // Header row
+    headers.join(','), // Header row
     ...data.map((row) =>
       headers
         .map((header) => {
-          const value = row[header];
+          const value = row[header]
           // Escape values that contain commas or quotes
-          if (typeof value === "string" && (value.includes(",") || value.includes('"'))) {
-            return `"${value.replace(/"/g, '""')}"`;
+          if (typeof value === 'string' && (value.includes(',') || value.includes('"'))) {
+            return `"${value.replace(/"/g, '""')}"`
           }
-          return value;
+          return value
         })
-        .join(",")
+        .join(','),
     ),
-  ].join("\n");
+  ].join('\n')
 
   // Create blob and download
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const link = document.createElement("a");
-  const url = URL.createObjectURL(blob);
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+  const link = document.createElement('a')
+  const url = URL.createObjectURL(blob)
 
-  link.setAttribute("href", url);
-  link.setAttribute("download", filename);
-  link.style.visibility = "hidden";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  link.setAttribute('href', url)
+  link.setAttribute('download', filename)
+  link.style.visibility = 'hidden'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
 }
 
 // ============================================================================
@@ -265,22 +260,22 @@ export function exportToCSV(
 export async function fetchClientDeployments(
   clientId: string,
   startDate: string,
-  endDate: string
+  endDate: string,
 ): Promise<ClientDeploymentData[]> {
-  const supabase = createClient();
+  const supabase = createClient()
 
-  const { data, error } = await supabase.rpc("get_client_deployments_breakdown", {
+  const { data, error } = await supabase.rpc('get_client_deployments_breakdown', {
     p_client_id: clientId,
     p_start_date: startDate,
     p_end_date: endDate,
-  });
+  })
 
   if (error) {
-    console.error("Error fetching client deployments:", error);
-    throw new Error(`Failed to fetch client deployments: ${error.message}`);
+    console.error('Error fetching client deployments:', error)
+    throw new Error(`Failed to fetch client deployments: ${error.message}`)
   }
 
-  return (data || []) as ClientDeploymentData[];
+  return (data || []) as ClientDeploymentData[]
 }
 
 /**
@@ -289,22 +284,22 @@ export async function fetchClientDeployments(
 export async function fetchDeploymentChannels(
   deploymentId: string,
   startDate: string,
-  endDate: string
+  endDate: string,
 ): Promise<DeploymentChannelData[]> {
-  const supabase = createClient();
+  const supabase = createClient()
 
-  const { data, error } = await supabase.rpc("get_deployment_channels_breakdown", {
+  const { data, error } = await supabase.rpc('get_deployment_channels_breakdown', {
     p_deployment_id: deploymentId,
     p_start_date: startDate,
     p_end_date: endDate,
-  });
+  })
 
   if (error) {
-    console.error("Error fetching deployment channels:", error);
-    throw new Error(`Failed to fetch deployment channels: ${error.message}`);
+    console.error('Error fetching deployment channels:', error)
+    throw new Error(`Failed to fetch deployment channels: ${error.message}`)
   }
 
-  return (data || []) as DeploymentChannelData[];
+  return (data || []) as DeploymentChannelData[]
 }
 
 // ============================================================================
@@ -315,24 +310,24 @@ export async function fetchDeploymentChannels(
  * Fetch detailed cost breakdown by technology (STT, TTS, LLM, Telecom, Dipler Commission)
  */
 export async function fetchCostBreakdown(
-  filters: FinancialFilters
+  filters: FinancialFilters,
 ): Promise<CostBreakdownResponse> {
-  const supabase = createClient();
+  const supabase = createClient()
 
-  const { data, error } = await supabase.rpc("get_cost_breakdown", {
+  const { data, error } = await supabase.rpc('get_cost_breakdown', {
     p_start_date: filters.startDate,
     p_end_date: filters.endDate,
     p_client_id: filters.clientId || null,
     p_agent_type_name: filters.agentTypeName || null,
     p_deployment_id: filters.deploymentId || null,
-  });
+  })
 
   if (error) {
-    console.error("Error fetching cost breakdown:", error);
-    throw new Error(`Failed to fetch cost breakdown: ${error.message}`);
+    console.error('Error fetching cost breakdown:', error)
+    throw new Error(`Failed to fetch cost breakdown: ${error.message}`)
   }
 
-  return data as CostBreakdownResponse;
+  return data as CostBreakdownResponse
 }
 
 // ============================================================================
@@ -344,22 +339,20 @@ export async function fetchCostBreakdown(
  * Fetch leasing-specific KPI metrics
  * Returns subscription revenue metrics with 100% margin
  */
-export async function fetchLeasingMetrics(
-  filters: FinancialFilters
-): Promise<LeasingMetrics> {
-  const supabase = createClient();
+export async function fetchLeasingMetrics(filters: FinancialFilters): Promise<LeasingMetrics> {
+  const supabase = createClient()
 
-  const { data, error } = await supabase.rpc("get_leasing_kpi_metrics", {
+  const { data, error } = await supabase.rpc('get_leasing_kpi_metrics', {
     p_start_date: filters.startDate,
     p_end_date: filters.endDate,
-  });
+  })
 
   if (error) {
-    console.error("Error fetching leasing metrics:", error);
-    throw new Error(`Failed to fetch leasing metrics: ${error.message}`);
+    console.error('Error fetching leasing metrics:', error)
+    throw new Error(`Failed to fetch leasing metrics: ${error.message}`)
   }
 
-  return data as LeasingMetrics;
+  return data as LeasingMetrics
 }
 
 /**
@@ -367,21 +360,21 @@ export async function fetchLeasingMetrics(
  * Returns usage revenue metrics (calls, SMS, emails) with variable margin
  */
 export async function fetchConsumptionMetrics(
-  filters: FinancialFilters
+  filters: FinancialFilters,
 ): Promise<ConsumptionMetrics> {
-  const supabase = createClient();
+  const supabase = createClient()
 
-  const { data, error } = await supabase.rpc("get_consumption_kpi_metrics", {
+  const { data, error } = await supabase.rpc('get_consumption_kpi_metrics', {
     p_start_date: filters.startDate,
     p_end_date: filters.endDate,
-  });
+  })
 
   if (error) {
-    console.error("Error fetching consumption metrics:", error);
-    throw new Error(`Failed to fetch consumption metrics: ${error.message}`);
+    console.error('Error fetching consumption metrics:', error)
+    throw new Error(`Failed to fetch consumption metrics: ${error.message}`)
   }
 
-  return data as ConsumptionMetrics;
+  return data as ConsumptionMetrics
 }
 
 /**
@@ -389,20 +382,20 @@ export async function fetchConsumptionMetrics(
  * Returns cost, price, and margin per unit (minute, SMS, email) for each agent
  */
 export async function fetchAgentUnitPricing(
-  filters: FinancialFilters
+  filters: FinancialFilters,
 ): Promise<AgentUnitPricing[]> {
-  const supabase = createClient();
+  const supabase = createClient()
 
-  const { data, error } = await supabase.rpc("get_consumption_pricing_by_agent", {
+  const { data, error } = await supabase.rpc('get_consumption_pricing_by_agent', {
     p_start_date: filters.startDate,
     p_end_date: filters.endDate,
     p_client_id: filters.clientId || null,
-  });
+  })
 
   if (error) {
-    console.error("Error fetching agent unit pricing:", error);
-    throw new Error(`Failed to fetch agent unit pricing: ${error.message}`);
+    console.error('Error fetching agent unit pricing:', error)
+    throw new Error(`Failed to fetch agent unit pricing: ${error.message}`)
   }
 
-  return (data || []) as AgentUnitPricing[];
+  return (data || []) as AgentUnitPricing[]
 }

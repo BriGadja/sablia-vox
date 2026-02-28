@@ -1,8 +1,19 @@
 'use client'
 
+import {
+  Activity,
+  ArrowRight,
+  Calendar,
+  Clock,
+  Layers,
+  Phone,
+  Sparkles,
+  Target,
+  TrendingUp,
+  Users,
+} from 'lucide-react'
 import Link from 'next/link'
-import { Users, Target, Sparkles, Phone, TrendingUp, Calendar, Clock, Activity, Layers, ArrowRight } from 'lucide-react'
-import { AgentTypeCardData } from '@/lib/types/dashboard'
+import type { AgentTypeCardData } from '@/lib/types/dashboard'
 import { cn, formatRelativeTime } from '@/lib/utils'
 
 interface AgentTypeCardProps {
@@ -47,7 +58,7 @@ export function AgentTypeCard({ agentType }: AgentTypeCardProps) {
       href={`/dashboard/${agentType.agent_type_name}`}
       className={cn(
         'group relative overflow-hidden rounded-xl border bg-gradient-to-br backdrop-blur-sm transition-all hover:scale-[1.02] block',
-        config.color
+        config.color,
       )}
     >
       <div className="p-4 space-y-3">
@@ -58,9 +69,7 @@ export function AgentTypeCard({ agentType }: AgentTypeCardProps) {
               <Icon className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white">
-                {agentType.agent_display_name}
-              </h3>
+              <h3 className="text-base font-bold text-white">{agentType.agent_display_name}</h3>
               <p className="text-xs text-white/60">{config.description}</p>
             </div>
           </div>
@@ -72,7 +81,8 @@ export function AgentTypeCard({ agentType }: AgentTypeCardProps) {
           <div className="flex items-center gap-1.5 text-xs text-white/60">
             <Layers className="w-3 h-3" />
             <span>
-              {agentType.active_deployments} actif{agentType.active_deployments > 1 ? 's' : ''} / {agentType.total_deployments} déploiement{agentType.total_deployments > 1 ? 's' : ''}
+              {agentType.active_deployments} actif{agentType.active_deployments > 1 ? 's' : ''} /{' '}
+              {agentType.total_deployments} déploiement{agentType.total_deployments > 1 ? 's' : ''}
             </span>
           </div>
         </div>
@@ -104,9 +114,7 @@ export function AgentTypeCard({ agentType }: AgentTypeCardProps) {
                   <TrendingUp className="w-3 h-3" />
                   <p className="text-xs">Taux réponse</p>
                 </div>
-                <p className="text-lg font-bold text-white">
-                  {agentType.answer_rate.toFixed(1)}%
-                </p>
+                <p className="text-lg font-bold text-white">{agentType.answer_rate.toFixed(1)}%</p>
               </div>
               <div>
                 <div className="flex items-center gap-1 text-white/60 mb-0.5">
@@ -130,9 +138,7 @@ export function AgentTypeCard({ agentType }: AgentTypeCardProps) {
           </div>
         ) : (
           <div className="pt-4 border-t border-white/10">
-            <p className="text-sm text-white/40 text-center">
-              Aucune donnée pour cette période
-            </p>
+            <p className="text-sm text-white/40 text-center">Aucune donnée pour cette période</p>
           </div>
         )}
       </div>

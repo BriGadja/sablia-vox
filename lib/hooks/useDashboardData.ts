@@ -1,36 +1,34 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import type {
-  DashboardFilters,
-  KPIMetrics,
-  ChartData,
-  AccessibleClient,
-  AccessibleAgent,
-  AgentTypePerformance,
-  TopClientData,
-  AgentPerformanceData,
-  ClientCardData,
-  AgentCardData,
-  AgentTypeCardData,
-} from '@/lib/types/dashboard'
-import { serializeQueryKey } from '@/lib/utils'
+import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import {
-  fetchAccessibleClients,
   fetchAccessibleAgents,
-  fetchGlobalKPIs,
-  fetchGlobalChartData,
-  fetchTopClients,
-  fetchAgentTypePerformance,
-  fetchClientCardsData,
+  fetchAccessibleClients,
   fetchAgentCardsData,
   fetchAgentTypeCardsData,
+  fetchAgentTypePerformance,
+  fetchClientCardsData,
+  fetchGlobalChartData,
+  fetchGlobalKPIs,
+  fetchTopClients,
 } from '@/lib/queries/global'
 import {
-  fetchLouisKPIMetrics,
-  fetchLouisChartData,
   fetchLouisAgentPerformance,
-  fetchLouisNestennKPIs,
-  fetchLouisNestennChartData,
+  fetchLouisChartData,
+  fetchLouisKPIMetrics,
 } from '@/lib/queries/louis'
+import type {
+  AccessibleAgent,
+  AccessibleClient,
+  AgentCardData,
+  AgentPerformanceData,
+  AgentTypeCardData,
+  AgentTypePerformance,
+  ChartData,
+  ClientCardData,
+  DashboardFilters,
+  KPIMetrics,
+  TopClientData,
+} from '@/lib/types/dashboard'
+import { serializeQueryKey } from '@/lib/utils'
 
 // Query configuration constants
 const STALE_TIME = 3600000 // 1 hour
@@ -71,7 +69,7 @@ export function useAccessibleClients(): UseQueryResult<AccessibleClient[]> {
  */
 export function useAccessibleAgents(
   clientIds?: string[],
-  agentTypeName?: 'louis' | 'arthur' | 'alexandra' | null
+  agentTypeName?: 'louis' | 'arthur' | 'alexandra' | null,
 ): UseQueryResult<AccessibleAgent[]> {
   return useQuery({
     queryKey: ['accessible-agents', serializeQueryKey(clientIds), agentTypeName || ''],
@@ -85,9 +83,7 @@ export function useAccessibleAgents(
  * Hook to fetch Global KPI metrics
  * @param filters - Dashboard filters
  */
-export function useGlobalKPIs(
-  filters: DashboardFilters
-): UseQueryResult<KPIMetrics> {
+export function useGlobalKPIs(filters: DashboardFilters): UseQueryResult<KPIMetrics> {
   return useQuery({
     queryKey: ['global-kpis', serializeFilters(filters)],
     queryFn: () => fetchGlobalKPIs(filters),
@@ -100,9 +96,7 @@ export function useGlobalKPIs(
  * Hook to fetch Global chart data
  * @param filters - Dashboard filters
  */
-export function useGlobalChartData(
-  filters: DashboardFilters
-): UseQueryResult<ChartData> {
+export function useGlobalChartData(filters: DashboardFilters): UseQueryResult<ChartData> {
   return useQuery({
     queryKey: ['global-chart-data', serializeFilters(filters)],
     queryFn: () => fetchGlobalChartData(filters),
@@ -118,7 +112,7 @@ export function useGlobalChartData(
  */
 export function useTopClients(
   filters: DashboardFilters,
-  limit: number = 10
+  limit: number = 10,
 ): UseQueryResult<TopClientData[]> {
   return useQuery({
     queryKey: ['top-clients', serializeFilters(filters), limit],
@@ -133,7 +127,7 @@ export function useTopClients(
  * @param filters - Dashboard filters
  */
 export function useAgentTypePerformance(
-  filters: DashboardFilters
+  filters: DashboardFilters,
 ): UseQueryResult<AgentTypePerformance[]> {
   return useQuery({
     queryKey: ['agent-type-performance', serializeFilters(filters)],
@@ -147,9 +141,7 @@ export function useAgentTypePerformance(
  * Hook to fetch Louis KPI metrics
  * @param filters - Dashboard filters
  */
-export function useLouisKPIs(
-  filters: DashboardFilters
-): UseQueryResult<KPIMetrics> {
+export function useLouisKPIs(filters: DashboardFilters): UseQueryResult<KPIMetrics> {
   return useQuery({
     queryKey: ['louis-kpis', serializeFilters(filters)],
     queryFn: () => fetchLouisKPIMetrics(filters),
@@ -162,9 +154,7 @@ export function useLouisKPIs(
  * Hook to fetch Louis chart data
  * @param filters - Dashboard filters
  */
-export function useLouisChartData(
-  filters: DashboardFilters
-): UseQueryResult<ChartData> {
+export function useLouisChartData(filters: DashboardFilters): UseQueryResult<ChartData> {
   return useQuery({
     queryKey: ['louis-chart-data', serializeFilters(filters)],
     queryFn: () => fetchLouisChartData(filters),
@@ -178,7 +168,7 @@ export function useLouisChartData(
  * @param filters - Dashboard filters
  */
 export function useLouisAgentPerformance(
-  filters: DashboardFilters
+  filters: DashboardFilters,
 ): UseQueryResult<AgentPerformanceData[]> {
   return useQuery({
     queryKey: ['louis-agent-performance', serializeFilters(filters)],
@@ -188,49 +178,11 @@ export function useLouisAgentPerformance(
   })
 }
 
-// ============================================================================
-// Louis-Nestenn Specific Hooks (Qualification Dashboard)
-// ============================================================================
-
-/**
- * Hook to fetch Louis-Nestenn KPI metrics
- * Uses qualification-focused metrics instead of RDV metrics
- * @param filters - Dashboard filters
- */
-export function useLouisNestennKPIs(
-  filters: DashboardFilters
-): UseQueryResult<KPIMetrics> {
-  return useQuery({
-    queryKey: ['louis-nestenn-kpis', serializeFilters(filters)],
-    queryFn: () => fetchLouisNestennKPIs(filters),
-    staleTime: STALE_TIME,
-    refetchInterval: REFETCH_INTERVAL,
-  })
-}
-
-/**
- * Hook to fetch Louis-Nestenn chart data
- * Includes funnel, duration by outcome, etc.
- * @param filters - Dashboard filters
- */
-export function useLouisNestennChartData(
-  filters: DashboardFilters
-): UseQueryResult<ChartData> {
-  return useQuery({
-    queryKey: ['louis-nestenn-chart-data', serializeFilters(filters)],
-    queryFn: () => fetchLouisNestennChartData(filters),
-    staleTime: STALE_TIME,
-    refetchInterval: REFETCH_INTERVAL,
-  })
-}
-
 /**
  * Hook to fetch client cards data for dynamic dashboard
  * @param filters - Dashboard filters (startDate, endDate, clientIds)
  */
-export function useClientCardsData(
-  filters: DashboardFilters
-): UseQueryResult<ClientCardData[]> {
+export function useClientCardsData(filters: DashboardFilters): UseQueryResult<ClientCardData[]> {
   return useQuery({
     queryKey: ['client-cards-data', serializeFilters(filters)],
     queryFn: () => fetchClientCardsData(filters),
@@ -243,9 +195,7 @@ export function useClientCardsData(
  * Hook to fetch agent cards data for dynamic dashboard
  * @param filters - Dashboard filters (startDate, endDate, clientIds)
  */
-export function useAgentCardsData(
-  filters: DashboardFilters
-): UseQueryResult<AgentCardData[]> {
+export function useAgentCardsData(filters: DashboardFilters): UseQueryResult<AgentCardData[]> {
   return useQuery({
     queryKey: ['agent-cards-data', serializeFilters(filters)],
     queryFn: () => fetchAgentCardsData(filters),
@@ -260,7 +210,7 @@ export function useAgentCardsData(
  * @param filters - Dashboard filters (startDate, endDate, clientIds)
  */
 export function useAgentTypeCardsData(
-  filters: DashboardFilters
+  filters: DashboardFilters,
 ): UseQueryResult<AgentTypeCardData[]> {
   return useQuery({
     queryKey: ['agent-type-cards-data', serializeFilters(filters)],

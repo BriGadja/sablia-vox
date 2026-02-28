@@ -16,19 +16,19 @@ export interface UserConsumptionPeriod {
   appointments_scheduled: number
 
   // Couts factures au client (PAS provider cost)
-  total_cost: number       // EUR
-  call_cost: number        // EUR
-  sms_cost: number         // EUR
-  email_cost: number       // EUR
+  total_cost: number // EUR
+  call_cost: number // EUR
+  sms_cost: number // EUR
+  email_cost: number // EUR
 }
 
 /**
  * Informations de tarification visibles aux utilisateurs
  */
 export interface UserPricingInfo {
-  avg_price_per_minute: number   // EUR
-  avg_price_per_sms: number      // EUR
-  avg_price_per_email: number    // EUR
+  avg_price_per_minute: number // EUR
+  avg_price_per_sms: number // EUR
+  avg_price_per_email: number // EUR
 }
 
 /**
@@ -47,10 +47,10 @@ export interface UserAgentConsumption {
   total_calls: number
   answered_calls: number
   appointments_scheduled: number
-  total_cost: number           // EUR - facture au client
-  price_per_minute: number     // EUR - depuis config deployment
-  price_per_sms: number        // EUR - depuis config deployment
-  price_per_email: number      // EUR - depuis config deployment
+  total_cost: number // EUR - facture au client
+  price_per_minute: number // EUR - depuis config deployment
+  price_per_sms: number // EUR - depuis config deployment
+  price_per_email: number // EUR - depuis config deployment
 }
 
 /**
@@ -67,8 +67,8 @@ export interface UserConsumptionResponse {
  * Filtres pour le dashboard consommation
  */
 export interface ConsumptionFilters {
-  startDate: string    // YYYY-MM-DD
-  endDate: string      // YYYY-MM-DD
+  startDate: string // YYYY-MM-DD
+  endDate: string // YYYY-MM-DD
   clientId?: string | null
 }
 
@@ -80,8 +80,8 @@ export interface ConsumptionFilters {
  * Periode de facturation
  */
 export interface BillingPeriod {
-  start_date: string   // YYYY-MM-DD
-  end_date: string     // YYYY-MM-DD
+  start_date: string // YYYY-MM-DD
+  end_date: string // YYYY-MM-DD
 }
 
 /**
@@ -181,10 +181,10 @@ export interface AdminBillingSummaryResponse {
  * Donnees de consommation quotidienne pour le graphique d'evolution
  */
 export interface DailyConsumption {
-  date: string           // YYYY-MM-DD
-  call_cost: number      // EUR - facture au client
-  sms_cost: number       // EUR - facture au client
-  email_cost: number     // EUR - facture au client
+  date: string // YYYY-MM-DD
+  call_cost: number // EUR - facture au client
+  sms_cost: number // EUR - facture au client
+  email_cost: number // EUR - facture au client
   total_minutes: number
   total_sms: number
   total_emails: number
@@ -206,7 +206,7 @@ export interface AgentConsumptionSummary {
   deployment_id: string
   deployment_name: string
   agent_type: string
-  total_cost: number      // EUR - facture au client
+  total_cost: number // EUR - facture au client
   total_minutes: number
   total_sms: number
   total_emails: number
@@ -219,7 +219,7 @@ export interface AgentConsumptionSummary {
 export interface ClientConsumptionSummary {
   client_id: string
   client_name: string
-  total_cost: number      // EUR - facture au client
+  total_cost: number // EUR - facture au client
 }
 
 /**
@@ -227,12 +227,12 @@ export interface ClientConsumptionSummary {
  * Remplace by_client pour les utilisateurs non-admin
  */
 export interface MonthlyConsumptionHistory {
-  month: string           // YYYY-MM
-  month_label: string     // "Dec 2025", "Nov 2025", etc.
-  total_cost: number      // EUR - facture au client
-  call_cost: number       // EUR
-  sms_cost: number        // EUR
-  email_cost: number      // EUR
+  month: string // YYYY-MM
+  month_label: string // "Dec 2025", "Nov 2025", etc.
+  total_cost: number // EUR - facture au client
+  call_cost: number // EUR
+  sms_cost: number // EUR
+  email_cost: number // EUR
   total_calls: number
   total_minutes: number
   total_sms: number
@@ -247,5 +247,5 @@ export interface ConsumptionChartData {
   daily_consumption: DailyConsumption[]
   by_channel: ChannelBreakdown
   by_agent: AgentConsumptionSummary[]
-  monthly_history: MonthlyConsumptionHistory[]  // Remplace by_client
+  monthly_history: MonthlyConsumptionHistory[] // Remplace by_client
 }

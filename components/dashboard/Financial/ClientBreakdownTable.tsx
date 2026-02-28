@@ -1,8 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import type { ClientFinancialData } from '@/lib/types/financial'
 import { formatCurrency, formatPercentage } from '@/lib/queries/financial'
+import type { ClientFinancialData } from '@/lib/types/financial'
 
 interface ClientBreakdownTableProps {
   data: ClientFinancialData[] | undefined
@@ -41,41 +41,25 @@ export function ClientBreakdownTable({ data, isLoading }: ClientBreakdownTablePr
       className="rounded-xl border border-gray-800/50 bg-black/20 backdrop-blur-sm overflow-hidden"
     >
       <div className="p-6">
-        <h3 className="text-xl font-bold text-white mb-4">
-          Breakdown par Client
-        </h3>
+        <h3 className="text-xl font-bold text-white mb-4">Breakdown par Client</h3>
 
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-800/50">
-                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">
-                  Client
-                </th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">Client</th>
                 <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">
                   Revenue
                 </th>
-                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">
-                  Coûts
-                </th>
-                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">
-                  Marge
-                </th>
+                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">Coûts</th>
+                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">Marge</th>
                 <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">
                   Marge %
                 </th>
-                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">
-                  Appels
-                </th>
-                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">
-                  SMS
-                </th>
-                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">
-                  Emails
-                </th>
-                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">
-                  RDV
-                </th>
+                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">Appels</th>
+                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">SMS</th>
+                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">Emails</th>
+                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">RDV</th>
               </tr>
             </thead>
             <tbody>
@@ -87,9 +71,7 @@ export function ClientBreakdownTable({ data, isLoading }: ClientBreakdownTablePr
                   transition={{ duration: 0.3, delay: index * 0.05 }}
                   className="border-b border-gray-800/30 hover:bg-white/5 transition-colors"
                 >
-                  <td className="py-3 px-4 text-sm font-medium text-white">
-                    {client.client_name}
-                  </td>
+                  <td className="py-3 px-4 text-sm font-medium text-white">{client.client_name}</td>
                   <td className="py-3 px-4 text-sm text-right font-semibold text-amber-400">
                     {formatCurrency(client.total_revenue)}
                   </td>
@@ -105,8 +87,8 @@ export function ClientBreakdownTable({ data, isLoading }: ClientBreakdownTablePr
                         client.margin_percentage >= 95
                           ? 'bg-emerald-500/20 text-emerald-400'
                           : client.margin_percentage >= 90
-                          ? 'bg-amber-500/20 text-amber-400'
-                          : 'bg-red-500/20 text-red-400'
+                            ? 'bg-amber-500/20 text-amber-400'
+                            : 'bg-red-500/20 text-red-400'
                       }`}
                     >
                       {formatPercentage(client.margin_percentage)}
@@ -137,7 +119,9 @@ export function ClientBreakdownTable({ data, isLoading }: ClientBreakdownTablePr
               <p className="text-gray-400 mb-1">Total Revenue</p>
               <p className="text-white font-bold">
                 {formatCurrency(
-                  data.filter(c => c.client_name.toLowerCase() !== 'voipia').reduce((sum, c) => sum + c.total_revenue, 0)
+                  data
+                    .filter((c) => c.client_name.toLowerCase() !== 'voipia')
+                    .reduce((sum, c) => sum + c.total_revenue, 0),
                 )}
               </p>
             </div>
@@ -145,32 +129,45 @@ export function ClientBreakdownTable({ data, isLoading }: ClientBreakdownTablePr
               <p className="text-gray-400 mb-1">Total Marge</p>
               <p className="text-emerald-400 font-bold">
                 {formatCurrency(
-                  data.filter(c => c.client_name.toLowerCase() !== 'voipia').reduce((sum, c) => sum + c.total_margin, 0)
+                  data
+                    .filter((c) => c.client_name.toLowerCase() !== 'voipia')
+                    .reduce((sum, c) => sum + c.total_margin, 0),
                 )}
               </p>
             </div>
             <div>
               <p className="text-gray-400 mb-1">Total Appels</p>
               <p className="text-white font-bold">
-                {data.filter(c => c.client_name.toLowerCase() !== 'voipia').reduce((sum, c) => sum + c.call_count, 0).toLocaleString('fr-FR')}
+                {data
+                  .filter((c) => c.client_name.toLowerCase() !== 'voipia')
+                  .reduce((sum, c) => sum + c.call_count, 0)
+                  .toLocaleString('fr-FR')}
               </p>
             </div>
             <div>
               <p className="text-gray-400 mb-1">Total SMS</p>
               <p className="text-blue-400 font-bold">
-                {data.filter(c => c.client_name.toLowerCase() !== 'voipia').reduce((sum, c) => sum + c.sms_count, 0).toLocaleString('fr-FR')}
+                {data
+                  .filter((c) => c.client_name.toLowerCase() !== 'voipia')
+                  .reduce((sum, c) => sum + c.sms_count, 0)
+                  .toLocaleString('fr-FR')}
               </p>
             </div>
             <div>
               <p className="text-gray-400 mb-1">Total Emails</p>
               <p className="text-cyan-400 font-bold">
-                {data.filter(c => c.client_name.toLowerCase() !== 'voipia').reduce((sum, c) => sum + c.email_count, 0).toLocaleString('fr-FR')}
+                {data
+                  .filter((c) => c.client_name.toLowerCase() !== 'voipia')
+                  .reduce((sum, c) => sum + c.email_count, 0)
+                  .toLocaleString('fr-FR')}
               </p>
             </div>
             <div>
               <p className="text-gray-400 mb-1">Total RDV</p>
               <p className="text-violet-400 font-bold">
-                {data.filter(c => c.client_name.toLowerCase() !== 'voipia').reduce((sum, c) => sum + c.appointments_scheduled, 0)}
+                {data
+                  .filter((c) => c.client_name.toLowerCase() !== 'voipia')
+                  .reduce((sum, c) => sum + c.appointments_scheduled, 0)}
               </p>
             </div>
           </div>

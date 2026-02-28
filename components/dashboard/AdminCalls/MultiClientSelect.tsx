@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { ChevronDown, Check, X, Search, Building2 } from 'lucide-react'
+import { Building2, Check, ChevronDown, Search, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 interface Client {
@@ -31,10 +31,7 @@ export function MultiClientSelect({
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false)
       }
     }
@@ -45,7 +42,7 @@ export function MultiClientSelect({
 
   // Filter clients by search term
   const filteredClients = clients.filter((client) =>
-    client.name.toLowerCase().includes(searchTerm.toLowerCase())
+    client.name.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   // Toggle client selection
@@ -91,7 +88,7 @@ export function MultiClientSelect({
           'bg-gray-800/50 border border-gray-700 rounded-lg',
           'text-sm text-gray-200 hover:border-gray-600 transition-colors',
           'disabled:opacity-50 disabled:cursor-not-allowed',
-          isOpen && 'border-purple-500'
+          isOpen && 'border-purple-500',
         )}
       >
         <div className="flex items-center gap-2 truncate">
@@ -112,10 +109,7 @@ export function MultiClientSelect({
             </button>
           )}
           <ChevronDown
-            className={cn(
-              'w-4 h-4 text-gray-400 transition-transform',
-              isOpen && 'rotate-180'
-            )}
+            className={cn('w-4 h-4 text-gray-400 transition-transform', isOpen && 'rotate-180')}
           />
         </div>
       </button>
@@ -140,16 +134,10 @@ export function MultiClientSelect({
 
           {/* Action buttons */}
           <div className="flex items-center justify-between px-2 py-1.5 border-b border-gray-700 text-xs">
-            <button
-              onClick={selectAll}
-              className="text-purple-400 hover:text-purple-300"
-            >
+            <button onClick={selectAll} className="text-purple-400 hover:text-purple-300">
               Tout sélectionner
             </button>
-            <button
-              onClick={clearAll}
-              className="text-gray-400 hover:text-gray-300"
-            >
+            <button onClick={clearAll} className="text-gray-400 hover:text-gray-300">
               Effacer
             </button>
           </div>
@@ -157,9 +145,7 @@ export function MultiClientSelect({
           {/* Client list */}
           <div className="max-h-60 overflow-y-auto py-1">
             {filteredClients.length === 0 ? (
-              <div className="px-3 py-2 text-sm text-gray-500 text-center">
-                Aucun client trouvé
-              </div>
+              <div className="px-3 py-2 text-sm text-gray-500 text-center">Aucun client trouvé</div>
             ) : (
               filteredClients.map((client) => {
                 const isSelected = selectedIds.includes(client.id)
@@ -170,25 +156,18 @@ export function MultiClientSelect({
                     className={cn(
                       'flex items-center gap-2 w-full px-3 py-2 text-sm text-left',
                       'hover:bg-gray-700/50 transition-colors',
-                      isSelected && 'bg-purple-500/10'
+                      isSelected && 'bg-purple-500/10',
                     )}
                   >
                     <div
                       className={cn(
                         'w-4 h-4 rounded border flex items-center justify-center flex-shrink-0',
-                        isSelected
-                          ? 'bg-purple-500 border-purple-500'
-                          : 'border-gray-600'
+                        isSelected ? 'bg-purple-500 border-purple-500' : 'border-gray-600',
                       )}
                     >
                       {isSelected && <Check className="w-3 h-3 text-white" />}
                     </div>
-                    <span
-                      className={cn(
-                        'truncate',
-                        isSelected ? 'text-white' : 'text-gray-300'
-                      )}
-                    >
+                    <span className={cn('truncate', isSelected ? 'text-white' : 'text-gray-300')}>
                       {client.name}
                     </span>
                   </button>

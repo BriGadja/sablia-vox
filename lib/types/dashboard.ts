@@ -5,11 +5,11 @@
  * Dashboard filters for querying data
  */
 export interface DashboardFilters {
-  clientIds: string[]                    // Array of client UUIDs
-  deploymentId?: string | null           // Single agent deployment UUID (optional)
+  clientIds: string[] // Array of client UUIDs
+  deploymentId?: string | null // Single agent deployment UUID (optional)
   agentTypeName?: 'louis' | 'arthur' | 'alexandra' | null
-  startDate: string                      // ISO 8601 date (YYYY-MM-DD)
-  endDate: string                        // ISO 8601 date (YYYY-MM-DD)
+  startDate: string // ISO 8601 date (YYYY-MM-DD)
+  endDate: string // ISO 8601 date (YYYY-MM-DD)
 }
 
 /**
@@ -27,42 +27,42 @@ export interface KPIPeriod {
   total_calls: number
   answered_calls: number
   appointments_scheduled: number
-  answer_rate: number                    // 0-100
-  conversion_rate: number                // 0-100
-  avg_duration: number                   // seconds
-  total_cost: number                     // EUR
-  cost_per_appointment: number           // EUR
+  answer_rate: number // 0-100
+  conversion_rate: number // 0-100
+  avg_duration: number // seconds
+  total_cost: number // EUR
+  cost_per_appointment: number // EUR
 
   // Louis-specific KPIs
   refused_appointments?: number
-  acceptance_rate?: number               // 0-100
+  acceptance_rate?: number // 0-100
   callbacks_requested?: number
   qualified_leads?: number
 
   // Louis-Nestenn specific KPIs (qualification, not RDV)
-  contact_rate?: number                  // 0-100 (contacted / total)
-  transfers_requested?: number           // Main success metric for Nestenn
-  qualification_rate?: number            // 0-100 (qualified / answered)
+  contact_rate?: number // 0-100 (contacted / total)
+  transfers_requested?: number // Main success metric for Nestenn
+  qualification_rate?: number // 0-100 (qualified / answered)
   contacted_calls?: number
   voicemails?: number
   no_answers?: number
   not_interested?: number
   sms_sent?: number
-  cost_per_transfer?: number             // EUR
+  cost_per_transfer?: number // EUR
 
   // Arthur-specific KPIs
   total_prospects?: number
   active_sequences?: number
-  reactivation_rate?: number             // 0-100
+  reactivation_rate?: number // 0-100
   avg_attempts?: number
-  cost_per_conversion?: number           // EUR
+  cost_per_conversion?: number // EUR
 
   // Global-specific KPIs
   active_agents?: number
   agents_called_today?: number
 
   // Overview-specific KPIs
-  avg_quality_score?: number              // 0-100 (call_quality_score average)
+  avg_quality_score?: number // 0-100 (call_quality_score average)
 }
 
 /**
@@ -96,7 +96,7 @@ export interface OwnerPerformanceData {
  */
 export interface DurationByOutcomeData {
   outcome: string
-  avg_duration: number                   // seconds
+  avg_duration: number // seconds
   count: number
   color: string
 }
@@ -115,7 +115,7 @@ export interface FunnelData {
  * Call volume data point (for line chart)
  */
 export interface CallVolumeData {
-  date: string                           // YYYY-MM-DD
+  date: string // YYYY-MM-DD
   total_calls: number
   answered_calls: number
   appointments: number
@@ -125,7 +125,7 @@ export interface CallVolumeData {
   arthur_calls?: number
 
   // Louis-Nestenn specific
-  transfers?: number                     // Transfers requested (success metric)
+  transfers?: number // Transfers requested (success metric)
 }
 
 /**
@@ -134,7 +134,7 @@ export interface CallVolumeData {
 export interface OutcomeData {
   outcome: string
   count: number
-  percentage: number                     // 0-100
+  percentage: number // 0-100
   total_cost?: number
   avg_duration?: number
 }
@@ -145,7 +145,7 @@ export interface OutcomeData {
 export interface EmotionData {
   emotion: 'positive' | 'neutral' | 'negative' | 'unknown'
   count: number
-  percentage: number                     // 0-100
+  percentage: number // 0-100
 }
 
 /**
@@ -153,7 +153,7 @@ export interface EmotionData {
  */
 export interface VoicemailByAgentData {
   agent: string
-  rate: number                           // 0-100
+  rate: number // 0-100
 }
 
 /**
@@ -166,11 +166,11 @@ export interface AgentTypePerformance {
   total_clients: number
   total_calls: number
   calls_last_7d: number
-  answer_rate: number                    // 0-100
-  conversion_rate: number                // 0-100
-  avg_duration: number                   // seconds
-  total_cost: number                     // EUR
-  cost_per_appointment: number           // EUR
+  answer_rate: number // 0-100
+  conversion_rate: number // 0-100
+  avg_duration: number // seconds
+  total_cost: number // EUR
+  cost_per_appointment: number // EUR
 }
 
 /**
@@ -184,9 +184,9 @@ export interface TopClientData {
   total_calls: number
   answered_calls: number
   appointments: number
-  conversion_rate: number                // 0-100
-  total_cost: number                     // EUR
-  cost_per_appointment: number           // EUR
+  conversion_rate: number // 0-100
+  total_cost: number // EUR
+  cost_per_appointment: number // EUR
   last_call_at: string | null
 }
 
@@ -237,11 +237,11 @@ export interface AgentPerformanceData {
   answered_calls: number
   appointments: number
   voicemail_calls?: number
-  answer_rate: number                    // 0-100
-  conversion_rate: number                // 0-100
-  avg_duration: number                   // seconds
-  total_cost: number                     // EUR
-  cost_per_appointment: number           // EUR
+  answer_rate: number // 0-100
+  conversion_rate: number // 0-100
+  avg_duration: number // seconds
+  total_cost: number // EUR
+  cost_per_appointment: number // EUR
   last_call_at: string | null
 
   // Arthur-specific
@@ -278,7 +278,7 @@ export interface ArthurNextCallData {
   next_action_at: string | null
   segment: string | null
   approche_recommandee: string | null
-  points_accroche: any | null
+  points_accroche: Record<string, unknown> | null
   delai_contact: string | null
   call_type: 'CALLBACK' | 'ACTIVE' | 'OTHER'
   exceeded_max_attempts: boolean
@@ -362,11 +362,11 @@ export interface ClientCardData {
   total_calls: number
   answered_calls: number
   appointments_scheduled: number
-  answer_rate: number                    // 0-100
-  conversion_rate: number                // 0-100
-  total_cost: number                     // EUR
+  answer_rate: number // 0-100
+  conversion_rate: number // 0-100
+  total_cost: number // EUR
   last_call_at: string | null
-  agent_types: string[]                  // ['louis', 'arthur']
+  agent_types: string[] // ['louis', 'arthur']
 }
 
 /**
@@ -383,10 +383,10 @@ export interface AgentCardData {
   total_calls: number
   answered_calls: number
   appointments_scheduled: number
-  answer_rate: number                    // 0-100
-  conversion_rate: number                // 0-100
-  avg_duration: number                   // seconds
-  total_cost: number                     // EUR
+  answer_rate: number // 0-100
+  conversion_rate: number // 0-100
+  avg_duration: number // seconds
+  total_cost: number // EUR
   last_call_at: string | null
   deployment_status: 'active' | 'paused' | 'archived'
 }
@@ -399,13 +399,13 @@ export interface AgentCardData {
 export interface AgentTypeCardData {
   agent_type_name: 'louis' | 'arthur' | 'alexandra'
   agent_display_name: string
-  total_deployments: number              // Total number of deployments
-  active_deployments: number             // Number of active deployments
+  total_deployments: number // Total number of deployments
+  active_deployments: number // Number of active deployments
   total_calls: number
   answered_calls: number
   appointments_scheduled: number
-  answer_rate: number                    // 0-100
-  conversion_rate: number                // 0-100
-  avg_duration: number                   // seconds
+  answer_rate: number // 0-100
+  conversion_rate: number // 0-100
+  avg_duration: number // seconds
   last_call_at: string | null
 }

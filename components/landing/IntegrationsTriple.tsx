@@ -1,41 +1,54 @@
-'use client';
+'use client'
 
-import { Monitor, Phone, Brain, Check, PhoneCall, ArrowLeftRight, Moon, FileText, Target, Mic, Zap, RefreshCw } from 'lucide-react';
-import Image from 'next/image';
+import {
+  ArrowLeftRight,
+  Brain,
+  Check,
+  FileText,
+  Mic,
+  Monitor,
+  Moon,
+  Phone,
+  PhoneCall,
+  RefreshCw,
+  Target,
+  Zap,
+} from 'lucide-react'
+import Image from 'next/image'
 
 // Types pour distinguer les catégories avec logos vs capabilities
-type LogoItem = { name: string; logo: string };
+type LogoItem = { name: string; logo: string }
 type CapabilityItem = {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  description: string;
-};
+  icon: React.ComponentType<{ className?: string }>
+  title: string
+  description: string
+}
 
 type CategoryWithLogos = {
-  id: string;
-  title: string;
-  subtitle: string;
-  icon: React.ComponentType<{ className?: string }>;
-  color: string;
-  bgColor: string;
-  borderColor: string;
-  type: 'logos';
-  items: LogoItem[];
-};
+  id: string
+  title: string
+  subtitle: string
+  icon: React.ComponentType<{ className?: string }>
+  color: string
+  bgColor: string
+  borderColor: string
+  type: 'logos'
+  items: LogoItem[]
+}
 
 type CategoryWithCapabilities = {
-  id: string;
-  title: string;
-  subtitle: string;
-  icon: React.ComponentType<{ className?: string }>;
-  color: string;
-  bgColor: string;
-  borderColor: string;
-  type: 'capabilities';
-  capabilities: CapabilityItem[];
-};
+  id: string
+  title: string
+  subtitle: string
+  icon: React.ComponentType<{ className?: string }>
+  color: string
+  bgColor: string
+  borderColor: string
+  type: 'capabilities'
+  capabilities: CapabilityItem[]
+}
 
-type IntegrationCategory = CategoryWithLogos | CategoryWithCapabilities;
+type IntegrationCategory = CategoryWithLogos | CategoryWithCapabilities
 
 const integrationCategories: IntegrationCategory[] = [
   {
@@ -69,22 +82,22 @@ const integrationCategories: IntegrationCategory[] = [
       {
         icon: PhoneCall,
         title: 'Réponse sur vos numéros existants',
-        description: 'Pas besoin de changer de ligne'
+        description: 'Pas besoin de changer de ligne',
       },
       {
         icon: ArrowLeftRight,
-        title: 'Transfert d\'appel vers vos équipes',
-        description: 'En temps réel si nécessaire'
+        title: "Transfert d'appel vers vos équipes",
+        description: 'En temps réel si nécessaire',
       },
       {
         icon: Moon,
         title: 'Disponibilité 24/7',
-        description: 'Même la nuit et les week-ends'
+        description: 'Même la nuit et les week-ends',
       },
       {
         icon: FileText,
         title: 'Enregistrement & transcription',
-        description: 'De chaque conversation'
+        description: 'De chaque conversation',
       },
     ],
   },
@@ -101,32 +114,31 @@ const integrationCategories: IntegrationCategory[] = [
       {
         icon: Target,
         title: 'Compréhension contextuelle avancée',
-        description: 'Comprend le sens, pas juste les mots'
+        description: 'Comprend le sens, pas juste les mots',
       },
       {
         icon: Mic,
         title: 'Voix naturelles haute fidélité',
-        description: 'Conversation fluide et humaine'
+        description: 'Conversation fluide et humaine',
       },
       {
         icon: Zap,
         title: 'Temps de réponse moyen < 1 seconde',
-        description: 'Dialogue sans latence'
+        description: 'Dialogue sans latence',
       },
       {
         icon: RefreshCw,
         title: 'Évolution continue du produit',
-        description: 'Améliorations régulières incluses'
+        description: 'Améliorations régulières incluses',
       },
     ],
   },
-];
+]
 
 export function IntegrationsTriple() {
   return (
     <section className="py-24 bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
       <div className="container mx-auto px-4">
-
         {/* Section header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
@@ -149,10 +161,14 @@ export function IntegrationsTriple() {
             >
               {/* Header */}
               <div className="p-6 border-b border-white/5">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${category.color} flex items-center justify-center mb-4`}>
+                <div
+                  className={`w-12 h-12 rounded-xl bg-gradient-to-r ${category.color} flex items-center justify-center mb-4`}
+                >
                   <category.icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className={`text-2xl font-bold bg-gradient-to-r ${category.color} bg-clip-text text-transparent`}>
+                <h3
+                  className={`text-2xl font-bold bg-gradient-to-r ${category.color} bg-clip-text text-transparent`}
+                >
                   {category.title}
                 </h3>
                 <p className="text-gray-400">{category.subtitle}</p>
@@ -184,7 +200,9 @@ export function IntegrationsTriple() {
                   <div className="space-y-4">
                     {category.capabilities.map((capability, index) => (
                       <div key={index} className="flex items-start gap-3">
-                        <div className={`w-8 h-8 rounded-lg bg-gradient-to-r ${category.color} flex items-center justify-center flex-shrink-0`}>
+                        <div
+                          className={`w-8 h-8 rounded-lg bg-gradient-to-r ${category.color} flex items-center justify-center flex-shrink-0`}
+                        >
                           <capability.icon className="w-4 h-4 text-white" />
                         </div>
                         <div>
@@ -206,8 +224,7 @@ export function IntegrationsTriple() {
             Vous utilisez un autre outil ? Contactez-nous, nous nous adaptons à votre stack.
           </p>
         </div>
-
       </div>
     </section>
-  );
+  )
 }

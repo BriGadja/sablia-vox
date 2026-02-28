@@ -4,10 +4,10 @@
 
 import { createClient } from '@/lib/supabase/client'
 import type {
-  UserConsumptionResponse,
-  ConsumptionFilters,
   AdminBillingSummaryResponse,
-  ConsumptionChartData
+  ConsumptionChartData,
+  ConsumptionFilters,
+  UserConsumptionResponse,
 } from '@/lib/types/consumption'
 
 /**
@@ -19,7 +19,7 @@ import type {
  */
 export async function fetchUserConsumptionMetrics(
   filters: ConsumptionFilters,
-  viewAsUserId?: string | null
+  viewAsUserId?: string | null,
 ): Promise<UserConsumptionResponse> {
   const supabase = createClient()
 
@@ -44,7 +44,7 @@ export async function fetchUserConsumptionMetrics(
  */
 export async function fetchAdminBillingSummary(
   currentMonthStart: string,
-  currentMonthEnd: string
+  currentMonthEnd: string,
 ): Promise<AdminBillingSummaryResponse> {
   const supabase = createClient()
 
@@ -102,7 +102,7 @@ export function getPreviousMonthDates(): { startDate: string; endDate: string } 
  */
 export async function fetchConsumptionChartData(
   filters: ConsumptionFilters,
-  viewAsUserId?: string | null
+  viewAsUserId?: string | null,
 ): Promise<ConsumptionChartData> {
   const supabase = createClient()
 

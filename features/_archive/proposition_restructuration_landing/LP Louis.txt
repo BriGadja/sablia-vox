@@ -1,207 +1,0 @@
-?? PAGE PRODUIT — LOUIS
-Structure complète & Copywriting optimisé
-
-1?? HERO SECTION — "Rencontrez Louis."
-Titre principal
-Rencontrez Louis.[1][2] 
-Sous-titre
-Votre agent IA personnel, qui rappelle, qualifie et planifie chaque nouveau lead automatiquement.[3]
-Description (2 phrases max — PUNCH VISUEL)
-Louis contacte vos prospects en moins d'une minute, 24h/24 et 7j/7, dans plus de 20 langues.
-Il échange, qualifie et planifie vos rendez-vous automatiquement — pendant que votre équipe se concentre sur la vente.
-CTA principal
-?? Tester Louis gratuitement
- (Ouvre un calendrier de démo ou formulaire pour tester directement)
-CTA secondaire
-?? Écouter un appel de Louis
- (Ouvre un player audio avec exemple d'appel)
-
-2?? BARRE D'INTÉGRATIONS
-Titre de section
-Louis s'intègre naturellement à votre environnement professionnel
-Sous-titre
-Connectez-le à vos outils existants en un clic. Déployé en moins de 5 jours ouvrés, sans développement technique.
-Logos à afficher (MAX 10 LOGOS — grille animée/défilante)
-? Pipedrive
-? HubSpot
-? Salesforce
-? Google Calendar
-? Outlook
-? Calendly
-? Make
-? Zapier
-? Meta Ads
-? Google Ads
-Baseline
-Toutes les données sont synchronisées automatiquement : leads, appels, rendez-vous et statistiques.
-
-3?? COMMENT FONCTIONNE LOUIS (4 ÉTAPES CONDENSÉES)
-Titre de section
-Comment fonctionne Louis
-Étape 01 — Détection instantanée
-Titre : Détection instantanée des leads entrants
-Description :
- Dès qu'un prospect remplit un formulaire, demande un devis ou laisse ses coordonnées, Louis est déclenché automatiquement. Chaque seconde compte : Louis garantit un temps de réponse record pour maximiser vos chances de conversion.
-Étape 02 — Rappel intelligent
-Titre : Rappel automatique et conversation intelligente
-Description :
- Louis appelle le prospect dans la minute, en adaptant son discours à votre secteur. Il mène des conversations naturelles, pose les bonnes questions de qualification et peut même envoyer un SMS de pré-notification pour augmenter le taux de réponse.
-Étape 03 — Qualification et scoring
-Titre : Qualification intelligente et scoring automatique
-Description :
- Pendant la conversation, Louis qualifie chaque lead selon vos critères : budget, besoin, urgence, autorité. Il attribue automatiquement un score à chaque prospect (chaud, tiède, froid) et détermine s'il est prêt pour un rendez-vous commercial.
-Étape 04 — Planification et suivi automatique
-Titre : Prise de rendez-vous et suivi continu
-Description :
- Pour les leads qualifiés, Louis consulte directement votre agenda et réserve un créneau disponible. Le rendez-vous est confirmé par SMS et email, synchronisé avec votre CRM, et Louis retente automatiquement les prospects non-joignables. Votre équipe reçoit un dossier complet avant chaque rendez-vous.
-
-?? VISUEL CALL FLOW (suggestion pour Brice)
-Schéma iconique simple à intégrer entre section 3 et 4 :
-?? Formulaire  ?  ?? Louis  ?  ?? Appel  ?  ? Qualification  ?  ?? RDV  ?  ?? CRM
-Sous-titre du visuel :
- Du formulaire au rendez-vous qualifié, Louis gère tout automatiquement.
-
-4?? CAS D'UTILISATION DE LOUIS
-Titre de section
-Ce que Louis fait pour vous
-Carte 1 — Rappel automatique 24/7
-Titre : Qualification des leads entrants 24/7
-Description :
- Louis rappelle instantanément chaque lead généré par vos campagnes (Meta Ads, Google Ads), formulaires ou appels manqués. Weekend, nuit, jours fériés : Louis ne dort jamais et garantit une réponse en moins d'une minute.
-Carte 2 — Prise de rendez-vous automatique
-Titre : Prise de rendez-vous automatique
-Description :
- Louis accède à votre agenda en temps réel et réserve directement des créneaux avec vos commerciaux. Plus d'allers-retours par email : Louis gère tout de bout en bout et confirme chaque rendez-vous.
-Carte 3 — Scoring et suivi intelligent
-Titre : Scoring avancé des prospects
-Description :
- Chaque conversation est analysée et chaque lead reçoit un score de qualité basé sur vos critères personnalisés. Louis identifie automatiquement vos prospects à forte valeur et priorise les opportunités les plus prometteuses.
-Carte 4 — SMS automatique
-Titre : Envoi de SMS automatique
-Description :
- Louis envoie un SMS avant l'appel pour prévenir le prospect (augmente le taux de réponse) ou après l'appel pour confirmer le rendez-vous. Cette approche multicanal maximise vos chances de contact.
-Carte 5 — Transcription des appels
-Titre : Transcription et analyse des appels
-Description :
- Tous les appels sont enregistrés, transcrits et analysés pour vous fournir des insights précieux sur les objections et besoins récurrents. Vous disposez d'un historique complet et exploitable, accessible depuis le dashboard VoIPIA.
-Carte 6 — Dashboard & reporting
-Titre : Dashboard & reporting transparent
-Description :
- Suivez les performances en temps réel : nombre d'appels, durée moyenne, taux de contact, taux de rendez-vous pris, taux de qualification, volume traité. Toutes les statistiques sont accessibles depuis votre espace VoIPIA et synchronisées avec votre CRM.
-
-5?? BÉNÉFICES MESURABLES
-Titre de section
-Des résultats qui parlent d'eux-mêmes
-Sous-titre
-Chaque lead est traité. Chaque opportunité est exploitée.
-Tableau de statistiques
-IndicateurRésultat moyen observéDélai moyen de rappel?? < 60 secondesTaux de contact?? +72 %Taux de conversion en RDV?? x3Temps gagné? +21h/semaineRéduction du taux de perte?? -87 %
-6?? CTA INTERMÉDIAIRE
-Titre
-Découvrez Louis en action
-CTA principal
-?? Appeler Louis maintenant
- (Lance un appel direct avec Louis)
-CTA secondaire
-?? Écouter un exemple d'appel
- (Ouvre un player audio)
-
-7?? POURQUOI LOUIS ? (NOUVELLE SECTION — Comparatif Avant/Après)
-Titre de section
-Pourquoi Louis transforme votre gestion des leads
-Sous-titre
-Comparez votre processus actuel à ce que Louis peut faire pour vous.
-Tableau comparatif (3 colonnes visuelles)
-? Sans Louis? Avec LouisLeads perdus ou non rappelésRappel instantané de chaque contactTemps de réponse : plusieurs heures voire joursTemps de réponse : moins de 60 secondesCommerciaux surchargés de tâches administrativesIA qui qualifie et planifie automatiquementVotre équipe passe 40% de son temps à rappelerVotre équipe se concentre 100% sur la venteDonnées éparpillées dans plusieurs outilsDashboard et reporting unifiésInformations perdues, pas de suivi structuréToutes les données centralisées et exploitablesBaseline
-Louis élimine les frictions et vous fait gagner jusqu'à 35h par semaine sur le rappel manuel.
-
-8?? TÉMOIGNAGE CLIENT
-Titre de section
-Ne nous croyez pas seulement sur parole...
-Citation principale
-"Depuis que nous avons intégré Louis, 100 % de nos leads sont rappelés dans la minute. Le nombre de rendez-vous pris a triplé et nous n'avons plus besoin de rappeler manuellement. Cela a complètement transformé notre approche de la gestion des leads : mon équipe peut enfin se concentrer uniquement sur les rendez-vous qualifiés. Louis nous a fait économiser un temps colossal et nous a évité d'embaucher 2 SDR supplémentaires."
-Auteur
-Valentin
- Dirigeant, Stefano Design
-Statistiques complémentaires (badges/cartes)
-87%
- Réduction du taux de perte de leads
-x3
- Augmentation des rendez-vous qualifiés
-+21H
- Économisées par semaine sur le rappel manuel
-
-9?? TARIFICATION
-Titre de section
-Tarification simple et transparente
-Sous-titre
-Aucun engagement. Louis reste parce qu'il performe.
-Bloc principal — Abonnement mensuel
-190 € HT / mois
-Inclus dans l'abonnement :
-? ? Infrastructure IA complète (serveur, ligne, hébergement)
-? ? Scénario vocal personnalisé sur-mesure
-? ? Dashboard VoIPIA + intégration CRM complète
-? ? Transcriptions & scoring automatique
-? ? Support et maintenance 24/7
-? ? Déploiement en moins de 5 jours ouvrés
-Bloc secondaire — Consommation au réel
-+ Consommation au réel
-? ?? 0,27 € / minute d'appel
-? ?? 0,14 € / SMS
-? ?? Emails gratuits
-Exemple concret de calcul
-?? Exemple pour 300 leads/mois :
-? Abonnement mensuel : 190 € HT
-? ~300 appels (2 min/appel en moyenne) : 162 € HT
-? ~40 SMS de confirmation : 5,60 € HT
-= Total : 357,60 € HT/mois
-Baseline
-Louis s'adapte à votre volume. Payez uniquement ce que vous consommez.
-
-?? FAQ (RÉDUITE À 9 QUESTIONS ESSENTIELLES)
-Titre de section
-Questions fréquemment posées
-Question 1
-?? Que fait exactement Louis ?
-Louis rappelle automatiquement vos leads entrants, les qualifie selon vos critères (budget, besoin, urgence, autorité) et planifie des rendez-vous directement dans votre agenda. Il fonctionne 24h/24 et 7j/7, sans jamais nécessiter de pause.
-Question 2
-?? En combien de temps Louis rappelle-t-il un lead entrant ?
-Louis rappelle vos leads en moins de 60 secondes. Cette rapidité est cruciale : un lead contacté dans les 5 premières minutes a 9 fois plus de chances d'être converti qu'un lead contacté après une heure d'attente.
-Question 3
-?? En combien de temps peut-on déployer Louis ?
-Louis est opérationnel en moins de 5 jours ouvrés. Ce délai inclut la configuration complète, l'intégration avec votre CRM, la personnalisation du script vocal et les tests avant mise en production.
-Question 4
-?? Quels outils sont compatibles avec Louis ?
-Louis s'intègre nativement avec tous les principaux outils : Pipedrive, HubSpot, Salesforce, Google Calendar, Outlook, Calendly, Monday.com, Make, Zapier. Si vous utilisez un outil spécifique, contactez-nous pour confirmer la compatibilité.
-Question 5
-?? Louis parle-t-il plusieurs langues ?
-Oui, Louis mène des conversations fluides dans plus de 20 langues (français, anglais, espagnol, allemand, italien, portugais...). Il adapte automatiquement son ton et son approche culturelle selon le pays de votre prospect.
-Question 6
-?? Peut-on écouter les appels passés par Louis ?
-Oui, chaque appel est enregistré, transcrit et accessible depuis le dashboard VoIPIA. Vous pouvez les écouter, les analyser et les utiliser pour former votre équipe commerciale.
-Question 7
-?? Que se passe-t-il si un prospect ne répond pas ?
-Louis envoie automatiquement un SMS de relance et retente l'appel selon la séquence définie (par exemple : rappel après 2h, puis le lendemain). Vous configurez la fréquence et le nombre de tentatives.
-Question 8
-?? Louis est-il conforme RGPD ?
-Oui, absolument. Données hébergées en Europe, chiffrement de bout en bout, conformité RGPD totale. Vos données prospects sont protégées avec le même niveau de sécurité que les institutions bancaires.
-Question 9
-?? Que se passe-t-il si un lead pose une question complexe ?
-Louis gère des conversations sophistiquées, mais si une question dépasse son périmètre, il sait le reconnaître et peut soit prendre un rendez-vous pour que votre équipe réponde, soit transférer l'appel vers un commercial disponible.
-
-1??1?? CALL TO ACTION FINAL
-Titre principal
-Automatisez votre rappel de leads dès aujourd'hui
-Sous-titre
-Testez gratuitement Louis et découvrez comment il peut transformer vos conversions en moins d'une semaine.
-CTA principal
-?? Tester gratuitement Louis
-(Ouvre un calendrier de démo ou formulaire pour tester directement)
-CTA secondaire
-?? Écouter un appel de Louis
- (Ouvre un player audio)
-
-Mdrrr Zero effort non ?
-Ajoutez Louis à vos formulaires et obtenez 40% de rdv supplémentaires sans rien faire
-j'ai changé un peu ca aussi mais le reste go

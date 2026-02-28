@@ -23,7 +23,7 @@ export default function AuthErrorPage() {
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring" }}
+            transition={{ delay: 0.2, type: 'spring' }}
             className="inline-block mb-4"
           >
             <div className="w-16 h-16 bg-gradient-to-br from-red-600 to-orange-600 rounded-2xl flex items-center justify-center mx-auto">
@@ -31,12 +31,10 @@ export default function AuthErrorPage() {
             </div>
           </motion.div>
 
-          <h1 className="text-2xl font-bold text-white mb-2">
-            Erreur d&apos;authentification
-          </h1>
+          <h1 className="text-2xl font-bold text-white mb-2">Erreur d&apos;authentification</h1>
           <p className="text-white/60 mb-6">
-            Une erreur s&apos;est produite lors de la vérification de votre lien.
-            Le lien a peut-être expiré ou est invalide.
+            Une erreur s&apos;est produite lors de la vérification de votre lien. Le lien a
+            peut-être expiré ou est invalide.
           </p>
 
           <div className="space-y-3">

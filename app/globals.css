@@ -126,7 +126,7 @@
   }
 
   .gradient-mesh {
-    background-image: 
+    background-image:
       radial-gradient(at 40% 20%, hsla(270, 50%, 60%, 0.3) 0px, transparent 50%),
       radial-gradient(at 80% 0%, hsla(220, 70%, 50%, 0.3) 0px, transparent 50%),
       radial-gradient(at 0% 50%, hsla(270, 50%, 60%, 0.3) 0px, transparent 50%),
@@ -149,10 +149,7 @@
   .animation-delay-600 {
     animation-delay: 600ms;
   }
-
 }
-
-
 
 @layer base {
   * {

@@ -9,36 +9,36 @@ export default function ChatbotTypingIndicator() {
         className="w-2 h-2 bg-purple-400 rounded-full"
         animate={{
           scale: [1, 1.2, 1],
-          opacity: [0.5, 1, 0.5]
+          opacity: [0.5, 1, 0.5],
         }}
         transition={{
           duration: 1.4,
           repeat: Infinity,
-          delay: 0
+          delay: 0,
         }}
       />
       <motion.div
         className="w-2 h-2 bg-purple-400 rounded-full"
         animate={{
           scale: [1, 1.2, 1],
-          opacity: [0.5, 1, 0.5]
+          opacity: [0.5, 1, 0.5],
         }}
         transition={{
           duration: 1.4,
           repeat: Infinity,
-          delay: 0.2
+          delay: 0.2,
         }}
       />
       <motion.div
         className="w-2 h-2 bg-purple-400 rounded-full"
         animate={{
           scale: [1, 1.2, 1],
-          opacity: [0.5, 1, 0.5]
+          opacity: [0.5, 1, 0.5],
         }}
         transition={{
           duration: 1.4,
           repeat: Infinity,
-          delay: 0.4
+          delay: 0.4,
         }}
       />
     </div>

@@ -1,11 +1,11 @@
-import { Suspense } from 'react'
-import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
 import { Loader2 } from 'lucide-react'
-import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
+import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
+import { DynamicBreadcrumb } from '@/components/dashboard/DynamicBreadcrumb'
 import { AppSidebar } from '@/components/dashboard/Sidebar'
 import { Separator } from '@/components/ui/separator'
-import { DynamicBreadcrumb } from '@/components/dashboard/DynamicBreadcrumb'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { createClient } from '@/lib/supabase/server'
 
 export const metadata = {
   title: 'Dashboard | Sablia Vox',
@@ -19,7 +19,10 @@ export const metadata = {
 /**
  * Check if user has admin permissions
  */
-async function checkIsAdminServer(supabase: Awaited<ReturnType<typeof createClient>>, userId: string): Promise<boolean> {
+async function checkIsAdminServer(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+): Promise<boolean> {
   const { data, error } = await supabase
     .from('user_client_permissions')
     .select('permission_level')

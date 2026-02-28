@@ -1,12 +1,12 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import CTAStaticForm from '@/components/ui/CTAStaticForm';
-import SuccessToast from '@/components/ui/SuccessToast';
-import { HeaderV2 } from '@/components/shared/HeaderV2';
+import { useState } from 'react'
+import { HeaderV2 } from '@/components/shared/HeaderV2'
+import CTAStaticForm from '@/components/ui/CTAStaticForm'
+import SuccessToast from '@/components/ui/SuccessToast'
 
 export default function TesterNosAgentsClient() {
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false)
 
   return (
     <>
@@ -26,7 +26,8 @@ export default function TesterNosAgentsClient() {
               </span>
             </h1>
             <p className="text-xl text-gray-300 leading-relaxed">
-              Remplissez le formulaire ci-dessous et recevez un appel de démonstration en 30 secondes
+              Remplissez le formulaire ci-dessous et recevez un appel de démonstration en 30
+              secondes
             </p>
           </div>
 
@@ -42,5 +43,5 @@ export default function TesterNosAgentsClient() {
         onClose={() => setShowSuccessToast(false)}
       />
     </>
-  );
+  )
 }

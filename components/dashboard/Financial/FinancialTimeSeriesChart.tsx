@@ -1,19 +1,19 @@
 'use client'
 
-import { memo, useMemo, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
+import { memo, useCallback, useMemo, useState } from 'react'
 import {
-  LineChart,
+  CartesianGrid,
+  Legend,
   Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from 'recharts'
-import type { TimeSeriesDataPoint } from '@/lib/types/financial'
 import { formatCurrency } from '@/lib/queries/financial'
+import type { TimeSeriesDataPoint } from '@/lib/types/financial'
 
 interface FinancialTimeSeriesChartProps {
   data: TimeSeriesDataPoint[]
@@ -40,10 +40,7 @@ function CustomTooltip({ active, payload, label }: any) {
       <div className="space-y-1">
         {payload.map((entry: any, index: number) => (
           <div key={index} className="flex items-center gap-2 text-xs">
-            <div
-              className="w-3 h-3 rounded-full"
-              style={{ backgroundColor: entry.color }}
-            />
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
             <span className="text-gray-400">{entry.name}:</span>
             <span className="font-semibold text-white">
               {formatCurrency(entry.value as number)}
@@ -74,7 +71,7 @@ function FinancialTimeSeriesChartInner({
         cost: point.cost.total,
         margin: point.margin.total,
       })),
-    [data]
+    [data],
   )
 
   // Toggle line visibility with useCallback - must be before any early returns
@@ -166,7 +163,9 @@ function FinancialTimeSeriesChartInner({
                   opacity: hiddenLines.has('margin') ? 0.4 : 1,
                 }}
               >
-                <div className={`rounded-full bg-emerald-500 ${isCompact ? 'w-2 h-2' : 'w-3 h-3'}`} />
+                <div
+                  className={`rounded-full bg-emerald-500 ${isCompact ? 'w-2 h-2' : 'w-3 h-3'}`}
+                />
                 <span className="text-gray-300 text-[10px]">Marge</span>
               </button>
             )}
@@ -176,7 +175,11 @@ function FinancialTimeSeriesChartInner({
         <ResponsiveContainer width="100%" height={isCompact ? height - 50 : height}>
           <LineChart
             data={chartData}
-            margin={isCompact ? { top: 5, right: 10, left: 0, bottom: 5 } : { top: 5, right: 30, left: 20, bottom: 5 }}
+            margin={
+              isCompact
+                ? { top: 5, right: 10, left: 0, bottom: 5 }
+                : { top: 5, right: 30, left: 20, bottom: 5 }
+            }
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
             <XAxis
@@ -255,7 +258,7 @@ function FinancialTimeSeriesChartInner({
                   <p className="text-gray-400 mb-1">Revenue Moyen</p>
                   <p className="text-amber-400 font-bold">
                     {formatCurrency(
-                      chartData.reduce((sum, d) => sum + d.revenue, 0) / chartData.length
+                      chartData.reduce((sum, d) => sum + d.revenue, 0) / chartData.length,
                     )}
                   </p>
                 </div>
@@ -265,7 +268,7 @@ function FinancialTimeSeriesChartInner({
                   <p className="text-gray-400 mb-1">Cout Moyen</p>
                   <p className="text-red-400 font-bold">
                     {formatCurrency(
-                      chartData.reduce((sum, d) => sum + d.cost, 0) / chartData.length
+                      chartData.reduce((sum, d) => sum + d.cost, 0) / chartData.length,
                     )}
                   </p>
                 </div>
@@ -275,7 +278,7 @@ function FinancialTimeSeriesChartInner({
                   <p className="text-gray-400 mb-1">Marge Moyenne</p>
                   <p className="text-emerald-400 font-bold">
                     {formatCurrency(
-                      chartData.reduce((sum, d) => sum + d.margin, 0) / chartData.length
+                      chartData.reduce((sum, d) => sum + d.margin, 0) / chartData.length,
                     )}
                   </p>
                 </div>

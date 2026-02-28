@@ -1,17 +1,17 @@
 'use client'
 
-import { memo } from 'react'
 import {
-  BarChart2,
-  Phone,
-  Calendar,
-  Users,
-  TrendingUp,
-  FileText,
   AlertCircle,
+  BarChart2,
+  Calendar,
+  FileText,
+  type LucideIcon,
+  Phone,
   Search,
-  type LucideIcon
+  TrendingUp,
+  Users,
 } from 'lucide-react'
+import { memo } from 'react'
 
 // Pre-defined empty state configurations
 export type EmptyStateVariant =
@@ -68,7 +68,7 @@ const variantConfigs: Record<EmptyStateVariant, EmptyStateConfig> = {
     description: 'Aucun rendez-vous pris sur cette période.',
     iconColor: 'text-green-400',
   },
-  'error': {
+  error: {
     icon: AlertCircle,
     title: 'Une erreur est survenue',
     description: 'Impossible de charger les données. Veuillez réessayer.',
@@ -149,12 +149,8 @@ function EmptyStateInner({
       <div className={`${iconColor} mb-3 opacity-60`}>
         <Icon className={sizes.icon} />
       </div>
-      <h3 className={`font-medium text-white mb-1 ${sizes.title}`}>
-        {title}
-      </h3>
-      <p className={`text-gray-400 max-w-xs ${sizes.description}`}>
-        {description}
-      </p>
+      <h3 className={`font-medium text-white mb-1 ${sizes.title}`}>{title}</h3>
+      <p className={`text-gray-400 max-w-xs ${sizes.description}`}>{description}</p>
       {action && (
         <button
           onClick={action.onClick}
@@ -218,7 +214,9 @@ function ChartEmptyWrapperInner({
   // Show loading state
   if (isLoading) {
     return (
-      <div className={`flex items-center justify-center ${sizeClasses[size].container} ${className}`}>
+      <div
+        className={`flex items-center justify-center ${sizeClasses[size].container} ${className}`}
+      >
         <div className="animate-spin w-8 h-8 border-2 border-violet-500 border-t-transparent rounded-full" />
       </div>
     )

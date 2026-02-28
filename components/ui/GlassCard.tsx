@@ -1,10 +1,10 @@
 'use client'
 
-import { cn } from '@/lib/utils'
-import { motion, HTMLMotionProps } from 'framer-motion'
+import { type HTMLMotionProps, motion } from 'framer-motion'
 import { forwardRef } from 'react'
+import { cn } from '@/lib/utils'
 
-interface GlassCardProps extends HTMLMotionProps<"div"> {
+interface GlassCardProps extends HTMLMotionProps<'div'> {
   hover?: boolean
 }
 
@@ -17,8 +17,9 @@ const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
           'relative overflow-hidden rounded-2xl',
           'bg-white/10 dark:bg-white/5 backdrop-blur-md',
           'border border-white/20 dark:border-white/10',
-          hover && 'hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/20',
-          className
+          hover &&
+            'hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/20',
+          className,
         )}
         whileHover={hover ? { scale: 1.02 } : undefined}
         transition={{ duration: 0.3 }}
@@ -27,7 +28,7 @@ const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         {children}
       </motion.div>
     )
-  }
+  },
 )
 
 GlassCard.displayName = 'GlassCard'

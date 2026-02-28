@@ -1,12 +1,12 @@
 'use client'
 
-import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
-import { useClientCardsData } from '@/lib/hooks/useDashboardData'
-import { PageHeader } from '@/components/dashboard/PageHeader'
-import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
-import { ClientCard } from './ClientCard'
 import { Building2, Loader2, Search } from 'lucide-react'
-import { useState, useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
+import { PageHeader } from '@/components/dashboard/PageHeader'
+import { useClientCardsData } from '@/lib/hooks/useDashboardData'
+import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
+import { ClientCard } from './ClientCard'
 
 /**
  * Clients List Client Component (Admin Only)
@@ -33,9 +33,10 @@ export function ClientsListClient() {
     if (!searchQuery.trim()) return clients
 
     const query = searchQuery.toLowerCase()
-    return clients.filter(client =>
-      client.client_name.toLowerCase().includes(query) ||
-      (client.industry && client.industry.toLowerCase().includes(query))
+    return clients.filter(
+      (client) =>
+        client.client_name.toLowerCase().includes(query) ||
+        (client.industry && client.industry.toLowerCase().includes(query)),
     )
   }, [clients, searchQuery])
 
@@ -89,9 +90,7 @@ export function ClientsListClient() {
             <Search className="w-12 h-12 text-white/20" />
           </div>
           <div className="text-center space-y-2">
-            <p className="text-lg font-semibold text-white">
-              Aucun resultat
-            </p>
+            <p className="text-lg font-semibold text-white">Aucun resultat</p>
             <p className="text-sm text-white/60">
               Aucun client ne correspond a &quot;{searchQuery}&quot;
             </p>
@@ -103,12 +102,8 @@ export function ClientsListClient() {
             <Building2 className="w-12 h-12 text-white/20" />
           </div>
           <div className="text-center space-y-2">
-            <p className="text-lg font-semibold text-white">
-              Aucun client trouve
-            </p>
-            <p className="text-sm text-white/60">
-              Il n&apos;y a pas encore de clients enregistres
-            </p>
+            <p className="text-lg font-semibold text-white">Aucun client trouve</p>
+            <p className="text-sm text-white/60">Il n&apos;y a pas encore de clients enregistres</p>
           </div>
         </div>
       )}

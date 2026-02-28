@@ -1,5 +1,5 @@
-import { Metadata } from 'next'
-import { Settings, User, Bell, Shield, Key } from 'lucide-react'
+import { Bell, Key, Settings, Shield, User } from 'lucide-react'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Parametres | Sablia Vox Dashboard',
@@ -16,9 +16,7 @@ export default function SettingsPage() {
             <Settings className="w-8 h-8 text-violet-400" />
             <h1 className="text-3xl font-bold text-white">Parametres</h1>
           </div>
-          <p className="text-gray-400">
-            Gerez vos preferences et la configuration de votre compte
-          </p>
+          <p className="text-gray-400">Gerez vos preferences et la configuration de votre compte</p>
         </div>
 
         {/* Settings Sections */}
@@ -40,9 +38,7 @@ export default function SettingsPage() {
               <Bell className="w-5 h-5 text-amber-400" />
               <h2 className="text-lg font-semibold text-white">Notifications</h2>
             </div>
-            <p className="text-gray-400 text-sm">
-              Configuration des notifications a venir.
-            </p>
+            <p className="text-gray-400 text-sm">Configuration des notifications a venir.</p>
           </div>
 
           {/* Security Section */}
@@ -71,7 +67,8 @@ export default function SettingsPage() {
         {/* Footer Note */}
         <div className="mt-8 p-4 bg-gray-800/20 border border-gray-700/20 rounded-lg">
           <p className="text-xs text-gray-500 text-center">
-            Cette page de parametres sera enrichie avec plus de fonctionnalites dans les prochaines mises a jour.
+            Cette page de parametres sera enrichie avec plus de fonctionnalites dans les prochaines
+            mises a jour.
           </p>
         </div>
       </div>

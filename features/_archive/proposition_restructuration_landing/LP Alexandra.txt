@@ -1,217 +1,0 @@
-?? PAGE PRODUIT — ALEXANDRA
-Structure complète & Copywriting optimisé
-
-1?? HERO SECTION — "Rencontrez Alexandra."
-Titre principal
-Rencontrez Alexandra.[1]
-Sous-titre
-Votre agent de réception IA qui répond, filtre et oriente chaque appel entrant automatiquement.[2]
-Description (2 phrases max — PUNCH VISUEL)
-Alexandra décroche chaque appel en moins de 3 sonneries, 24h/24 et 7j/7[3][4][5][6], dans plusieurs langues.
- Elle répond aux questions, filtre les demandes, prend des rendez-vous et transfère les appels pendant que votre équipe se concentre sur son cœur de métier.
-CTA principal
-?? Tester gratuitement Alexandra
- (Ouvre un calendrier de démo ou formulaire pour tester directement)
-CTA secondaire
-?? Écouter un appel d'Alexandra
- (Ouvre un player audio avec exemple d'appel)
-
-2?? BARRE D'INTÉGRATIONS
-Titre de section
-Alexandra s'intègre naturellement à votre environnement professionnel
-Sous-titre
-Connectez-la à vos outils existants en un clic. Déployée en moins de 5 jours ouvrés, sans développement technique.
-Logos à afficher (MAX 10 LOGOS — grille animée/défilante)
-? Pipedrive
-? HubSpot
-? Salesforce
-? Google Calendar
-? Outlook
-? Calendly
-? Make
-? Zapier
-? Notion
-? Slack[7]
-Baseline
-Toutes les données sont synchronisées automatiquement : appels, notes, rendez-vous et statistiques.
-
-3?? COMMENT FONCTIONNE ALEXANDRA (4 ÉTAPES CONDENSÉES)
-Titre de section
-Comment fonctionne Alexandra
-Étape 01 — Réception instantanée
-Titre : Réception instantanée de tous les appels entrants
-Description :
- Dès qu'un appel arrive sur votre ligne, Alexandra décroche automatiquement en moins de 3 sonneries. Fini les appels manqués, les répondeurs impersonnels ou les clients perdus par manque de disponibilité. Alexandra garantit que 100% de vos appels sont traités.
-Étape 02 — Conversation intelligente
-Titre : Réponse personnalisée grâce à votre base de connaissances
-Description :
- Alexandra connaît parfaitement votre entreprise grâce à la base de connaissances que vous lui avez fournie (produits, services, tarifs, horaires, FAQ). Elle répond aux questions de vos clients et prospects de manière naturelle et pertinente, comme le ferait votre meilleure réceptionniste.
-Étape 03 — Filtrage et qualification
-Titre : Filtrage intelligent et qualification automatique
-Description :
- Alexandra qualifie chaque appelant selon vos critères : urgence, type de demande, statut client. Elle identifie les appels prioritaires (clients VIP, urgences) et filtre les sollicitations indésirables (démarchage, spam). Chaque appel reçoit un score et une catégorisation automatique.
-Étape 04 — Orientation et suivi automatique
-Titre : Prise de rendez-vous, transfert et suivi continu
-Description :
- Selon la demande, Alexandra peut prendre un rendez-vous directement dans votre agenda, transférer l'appel vers le bon interlocuteur, ou enregistrer un message détaillé. Toutes les informations sont synchronisées avec votre CRM, et un compte-rendu complet est envoyé par email après chaque appel.
-
-?? VISUEL CALL FLOW (suggestion pour Brice)
-Schéma iconique simple à intégrer entre section 3 et 4 :
-?? Appel entrant  ?  ?? Alexandra  ?  ?? Conversation  ?  ? Qualification  ?  ?? RDV / ?? Transfert  ?  ?? CRM
-
-Sous-titre du visuel :
- De la réception à l'action, Alexandra gère tout automatiquement.
-
-4?? CAS D'UTILISATION D'ALEXANDRA
-Titre de section
-Ce qu'Alexandra fait pour vous
-Carte 1 — Réception 24/7
-Titre : Réception d'appels 24/7 sans interruption
-Description :
- Alexandra répond instantanément à chaque appel, même en dehors de vos horaires d'ouverture. Weekend, nuit, jours fériés, période de forte affluence : Alexandra ne dort jamais et garantit que vos clients ne tombent plus jamais sur un répondeur.
-Carte 2 — Base de connaissances complète
-Titre : Réponse aux questions grâce à votre base de connaissances
-Description :
- Alimentez Alexandra avec toutes les informations sur votre entreprise : produits, services, tarifs, FAQ, processus. Elle devient votre expert interne et répond précisément aux questions de vos appelants, réduisant drastiquement les demandes répétitives pour votre équipe.
-Carte 3 — Filtrage intelligent
-Titre : Filtrage automatique des appels
-Description :
- Alexandra identifie et filtre les appels indésirables (démarchage commercial, spam, sollicitations). Elle ne transfère à votre équipe que les appels à forte valeur ajoutée, vous faisant gagner un temps précieux et améliorant votre concentration.
-Carte 4 — Prise de rendez-vous
-Titre : Prise de rendez-vous automatique
-Description :
- Alexandra accède à votre agenda en temps réel et réserve directement des créneaux selon vos disponibilités. Elle confirme le rendez-vous par SMS et email, et envoie des rappels automatiques pour réduire le no-show.
-Carte 5 — Transfert intelligent
-Titre : Transfert et dispatch des appels
-Description :
- Selon la nature de la demande et vos règles de routage, Alexandra peut transférer l'appel vers le bon service ou la bonne personne (commercial, support, direction). Le destinataire reçoit instantanément le contexte complet de l'appel avant de décrocher.
-Carte 6 — Dashboard & reporting
-Titre : Dashboard & reporting transparent
-Description :
- Suivez les performances en temps réel : nombre d'appels reçus, durée moyenne, taux de réponse, motifs d'appels, rendez-vous pris, appels transférés. Toutes les statistiques sont accessibles depuis votre espace VoIPIA et synchronisées avec votre CRM.
-
-5?? BÉNÉFICES MESURABLES
-Titre de section
-Des résultats qui parlent d'eux-mêmes
-Sous-titre
-Chaque appel est traité. Chaque opportunité est saisie.
-Tableau de statistiques
-IndicateurRésultat moyen observéTaux de réponse?? 100 %Temps de réponse?? < 3 sonneriesAppels manqués éliminés?? -100 %Temps gagné? +30h/semaineSatisfaction client?? +45 %
-6?? CTA INTERMÉDIAIRE
-Titre
-Découvrez Alexandra en action
-CTA principal
-?? Appeler Alexandra maintenant
- (Lance un appel direct avec Alexandra)
-CTA secondaire
-?? Écouter un exemple d'appel
- (Ouvre un player audio)
-
-7?? POURQUOI ALEXANDRA ? (NOUVELLE SECTION — Comparatif Avant/Après)
-Titre de section
-Pourquoi Alexandra transforme votre accueil téléphonique
-Sous-titre
-Comparez votre processus actuel à ce qu'Alexandra peut faire pour vous.
-Tableau comparatif (3 colonnes visuelles)
-? Sans Alexandra? Avec AlexandraAppels manqués et clients perdus100% des appels décrochés instantanémentAppels manqués le soir, weekend, midiDisponibilité 24h/24, 365 jours par anÉquipe interrompue en permanenceIA qui filtre et oriente automatiquementVotre équipe passe 40% de son temps au téléphoneVotre équipe ne décroche que les appels prioritairesInformations perdues, pas de traçabilitéDashboard complet et reporting unifiésNotes papier, messages vocaux oubliésToutes les conversations enregistrées et synchroniséesBaseline
-Alexandra élimine les appels manqués et vous fait gagner jusqu'à 30h par semaine sur la gestion téléphonique.
-
-8?? TÉMOIGNAGE CLIENT
-Titre de section
-Ne nous croyez pas seulement sur parole...
-Citation principale
-"Depuis qu'Alexandra gère notre accueil téléphonique, nous avons 100% de taux de réponse même pendant nos pics d'activité. Nos clients sont ravis de ne plus tomber sur un répondeur, et mon équipe peut enfin se concentrer sur son travail sans être interrompue toutes les 10 minutes. Alexandra a transformé notre relation client : elle répond avec précision grâce à notre base de connaissances et prend des rendez-vous comme une vraie professionnelle. Nous avons économisé l'équivalent d'un poste de réceptionniste à temps plein."
-Auteur
-Valentin
- Dirigeant, Stefano Design[8]
-Statistiques complémentaires (badges/cartes)
-100%
- De taux de réponse sans appels manqués
-+45%
- Augmentation de la satisfaction client
-+30H
- Économisées par semaine sur l'accueil téléphonique
-
-9?? TARIFICATION
-Titre de section
-Tarification simple et transparente
-Sous-titre
-Aucun engagement. Alexandra reste parce qu'elle performe.
-Bloc principal — Abonnement mensuel
-À partir de 290 € HT / mois
-Inclus dans l'abonnement :
-? ? Infrastructure IA complète (serveur, ligne, hébergement)
-? ? Base de connaissances personnalisée sur-mesure
-? ? Dashboard VoIPIA + intégration CRM complète
-? ? Transcriptions & catégorisation automatique
-? ? Support et maintenance 24/7
-? ? Déploiement en moins de 5 jours ouvrés
-Bloc secondaire — Consommation au réel
-+ Consommation au réel
-? ?? 0,27 € / minute d'appel
-? ?? 0,14 € / SMS
-? ?? Emails gratuits
-Exemple concret de calcul
-?? Exemple pour 400 appels/mois :
-? Abonnement mensuel : 290 € HT
-? ~400 appels (3 min/appel en moyenne) : 324 € HT
-? ~50 SMS de confirmation/rappel : 7 € HT
-= Total : 621 € HT/mois
-(Pour un poste de réceptionniste à temps plein : ~2500€ charges comprises)
-Baseline
-Alexandra s'adapte à votre volume. Payez uniquement ce que vous consommez.
-
-?? FAQ (9 QUESTIONS ESSENTIELLES)
-Titre de section
-Questions fréquemment posées
-Question 1
-?? Que fait exactement Alexandra ?
-Alexandra répond automatiquement à tous vos appels entrants, 24h/24 et 7j/7. Elle répond aux questions de vos clients grâce à votre base de connaissances, filtre les appels indésirables, prend des rendez-vous directement dans votre agenda et transfère les appels importants vers le bon interlocuteur.
-Question 2
-?? Comment Alexandra répond-elle aux questions spécifiques sur mon entreprise ?
-Alexandra utilise une base de connaissances personnalisée que vous alimentez avec toutes les informations sur votre entreprise : produits, services, tarifs, FAQ, processus internes. Plus vous lui donnez d'informations, plus elle devient experte et précise dans ses réponses.
-Question 3
-?? Alexandra peut-elle vraiment filtrer les appels indésirables ?
-Oui, Alexandra identifie automatiquement les appels de démarchage commercial, les sollicitations non pertinentes et les spams téléphoniques. Vous configurez les règles de filtrage selon vos besoins, et Alexandra ne transfère à votre équipe que les appels à forte valeur ajoutée.
-Question 4
-?? En combien de temps peut-on déployer Alexandra ?
-Alexandra est opérationnelle en moins de 5 jours ouvrés. Ce délai inclut : la configuration complète, la création de votre base de connaissances personnalisée, l'intégration avec votre CRM et vos outils, les tests et la mise en production.
-Question 5
-?? Quels outils sont compatibles avec Alexandra ?
-Alexandra s'intègre nativement avec tous les principaux outils : Pipedrive, HubSpot, Salesforce, Google Calendar, Outlook, Calendly, Notion, Slack, Make, Zapier. Si vous utilisez un outil spécifique, contactez-nous pour confirmer la compatibilité.
-Question 6
-?? Alexandra parle-t-elle plusieurs langues ?
-Oui, Alexandra mène des conversations fluides dans plus de 20 langues (français, anglais, espagnol, allemand, italien, portugais...). Elle adapte automatiquement son ton et son approche selon la langue et le pays de votre appelant.
-Question 7
-?? Peut-on écouter les appels traités par Alexandra ?
-Oui, chaque appel est enregistré, transcrit et accessible depuis le dashboard VoIPIA. Vous pouvez les écouter, les analyser et les utiliser pour améliorer continuellement votre base de connaissances et votre service client.
-Question 8
-?? Que se passe-t-il quand Alexandra ne peut pas répondre à une question ?
-Si une question dépasse sa base de connaissances, Alexandra le reconnaît immédiatement. Elle peut soit prendre les coordonnées du client pour qu'un expert le rappelle, soit transférer l'appel directement vers un membre disponible de votre équipe avec tout le contexte de la conversation.
-Question 9
-?? Alexandra est-elle conforme RGPD ?
-Oui, absolument. Données hébergées en Europe, chiffrement de bout en bout, conformité RGPD totale. Toutes vos données d'appels et conversations sont protégées avec le même niveau de sécurité que les institutions bancaires.
-
-1??1?? CALL TO ACTION FINAL
-Titre principal
-Ne manquez plus jamais un appel dès aujourd'hui
-Sous-titre
-Testez gratuitement Alexandra et découvrez comment elle peut transformer votre accueil téléphonique en moins d'une semaine.
-CTA principal
-?? Tester gratuitement Alexandra
- (Ouvre un calendrier de démo ou formulaire pour tester directement)
-CTA secondaire
-?? Écouter un appel d'Alexandra
- (Ouvre un player audio)
-Ajoutez Alexandra à votre standard et décrochez, qualifié, dispatcher 100% de vos appels (même le dimanche)
-Votre agent de réception qui connait votre entreprise. Alexandra répond, qualifie et oriente chaque prospect vers vos services concernés.
-Nombre total de réactions : 1
-Tylian Sailly a réagi avec ?? à 2025-10-28 14:26 PM
-tout ça c'est du quantitatif, j'trouve ça moche perso
-manque d'emotion je suis d'accord
-genre "meme le dimanche, peut importe l'heure" est plus adapté
-+ story telling
-pas adapté dcp, en vrai faudrait plutot parler de pbx et de voip ici
-Viens on met nestenn et bastaga
-
-

@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { Lock, Loader2, Eye, EyeOff, CheckCircle2 } from 'lucide-react'
+import { CheckCircle2, Eye, EyeOff, Loader2, Lock } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
 
 export default function UpdatePasswordPage() {
   const [password, setPassword] = useState('')
@@ -20,7 +20,9 @@ export default function UpdatePasswordPage() {
   useEffect(() => {
     // Vérifier si l'utilisateur a une session valide (venant du lien de réinitialisation)
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
       if (session) {
         setIsValidSession(true)
       } else {
@@ -31,7 +33,9 @@ export default function UpdatePasswordPage() {
     checkSession()
 
     // Écouter les changements d'authentification
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
       if (event === 'PASSWORD_RECOVERY') {
         setIsValidSession(true)
       }
@@ -66,7 +70,7 @@ export default function UpdatePasswordPage() {
 
     try {
       const { error: updateError } = await supabase.auth.updateUser({
-        password: password
+        password: password,
       })
 
       if (updateError) {
@@ -120,12 +124,8 @@ export default function UpdatePasswordPage() {
                 <Lock className="w-8 h-8 text-white" />
               </div>
             </motion.div>
-            <h1 className="text-3xl font-bold text-white mb-2">
-              Nouveau mot de passe
-            </h1>
-            <p className="text-white/60">
-              Choisissez un nouveau mot de passe sécurisé
-            </p>
+            <h1 className="text-3xl font-bold text-white mb-2">Nouveau mot de passe</h1>
+            <p className="text-white/60">Choisissez un nouveau mot de passe sécurisé</p>
           </div>
 
           <form onSubmit={handleUpdatePassword} className="space-y-6">
@@ -153,18 +153,17 @@ export default function UpdatePasswordPage() {
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors disabled:opacity-50"
                   aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
                 >
-                  {showPassword ? (
-                    <EyeOff className="w-5 h-5" />
-                  ) : (
-                    <Eye className="w-5 h-5" />
-                  )}
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
             </div>
 
             {/* Confirm Password */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-white/80 mb-2">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-white/80 mb-2"
+              >
                 Confirmer le mot de passe
               </label>
               <div className="relative">
@@ -184,7 +183,9 @@ export default function UpdatePasswordPage() {
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   disabled={isLoading}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors disabled:opacity-50"
-                  aria-label={showConfirmPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                  aria-label={
+                    showConfirmPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'
+                  }
                 >
                   {showConfirmPassword ? (
                     <EyeOff className="w-5 h-5" />
@@ -199,14 +200,24 @@ export default function UpdatePasswordPage() {
             {password && (
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-xs">
-                  <CheckCircle2 className={`w-4 h-4 ${password.length >= 8 ? 'text-green-400' : 'text-white/30'}`} />
+                  <CheckCircle2
+                    className={`w-4 h-4 ${password.length >= 8 ? 'text-green-400' : 'text-white/30'}`}
+                  />
                   <span className={password.length >= 8 ? 'text-green-400' : 'text-white/30'}>
                     Au moins 8 caractères
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
-                  <CheckCircle2 className={`w-4 h-4 ${password === confirmPassword && confirmPassword ? 'text-green-400' : 'text-white/30'}`} />
-                  <span className={password === confirmPassword && confirmPassword ? 'text-green-400' : 'text-white/30'}>
+                  <CheckCircle2
+                    className={`w-4 h-4 ${password === confirmPassword && confirmPassword ? 'text-green-400' : 'text-white/30'}`}
+                  />
+                  <span
+                    className={
+                      password === confirmPassword && confirmPassword
+                        ? 'text-green-400'
+                        : 'text-white/30'
+                    }
+                  >
                     Les mots de passe correspondent
                   </span>
                 </div>

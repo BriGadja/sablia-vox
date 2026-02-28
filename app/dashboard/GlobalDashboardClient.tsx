@@ -1,16 +1,13 @@
 'use client'
 
-import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
-import {
-  useClientCardsData,
-  useAgentTypeCardsData,
-} from '@/lib/hooks/useDashboardData'
-import { exportGlobalCallsToCSV } from '@/lib/queries/global'
-import { PageHeader } from '@/components/dashboard/PageHeader'
-import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
-import { ExportCSVButton } from '@/components/dashboard/ExportCSVButton'
-import { ClientCard } from '@/components/dashboard/Cards/ClientCard'
 import { AgentTypeCard } from '@/components/dashboard/Cards/AgentTypeCard'
+import { ClientCard } from '@/components/dashboard/Cards/ClientCard'
+import { ExportCSVButton } from '@/components/dashboard/ExportCSVButton'
+import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
+import { PageHeader } from '@/components/dashboard/PageHeader'
+import { useAgentTypeCardsData, useClientCardsData } from '@/lib/hooks/useDashboardData'
+import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
+import { exportGlobalCallsToCSV } from '@/lib/queries/global'
 
 interface GlobalDashboardClientProps {
   userEmail?: string
@@ -47,7 +44,11 @@ export function GlobalDashboardClient({ userEmail }: GlobalDashboardClientProps)
       {/* Header with Export */}
       <PageHeader
         title="Vue d'ensemble"
-        description={isViewingAsUser ? "Vue utilisateur - Performance de cet utilisateur" : "Performance globale de tous vos agents"}
+        description={
+          isViewingAsUser
+            ? 'Vue utilisateur - Performance de cet utilisateur'
+            : 'Performance globale de tous vos agents'
+        }
       >
         <ExportCSVButton
           filters={filters}
@@ -81,9 +82,7 @@ export function GlobalDashboardClient({ userEmail }: GlobalDashboardClientProps)
           {(hasAgentTypeCards || isLoadingAgentTypes) && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-white">
-                  Agents déployés
-                </h2>
+                <h2 className="text-2xl font-bold text-white">Agents déployés</h2>
                 {hasAgentTypeCards && (
                   <span className="text-sm text-white/60">
                     {agentTypeCards.length} type{agentTypeCards.length > 1 ? 's' : ''} d&apos;agent
@@ -114,9 +113,7 @@ export function GlobalDashboardClient({ userEmail }: GlobalDashboardClientProps)
           {(hasClientCards || isLoadingClients) && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-white">
-                  Entreprises
-                </h2>
+                <h2 className="text-2xl font-bold text-white">Entreprises</h2>
                 {hasClientCards && (
                   <span className="text-sm text-white/60">
                     {clientCards.length} {clientCards.length > 1 ? 'clients' : 'client'}
@@ -164,9 +161,7 @@ export function GlobalDashboardClient({ userEmail }: GlobalDashboardClientProps)
             </svg>
           </div>
           <div className="text-center space-y-2">
-            <p className="text-lg font-semibold text-white">
-              Aucune donnée disponible
-            </p>
+            <p className="text-lg font-semibold text-white">Aucune donnée disponible</p>
             <p className="text-sm text-white/60">
               Aucun agent ou entreprise trouvé pour cette période
             </p>

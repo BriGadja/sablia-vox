@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import { ArrowLeft, LayoutDashboard, TrendingUp } from 'lucide-react'
+import Link from 'next/link'
 import { LogoutButton } from '@/components/auth/LogoutButton'
 
 interface DashboardHeaderProps {
@@ -21,7 +21,7 @@ export function DashboardHeader({
   title = 'Dashboard Analytics',
   backLink,
   backLabel = 'Dashboard Global',
-  isAdmin = false
+  isAdmin = false,
 }: DashboardHeaderProps) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-black/50 backdrop-blur-lg">
@@ -43,9 +43,7 @@ export function DashboardHeader({
 
             <div className="flex-1 min-w-0">
               <h1 className="text-2xl font-bold text-white mb-1">{title}</h1>
-              <p className="text-sm text-white/60 truncate">
-                Connecté en tant que {userEmail}
-              </p>
+              <p className="text-sm text-white/60 truncate">Connecté en tant que {userEmail}</p>
             </div>
           </div>
 

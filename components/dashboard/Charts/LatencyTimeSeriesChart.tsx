@@ -2,14 +2,14 @@
 
 import { memo, useMemo } from 'react'
 import {
-  AreaChart,
   Area,
-  XAxis,
-  YAxis,
+  AreaChart,
   CartesianGrid,
-  Tooltip,
   Legend,
   ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts'
 import { groupMetricsByDate } from '@/lib/hooks/useLatencyData'
 import type { LatencyMetric } from '@/lib/types/latency'
@@ -36,11 +36,11 @@ function LatencyTimeSeriesChartInner({ data, isLoading }: LatencyTimeSeriesChart
             day: '2-digit',
             month: 'short',
           }),
-          'STT': stt,
-          'LLM': llm,
+          STT: stt,
+          LLM: llm,
         }
       }),
-    [timeSeriesData]
+    [timeSeriesData],
   )
 
   if (isLoading) {
@@ -65,7 +65,11 @@ function LatencyTimeSeriesChartInner({ data, isLoading }: LatencyTimeSeriesChart
         Latence par infrastructure (ms)
       </h3>
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={chartData} stackOffset="none" margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+        <AreaChart
+          data={chartData}
+          stackOffset="none"
+          margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
+        >
           <defs>
             {/* Gradient for STT (Speech-to-Text) - violet */}
             <linearGradient id="colorSTT" x1="0" y1="0" x2="0" y2="1">
@@ -79,11 +83,7 @@ function LatencyTimeSeriesChartInner({ data, isLoading }: LatencyTimeSeriesChart
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-          <XAxis
-            dataKey="date"
-            stroke="rgba(255,255,255,0.6)"
-            style={{ fontSize: '11px' }}
-          />
+          <XAxis dataKey="date" stroke="rgba(255,255,255,0.6)" style={{ fontSize: '11px' }} />
           <YAxis
             stroke="rgba(255,255,255,0.6)"
             style={{ fontSize: '11px' }}
@@ -92,7 +92,7 @@ function LatencyTimeSeriesChartInner({ data, isLoading }: LatencyTimeSeriesChart
               angle: -90,
               position: 'insideLeft',
               fill: 'rgba(255,255,255,0.6)',
-              style: { fontSize: '11px' }
+              style: { fontSize: '11px' },
             }}
           />
           <Tooltip
@@ -116,7 +116,7 @@ function LatencyTimeSeriesChartInner({ data, isLoading }: LatencyTimeSeriesChart
             wrapperStyle={{
               color: '#fff',
               fontSize: '11px',
-              paddingTop: '8px'
+              paddingTop: '8px',
             }}
             iconType="square"
           />

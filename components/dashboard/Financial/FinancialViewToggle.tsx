@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import { FinancialViewMode, FinancialViewToggleProps } from '@/lib/types/financial';
-import { motion } from 'framer-motion';
-import { DollarSign, TrendingUp } from 'lucide-react';
+import { motion } from 'framer-motion'
+import { DollarSign, TrendingUp } from 'lucide-react'
+import { FinancialViewMode, type FinancialViewToggleProps } from '@/lib/types/financial'
 
 /**
  * FinancialViewToggle Component
@@ -13,11 +13,8 @@ import { DollarSign, TrendingUp } from 'lucide-react';
  * @param mode - Current view mode ('leasing' | 'consumption')
  * @param onModeChange - Callback when mode changes
  */
-export default function FinancialViewToggle({
-  mode,
-  onModeChange,
-}: FinancialViewToggleProps) {
-  const isLeasing = mode === 'leasing';
+export default function FinancialViewToggle({ mode, onModeChange }: FinancialViewToggleProps) {
+  const isLeasing = mode === 'leasing'
 
   return (
     <div className="flex items-center justify-center gap-2 p-1 bg-slate-900/50 backdrop-blur-sm rounded-lg border border-slate-700/50">
@@ -28,11 +25,7 @@ export default function FinancialViewToggle({
           relative px-6 py-2.5 rounded-md text-sm font-medium
           transition-all duration-200 ease-in-out
           flex items-center gap-2
-          ${
-            isLeasing
-              ? 'text-white'
-              : 'text-slate-400 hover:text-slate-300'
-          }
+          ${isLeasing ? 'text-white' : 'text-slate-400 hover:text-slate-300'}
         `}
       >
         {/* Background highlight for active mode */}
@@ -67,11 +60,7 @@ export default function FinancialViewToggle({
           relative px-6 py-2.5 rounded-md text-sm font-medium
           transition-all duration-200 ease-in-out
           flex items-center gap-2
-          ${
-            !isLeasing
-              ? 'text-white'
-              : 'text-slate-400 hover:text-slate-300'
-          }
+          ${!isLeasing ? 'text-white' : 'text-slate-400 hover:text-slate-300'}
         `}
       >
         {/* Background highlight for active mode */}
@@ -106,5 +95,5 @@ export default function FinancialViewToggle({
         )}
       </button>
     </div>
-  );
+  )
 }

@@ -2,9 +2,9 @@
 
 import { AnimatePresence } from 'framer-motion'
 import { ChatbotContextProvider } from '@/contexts/ChatbotContext'
-import { useChatbot } from './hooks/useChatbot'
 import ChatbotTrigger from './ChatbotTrigger'
 import ChatbotWindow from './ChatbotWindow'
+import { useChatbot } from './hooks/useChatbot'
 
 function ChatbotContent() {
   const chatbot = useChatbot()
@@ -12,11 +12,7 @@ function ChatbotContent() {
   return (
     <ChatbotContextProvider value={chatbot}>
       <AnimatePresence mode="wait">
-        {chatbot.state.isOpen ? (
-          <ChatbotWindow key="window" />
-        ) : (
-          <ChatbotTrigger key="trigger" />
-        )}
+        {chatbot.state.isOpen ? <ChatbotWindow key="window" /> : <ChatbotTrigger key="trigger" />}
       </AnimatePresence>
     </ChatbotContextProvider>
   )
@@ -24,7 +20,7 @@ function ChatbotContent() {
 
 export default function ChatbotWidget() {
   return (
-    <div className="voipia-chatbot-widget">
+    <div className="sablia-chatbot-widget">
       <ChatbotContent />
     </div>
   )

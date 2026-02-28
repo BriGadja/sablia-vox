@@ -1,7 +1,7 @@
 'use client'
 
-import { TopClientData } from '@/lib/types/dashboard'
-import { Building2, TrendingUp, Phone, Calendar } from 'lucide-react'
+import { Building2, Calendar, Phone, TrendingUp } from 'lucide-react'
+import type { TopClientData } from '@/lib/types/dashboard'
 import { cn } from '@/lib/utils'
 
 interface TopClientsTableProps {
@@ -18,10 +18,7 @@ export function TopClientsTable({ data, isLoading }: TopClientsTableProps) {
     return (
       <div className="space-y-3">
         {[...Array(5)].map((_, i) => (
-          <div
-            key={i}
-            className="h-12 bg-white/5 rounded-lg animate-pulse"
-          />
+          <div key={i} className="h-12 bg-white/5 rounded-lg animate-pulse" />
         ))}
       </div>
     )
@@ -43,23 +40,23 @@ export function TopClientsTable({ data, isLoading }: TopClientsTableProps) {
           key={client.client_id}
           className={cn(
             'flex items-center justify-between p-3 rounded-lg',
-            'bg-white/5 hover:bg-white/10 transition-colors'
+            'bg-white/5 hover:bg-white/10 transition-colors',
           )}
         >
           <div className="flex items-center gap-3 min-w-0">
-            <span className={cn(
-              'flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold',
-              index === 0 && 'bg-yellow-500/20 text-yellow-400',
-              index === 1 && 'bg-gray-400/20 text-gray-300',
-              index === 2 && 'bg-orange-600/20 text-orange-400',
-              index > 2 && 'bg-white/10 text-white/60'
-            )}>
+            <span
+              className={cn(
+                'flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold',
+                index === 0 && 'bg-yellow-500/20 text-yellow-400',
+                index === 1 && 'bg-gray-400/20 text-gray-300',
+                index === 2 && 'bg-orange-600/20 text-orange-400',
+                index > 2 && 'bg-white/10 text-white/60',
+              )}
+            >
               {index + 1}
             </span>
             <div className="min-w-0">
-              <p className="text-sm font-medium text-white truncate">
-                {client.client_name}
-              </p>
+              <p className="text-sm font-medium text-white truncate">{client.client_name}</p>
               <div className="flex items-center gap-3 text-xs text-white/50">
                 <span className="flex items-center gap-1">
                   <Phone className="w-3 h-3" />

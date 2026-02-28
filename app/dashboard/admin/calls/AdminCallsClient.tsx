@@ -1,18 +1,26 @@
 'use client'
 
-import { useState, useMemo, useCallback } from 'react'
+import { Columns3, Download, Loader2, Phone } from 'lucide-react'
 import { useQueryStates } from 'nuqs'
-import { Phone, Download, Columns3, Loader2 } from 'lucide-react'
-import { useAdminCalls, useAllClients } from '@/lib/hooks/useAdminCalls'
-import { adminCallsParsers } from '@/lib/hooks/adminCallsSearchParams'
-import { exportCallsToCSV, fetchAdminCallsExport } from '@/lib/queries/adminCalls'
-import { AdminCallsTable } from '@/components/dashboard/AdminCalls/AdminCallsTable'
-import { AdminCallsFilters } from '@/components/dashboard/AdminCalls/AdminCallsFilters'
-import { ColumnVisibilityMenu } from '@/components/dashboard/AdminCalls/ColumnVisibilityMenu'
-import { TranscriptModal } from '@/components/dashboard/AdminCalls/TranscriptModal'
+import { useCallback, useMemo, useState } from 'react'
 import { toast } from 'sonner'
-import type { AdminCallsFilters as FiltersType, AdminCallsSort, AdminCallRow } from '@/lib/types/adminCalls'
-import { DEFAULT_VISIBLE_COLUMNS, DEFAULT_COLLAPSED_GROUPS, COLUMN_GROUPS } from '@/components/dashboard/AdminCalls/columnConfig'
+import { AdminCallsFilters } from '@/components/dashboard/AdminCalls/AdminCallsFilters'
+import { AdminCallsTable } from '@/components/dashboard/AdminCalls/AdminCallsTable'
+import { ColumnVisibilityMenu } from '@/components/dashboard/AdminCalls/ColumnVisibilityMenu'
+import {
+  COLUMN_GROUPS,
+  DEFAULT_COLLAPSED_GROUPS,
+  DEFAULT_VISIBLE_COLUMNS,
+} from '@/components/dashboard/AdminCalls/columnConfig'
+import { TranscriptModal } from '@/components/dashboard/AdminCalls/TranscriptModal'
+import { adminCallsParsers } from '@/lib/hooks/adminCallsSearchParams'
+import { useAdminCalls, useAllClients } from '@/lib/hooks/useAdminCalls'
+import { exportCallsToCSV, fetchAdminCallsExport } from '@/lib/queries/adminCalls'
+import type {
+  AdminCallRow,
+  AdminCallsSort,
+  AdminCallsFilters as FiltersType,
+} from '@/lib/types/adminCalls'
 
 export function AdminCallsClient() {
   // URL-based state management
@@ -23,10 +31,10 @@ export function AdminCallsClient() {
 
   // Local state
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
-    () => new Set(DEFAULT_VISIBLE_COLUMNS)
+    () => new Set(DEFAULT_VISIBLE_COLUMNS),
   )
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(
-    () => new Set(DEFAULT_COLLAPSED_GROUPS)
+    () => new Set(DEFAULT_COLLAPSED_GROUPS),
   )
   const [selectedCall, setSelectedCall] = useState<AdminCallRow | null>(null)
   const [isExporting, setIsExporting] = useState(false)
@@ -44,7 +52,7 @@ export function AdminCallsClient() {
       direction: searchParams.direction || null,
       searchText: searchParams.search || '',
     }),
-    [searchParams]
+    [searchParams],
   )
 
   // Build sort object
@@ -53,7 +61,7 @@ export function AdminCallsClient() {
       column: searchParams.sortColumn,
       direction: searchParams.sortDirection,
     }),
-    [searchParams.sortColumn, searchParams.sortDirection]
+    [searchParams.sortColumn, searchParams.sortDirection],
   )
 
   // Fetch calls data
@@ -61,13 +69,7 @@ export function AdminCallsClient() {
     data: callsData,
     isLoading,
     error,
-  } = useAdminCalls(
-    filters,
-    sort,
-    searchParams.page,
-    searchParams.pageSize,
-    true
-  )
+  } = useAdminCalls(filters, sort, searchParams.page, searchParams.pageSize, true)
 
   // Fetch clients for filter
   const { data: clients = [] } = useAllClients()
@@ -78,7 +80,7 @@ export function AdminCallsClient() {
       // Reset to page 1 when filters change
       setSearchParams({ ...newFilters, page: 1 })
     },
-    [setSearchParams]
+    [setSearchParams],
   )
 
   // Handle page change
@@ -86,7 +88,7 @@ export function AdminCallsClient() {
     (page: number) => {
       setSearchParams({ page })
     },
-    [setSearchParams]
+    [setSearchParams],
   )
 
   // Handle sort change
@@ -94,7 +96,7 @@ export function AdminCallsClient() {
     (column: string, direction: 'asc' | 'desc') => {
       setSearchParams({ sortColumn: column, sortDirection: direction, page: 1 })
     },
-    [setSearchParams]
+    [setSearchParams],
   )
 
   // Handle column visibility toggle
@@ -155,9 +157,7 @@ export function AdminCallsClient() {
       const result = await fetchAdminCallsExport(filters)
 
       if (result.limitReached) {
-        toast.warning(
-          `Export limité à 10 000 lignes. ${result.exportedCount} appels exportés.`
-        )
+        toast.warning(`Export limité à 10 000 lignes. ${result.exportedCount} appels exportés.`)
       }
 
       const filename = `appels_${filters.startDate}_${filters.endDate}.csv`
@@ -191,12 +191,9 @@ export function AdminCallsClient() {
               <Phone className="w-5 h-5 text-purple-400" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold text-white">
-                Historique des appels
-              </h1>
+              <h1 className="text-xl font-semibold text-white">Historique des appels</h1>
               <p className="text-sm text-gray-400">
-                {callsData?.pagination.totalCount.toLocaleString('fr-FR') || 0}{' '}
-                appels au total
+                {callsData?.pagination.totalCount.toLocaleString('fr-FR') || 0} appels au total
               </p>
             </div>
           </div>
@@ -250,7 +247,9 @@ export function AdminCallsClient() {
         ) : (
           <AdminCallsTable
             data={callsData?.data || []}
-            pagination={callsData?.pagination || { page: 1, pageSize: 50, totalCount: 0, totalPages: 0 }}
+            pagination={
+              callsData?.pagination || { page: 1, pageSize: 50, totalCount: 0, totalPages: 0 }
+            }
             isLoading={isLoading}
             sort={sort}
             visibleColumns={visibleColumns}

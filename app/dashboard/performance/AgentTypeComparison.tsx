@@ -1,7 +1,7 @@
 'use client'
 
-import { AgentTypePerformance } from '@/lib/types/dashboard'
-import { Users, Target, Sparkles, Phone, TrendingUp, Calendar, Clock } from 'lucide-react'
+import { Calendar, Clock, Phone, Sparkles, Target, TrendingUp, Users } from 'lucide-react'
+import type { AgentTypePerformance } from '@/lib/types/dashboard'
 import { cn } from '@/lib/utils'
 
 interface AgentTypeComparisonProps {
@@ -39,10 +39,7 @@ export function AgentTypeComparison({ data, isLoading }: AgentTypeComparisonProp
     return (
       <div className="space-y-4">
         {[...Array(3)].map((_, i) => (
-          <div
-            key={i}
-            className="h-24 bg-white/5 rounded-lg animate-pulse"
-          />
+          <div key={i} className="h-24 bg-white/5 rounded-lg animate-pulse" />
         ))}
       </div>
     )
@@ -58,14 +55,15 @@ export function AgentTypeComparison({ data, isLoading }: AgentTypeComparisonProp
   }
 
   // Find max values for relative bar widths
-  const maxCalls = Math.max(...data.map(d => d.total_calls || 0))
-  const maxConversion = Math.max(...data.map(d => d.conversion_rate || 0))
+  const maxCalls = Math.max(...data.map((d) => d.total_calls || 0))
+  const maxConversion = Math.max(...data.map((d) => d.conversion_rate || 0))
 
   return (
     <div className="space-y-4">
       {data.map((agent, index) => {
         const agentType = agent.agent_type || `unknown-${index}`
-        const config = agentTypeConfig[agent.agent_type as keyof typeof agentTypeConfig] || agentTypeConfig.louis
+        const config =
+          agentTypeConfig[agent.agent_type as keyof typeof agentTypeConfig] || agentTypeConfig.louis
         const Icon = config.icon
         const totalCalls = agent.total_calls || 0
         const conversionRate = agent.conversion_rate || 0
@@ -75,20 +73,12 @@ export function AgentTypeComparison({ data, isLoading }: AgentTypeComparisonProp
         const conversionPercent = maxConversion > 0 ? (conversionRate / maxConversion) * 100 : 0
 
         return (
-          <div
-            key={agentType}
-            className={cn(
-              'p-4 rounded-lg border',
-              config.color
-            )}
-          >
+          <div key={agentType} className={cn('p-4 rounded-lg border', config.color)}>
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <Icon className={cn('w-5 h-5', config.iconColor)} />
-                <span className="font-semibold text-white">
-                  {agent.display_name}
-                </span>
+                <span className="font-semibold text-white">{agent.display_name}</span>
               </div>
               <span className="text-xs text-white/50">
                 {agent.total_deployments} deploiement{agent.total_deployments > 1 ? 's' : ''}
@@ -102,18 +92,14 @@ export function AgentTypeComparison({ data, isLoading }: AgentTypeComparisonProp
                   <Phone className="w-3 h-3" />
                   <span className="text-xs">Appels</span>
                 </div>
-                <p className="text-lg font-bold text-white">
-                  {totalCalls.toLocaleString()}
-                </p>
+                <p className="text-lg font-bold text-white">{totalCalls.toLocaleString()}</p>
               </div>
               <div>
                 <div className="flex items-center gap-1 text-white/50 mb-1">
                   <Calendar className="w-3 h-3" />
                   <span className="text-xs">Conversion</span>
                 </div>
-                <p className="text-lg font-bold text-white">
-                  {conversionRate.toFixed(1)}%
-                </p>
+                <p className="text-lg font-bold text-white">{conversionRate.toFixed(1)}%</p>
               </div>
             </div>
 
@@ -153,7 +139,9 @@ export function AgentTypeComparison({ data, isLoading }: AgentTypeComparisonProp
               </div>
               <div className="flex items-center gap-1 text-xs text-white/50">
                 <Clock className="w-3 h-3" />
-                <span>Duree moy: {Math.floor(avgDuration / 60)}m{Math.round(avgDuration % 60)}s</span>
+                <span>
+                  Duree moy: {Math.floor(avgDuration / 60)}m{Math.round(avgDuration % 60)}s
+                </span>
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { AlertTriangle, RefreshCw, Home } from 'lucide-react'
+import { AlertTriangle, Home, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
 
 interface DashboardErrorFallbackProps {
@@ -12,23 +12,18 @@ interface DashboardErrorFallbackProps {
  * Error fallback component for dashboard error boundaries
  * Displays a user-friendly error message with recovery options
  */
-export function DashboardErrorFallback({
-  error,
-  resetErrorBoundary,
-}: DashboardErrorFallbackProps) {
+export function DashboardErrorFallback({ error, resetErrorBoundary }: DashboardErrorFallbackProps) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[400px] p-8">
       <div className="p-4 rounded-full bg-red-500/10 mb-6">
         <AlertTriangle className="w-12 h-12 text-red-500" />
       </div>
 
-      <h2 className="text-xl font-bold text-white mb-2">
-        Une erreur est survenue
-      </h2>
+      <h2 className="text-xl font-bold text-white mb-2">Une erreur est survenue</h2>
 
       <p className="text-white/60 text-center max-w-md mb-4">
-        Nous n&apos;avons pas pu charger les donnees du dashboard.
-        Veuillez reessayer ou retourner a l&apos;accueil.
+        Nous n&apos;avons pas pu charger les donnees du dashboard. Veuillez reessayer ou retourner a
+        l&apos;accueil.
       </p>
 
       {process.env.NODE_ENV === 'development' && (

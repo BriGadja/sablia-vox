@@ -1,5 +1,5 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -36,7 +36,7 @@ export function formatRelativeTime(date: string | Date | null): string {
   return past.toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'short',
-    year: past.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+    year: past.getFullYear() !== now.getFullYear() ? 'numeric' : undefined,
   })
 }
 
@@ -48,11 +48,11 @@ export function formatRelativeTime(date: string | Date | null): string {
  */
 export function deduplicateBy<T>(
   array: T[] | undefined | null,
-  keyFn: (item: T) => string | number
+  keyFn: (item: T) => string | number,
 ): T[] {
   if (!array) return []
   const seen = new Set<string | number>()
-  return array.filter(item => {
+  return array.filter((item) => {
     const key = keyFn(item)
     if (seen.has(key)) return false
     seen.add(key)
@@ -121,7 +121,7 @@ export function buildCSV<T>(
     includeBOM?: boolean
     /** Column separator (default: ',') */
     separator?: string
-  } = {}
+  } = {},
 ): string {
   const { includeBOM = true, separator = ',' } = options
 
@@ -136,7 +136,7 @@ export function buildCSV<T>(
         const formattedValue = col.format ? col.format(rawValue, row) : rawValue
         return escapeCSVCell(formattedValue)
       })
-      .join(separator)
+      .join(separator),
   )
 
   const csv = [headerRow, ...dataRows].join('\n')
@@ -197,7 +197,7 @@ export function formatBooleanForCSV(value: boolean | null | undefined): string {
  */
 export function formatCurrencyForCSV(
   value: number | null | undefined,
-  decimals: number = 2
+  decimals: number = 2,
 ): string {
   if (value === null || value === undefined) return ''
   return value.toFixed(decimals)

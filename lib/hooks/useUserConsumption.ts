@@ -3,16 +3,16 @@
 // Hook pour les metriques de consommation utilisateur
 // SECURITE: Ne retourne JAMAIS de donnees de marge
 
-import { useQuery, type UseQueryResult } from '@tanstack/react-query'
+import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import {
-  fetchUserConsumptionMetrics,
   fetchAdminBillingSummary,
+  fetchUserConsumptionMetrics,
   getCurrentMonthDates,
 } from '@/lib/queries/consumption'
 import type {
-  UserConsumptionResponse,
-  ConsumptionFilters,
   AdminBillingSummaryResponse,
+  ConsumptionFilters,
+  UserConsumptionResponse,
 } from '@/lib/types/consumption'
 
 /**
@@ -24,10 +24,16 @@ import type {
  */
 export function useUserConsumption(
   filters: ConsumptionFilters,
-  viewAsUserId?: string | null
+  viewAsUserId?: string | null,
 ): UseQueryResult<UserConsumptionResponse> {
   return useQuery({
-    queryKey: ['user-consumption', filters.startDate, filters.endDate, filters.clientId, viewAsUserId],
+    queryKey: [
+      'user-consumption',
+      filters.startDate,
+      filters.endDate,
+      filters.clientId,
+      viewAsUserId,
+    ],
     queryFn: () => fetchUserConsumptionMetrics(filters, viewAsUserId),
     staleTime: 2 * 60 * 1000, // 2 minutes
     refetchInterval: 5 * 60 * 1000, // Refresh toutes les 5 minutes
@@ -40,7 +46,7 @@ export function useUserConsumption(
  * Utilise les dates du mois en cours par defaut
  */
 export function useCurrentMonthConsumption(
-  clientId?: string | null
+  clientId?: string | null,
 ): UseQueryResult<UserConsumptionResponse> {
   const { startDate, endDate } = getCurrentMonthDates()
 
@@ -60,7 +66,7 @@ export function useCurrentMonthConsumption(
  */
 export function useAdminBillingSummary(
   currentMonthStart: string,
-  currentMonthEnd: string
+  currentMonthEnd: string,
 ): UseQueryResult<AdminBillingSummaryResponse> {
   return useQuery({
     queryKey: ['admin-billing-summary', currentMonthStart, currentMonthEnd],

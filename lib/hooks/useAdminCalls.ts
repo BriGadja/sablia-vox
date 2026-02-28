@@ -5,15 +5,15 @@
 
 import { useQuery } from '@tanstack/react-query'
 import {
-  fetchAdminCallsPaginated,
   fetchAdminCallsExport,
+  fetchAdminCallsPaginated,
   fetchAllClients,
 } from '@/lib/queries/adminCalls'
 import type {
-  AdminCallsFilters,
-  AdminCallsSort,
-  AdminCallsResponse,
   AdminCallRow,
+  AdminCallsFilters,
+  AdminCallsResponse,
+  AdminCallsSort,
 } from '@/lib/types/adminCalls'
 
 /**
@@ -24,7 +24,7 @@ export function useAdminCalls(
   sort: AdminCallsSort,
   page: number,
   pageSize: number,
-  enabled: boolean = true
+  enabled: boolean = true,
 ) {
   return useQuery<AdminCallsResponse>({
     queryKey: ['admin-calls', filters, sort, page, pageSize],
@@ -39,10 +39,7 @@ export function useAdminCalls(
  * Hook for fetching calls for export
  * Only fetches when explicitly triggered
  */
-export function useAdminCallsExport(
-  filters: AdminCallsFilters,
-  enabled: boolean = false
-) {
+export function useAdminCallsExport(filters: AdminCallsFilters, enabled: boolean = false) {
   return useQuery<{
     data: AdminCallRow[]
     exportedCount: number

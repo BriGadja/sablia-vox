@@ -1,13 +1,13 @@
 'use client'
 
+import { AnimatePresence, motion } from 'framer-motion'
+import { ChevronRight, DollarSign, Mail, MessageSquare, Phone, TrendingUp, X } from 'lucide-react'
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { X, ChevronRight, TrendingUp, DollarSign, Phone, MessageSquare, Mail } from 'lucide-react'
 import { useClientDeployments } from '@/lib/hooks/useFinancialData'
-import { InteractiveFinancialTable, ColumnDefinition } from './InteractiveFinancialTable'
-import { DeploymentDrilldownModal } from './DeploymentDrilldownModal'
 import { formatCurrency, formatPercentage } from '@/lib/queries/financial'
-import type { ClientFinancialData, ClientDeploymentData } from '@/lib/types/financial'
+import type { ClientDeploymentData, ClientFinancialData } from '@/lib/types/financial'
+import { DeploymentDrilldownModal } from './DeploymentDrilldownModal'
+import { type ColumnDefinition, InteractiveFinancialTable } from './InteractiveFinancialTable'
 
 interface ClientDrilldownModalProps {
   client: ClientFinancialData | null
@@ -33,7 +33,7 @@ export function ClientDrilldownModal({
     client?.client_id || '',
     startDate,
     endDate,
-    isOpen && !!client
+    isOpen && !!client,
   )
 
   // Handle row click to open deployment drill down
@@ -74,8 +74,8 @@ export function ClientDrilldownModal({
             value === 'active'
               ? 'bg-emerald-500/20 text-emerald-400'
               : value === 'paused'
-              ? 'bg-amber-500/20 text-amber-400'
-              : 'bg-gray-500/20 text-gray-400'
+                ? 'bg-amber-500/20 text-amber-400'
+                : 'bg-gray-500/20 text-gray-400'
           }`}
         >
           {value === 'active' ? 'Actif' : value === 'paused' ? 'Pause' : 'Archivé'}
@@ -111,8 +111,8 @@ export function ClientDrilldownModal({
             value >= 95
               ? 'bg-emerald-500/20 text-emerald-400'
               : value >= 90
-              ? 'bg-amber-500/20 text-amber-400'
-              : 'bg-red-500/20 text-red-400'
+                ? 'bg-amber-500/20 text-amber-400'
+                : 'bg-red-500/20 text-red-400'
           }`}
         >
           {formatPercentage(value)}
@@ -124,18 +124,14 @@ export function ClientDrilldownModal({
       label: 'Appels',
       sortable: true,
       align: 'right',
-      format: (value) => (
-        <span className="text-gray-300">{value.toLocaleString('fr-FR')}</span>
-      ),
+      format: (value) => <span className="text-gray-300">{value.toLocaleString('fr-FR')}</span>,
     },
     {
       key: 'appointments_scheduled',
       label: 'RDV',
       sortable: true,
       align: 'right',
-      format: (value) => (
-        <span className="text-violet-400 font-medium">{value}</span>
-      ),
+      format: (value) => <span className="text-violet-400 font-medium">{value}</span>,
     },
   ]
 
@@ -147,7 +143,7 @@ export function ClientDrilldownModal({
       totalCalls: acc.totalCalls + dep.call_count,
       totalRDV: acc.totalRDV + dep.appointments_scheduled,
     }),
-    { totalRevenue: 0, totalMargin: 0, totalCalls: 0, totalRDV: 0 }
+    { totalRevenue: 0, totalMargin: 0, totalCalls: 0, totalRDV: 0 },
   ) || { totalRevenue: 0, totalMargin: 0, totalCalls: 0, totalRDV: 0 }
 
   if (!client) return null
@@ -183,12 +179,8 @@ export function ClientDrilldownModal({
                     <ChevronRight className="w-4 h-4" />
                     <span className="text-white font-medium">{client.client_name}</span>
                   </div>
-                  <h2 className="text-3xl font-bold text-white mb-1">
-                    {client.client_name}
-                  </h2>
-                  <p className="text-gray-400">
-                    Drill down: Déploiements par agent
-                  </p>
+                  <h2 className="text-3xl font-bold text-white mb-1">{client.client_name}</h2>
+                  <p className="text-gray-400">Drill down: Déploiements par agent</p>
                 </div>
                 <button
                   onClick={onClose}

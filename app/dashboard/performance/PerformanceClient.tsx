@@ -1,23 +1,23 @@
 'use client'
 
-import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
+import { CallVolumeChart } from '@/components/dashboard/Charts/CallVolumeChart'
+import { EmotionDistribution } from '@/components/dashboard/Charts/EmotionDistribution'
+import { OutcomeBreakdown } from '@/components/dashboard/Charts/OutcomeBreakdown'
+import { ExportCSVButton } from '@/components/dashboard/ExportCSVButton'
+import { ClientAgentFilter } from '@/components/dashboard/Filters/ClientAgentFilter'
+import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
+import { KPIGrid } from '@/components/dashboard/KPIGrid'
+import { PageHeader } from '@/components/dashboard/PageHeader'
 import {
-  useGlobalKPIs,
-  useGlobalChartData,
   useAgentTypePerformance,
+  useGlobalChartData,
+  useGlobalKPIs,
   useTopClients,
 } from '@/lib/hooks/useDashboardData'
+import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
 import { exportGlobalCallsToCSV } from '@/lib/queries/global'
-import { PageHeader } from '@/components/dashboard/PageHeader'
-import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
-import { ClientAgentFilter } from '@/components/dashboard/Filters/ClientAgentFilter'
-import { KPIGrid } from '@/components/dashboard/KPIGrid'
-import { ExportCSVButton } from '@/components/dashboard/ExportCSVButton'
-import { CallVolumeChart } from '@/components/dashboard/Charts/CallVolumeChart'
-import { OutcomeBreakdown } from '@/components/dashboard/Charts/OutcomeBreakdown'
-import { EmotionDistribution } from '@/components/dashboard/Charts/EmotionDistribution'
-import { TopClientsTable } from './TopClientsTable'
 import { AgentTypeComparison } from './AgentTypeComparison'
+import { TopClientsTable } from './TopClientsTable'
 
 /**
  * Performance Dashboard Client Component
@@ -47,10 +47,7 @@ export function PerformanceClient() {
   return (
     <div className="p-6 space-y-6">
       {/* Header with Export */}
-      <PageHeader
-        title="Performance"
-        description="Analyse detaillee des performances globales"
-      >
+      <PageHeader title="Performance" description="Analyse detaillee des performances globales">
         <ExportCSVButton
           filters={filters}
           exportFn={exportGlobalCallsToCSV}
@@ -73,28 +70,18 @@ export function PerformanceClient() {
       </div>
 
       {/* KPIs Grid */}
-      <KPIGrid
-        data={kpiData}
-        isLoading={isLoadingKPIs}
-        agentType="global"
-      />
+      <KPIGrid data={kpiData} isLoading={isLoadingKPIs} agentType="global" />
 
       {/* Main Charts - 2 columns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="lg:col-span-2 h-[350px]">
-          <CallVolumeChart
-            data={chartData?.call_volume_by_day || []}
-          />
+          <CallVolumeChart data={chartData?.call_volume_by_day || []} />
         </div>
         <div className="h-[300px]">
-          <EmotionDistribution
-            data={chartData?.emotion_distribution || []}
-          />
+          <EmotionDistribution data={chartData?.emotion_distribution || []} />
         </div>
         <div className="h-[300px]">
-          <OutcomeBreakdown
-            data={chartData?.outcome_distribution || []}
-          />
+          <OutcomeBreakdown data={chartData?.outcome_distribution || []} />
         </div>
       </div>
 
@@ -105,21 +92,13 @@ export function PerformanceClient() {
           <h3 className="text-lg font-semibold text-white mb-4">
             Performance par type d&apos;agent
           </h3>
-          <AgentTypeComparison
-            data={agentTypeData || []}
-            isLoading={isLoadingAgentTypes}
-          />
+          <AgentTypeComparison data={agentTypeData || []} isLoading={isLoadingAgentTypes} />
         </div>
 
         {/* Top Clients */}
         <div className="bg-black/20 border border-white/10 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">
-            Top 10 clients
-          </h3>
-          <TopClientsTable
-            data={topClients || []}
-            isLoading={isLoadingTopClients}
-          />
+          <h3 className="text-lg font-semibold text-white mb-4">Top 10 clients</h3>
+          <TopClientsTable data={topClients || []} isLoading={isLoadingTopClients} />
         </div>
       </div>
     </div>

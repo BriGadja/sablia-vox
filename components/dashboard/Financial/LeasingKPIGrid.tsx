@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { KPICard } from '@/components/dashboard/KPICard';
-import type { LeasingMetrics } from '@/lib/types/financial';
+import { KPICard } from '@/components/dashboard/KPICard'
+import type { LeasingMetrics } from '@/lib/types/financial'
 
 interface LeasingKPIGridProps {
-  data: LeasingMetrics | undefined;
-  isLoading: boolean;
+  data: LeasingMetrics | undefined
+  isLoading: boolean
 }
 
 /**
@@ -30,7 +30,7 @@ export function LeasingKPIGrid({ data, isLoading }: LeasingKPIGridProps) {
           />
         ))}
       </div>
-    );
+    )
   }
 
   if (!data) {
@@ -38,7 +38,7 @@ export function LeasingKPIGrid({ data, isLoading }: LeasingKPIGridProps) {
       <div className="text-center text-white/60 py-12">
         Aucune donnée de leasing disponible pour la période sélectionnée
       </div>
-    );
+    )
   }
 
   const leasingKPIs = [
@@ -66,7 +66,7 @@ export function LeasingKPIGrid({ data, isLoading }: LeasingKPIGridProps) {
       format: 'currency' as const,
       decorationColor: 'violet' as const,
     },
-  ];
+  ]
 
   return (
     <div className="space-y-4">
@@ -84,5 +84,5 @@ export function LeasingKPIGrid({ data, isLoading }: LeasingKPIGridProps) {
         ))}
       </div>
     </div>
-  );
+  )
 }

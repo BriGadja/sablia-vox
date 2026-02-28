@@ -1,7 +1,7 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type { ChatSession } from '@/types/chatbot'
 
-const STORAGE_KEY = 'voipia-chatbot-session'
+const STORAGE_KEY = 'sablia-chatbot-session'
 
 export function useSessionStorage() {
   const [session, setSession] = useState<ChatSession | null>(null)
@@ -16,7 +16,7 @@ export function useSessionStorage() {
         parsedSession.startedAt = new Date(parsedSession.startedAt)
         parsedSession.messages = parsedSession.messages.map((msg: any) => ({
           ...msg,
-          timestamp: new Date(msg.timestamp)
+          timestamp: new Date(msg.timestamp),
         }))
         setSession(parsedSession)
       }
@@ -52,10 +52,10 @@ export function useSessionStorage() {
       metadata: {
         userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'Unknown',
         referrer: typeof document !== 'undefined' ? document.referrer : '',
-        chatId: `chat-${Date.now()}`
-      }
+        chatId: `chat-${Date.now()}`,
+      },
     }
-    
+
     saveSession(newSession)
     return newSession
   }, [saveSession])
@@ -64,6 +64,6 @@ export function useSessionStorage() {
     session,
     saveSession,
     clearSession,
-    createSession
+    createSession,
   }
 }

@@ -1,9 +1,9 @@
 'use client'
 
 import { useMemo } from 'react'
+import type { DashboardFilters } from '@/lib/types/dashboard'
 import { useDashboardFilters } from './useDashboardFilters'
 import { useViewAsUser } from './useViewAsUser'
-import type { DashboardFilters } from '@/lib/types/dashboard'
 
 /**
  * Hook that combines dashboard filters with admin "view as user" functionality

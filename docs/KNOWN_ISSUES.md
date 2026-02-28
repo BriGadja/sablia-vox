@@ -1,6 +1,6 @@
 # Known Issues & Solutions
 
-This document tracks the history of bugs encountered in the Voipia project, along with their root causes and solutions. This helps prevent regression and provides context for future development.
+This document tracks the history of bugs encountered in the Sablia Vox project, along with their root causes and solutions. This helps prevent regression and provides context for future development.
 
 ---
 

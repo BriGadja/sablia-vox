@@ -1,7 +1,7 @@
 'use client'
 
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
 
 /**
  * Composant qui intercepte les tokens d'authentification dans le hash de l'URL

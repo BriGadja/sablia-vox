@@ -1,25 +1,25 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
-import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
-import { fetchAgentCalls, type CallData } from '@/lib/queries/calls'
-import { PageHeader } from '@/components/dashboard/PageHeader'
-import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import {
-  Phone,
-  Loader2,
   ArrowLeft,
   Calendar,
-  Clock,
   CheckCircle2,
-  XCircle,
   ChevronLeft,
   ChevronRight,
+  Clock,
+  Loader2,
   MessageSquare,
+  Phone,
   Voicemail,
+  XCircle,
 } from 'lucide-react'
+import Link from 'next/link'
+import { useState } from 'react'
+import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
+import { PageHeader } from '@/components/dashboard/PageHeader'
+import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
+import { type CallData, fetchAgentCalls } from '@/lib/queries/calls'
 import { cn } from '@/lib/utils'
 
 interface CallsListClientProps {
@@ -87,7 +87,7 @@ export function CallsListClient({ agentId, agentName, clientName }: CallsListCli
         filters.startDate,
         filters.endDate,
         ITEMS_PER_PAGE,
-        page * ITEMS_PER_PAGE
+        page * ITEMS_PER_PAGE,
       ),
   })
 
@@ -157,9 +157,7 @@ export function CallsListClient({ agentId, agentName, clientName }: CallsListCli
           </div>
           <div className="text-center space-y-2">
             <p className="text-lg font-semibold text-white">Aucun appel</p>
-            <p className="text-sm text-white/60">
-              Aucun appel pour cette periode
-            </p>
+            <p className="text-sm text-white/60">Aucun appel pour cette periode</p>
           </div>
         </div>
       )}
@@ -232,16 +230,14 @@ function CallRow({ call, agentId }: { call: CallData; agentId: string }) {
       <td className="px-4 py-3">
         <div className="flex items-center gap-2">
           <Clock className="w-4 h-4 text-white/40" />
-          <span className="text-sm text-white">
-            {formatDuration(call.duration_seconds)}
-          </span>
+          <span className="text-sm text-white">{formatDuration(call.duration_seconds)}</span>
         </div>
       </td>
       <td className="px-4 py-3">
         <span
           className={cn(
             'inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium',
-            outcomeConfig.className
+            outcomeConfig.className,
           )}
         >
           {outcomeConfig.icon}
@@ -249,9 +245,7 @@ function CallRow({ call, agentId }: { call: CallData; agentId: string }) {
         </span>
       </td>
       <td className="px-4 py-3">
-        <span className="text-sm text-white">
-          {call.cost?.toFixed(2) || '0.00'} EUR
-        </span>
+        <span className="text-sm text-white">{call.cost?.toFixed(2) || '0.00'} EUR</span>
       </td>
       <td className="px-4 py-3">
         <Link

@@ -2,19 +2,19 @@
   "louis": {
     "name": "Louis - Démo rappel de lead",
     "duration": "1:45",
-    "transcript": "Bonjour, je suis Louis de Voipia. J'ai vu que vous avez demandé des informations sur nos solutions. J'aimerais comprendre vos besoins actuels en termes de gestion commerciale...",
+    "transcript": "Bonjour, je suis Louis de Sablia Vox. J'ai vu que vous avez demandé des informations sur nos solutions. J'aimerais comprendre vos besoins actuels en termes de gestion commerciale...",
     "url": "/demos/louis-demo.mp3"
   },
   "arthur": {
     "name": "Arthur - Démo prospection",
     "duration": "2:10",
-    "transcript": "Bonjour, je suis Arthur de Voipia. Cela fait quelques mois que nous n'avons pas échangé. Je voulais prendre de vos nouvelles et voir comment se portent vos projets...",
+    "transcript": "Bonjour, je suis Arthur de Sablia Vox. Cela fait quelques mois que nous n'avons pas échangé. Je voulais prendre de vos nouvelles et voir comment se portent vos projets...",
     "url": "/demos/arthur-demo.mp3"
   },
   "alexandra": {
     "name": "Alexandra - Démo standardiste",
     "duration": "1:30",
-    "transcript": "Bonjour, Voipia, Alexandra à votre écoute. Comment puis-je vous aider aujourd'hui? Je peux vous mettre en relation avec le bon interlocuteur...",
+    "transcript": "Bonjour, Sablia Vox, Alexandra à votre écoute. Comment puis-je vous aider aujourd'hui? Je peux vous mettre en relation avec le bon interlocuteur...",
     "url": "/demos/alexandra-demo.mp3"
   }
 }

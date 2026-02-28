@@ -1,23 +1,30 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { Providers } from './providers'
-import { AuthHashHandler } from '@/components/auth/AuthHashHandler'
 import { Analytics } from '@vercel/analytics/next'
-import ClientLemlistTracker from '@/components/tracking/ClientLemlistTracker'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Toaster } from 'sonner'
+import { AuthHashHandler } from '@/components/auth/AuthHashHandler'
+import ClientLemlistTracker from '@/components/tracking/ClientLemlistTracker'
+import { Providers } from './providers'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
-  display: 'swap'
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
   title: 'Sablia Vox - Agents Vocaux IA 24/7 | Louis & Arthur',
-  description: 'Transformez vos appels en opportunités avec nos agents vocaux IA. Louis pour les rappels de leads, Arthur pour la prospection. Performance garantie 24/7.',
-  keywords: ['agent vocal IA', 'intelligence artificielle', 'prospection téléphonique', 'CRM', 'automatisation commerciale'],
+  description:
+    'Transformez vos appels en opportunités avec nos agents vocaux IA. Louis pour les rappels de leads, Arthur pour la prospection. Performance garantie 24/7.',
+  keywords: [
+    'agent vocal IA',
+    'intelligence artificielle',
+    'prospection téléphonique',
+    'CRM',
+    'automatisation commerciale',
+  ],
   authors: [{ name: 'Sablia Vox', url: 'https://vox.sablia.io' }],
   creator: 'Sablia Vox',
   publisher: 'Sablia Vox',
@@ -38,7 +45,8 @@ export const metadata: Metadata = {
     url: 'https://vox.sablia.io',
     siteName: 'Sablia Vox',
     title: 'Sablia Vox - Agents Vocaux IA 24/7',
-    description: 'Transformez vos appels en opportunités avec Louis & Arthur - vos agents vocaux IA disponibles 24/7',
+    description:
+      'Transformez vos appels en opportunités avec Louis & Arthur - vos agents vocaux IA disponibles 24/7',
     images: [
       {
         url: '/og-image.jpg',
@@ -65,11 +73,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className="dark">
       <body className={`${inter.variable} font-inter antialiased bg-black text-white min-h-screen`}>

@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { Download, Loader2 } from 'lucide-react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import type { DashboardFilters } from '@/lib/types/dashboard'
 
@@ -36,8 +36,7 @@ export function ExportCSVButton({
       const csv = await exportFn(filters)
 
       // Generate filename if not provided
-      const finalFilename =
-        filename || `export-${new Date().toISOString().split('T')[0]}.csv`
+      const finalFilename = filename || `export-${new Date().toISOString().split('T')[0]}.csv`
 
       // Create blob and download
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
@@ -58,8 +57,8 @@ export function ExportCSVButton({
       })
     } catch (error) {
       console.error('Error exporting CSV:', error)
-      toast.error('Erreur lors de l\'export', {
-        description: 'Impossible d\'exporter les donnees. Veuillez reessayer.',
+      toast.error("Erreur lors de l'export", {
+        description: "Impossible d'exporter les donnees. Veuillez reessayer.",
       })
     } finally {
       setIsExporting(false)

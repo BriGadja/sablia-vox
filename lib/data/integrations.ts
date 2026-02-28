@@ -1,4 +1,4 @@
-import { IntegrationLogo } from '@/lib/types/landing';
+import type { IntegrationLogo } from '@/lib/types/landing'
 
 export const integrations: IntegrationLogo[] = [
   // CRM & Sales
@@ -32,8 +32,8 @@ export const integrations: IntegrationLogo[] = [
 
   // Productivity
   { name: 'Notion', logo: '/logos/notion.svg', category: 'productivity' },
-];
+]
 
 export const getIntegrationsByCategory = (category: string): IntegrationLogo[] => {
-  return integrations.filter(integration => integration.category === category);
-};
+  return integrations.filter((integration) => integration.category === category)
+}

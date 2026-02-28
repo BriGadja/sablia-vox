@@ -1,7 +1,7 @@
 'use client'
 
-import { memo, useMemo, useCallback } from 'react'
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
+import { memo, useCallback, useMemo } from 'react'
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import type { ChannelBreakdown } from '@/lib/types/consumption'
 
 interface ChannelDistributionChartProps {
@@ -9,25 +9,32 @@ interface ChannelDistributionChartProps {
 }
 
 const channelColors: Record<string, string> = {
-  Appels: '#3b82f6',    // blue
-  SMS: '#14b8a6',       // teal
-  Emails: '#a855f7',    // violet
+  Appels: '#3b82f6', // blue
+  SMS: '#14b8a6', // teal
+  Emails: '#a855f7', // violet
 }
 
 function ChannelDistributionChartInner({ data }: ChannelDistributionChartProps) {
   const chartData = useMemo(() => {
     if (!data) return []
     return [
-      { name: 'Appels', value: data.calls.cost, volume: data.calls.volume, color: channelColors.Appels },
+      {
+        name: 'Appels',
+        value: data.calls.cost,
+        volume: data.calls.volume,
+        color: channelColors.Appels,
+      },
       { name: 'SMS', value: data.sms.cost, volume: data.sms.volume, color: channelColors.SMS },
-      { name: 'Emails', value: data.emails.cost, volume: data.emails.volume, color: channelColors.Emails },
-    ].filter(item => item.value > 0)
+      {
+        name: 'Emails',
+        value: data.emails.cost,
+        volume: data.emails.volume,
+        color: channelColors.Emails,
+      },
+    ].filter((item) => item.value > 0)
   }, [data])
 
-  const total = useMemo(
-    () => chartData.reduce((sum, item) => sum + item.value, 0),
-    [chartData]
-  )
+  const total = useMemo(() => chartData.reduce((sum, item) => sum + item.value, 0), [chartData])
 
   const renderCustomLabel = useCallback(
     (props: any) => {
@@ -54,7 +61,7 @@ function ChannelDistributionChartInner({ data }: ChannelDistributionChartProps) 
         </text>
       )
     },
-    [total]
+    [total],
   )
 
   const renderLegend = useCallback(
@@ -79,7 +86,7 @@ function ChannelDistributionChartInner({ data }: ChannelDistributionChartProps) 
         </ul>
       )
     },
-    [total]
+    [total],
   )
 
   if (!data || total === 0) {
@@ -97,9 +104,7 @@ function ChannelDistributionChartInner({ data }: ChannelDistributionChartProps) 
 
   return (
     <div className="bg-black/20 border border-white/20 rounded-xl p-3 flex flex-col h-full">
-      <h3 className="text-sm font-semibold text-white mb-2 flex-shrink-0">
-        Repartition par canal
-      </h3>
+      <h3 className="text-sm font-semibold text-white mb-2 flex-shrink-0">Repartition par canal</h3>
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center">
           <p className="text-2xl font-bold text-white">{total.toFixed(0)} €</p>
@@ -143,7 +148,10 @@ function ChannelDistributionChartInner({ data }: ChannelDistributionChartProps) 
             }}
             formatter={(value: number, _name: string, props: any) => {
               const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0
-              return [`${value.toFixed(2)}€ (${percentage}%) - ${props?.payload?.volume || 0} unites`, '']
+              return [
+                `${value.toFixed(2)}€ (${percentage}%) - ${props?.payload?.volume || 0} unites`,
+                '',
+              ]
             }}
           />
           <Legend

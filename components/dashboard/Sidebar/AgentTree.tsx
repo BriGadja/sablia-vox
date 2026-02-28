@@ -1,29 +1,25 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Bot, Building2, ChevronRight, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { ChevronRight, Building2, Bot, Loader2 } from 'lucide-react'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
+import { useEffect, useState } from 'react'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuItem,
   SidebarMenuSub,
-  SidebarMenuSubItem,
   SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from '@/components/ui/sidebar'
 import { useAgentHierarchy } from '@/lib/hooks/useAgentHierarchy'
-import type { HierarchyCompany, HierarchyAgent } from '@/lib/types/navigation'
+import type { HierarchyAgent, HierarchyCompany } from '@/lib/types/navigation'
 
-const STORAGE_KEY = 'voipia-sidebar-expanded-clients'
+const STORAGE_KEY = 'sablia-sidebar-expanded-clients'
 
 interface AgentTreeProps {
   viewAsUserId?: string | null
@@ -110,9 +106,7 @@ export function AgentTree({ viewAsUserId }: AgentTreeProps) {
           Mes Agents
         </SidebarGroupLabel>
         <SidebarGroupContent>
-          <div className="px-2 py-2 text-xs text-red-400">
-            Erreur de chargement
-          </div>
+          <div className="px-2 py-2 text-xs text-red-400">Erreur de chargement</div>
         </SidebarGroupContent>
       </SidebarGroup>
     )
@@ -125,9 +119,7 @@ export function AgentTree({ viewAsUserId }: AgentTreeProps) {
           Mes Agents
         </SidebarGroupLabel>
         <SidebarGroupContent>
-          <div className="px-2 py-2 text-xs text-white/40">
-            Aucun agent disponible
-          </div>
+          <div className="px-2 py-2 text-xs text-white/40">Aucun agent disponible</div>
         </SidebarGroupContent>
       </SidebarGroup>
     )
@@ -175,11 +167,7 @@ function CompanyNode({
   hasActiveAgent,
 }: CompanyNodeProps) {
   return (
-    <Collapsible
-      open={isExpanded}
-      onOpenChange={onToggle}
-      className="group/collapsible"
-    >
+    <Collapsible open={isExpanded} onOpenChange={onToggle} className="group/collapsible">
       <SidebarMenuItem>
         <CollapsibleTrigger asChild>
           <SidebarMenuButton

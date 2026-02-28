@@ -1,20 +1,16 @@
 'use client'
 
-import { useState, useMemo } from 'react'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { ChevronRight, Building2, Bot, TrendingUp, TrendingDown } from 'lucide-react'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
+import { Bot, Building2, ChevronRight, TrendingDown, TrendingUp } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { useCurrentMonthBillingSummary } from '@/lib/hooks/useUserConsumption'
 import type {
+  AdminAgentBilling,
   AdminBillingSummaryResponse,
   AdminCompanyBilling,
-  AdminAgentBilling,
 } from '@/lib/types/consumption'
 
 /**
@@ -61,12 +57,8 @@ export function PreviousMonthSummary() {
     <Card className="bg-gradient-to-br from-violet-500/5 to-purple-500/5 border-violet-500/20">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center justify-between">
-          <span className="text-white text-lg">
-            Résumé Facturation - {periodLabel}
-          </span>
-          <span className="text-sm font-normal text-white/50">
-            Mois précédent
-          </span>
+          <span className="text-white text-lg">Résumé Facturation - {periodLabel}</span>
+          <span className="text-sm font-normal text-white/50">Mois précédent</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -78,28 +70,15 @@ export function PreviousMonthSummary() {
             format="currency"
             highlight
           />
-          <KPICard
-            label="Leasing"
-            value={totals.leasing_revenue ?? 0}
-            format="currency"
-          />
-          <KPICard
-            label="Consommation"
-            value={totals.consumption_revenue ?? 0}
-            format="currency"
-          />
+          <KPICard label="Leasing" value={totals.leasing_revenue ?? 0} format="currency" />
+          <KPICard label="Consommation" value={totals.consumption_revenue ?? 0} format="currency" />
           <KPICard
             label="Coût Provider"
             value={totals.total_provider_cost ?? 0}
             format="currency"
             negative
           />
-          <KPICard
-            label="Marge"
-            value={totals.total_margin ?? 0}
-            format="currency"
-            color="green"
-          />
+          <KPICard label="Marge" value={totals.total_margin ?? 0} format="currency" color="green" />
           <KPICard
             label="% Marge"
             value={totals.margin_percentage ?? 0}
@@ -118,9 +97,7 @@ export function PreviousMonthSummary() {
         {/* Company Breakdown Table */}
         {by_company && by_company.length > 0 && (
           <div className="mt-4">
-            <h4 className="text-sm font-medium text-white/70 mb-2">
-              Détail par entreprise
-            </h4>
+            <h4 className="text-sm font-medium text-white/70 mb-2">Détail par entreprise</h4>
             <CompanyBreakdownTable companies={by_company} />
           </div>
         )}
@@ -154,22 +131,23 @@ function KPICard({ label, value, format, highlight, negative, color }: KPICardPr
     }
   }, [value, format])
 
-  const textColor = color === 'green'
-    ? 'text-green-400'
-    : color === 'red'
-    ? 'text-red-400'
-    : negative
-    ? 'text-orange-400'
-    : highlight
-    ? 'text-violet-300'
-    : 'text-white'
+  const textColor =
+    color === 'green'
+      ? 'text-green-400'
+      : color === 'red'
+        ? 'text-red-400'
+        : negative
+          ? 'text-orange-400'
+          : highlight
+            ? 'text-violet-300'
+            : 'text-white'
 
   return (
-    <div className={`p-3 rounded-lg ${highlight ? 'bg-violet-500/10 border border-violet-500/20' : 'bg-white/5'}`}>
+    <div
+      className={`p-3 rounded-lg ${highlight ? 'bg-violet-500/10 border border-violet-500/20' : 'bg-white/5'}`}
+    >
       <p className="text-xs text-white/50 mb-1 truncate">{label}</p>
-      <p className={`text-lg font-semibold ${textColor}`}>
-        {formattedValue}
-      </p>
+      <p className={`text-lg font-semibold ${textColor}`}>{formattedValue}</p>
     </div>
   )
 }
@@ -243,9 +221,7 @@ function CompanyRow({ company, isExpanded, onToggle }: CompanyRowProps) {
               />
             )}
             <Building2 className="h-4 w-4 text-white/40" />
-            <span className="text-sm font-medium text-white truncate">
-              {company.client_name}
-            </span>
+            <span className="text-sm font-medium text-white truncate">{company.client_name}</span>
           </div>
           <div className="text-right text-sm text-white/70">
             {(company.leasing_revenue ?? 0).toFixed(0)} €
@@ -291,23 +267,15 @@ function AgentRow({ agent }: AgentRowProps) {
     <div className="grid grid-cols-7 gap-2 px-4 py-2 pl-12 hover:bg-white/5 transition-colors">
       <div className="col-span-2 flex items-center gap-2">
         <Bot className="h-3 w-3 text-white/30" />
-        <span className="text-sm text-white/60 truncate">
-          {agent.deployment_name}
-        </span>
+        <span className="text-sm text-white/60 truncate">{agent.deployment_name}</span>
         <span className="text-xs text-white/30 bg-white/5 px-1.5 py-0.5 rounded">
           {agent.agent_type_name}
         </span>
       </div>
-      <div className="text-right text-sm text-white/50">
-        {agent.leasing_revenue.toFixed(0)} €
-      </div>
-      <div className="text-right text-sm text-white/50">
-        {consumptionRevenue.toFixed(0)} €
-      </div>
+      <div className="text-right text-sm text-white/50">{agent.leasing_revenue.toFixed(0)} €</div>
+      <div className="text-right text-sm text-white/50">{consumptionRevenue.toFixed(0)} €</div>
       <div className="text-right text-sm text-white/30">-</div>
-      <div className="text-right text-sm text-green-400/70">
-        {agent.total_margin.toFixed(0)} €
-      </div>
+      <div className="text-right text-sm text-green-400/70">{agent.total_margin.toFixed(0)} €</div>
       <div className="text-right text-sm">
         <MarginBadge percentage={agent.margin_percentage} small />
       </div>
@@ -327,8 +295,8 @@ function MarginBadge({ percentage, small }: MarginBadgeProps) {
   const bgColor = isHigh
     ? 'bg-green-500/20 text-green-400'
     : isMedium
-    ? 'bg-yellow-500/20 text-yellow-400'
-    : 'bg-red-500/20 text-red-400'
+      ? 'bg-yellow-500/20 text-yellow-400'
+      : 'bg-red-500/20 text-red-400'
 
   return (
     <span

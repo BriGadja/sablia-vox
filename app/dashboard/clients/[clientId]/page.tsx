@@ -1,7 +1,7 @@
-import { Suspense } from 'react'
-import { redirect, notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
 import { Loader2 } from 'lucide-react'
+import { notFound, redirect } from 'next/navigation'
+import { Suspense } from 'react'
+import { createClient } from '@/lib/supabase/server'
 import { ClientDetailClient } from './ClientDetailClient'
 
 interface ClientDetailPageProps {

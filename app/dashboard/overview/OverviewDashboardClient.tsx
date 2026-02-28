@@ -1,21 +1,21 @@
 'use client'
 
-import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
-import {
-  useGlobalKPIs,
-  useGlobalChartData,
-  useAgentTypePerformance,
-} from '@/lib/hooks/useDashboardData'
-import { useLatencyMetrics } from '@/lib/hooks/useLatencyData'
-import { exportGlobalCallsToCSV } from '@/lib/queries/global'
-import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
-import { ClientAgentFilter } from '@/components/dashboard/Filters/ClientAgentFilter'
-import { KPIGrid } from '@/components/dashboard/KPIGrid'
-import { ExportCSVButton } from '@/components/dashboard/ExportCSVButton'
+import { AgentTypeComparisonChart } from '@/components/dashboard/Charts/AgentTypeComparisonChart'
 import { CallVolumeChart } from '@/components/dashboard/Charts/CallVolumeChart'
 import { EmotionDistribution } from '@/components/dashboard/Charts/EmotionDistribution'
-import { AgentTypeComparisonChart } from '@/components/dashboard/Charts/AgentTypeComparisonChart'
 import { LatencyTimeSeriesChart } from '@/components/dashboard/Charts/LatencyTimeSeriesChart'
+import { ExportCSVButton } from '@/components/dashboard/ExportCSVButton'
+import { ClientAgentFilter } from '@/components/dashboard/Filters/ClientAgentFilter'
+import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
+import { KPIGrid } from '@/components/dashboard/KPIGrid'
+import {
+  useAgentTypePerformance,
+  useGlobalChartData,
+  useGlobalKPIs,
+} from '@/lib/hooks/useDashboardData'
+import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
+import { useLatencyMetrics } from '@/lib/hooks/useLatencyData'
+import { exportGlobalCallsToCSV } from '@/lib/queries/global'
 
 interface OverviewDashboardClientProps {
   userEmail?: string
@@ -42,15 +42,12 @@ interface OverviewDashboardClientProps {
  */
 export function OverviewDashboardClient({ userEmail }: OverviewDashboardClientProps) {
   // URL-based filters
-  const { filters, setClientIds, setDeploymentId, setDateRange } =
-    useDashboardFilters()
+  const { filters, setClientIds, setDeploymentId, setDateRange } = useDashboardFilters()
 
   // Fetch global metrics
   const { data: kpiData, isLoading: isLoadingKPIs } = useGlobalKPIs(filters)
-  const { data: chartData, isLoading: isLoadingCharts } =
-    useGlobalChartData(filters)
-  const { data: agentTypeData, isLoading: isLoadingAgentTypes } =
-    useAgentTypePerformance(filters)
+  const { data: chartData, isLoading: isLoadingCharts } = useGlobalChartData(filters)
+  const { data: agentTypeData, isLoading: isLoadingAgentTypes } = useAgentTypePerformance(filters)
 
   // Fetch latency metrics (no agent type filter for overview)
   const { data: latencyData, isLoading: isLoadingLatencies } = useLatencyMetrics({
@@ -62,12 +59,13 @@ export function OverviewDashboardClient({ userEmail }: OverviewDashboardClientPr
   })
 
   // Calculate average total latency for KPI
-  const avgTotalLatency = latencyData && latencyData.length > 0
-    ? Math.round(
-        latencyData.reduce((sum, m) => sum + m.avg_total_latency_ms * m.call_count, 0) /
-        latencyData.reduce((sum, m) => sum + m.call_count, 0)
-      )
-    : 0
+  const avgTotalLatency =
+    latencyData && latencyData.length > 0
+      ? Math.round(
+          latencyData.reduce((sum, m) => sum + m.avg_total_latency_ms * m.call_count, 0) /
+            latencyData.reduce((sum, m) => sum + m.call_count, 0),
+        )
+      : 0
 
   // Handle filter changes
   const handleDateChange = (start: Date, end: Date) => {
@@ -116,26 +114,16 @@ export function OverviewDashboardClient({ userEmail }: OverviewDashboardClientPr
         {/* Charts Grid - 2x2 balanced layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-1.5 flex-1 min-h-0 overflow-hidden">
           <div className="h-full min-h-[180px] overflow-hidden">
-            <CallVolumeChart
-              data={chartData?.call_volume_by_day || []}
-            />
+            <CallVolumeChart data={chartData?.call_volume_by_day || []} />
           </div>
           <div className="h-full min-h-[180px] overflow-hidden">
-            <EmotionDistribution
-              data={chartData?.emotion_distribution || []}
-            />
+            <EmotionDistribution data={chartData?.emotion_distribution || []} />
           </div>
           <div className="h-full min-h-[180px] overflow-hidden">
-            <LatencyTimeSeriesChart
-              data={latencyData || []}
-              isLoading={isLoadingLatencies}
-            />
+            <LatencyTimeSeriesChart data={latencyData || []} isLoading={isLoadingLatencies} />
           </div>
           <div className="h-full min-h-[180px] overflow-hidden">
-            <AgentTypeComparisonChart
-              data={agentTypeData || []}
-              isLoading={isLoadingAgentTypes}
-            />
+            <AgentTypeComparisonChart data={agentTypeData || []} isLoading={isLoadingAgentTypes} />
           </div>
         </div>
       </div>

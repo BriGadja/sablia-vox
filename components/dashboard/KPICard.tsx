@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import { Minus, TrendingDown, TrendingUp } from 'lucide-react'
 
 interface KPICardProps {
   label: string
@@ -49,10 +49,11 @@ export function KPICard({
         return `${val.toFixed(2)}€`
       case 'percentage':
         return `${val.toFixed(1)}%`
-      case 'duration':
+      case 'duration': {
         const minutes = Math.floor(val / 60)
         const seconds = val % 60
         return `${minutes}:${seconds.toString().padStart(2, '0')}`
+      }
       case 'latency':
         return `${Math.round(val)} ms`
       case 'score':
@@ -92,10 +93,14 @@ export function KPICard({
       {/* Decoration bar */}
       <div className={`absolute top-0 left-0 right-0 h-1 ${decorationColors[decorationColor]}`} />
 
-      <div className={compact ? "p-4" : "p-4"}>
+      <div className={compact ? 'p-4' : 'p-4'}>
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <p className={`font-medium text-white/60 ${compact ? 'text-xs mb-0.5' : 'text-sm mb-1'}`}>{label}</p>
+            <p
+              className={`font-medium text-white/60 ${compact ? 'text-xs mb-0.5' : 'text-sm mb-1'}`}
+            >
+              {label}
+            </p>
             <p className={`font-bold text-white ${compact ? 'text-xl' : 'text-2xl'}`}>
               {formatValue(value)}
             </p>
@@ -107,16 +112,16 @@ export function KPICard({
                 delta.trend === 'up'
                   ? 'bg-emerald-500/20 text-emerald-400'
                   : delta.trend === 'down'
-                  ? 'bg-red-500/20 text-red-400'
-                  : 'bg-gray-500/20 text-gray-400'
+                    ? 'bg-red-500/20 text-red-400'
+                    : 'bg-gray-500/20 text-gray-400'
               }`}
             >
               {delta.trend === 'up' ? (
-                <TrendingUp className={compact ? "w-2.5 h-2.5" : "w-3 h-3"} />
+                <TrendingUp className={compact ? 'w-2.5 h-2.5' : 'w-3 h-3'} />
               ) : delta.trend === 'down' ? (
-                <TrendingDown className={compact ? "w-2.5 h-2.5" : "w-3 h-3"} />
+                <TrendingDown className={compact ? 'w-2.5 h-2.5' : 'w-3 h-3'} />
               ) : (
-                <Minus className={compact ? "w-2.5 h-2.5" : "w-3 h-3"} />
+                <Minus className={compact ? 'w-2.5 h-2.5' : 'w-3 h-3'} />
               )}
               {delta.value > 0 && (
                 <span>

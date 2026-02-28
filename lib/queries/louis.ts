@@ -1,10 +1,10 @@
 import { createClient } from '@/lib/supabase/client'
 import type {
-  DashboardFilters,
-  KPIMetrics,
-  ChartData,
   AgentPerformanceData,
   CallExportRow,
+  ChartData,
+  DashboardFilters,
+  KPIMetrics,
 } from '@/lib/types/dashboard'
 
 // ============================================================================
@@ -16,9 +16,7 @@ import type {
  * Different from standard Louis: focuses on transfers/qualification, not RDV
  * @param filters - Dashboard filters
  */
-export async function fetchLouisNestennKPIs(
-  filters: DashboardFilters
-): Promise<KPIMetrics> {
+export async function fetchLouisNestennKPIs(filters: DashboardFilters): Promise<KPIMetrics> {
   const supabase = createClient()
 
   const { data, error } = await supabase.rpc('get_louis_nestenn_kpis', {
@@ -41,9 +39,7 @@ export async function fetchLouisNestennKPIs(
  * Includes funnel, duration by outcome, etc.
  * @param filters - Dashboard filters
  */
-export async function fetchLouisNestennChartData(
-  filters: DashboardFilters
-): Promise<ChartData> {
+export async function fetchLouisNestennChartData(filters: DashboardFilters): Promise<ChartData> {
   const supabase = createClient()
 
   const { data, error } = await supabase.rpc('get_louis_nestenn_charts', {
@@ -70,9 +66,7 @@ export async function fetchLouisNestennChartData(
  * Returns current period and previous period comparison
  * @param filters - Dashboard filters
  */
-export async function fetchLouisKPIMetrics(
-  filters: DashboardFilters
-): Promise<KPIMetrics> {
+export async function fetchLouisKPIMetrics(filters: DashboardFilters): Promise<KPIMetrics> {
   const supabase = createClient()
 
   const { data, error } = await supabase.rpc('get_kpi_metrics', {
@@ -96,9 +90,7 @@ export async function fetchLouisKPIMetrics(
  * Returns call volume by day, outcome distribution, emotion distribution
  * @param filters - Dashboard filters
  */
-export async function fetchLouisChartData(
-  filters: DashboardFilters
-): Promise<ChartData> {
+export async function fetchLouisChartData(filters: DashboardFilters): Promise<ChartData> {
   const supabase = createClient()
 
   const { data, error } = await supabase.rpc('get_chart_data', {
@@ -123,7 +115,7 @@ export async function fetchLouisChartData(
  * @param filters - Dashboard filters
  */
 export async function fetchLouisAgentPerformance(
-  filters: DashboardFilters
+  filters: DashboardFilters,
 ): Promise<AgentPerformanceData[]> {
   const supabase = createClient()
 
@@ -156,9 +148,7 @@ export async function fetchLouisAgentPerformance(
  * Export Louis dashboard data to CSV
  * @param filters - Dashboard filters
  */
-export async function exportLouisCallsToCSV(
-  filters: DashboardFilters
-): Promise<string> {
+export async function exportLouisCallsToCSV(filters: DashboardFilters): Promise<string> {
   const supabase = createClient()
 
   let query = supabase

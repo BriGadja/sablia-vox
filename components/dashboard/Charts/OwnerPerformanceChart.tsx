@@ -2,14 +2,14 @@
 
 import { memo, useMemo } from 'react'
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
 } from 'recharts'
 import type { OwnerPerformanceData } from '@/lib/types/dashboard'
 
@@ -38,9 +38,7 @@ function OwnerPerformanceChartInner({ data }: OwnerPerformanceChartProps) {
       .filter((item) => item.rdv_count > 0) // Only show owners with RDVs
       .slice(0, 10) // Top 10
       .map((item, index) => ({
-        name: item.owner.length > 18
-          ? item.owner.substring(0, 18) + '...'
-          : item.owner,
+        name: item.owner.length > 18 ? item.owner.substring(0, 18) + '...' : item.owner,
         fullName: item.owner,
         rdv_count: item.rdv_count,
         total_calls: item.total_calls,
@@ -51,7 +49,7 @@ function OwnerPerformanceChartInner({ data }: OwnerPerformanceChartProps) {
 
   const totalRdv = useMemo(
     () => chartData.reduce((sum, item) => sum + item.rdv_count, 0),
-    [chartData]
+    [chartData],
   )
 
   if (!data || data.length === 0 || totalRdv === 0) {

@@ -1,17 +1,10 @@
 'use client'
 
-import { memo, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-  Legend,
-} from 'recharts'
-import type { CostBreakdownResponse, CostBreakdownChartDataPoint } from '@/lib/types/financial'
+import { memo, useMemo } from 'react'
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { formatCurrency, formatPercentage } from '@/lib/queries/financial'
+import type { CostBreakdownChartDataPoint, CostBreakdownResponse } from '@/lib/types/financial'
 
 interface CostBreakdownChartProps {
   data: CostBreakdownResponse | undefined
@@ -53,15 +46,11 @@ function CustomTooltip({ active, payload }: any) {
       <div className="space-y-1">
         <div className="flex items-center justify-between gap-4 text-xs">
           <span className="text-gray-400">Coût:</span>
-          <span className="font-semibold text-white">
-            {formatCurrency(data.value)}
-          </span>
+          <span className="font-semibold text-white">{formatCurrency(data.value)}</span>
         </div>
         <div className="flex items-center justify-between gap-4 text-xs">
           <span className="text-gray-400">Pourcentage:</span>
-          <span className="font-semibold text-white">
-            {formatPercentage(data.percentage)}
-          </span>
+          <span className="font-semibold text-white">{formatPercentage(data.percentage)}</span>
         </div>
       </div>
     </div>
@@ -91,11 +80,7 @@ function renderCustomLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent
   )
 }
 
-function CostBreakdownChartInner({
-  data,
-  isLoading,
-  height = 400,
-}: CostBreakdownChartProps) {
+function CostBreakdownChartInner({ data, isLoading, height = 400 }: CostBreakdownChartProps) {
   // Transform data for chart
   const chartData = useMemo(() => {
     if (!data) return []
@@ -274,7 +259,9 @@ function CostBreakdownChartInner({
                         className="w-2 h-2 rounded-full flex-shrink-0"
                         style={{ backgroundColor: item.color }}
                       />
-                      <span className="text-gray-300 truncate text-[11px]">{item.name.split(' ')[0]}</span>
+                      <span className="text-gray-300 truncate text-[11px]">
+                        {item.name.split(' ')[0]}
+                      </span>
                     </div>
                     <span className="font-medium text-white text-[11px]">
                       {formatCurrency(item.value)}

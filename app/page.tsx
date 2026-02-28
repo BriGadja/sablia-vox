@@ -1,19 +1,20 @@
-import type { Metadata } from 'next';
-import { HeaderV2 } from '@/components/shared/HeaderV2';
-import { HeroHomeV2 } from '@/components/landing/HeroHomeV2';
-import { HowItWorksV2 } from '@/components/landing/HowItWorksV2';
-import { DashboardShowcase } from '@/components/landing/DashboardShowcase';
-import { SDRComparison } from '@/components/landing/SDRComparison';
-import { IntegrationsTriple } from '@/components/landing/IntegrationsTriple';
-import { CustomDevelopment } from '@/components/landing/CustomDevelopment';
-import { FAQAccordion } from '@/components/landing/FAQAccordion';
-import { FloatingCTA } from '@/components/landing/FloatingCTA';
-import { faqs } from '@/lib/data/faqs';
-import { getOrganizationSchema } from '@/lib/seo/structured-data';
+import type { Metadata } from 'next'
+import { CustomDevelopment } from '@/components/landing/CustomDevelopment'
+import { DashboardShowcase } from '@/components/landing/DashboardShowcase'
+import { FAQAccordion } from '@/components/landing/FAQAccordion'
+import { FloatingCTA } from '@/components/landing/FloatingCTA'
+import { HeroHomeV2 } from '@/components/landing/HeroHomeV2'
+import { HowItWorksV2 } from '@/components/landing/HowItWorksV2'
+import { IntegrationsTriple } from '@/components/landing/IntegrationsTriple'
+import { SDRComparison } from '@/components/landing/SDRComparison'
+import { HeaderV2 } from '@/components/shared/HeaderV2'
+import { faqs } from '@/lib/data/faqs'
+import { getOrganizationSchema } from '@/lib/seo/structured-data'
 
 export const metadata: Metadata = {
   title: 'Sablia Vox - Agents IA Vocaux | Disponibles 24/7',
-  description: 'Nos agents IA répondent et rappellent 24/7, qualifient vos prospects, prennent vos rendez-vous et répondent aux questions courantes. Zéro appel manqué, zéro interruption.',
+  description:
+    'Nos agents IA répondent et rappellent 24/7, qualifient vos prospects, prennent vos rendez-vous et répondent aux questions courantes. Zéro appel manqué, zéro interruption.',
   keywords: [
     'agent IA vocal',
     'rappel automatique leads',
@@ -24,7 +25,8 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Sablia Vox - Agents IA Vocaux | Disponibles 24/7',
-    description: 'Déléguez le traitement de vos appels à nos agents IA. Zéro appel manqué, zéro interruption pour vos équipes.',
+    description:
+      'Déléguez le traitement de vos appels à nos agents IA. Zéro appel manqué, zéro interruption pour vos équipes.',
     url: 'https://vox.sablia.io',
     siteName: 'Sablia Vox',
     images: [
@@ -44,10 +46,10 @@ export const metadata: Metadata = {
     description: 'Déléguez le traitement de vos appels à nos agents IA disponibles 24/7',
     images: ['https://vox.sablia.io/og-home.png'],
   },
-};
+}
 
 export default function Home() {
-  const organizationSchema = getOrganizationSchema();
+  const organizationSchema = getOrganizationSchema()
 
   return (
     <>
@@ -86,5 +88,5 @@ export default function Home() {
         <FloatingCTA />
       </main>
     </>
-  );
+  )
 }

@@ -6,11 +6,7 @@ import { createClient } from '@/lib/supabase/server'
  * This layout protects all routes under /dashboard/clients
  * Only users with admin permission can access this section
  */
-export default async function ClientsLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default async function ClientsLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
 
   // Check if user has admin permission

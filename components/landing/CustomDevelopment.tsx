@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import { Card } from '@/components/shared/Card';
-import { Button } from '@/components/shared/Button';
-import { Code2, Stethoscope, HardHat, ShoppingCart } from 'lucide-react';
+import { Code2, HardHat, ShoppingCart, Stethoscope } from 'lucide-react'
+import { Button } from '@/components/shared/Button'
+import { Card } from '@/components/shared/Card'
 
 export function CustomDevelopment() {
   return (
@@ -11,13 +11,10 @@ export function CustomDevelopment() {
       <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 via-blue-900/5 to-transparent" />
 
       <div className="container mx-auto px-4 relative z-10">
-
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 backdrop-blur-sm mb-6">
             <Code2 className="w-4 h-4 text-cyan-400" />
-            <span className="text-sm font-semibold text-cyan-300">
-              Sur-mesure
-            </span>
+            <span className="text-sm font-semibold text-cyan-300">Sur-mesure</span>
           </div>
 
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -29,7 +26,9 @@ export function CustomDevelopment() {
           </h2>
 
           <p className="text-xl text-gray-300 leading-relaxed">
-            Louis, Alexandra et Arthur couvrent 90% des besoins commerciaux. Mais votre entreprise a peut-être un processus spécifique, un secteur particulier, ou un workflow unique. Nous développons des agents vocaux sur-mesure pour répondre exactement à votre besoin.
+            Louis, Alexandra et Arthur couvrent 90% des besoins commerciaux. Mais votre entreprise a
+            peut-être un processus spécifique, un secteur particulier, ou un workflow unique. Nous
+            développons des agents vocaux sur-mesure pour répondre exactement à votre besoin.
           </p>
         </div>
 
@@ -41,7 +40,8 @@ export function CustomDevelopment() {
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Secteur médical</h3>
             <p className="text-sm text-gray-300 leading-relaxed">
-              Agent de prise de RDV pour cabinets médicaux avec gestion des urgences, rappels automatiques et intégration dossiers patients.
+              Agent de prise de RDV pour cabinets médicaux avec gestion des urgences, rappels
+              automatiques et intégration dossiers patients.
             </p>
           </Card>
 
@@ -51,7 +51,8 @@ export function CustomDevelopment() {
             </div>
             <h3 className="text-lg font-bold text-white mb-2">BTP & artisans</h3>
             <p className="text-sm text-gray-300 leading-relaxed">
-              Agent de gestion de chantiers avec prise de RDV pour devis, relance automatique des prospects et coordination avec planning chantiers.
+              Agent de gestion de chantiers avec prise de RDV pour devis, relance automatique des
+              prospects et coordination avec planning chantiers.
             </p>
           </Card>
 
@@ -61,19 +62,22 @@ export function CustomDevelopment() {
             </div>
             <h3 className="text-lg font-bold text-white mb-2">E-commerce</h3>
             <p className="text-sm text-gray-300 leading-relaxed">
-              Agent de support client 24/7 avec gestion des retours, suivi de commandes et upsell intelligent selon l&apos;historique d&apos;achat.
+              Agent de support client 24/7 avec gestion des retours, suivi de commandes et upsell
+              intelligent selon l&apos;historique d&apos;achat.
             </p>
           </Card>
         </div>
 
         {/* CTA */}
         <div className="text-center">
-          <Button size="lg" className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700">
+          <Button
+            size="lg"
+            className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700"
+          >
             Discuter de mon projet
           </Button>
         </div>
-
       </div>
     </section>
-  );
+  )
 }

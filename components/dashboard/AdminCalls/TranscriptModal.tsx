@@ -1,14 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { X, Play, Clock, User, Building2, Bot, MessageSquare } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@/lib/utils'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Bot, Building2, Clock, MessageSquare, Play, User, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import type { AdminCallRow } from '@/lib/types/adminCalls'
-import { OUTCOME_LABELS, EMOTION_LABELS } from '@/lib/types/adminCalls'
+import { EMOTION_LABELS, OUTCOME_LABELS } from '@/lib/types/adminCalls'
+import { cn } from '@/lib/utils'
 
 interface TranscriptModalProps {
   call: AdminCallRow | null
@@ -73,10 +73,8 @@ export function TranscriptModal({ call, isOpen, onClose }: TranscriptModalProps)
   }
 
   // Format contact name
-  const contactName = [call.first_name, call.last_name]
-    .filter(Boolean)
-    .join(' ')
-    .trim() || 'Contact inconnu'
+  const contactName =
+    [call.first_name, call.last_name].filter(Boolean).join(' ').trim() || 'Contact inconnu'
 
   // Render modal in a portal to ensure it's positioned relative to viewport
   const modalContent = (
@@ -114,9 +112,7 @@ export function TranscriptModal({ call, isOpen, onClose }: TranscriptModalProps)
                   <MessageSquare className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-white">
-                    Transcript de l'appel
-                  </h2>
+                  <h2 className="text-lg font-semibold text-white">Transcript de l'appel</h2>
                   <p className="text-sm text-gray-400">
                     {format(new Date(call.started_at), "EEEE d MMMM yyyy 'à' HH:mm", {
                       locale: fr,
@@ -163,7 +159,7 @@ export function TranscriptModal({ call, isOpen, onClose }: TranscriptModalProps)
                       <span
                         className={cn(
                           'px-2 py-0.5 text-xs font-medium rounded border capitalize',
-                          AGENT_COLORS[call.agent_type_name]
+                          AGENT_COLORS[call.agent_type_name],
                         )}
                       >
                         {call.agent_type_name}
@@ -177,9 +173,7 @@ export function TranscriptModal({ call, isOpen, onClose }: TranscriptModalProps)
                   <Clock className="w-4 h-4 text-gray-500" />
                   <div>
                     <p className="text-xs text-gray-500">Durée</p>
-                    <p className="text-sm text-white">
-                      {formatDuration(call.duration_seconds)}
-                    </p>
+                    <p className="text-sm text-white">{formatDuration(call.duration_seconds)}</p>
                   </div>
                 </div>
               </div>
@@ -190,19 +184,17 @@ export function TranscriptModal({ call, isOpen, onClose }: TranscriptModalProps)
                   <span
                     className={cn(
                       'px-3 py-1 text-xs font-medium rounded-full',
-                      OUTCOME_COLORS[call.outcome] || 'bg-gray-500/20 text-gray-400'
+                      OUTCOME_COLORS[call.outcome] || 'bg-gray-500/20 text-gray-400',
                     )}
                   >
-                    {OUTCOME_LABELS[call.outcome as keyof typeof OUTCOME_LABELS] ||
-                      call.outcome}
+                    {OUTCOME_LABELS[call.outcome as keyof typeof OUTCOME_LABELS] || call.outcome}
                   </span>
                 )}
                 {call.emotion && (
                   <span className="text-xs text-gray-400">
                     Émotion:{' '}
                     <span className="text-gray-300">
-                      {EMOTION_LABELS[call.emotion as keyof typeof EMOTION_LABELS] ||
-                        call.emotion}
+                      {EMOTION_LABELS[call.emotion as keyof typeof EMOTION_LABELS] || call.emotion}
                     </span>
                   </span>
                 )}
@@ -225,20 +217,14 @@ export function TranscriptModal({ call, isOpen, onClose }: TranscriptModalProps)
               {/* Summary */}
               {call.transcript_summary && (
                 <div className="px-6 py-4 border-b border-gray-800">
-                  <h3 className="text-sm font-medium text-gray-400 mb-2">
-                    Résumé
-                  </h3>
-                  <p className="text-sm text-gray-300 leading-relaxed">
-                    {call.transcript_summary}
-                  </p>
+                  <h3 className="text-sm font-medium text-gray-400 mb-2">Résumé</h3>
+                  <p className="text-sm text-gray-300 leading-relaxed">{call.transcript_summary}</p>
                 </div>
               )}
 
               {/* Full transcript */}
               <div className="px-6 py-4">
-                <h3 className="text-sm font-medium text-gray-400 mb-3">
-                  Transcript complet
-                </h3>
+                <h3 className="text-sm font-medium text-gray-400 mb-3">Transcript complet</h3>
                 {call.transcript ? (
                   <div className="bg-gray-800/30 rounded-lg p-4 max-h-[400px] overflow-y-auto">
                     <pre className="text-sm text-gray-300 whitespace-pre-wrap font-sans leading-relaxed">

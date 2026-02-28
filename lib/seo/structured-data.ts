@@ -17,14 +17,12 @@ export function getOrganizationSchema() {
       contactType: 'Sales',
       availableLanguage: ['fr'],
     },
-    sameAs: [
-      'https://www.linkedin.com/company/sablia',
-    ],
+    sameAs: ['https://www.linkedin.com/company/sablia'],
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'FR',
     },
-  };
+  }
 }
 
 export function getProductSchema(agent: 'louis' | 'arthur' | 'alexandra') {
@@ -71,9 +69,9 @@ export function getProductSchema(agent: 'louis' | 'arthur' | 'alexandra') {
         '+45% satisfaction client',
       ],
     },
-  };
+  }
 
-  const product = products[agent];
+  const product = products[agent]
 
   return {
     '@context': 'https://schema.org',
@@ -103,7 +101,7 @@ export function getProductSchema(agent: 'louis' | 'arthur' | 'alexandra') {
       bestRating: '5',
       worstRating: '1',
     },
-  };
+  }
 }
 
 export function getFAQSchema(faqs: { question: string; answer: string }[]) {
@@ -118,7 +116,7 @@ export function getFAQSchema(faqs: { question: string; answer: string }[]) {
         text: faq.answer,
       },
     })),
-  };
+  }
 }
 
 /**
@@ -130,5 +128,5 @@ export function jsonLdScriptProps(data: object) {
     dangerouslySetInnerHTML: {
       __html: JSON.stringify(data),
     },
-  };
+  }
 }

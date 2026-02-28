@@ -1,8 +1,17 @@
 'use client'
 
-import DatePicker, { registerLocale } from 'react-datepicker'
+import {
+  endOfMonth,
+  endOfYear,
+  isAfter,
+  isBefore,
+  startOfDay,
+  startOfMonth,
+  startOfYear,
+  subDays,
+} from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { subDays, startOfMonth, endOfMonth, startOfYear, endOfYear, isAfter, isBefore, startOfDay } from 'date-fns'
+import DatePicker, { registerLocale } from 'react-datepicker'
 import { toast } from 'sonner'
 import 'react-datepicker/dist/react-datepicker.css'
 import './datepicker.css'
@@ -33,11 +42,7 @@ const PRESETS = {
   }),
 }
 
-export function DateRangeFilter({
-  startDate,
-  endDate,
-  onChange,
-}: DateRangeFilterProps) {
+export function DateRangeFilter({ startDate, endDate, onChange }: DateRangeFilterProps) {
   const handlePreset = (key: keyof typeof PRESETS) => {
     const { start, end } = PRESETS[key]()
     onChange(start, end)

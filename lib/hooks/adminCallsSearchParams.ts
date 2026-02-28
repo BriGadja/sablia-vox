@@ -2,16 +2,17 @@
  * Admin Calls Search Params Parsers
  * URL-based state management for admin calls table filters using nuqs
  */
+
+import { format, subDays } from 'date-fns'
 import {
-  parseAsString,
-  parseAsInteger,
-  parseAsStringLiteral,
-  parseAsArrayOf,
   createLoader,
   createSerializer,
+  parseAsArrayOf,
+  parseAsInteger,
+  parseAsString,
+  parseAsStringLiteral,
   type UrlKeys,
 } from 'nuqs/server'
-import { subDays, format } from 'date-fns'
 
 // Agent type literals
 const agentTypes = ['louis', 'arthur', 'alexandra'] as const

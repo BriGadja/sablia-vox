@@ -1,13 +1,13 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import Link from 'next/link';
-import CTAPopupForm from '@/components/ui/CTAPopupForm';
-import SuccessToast from '@/components/ui/SuccessToast';
+import Link from 'next/link'
+import { useState } from 'react'
+import CTAPopupForm from '@/components/ui/CTAPopupForm'
+import SuccessToast from '@/components/ui/SuccessToast'
 
 export function HeaderV2() {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [showSuccessToast, setShowSuccessToast] = useState(false)
 
   return (
     <>
@@ -32,10 +32,7 @@ export function HeaderV2() {
                 Solutions
               </a>
 
-              <a
-                href="#faq"
-                className="text-gray-300 hover:text-white transition-colors"
-              >
+              <a href="#faq" className="text-gray-300 hover:text-white transition-colors">
                 FAQ
               </a>
             </nav>
@@ -72,5 +69,5 @@ export function HeaderV2() {
         onClose={() => setShowSuccessToast(false)}
       />
     </>
-  );
+  )
 }

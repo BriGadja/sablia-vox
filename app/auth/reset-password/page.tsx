@@ -1,10 +1,10 @@
 'use client'
 
+import { motion } from 'framer-motion'
+import { ArrowLeft, CheckCircle2, Loader2, Mail } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { motion } from 'framer-motion'
-import { Mail, Loader2, ArrowLeft, CheckCircle2 } from 'lucide-react'
-import Link from 'next/link'
 
 export default function ResetPasswordPage() {
   const [email, setEmail] = useState('')
@@ -22,7 +22,7 @@ export default function ResetPasswordPage() {
       // Email format validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(email)) {
-        setError('Format d\'email invalide')
+        setError("Format d'email invalide")
         setIsLoading(false)
         return
       }
@@ -64,7 +64,7 @@ export default function ResetPasswordPage() {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring" }}
+              transition={{ delay: 0.2, type: 'spring' }}
               className="inline-block mb-4"
             >
               <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto">
@@ -72,9 +72,7 @@ export default function ResetPasswordPage() {
               </div>
             </motion.div>
 
-            <h1 className="text-2xl font-bold text-white mb-2">
-              Email envoyé !
-            </h1>
+            <h1 className="text-2xl font-bold text-white mb-2">Email envoyé !</h1>
             <p className="text-white/60 mb-6">
               Vérifiez votre boîte mail. Un lien de réinitialisation a été envoyé à{' '}
               <span className="text-white font-medium">{email}</span>
@@ -119,9 +117,7 @@ export default function ResetPasswordPage() {
                 <Mail className="w-8 h-8 text-white" />
               </div>
             </motion.div>
-            <h1 className="text-3xl font-bold text-white mb-2">
-              Réinitialiser le mot de passe
-            </h1>
+            <h1 className="text-3xl font-bold text-white mb-2">Réinitialiser le mot de passe</h1>
             <p className="text-white/60">
               Entrez votre email pour recevoir un lien de réinitialisation
             </p>

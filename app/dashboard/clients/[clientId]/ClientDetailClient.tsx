@@ -1,16 +1,16 @@
 'use client'
 
+import { ArrowLeft, Bot, Building2, Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
-import { useAgentCardsData, useGlobalKPIs, useGlobalChartData } from '@/lib/hooks/useDashboardData'
-import { PageHeader } from '@/components/dashboard/PageHeader'
+import { AgentDeploymentCard } from '@/app/dashboard/agents/AgentDeploymentCard'
+import { CallVolumeChart } from '@/components/dashboard/Charts/CallVolumeChart'
+import { EmotionDistribution } from '@/components/dashboard/Charts/EmotionDistribution'
+import { OutcomeBreakdown } from '@/components/dashboard/Charts/OutcomeBreakdown'
 import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import { KPIGrid } from '@/components/dashboard/KPIGrid'
-import { CallVolumeChart } from '@/components/dashboard/Charts/CallVolumeChart'
-import { OutcomeBreakdown } from '@/components/dashboard/Charts/OutcomeBreakdown'
-import { EmotionDistribution } from '@/components/dashboard/Charts/EmotionDistribution'
-import { AgentDeploymentCard } from '@/app/dashboard/agents/AgentDeploymentCard'
-import { Building2, Loader2, ArrowLeft, Bot } from 'lucide-react'
+import { PageHeader } from '@/components/dashboard/PageHeader'
+import { useAgentCardsData, useGlobalChartData, useGlobalKPIs } from '@/lib/hooks/useDashboardData'
+import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
 
 interface ClientDetailClientProps {
   clientId: string
@@ -47,9 +47,9 @@ export function ClientDetailClient({
   const isLoading = kpisLoading || chartsLoading
 
   // Count by agent type
-  const louisCount = agents?.filter(a => a.agent_type_name === 'louis').length || 0
-  const arthurCount = agents?.filter(a => a.agent_type_name === 'arthur').length || 0
-  const alexandraCount = agents?.filter(a => a.agent_type_name === 'alexandra').length || 0
+  const louisCount = agents?.filter((a) => a.agent_type_name === 'louis').length || 0
+  const arthurCount = agents?.filter((a) => a.agent_type_name === 'arthur').length || 0
+  const alexandraCount = agents?.filter((a) => a.agent_type_name === 'alexandra').length || 0
 
   return (
     <div className="p-6 space-y-6">
@@ -68,10 +68,7 @@ export function ClientDetailClient({
           <Building2 className="w-8 h-8 text-purple-400" />
         </div>
         <div>
-          <PageHeader
-            title={clientName}
-            description={clientIndustry || 'Client'}
-          />
+          <PageHeader title={clientName} description={clientIndustry || 'Client'} />
         </div>
       </div>
 
@@ -83,11 +80,7 @@ export function ClientDetailClient({
       />
 
       {/* KPIs */}
-      <KPIGrid
-        data={kpis}
-        isLoading={kpisLoading}
-        agentType="global"
-      />
+      <KPIGrid data={kpis} isLoading={kpisLoading} agentType="global" />
 
       {/* Charts */}
       {!chartsLoading && chartData && (
@@ -147,9 +140,7 @@ export function ClientDetailClient({
         ) : (
           <div className="flex flex-col items-center justify-center py-8 space-y-2">
             <Bot className="w-8 h-8 text-white/20" />
-            <p className="text-sm text-white/40">
-              Aucun agent deploye pour ce client
-            </p>
+            <p className="text-sm text-white/40">Aucun agent deploye pour ce client</p>
           </div>
         )}
       </div>

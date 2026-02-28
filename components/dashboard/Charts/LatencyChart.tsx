@@ -13,12 +13,12 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import type { LatencyMetric } from '@/lib/types/latency'
 import {
   calculateLatencyKPIs,
   groupMetricsByDate,
   groupMetricsByDeployment,
 } from '@/lib/hooks/useLatencyData'
+import type { LatencyMetric } from '@/lib/types/latency'
 
 interface LatencyChartProps {
   data: LatencyMetric[]
@@ -65,7 +65,8 @@ function LatencyChartInner({ data, isLoading = false, height = 350 }: LatencyCha
       <div className="p-8 text-center text-white/60 bg-white/5 border border-white/10 rounded-xl">
         <p className="text-lg mb-2">📊 Aucune donnée de latence disponible</p>
         <p className="text-sm">
-          Les données de latence sont disponibles uniquement pour les appels récents (depuis novembre 2025).
+          Les données de latence sont disponibles uniquement pour les appels récents (depuis
+          novembre 2025).
         </p>
       </div>
     )
@@ -106,9 +107,7 @@ function LatencyChartInner({ data, isLoading = false, height = 350 }: LatencyCha
             <h4 className="text-sm font-medium text-white/70">Latence Totale Moyenne</h4>
           </div>
           <p className="text-3xl font-bold text-white">{kpis.avgTotalLatency}ms</p>
-          <p className="text-xs text-white/50 mt-1">
-            Temps de réponse total
-          </p>
+          <p className="text-xs text-white/50 mt-1">Temps de réponse total</p>
         </div>
 
         {/* Total Calls with Latency Data */}
@@ -118,9 +117,7 @@ function LatencyChartInner({ data, isLoading = false, height = 350 }: LatencyCha
             <h4 className="text-sm font-medium text-white/70">Appels Analysés</h4>
           </div>
           <p className="text-3xl font-bold text-white">{kpis.totalCalls.toLocaleString()}</p>
-          <p className="text-xs text-white/50 mt-1">
-            Avec données de latence
-          </p>
+          <p className="text-xs text-white/50 mt-1">Avec données de latence</p>
         </div>
       </div>
 
@@ -156,11 +153,7 @@ function LatencyChartInner({ data, isLoading = false, height = 350 }: LatencyCha
                 return `${date.getDate()}/${date.getMonth() + 1}`
               }}
             />
-            <YAxis
-              stroke="#9ca3af"
-              fontSize={12}
-              tickFormatter={(value) => `${value}ms`}
-            />
+            <YAxis stroke="#9ca3af" fontSize={12} tickFormatter={(value) => `${value}ms`} />
             <Tooltip
               contentStyle={{
                 backgroundColor: '#1f2937',
@@ -179,10 +172,7 @@ function LatencyChartInner({ data, isLoading = false, height = 350 }: LatencyCha
               }}
               formatter={(value: number) => [`${Math.round(value)}ms`, '']}
             />
-            <Legend
-              wrapperStyle={{ paddingTop: '20px' }}
-              iconType="circle"
-            />
+            <Legend wrapperStyle={{ paddingTop: '20px' }} iconType="circle" />
             <Area
               type="monotone"
               dataKey="avgLlmLatency"
@@ -251,10 +241,7 @@ function LatencyChartInner({ data, isLoading = false, height = 350 }: LatencyCha
                 }}
                 labelFormatter={(label) => `Agent: ${label}`}
               />
-              <Legend
-                wrapperStyle={{ paddingTop: '10px' }}
-                iconType="circle"
-              />
+              <Legend wrapperStyle={{ paddingTop: '10px' }} iconType="circle" />
               <Bar
                 dataKey="avgLlmLatency"
                 fill="#3b82f6"

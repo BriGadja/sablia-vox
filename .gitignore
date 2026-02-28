@@ -42,6 +42,13 @@ next-env.d.ts
 *.swo
 
 # OS
-Thumbs.dbfeatures/_archive/dbDump/
+Thumbs.db
+
+# Project
+features/_archive/
+tmp/
 supabase/.temp/
-features/_archive/dbDump/
+
+# Workspace symlinks (inherited skills & rules)
+.claude/skills
+.claude/rules

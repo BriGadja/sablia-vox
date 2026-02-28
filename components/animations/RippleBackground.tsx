@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 export function RippleBackground() {
   // Points d'origine aléatoires pour les ripples (en pourcentage)
@@ -7,7 +7,7 @@ export function RippleBackground() {
     { cx: '70%', cy: '25%', delay: 2 },
     { cx: '45%', cy: '60%', delay: 4 },
     { cx: '80%', cy: '70%', delay: 1.5 },
-  ];
+  ]
 
   return (
     <div className="absolute inset-0 overflow-hidden">
@@ -97,5 +97,5 @@ export function RippleBackground() {
         }
       `}</style>
     </div>
-  );
+  )
 }

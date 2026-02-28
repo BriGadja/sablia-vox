@@ -3,11 +3,8 @@
 // Hook pour les données de facturation mensuelle
 // SÉCURITÉ: Admin only - contient les données de tarification
 
-import { useQuery, type UseQueryResult } from '@tanstack/react-query'
-import {
-  fetchMonthlyInvoiceSummary,
-  fetchAvailableInvoiceMonths,
-} from '@/lib/queries/invoice'
+import { type UseQueryResult, useQuery } from '@tanstack/react-query'
+import { fetchAvailableInvoiceMonths, fetchMonthlyInvoiceSummary } from '@/lib/queries/invoice'
 import type { MonthlyInvoiceSummaryResponse } from '@/lib/types/invoice'
 
 /**
@@ -19,7 +16,7 @@ import type { MonthlyInvoiceSummaryResponse } from '@/lib/types/invoice'
  */
 export function useMonthlyInvoice(
   year: number,
-  month: number
+  month: number,
 ): UseQueryResult<MonthlyInvoiceSummaryResponse> {
   return useQuery({
     queryKey: ['monthly-invoice', year, month],

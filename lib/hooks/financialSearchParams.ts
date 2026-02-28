@@ -2,14 +2,15 @@
  * Financial Dashboard Search Params Parsers
  * URL-based state management for financial dashboard filters using nuqs
  */
+
+import { format, subDays } from 'date-fns'
 import {
-  parseAsString,
-  parseAsStringLiteral,
   createLoader,
   createSerializer,
+  parseAsString,
+  parseAsStringLiteral,
   type UrlKeys,
 } from 'nuqs/server'
-import { subDays, format } from 'date-fns'
 
 // View mode literals
 const viewModes = ['leasing', 'consumption'] as const

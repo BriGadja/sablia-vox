@@ -1,11 +1,11 @@
-import { Suspense } from 'react'
+import { Loader2 } from 'lucide-react'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { OverviewDashboardClient } from './OverviewDashboardClient'
-import { Loader2 } from 'lucide-react'
 
 export const metadata = {
-  title: 'Vue d\'ensemble | Dashboard Sablia Vox',
+  title: "Vue d'ensemble | Dashboard Sablia Vox",
   description: 'Dashboard agrégé de tous vos agents vocaux IA',
 }
 

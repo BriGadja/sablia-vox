@@ -12,13 +12,10 @@ import dynamic from 'next/dynamic'
  *
  * This pattern follows the same approach as ClientChatbot.
  */
-const LemlistTracker = dynamic(
-  () => import('./LemlistTracker').then((mod) => mod.LemlistTracker),
-  {
-    ssr: false,
-    loading: () => null,
-  }
-)
+const LemlistTracker = dynamic(() => import('./LemlistTracker').then((mod) => mod.LemlistTracker), {
+  ssr: false,
+  loading: () => null,
+})
 
 export default function ClientLemlistTracker() {
   return <LemlistTracker />

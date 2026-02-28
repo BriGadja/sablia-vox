@@ -1,7 +1,7 @@
 'use client'
 
-import { memo, useMemo, useCallback } from 'react'
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
+import { memo, useCallback, useMemo } from 'react'
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 interface EmotionDistributionProps {
   data: Array<{
@@ -33,7 +33,9 @@ const emotionColors: Record<string, string> = {
 function EmotionDistributionInner({ data }: EmotionDistributionProps) {
   // Filter and transform data with useMemo
   const chartData = useMemo(() => {
-    const filteredData = data.filter((item) => item.emotion !== 'unknown' && item.emotion !== 'Inconnu')
+    const filteredData = data.filter(
+      (item) => item.emotion !== 'unknown' && item.emotion !== 'Inconnu',
+    )
     return filteredData.map((item) => ({
       name: emotionLabels[item.emotion] || emotionLabels.unknown,
       value: item.count,
@@ -42,10 +44,7 @@ function EmotionDistributionInner({ data }: EmotionDistributionProps) {
   }, [data])
 
   // Calculate total for percentages
-  const total = useMemo(
-    () => chartData.reduce((sum, item) => sum + item.value, 0),
-    [chartData]
-  )
+  const total = useMemo(() => chartData.reduce((sum, item) => sum + item.value, 0), [chartData])
 
   // Custom label renderer with external labels and connecting lines
   const renderCustomLabel = useCallback(
@@ -74,7 +73,7 @@ function EmotionDistributionInner({ data }: EmotionDistributionProps) {
         </text>
       )
     },
-    [total]
+    [total],
   )
 
   // Custom legend formatter with percentages
@@ -100,7 +99,7 @@ function EmotionDistributionInner({ data }: EmotionDistributionProps) {
         </ul>
       )
     },
-    [total]
+    [total],
   )
 
   return (

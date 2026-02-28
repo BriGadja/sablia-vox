@@ -13,9 +13,7 @@
     },
     "gdrive": {
       "command": "node",
-      "args": [
-        "C:\\Users\\pc\\Documents\\Projets\\mcp_drive_isaacphi\\dist\\index.js"
-      ],
+      "args": ["C:\\Users\\pc\\Documents\\Projets\\mcp_drive_isaacphi\\dist\\index.js"],
       "env": {
         "GDRIVE_CREDS_DIR": "C:\\Users\\pc\\.config\\mcp-gdrive",
         "GDRIVE_CLIENT_ID": "1004223956562-i76qtp4jeqfspgarilvim0vk8turan6e.apps.googleusercontent.com",
@@ -24,10 +22,7 @@
     },
     "playwright": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@playwright/mcp"
-      ],
+      "args": ["-y", "@playwright/mcp"],
       "env": {
         "PLAYWRIGHT_HEADLESS": "true"
       }

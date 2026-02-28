@@ -1,7 +1,7 @@
 'use client'
 
-import { KPICard } from './KPICard'
 import type { KPIMetrics } from '@/lib/types/dashboard'
+import { KPICard } from './KPICard'
 
 interface KPIGridProps {
   data: KPIMetrics | undefined
@@ -107,7 +107,7 @@ export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 
       value: current_period.transfers_requested || 0,
       previousValue: previous_period.transfers_requested || 0,
       format: 'number' as const,
-      decorationColor: 'emerald' as const,  // Green = success
+      decorationColor: 'emerald' as const, // Green = success
     },
     {
       label: 'Taux Qualification',
@@ -240,117 +240,132 @@ export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 
   ]
 
   // Louis-specific KPIs
-  const louisKPIs = current_period.refused_appointments !== undefined ? [
-    {
-      label: 'RDV refusés',
-      value: current_period.refused_appointments,
-      previousValue: previous_period.refused_appointments,
-      format: 'number' as const,
-      decorationColor: 'red' as const,
-    },
-    {
-      label: 'Taux d\'acceptation',
-      value: current_period.acceptance_rate || 0,
-      previousValue: previous_period.acceptance_rate,
-      format: 'percentage' as const,
-      decorationColor: 'emerald' as const,
-    },
-    {
-      label: 'Rappels demandés',
-      value: current_period.callbacks_requested || 0,
-      previousValue: previous_period.callbacks_requested,
-      format: 'number' as const,
-      decorationColor: 'blue' as const,
-    },
-    {
-      label: 'Leads qualifiés',
-      value: current_period.qualified_leads || 0,
-      previousValue: previous_period.qualified_leads,
-      format: 'number' as const,
-      decorationColor: 'violet' as const,
-    },
-  ] : []
+  const louisKPIs =
+    current_period.refused_appointments !== undefined
+      ? [
+          {
+            label: 'RDV refusés',
+            value: current_period.refused_appointments,
+            previousValue: previous_period.refused_appointments,
+            format: 'number' as const,
+            decorationColor: 'red' as const,
+          },
+          {
+            label: "Taux d'acceptation",
+            value: current_period.acceptance_rate || 0,
+            previousValue: previous_period.acceptance_rate,
+            format: 'percentage' as const,
+            decorationColor: 'emerald' as const,
+          },
+          {
+            label: 'Rappels demandés',
+            value: current_period.callbacks_requested || 0,
+            previousValue: previous_period.callbacks_requested,
+            format: 'number' as const,
+            decorationColor: 'blue' as const,
+          },
+          {
+            label: 'Leads qualifiés',
+            value: current_period.qualified_leads || 0,
+            previousValue: previous_period.qualified_leads,
+            format: 'number' as const,
+            decorationColor: 'violet' as const,
+          },
+        ]
+      : []
 
   // Arthur-specific KPIs
-  const arthurKPIs = current_period.total_prospects !== undefined ? [
-    {
-      label: 'Prospects totaux',
-      value: current_period.total_prospects,
-      previousValue: previous_period.total_prospects,
-      format: 'number' as const,
-      decorationColor: 'blue' as const,
-    },
-    {
-      label: 'Séquences actives',
-      value: current_period.active_sequences || 0,
-      previousValue: previous_period.active_sequences,
-      format: 'number' as const,
-      decorationColor: 'violet' as const,
-    },
-    {
-      label: 'Taux de réactivation',
-      value: current_period.reactivation_rate || 0,
-      previousValue: previous_period.reactivation_rate,
-      format: 'percentage' as const,
-      decorationColor: 'emerald' as const,
-    },
-    {
-      label: 'Tentatives moyennes',
-      value: current_period.avg_attempts || 0,
-      previousValue: previous_period.avg_attempts,
-      format: 'number' as const,
-      decorationColor: 'amber' as const,
-    },
-    {
-      label: 'Coût par conversion',
-      value: current_period.cost_per_conversion || 0,
-      previousValue: previous_period.cost_per_conversion,
-      format: 'currency' as const,
-      decorationColor: 'red' as const,
-    },
-  ] : []
+  const arthurKPIs =
+    current_period.total_prospects !== undefined
+      ? [
+          {
+            label: 'Prospects totaux',
+            value: current_period.total_prospects,
+            previousValue: previous_period.total_prospects,
+            format: 'number' as const,
+            decorationColor: 'blue' as const,
+          },
+          {
+            label: 'Séquences actives',
+            value: current_period.active_sequences || 0,
+            previousValue: previous_period.active_sequences,
+            format: 'number' as const,
+            decorationColor: 'violet' as const,
+          },
+          {
+            label: 'Taux de réactivation',
+            value: current_period.reactivation_rate || 0,
+            previousValue: previous_period.reactivation_rate,
+            format: 'percentage' as const,
+            decorationColor: 'emerald' as const,
+          },
+          {
+            label: 'Tentatives moyennes',
+            value: current_period.avg_attempts || 0,
+            previousValue: previous_period.avg_attempts,
+            format: 'number' as const,
+            decorationColor: 'amber' as const,
+          },
+          {
+            label: 'Coût par conversion',
+            value: current_period.cost_per_conversion || 0,
+            previousValue: previous_period.cost_per_conversion,
+            format: 'currency' as const,
+            decorationColor: 'red' as const,
+          },
+        ]
+      : []
 
   // Global-specific KPIs
-  const globalKPIs = current_period.active_agents !== undefined ? [
-    {
-      label: 'Agents actifs',
-      value: current_period.active_agents,
-      previousValue: previous_period.active_agents,
-      format: 'number' as const,
-      decorationColor: 'violet' as const,
-    },
-    {
-      label: 'Agents appelés aujourd\'hui',
-      value: current_period.agents_called_today || 0,
-      previousValue: previous_period.agents_called_today,
-      format: 'number' as const,
-      decorationColor: 'blue' as const,
-    },
-  ] : []
+  const globalKPIs =
+    current_period.active_agents !== undefined
+      ? [
+          {
+            label: 'Agents actifs',
+            value: current_period.active_agents,
+            previousValue: previous_period.active_agents,
+            format: 'number' as const,
+            decorationColor: 'violet' as const,
+          },
+          {
+            label: "Agents appelés aujourd'hui",
+            value: current_period.agents_called_today || 0,
+            previousValue: previous_period.agents_called_today,
+            format: 'number' as const,
+            decorationColor: 'blue' as const,
+          },
+        ]
+      : []
 
   // Combine KPIs based on agent type
-  const allKPIs = agentType === 'louis'
-    ? louisOriginalKPIs  // Use simplified 6 KPIs for Louis
-    : agentType === 'louis-nestenn'
-    ? louisNestennKPIs  // Use qualification-focused 6 KPIs for Nestenn
-    : agentType === 'overview'
-    ? overviewKPIs  // Use 6 KPIs for Overview (aggregated)
-    : [
-        ...coreKPIs,
-        ...(agentType === 'arthur' ? arthurKPIs : []),
-        ...(agentType === 'global' ? globalKPIs : []),
-      ]
+  const allKPIs =
+    agentType === 'louis'
+      ? louisOriginalKPIs // Use simplified 6 KPIs for Louis
+      : agentType === 'louis-nestenn'
+        ? louisNestennKPIs // Use qualification-focused 6 KPIs for Nestenn
+        : agentType === 'overview'
+          ? overviewKPIs // Use 6 KPIs for Overview (aggregated)
+          : [
+              ...coreKPIs,
+              ...(agentType === 'arthur' ? arthurKPIs : []),
+              ...(agentType === 'global' ? globalKPIs : []),
+            ]
 
   // Grid columns: 6 for Louis/Louis-Nestenn/Overview (6 KPIs compact), 4 for others
-  const gridCols = (agentType === 'louis' || agentType === 'louis-nestenn' || agentType === 'overview')
-    ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-6'
-    : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
+  const gridCols =
+    agentType === 'louis' || agentType === 'louis-nestenn' || agentType === 'overview'
+      ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-6'
+      : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
 
   // Gap: smaller for Louis/Louis-Nestenn/Overview to fit better
-  const gridGap = (agentType === 'louis' || agentType === 'louis-nestenn' || agentType === 'overview') ? 'gap-2' : 'gap-6'
+  const gridGap =
+    agentType === 'louis' || agentType === 'louis-nestenn' || agentType === 'overview'
+      ? 'gap-2'
+      : 'gap-6'
 
   // Use compact mode for Louis/Louis-Nestenn/Overview dashboard
-  const isCompact = (agentType === 'louis' || agentType === 'louis-nestenn' || agentType === 'overview')
+  const isCompact =
+    agentType === 'louis' || agentType === 'louis-nestenn' || agentType === 'overview'
 
   return (
     <div className={`grid ${gridCols} ${gridGap}`}>

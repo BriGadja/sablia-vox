@@ -19,13 +19,13 @@ const config: Config = {
     'text-arthur',
     'text-alexandra',
     // Chatbot classes
-    'voipia-chatbot-trigger',
-    'voipia-chatbot-window',
-    'voipia-chatbot-header',
-    'voipia-chatbot-messages',
-    'voipia-chatbot-input',
-    'voipia-chatbot-message',
-    'voipia-chatbot-widget'
+    'sablia-chatbot-trigger',
+    'sablia-chatbot-window',
+    'sablia-chatbot-header',
+    'sablia-chatbot-messages',
+    'sablia-chatbot-input',
+    'sablia-chatbot-message',
+    'sablia-chatbot-widget'
   ],
   theme: {
   	extend: {

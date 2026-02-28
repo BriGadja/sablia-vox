@@ -1,7 +1,7 @@
-import { Suspense } from 'react'
-import { redirect, notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
 import { Loader2 } from 'lucide-react'
+import { notFound, redirect } from 'next/navigation'
+import { Suspense } from 'react'
+import { createClient } from '@/lib/supabase/server'
 import { CallDetailClient } from './CallDetailClient'
 
 interface CallDetailPageProps {
@@ -9,8 +9,8 @@ interface CallDetailPageProps {
 }
 
 export const metadata = {
-  title: 'Detail de l\'appel | Sablia Vox Dashboard',
-  description: 'Details complets de l\'appel',
+  title: "Detail de l'appel | Sablia Vox Dashboard",
+  description: "Details complets de l'appel",
 }
 
 /**
@@ -58,11 +58,7 @@ export default async function CallDetailPage({ params }: CallDetailPageProps) {
         </div>
       }
     >
-      <CallDetailClient
-        callId={callId}
-        agentId={agentId}
-        agentName={agentDeployment.name}
-      />
+      <CallDetailClient callId={callId} agentId={agentId} agentName={agentDeployment.name} />
     </Suspense>
   )
 }

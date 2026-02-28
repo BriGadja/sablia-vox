@@ -1,11 +1,11 @@
 import { createClient } from '@/lib/supabase/client'
-import type { KPIMetrics, ChartData, Client, AgentDeploymentListItem } from '@/lib/types/database'
+import type { AgentDeploymentListItem, ChartData, Client, KPIMetrics } from '@/lib/types/database'
 
 export async function fetchKPIMetrics(
   startDate: Date,
   endDate: Date,
   clientId?: string | null,
-  deploymentId?: string | null
+  deploymentId?: string | null,
 ): Promise<KPIMetrics> {
   const supabase = createClient()
 
@@ -28,7 +28,7 @@ export async function fetchChartData(
   startDate: Date,
   endDate: Date,
   clientId?: string | null,
-  deploymentId?: string | null
+  deploymentId?: string | null,
 ): Promise<ChartData> {
   const supabase = createClient()
 
@@ -50,10 +50,7 @@ export async function fetchChartData(
 export async function fetchClients(): Promise<Client[]> {
   const supabase = createClient()
 
-  const { data, error } = await supabase
-    .from('clients')
-    .select('*')
-    .order('name')
+  const { data, error } = await supabase.from('clients').select('*').order('name')
 
   if (error) {
     console.error('Error fetching clients:', error)
@@ -102,7 +99,7 @@ export async function exportCallsToCSV(
   startDate: Date,
   endDate: Date,
   clientId?: string | null,
-  deploymentId?: string | null
+  deploymentId?: string | null,
 ): Promise<string> {
   const supabase = createClient()
 

@@ -1,8 +1,8 @@
-import { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://vox.sablia.io';
-  const now = new Date();
+  const baseUrl = 'https://vox.sablia.io'
+  const now = new Date()
 
   return [
     {
@@ -30,5 +30,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     // Note: Dashboard n'est PAS dans le sitemap (privé, derrière auth)
-  ];
+  ]
 }

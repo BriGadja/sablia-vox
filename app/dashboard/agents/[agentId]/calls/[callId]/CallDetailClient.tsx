@@ -1,31 +1,31 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
-import { fetchCallById } from '@/lib/queries/calls'
-import { PageHeader } from '@/components/dashboard/PageHeader'
 import {
   ArrowLeft,
   Calendar,
-  Clock,
-  Phone,
-  User,
-  Mail,
   CheckCircle2,
-  XCircle,
-  Voicemail,
-  MessageSquare,
-  Play,
-  Pause,
-  Volume2,
-  FileText,
-  Loader2,
+  Clock,
   DollarSign,
-  Smile,
+  FileText,
   Frown,
+  Loader2,
+  Mail,
   Meh,
+  MessageSquare,
+  Pause,
+  Phone,
+  Play,
+  Smile,
+  User,
+  Voicemail,
+  Volume2,
+  XCircle,
 } from 'lucide-react'
+import Link from 'next/link'
+import { useState } from 'react'
+import { PageHeader } from '@/components/dashboard/PageHeader'
+import { fetchCallById } from '@/lib/queries/calls'
 import { cn } from '@/lib/utils'
 
 interface CallDetailClientProps {
@@ -135,7 +135,11 @@ function AudioPlayer({ url }: { url: string }) {
  */
 export function CallDetailClient({ callId, agentId, agentName }: CallDetailClientProps) {
   // Fetch call data
-  const { data: call, isLoading, error } = useQuery({
+  const {
+    data: call,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['call-detail', callId],
     queryFn: () => fetchCallById(callId),
   })
@@ -245,9 +249,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
                   <Clock className="w-4 h-4" />
                   <span>Duree</span>
                 </div>
-                <p className="text-white font-medium">
-                  {formatDuration(call.duration_seconds)}
-                </p>
+                <p className="text-white font-medium">{formatDuration(call.duration_seconds)}</p>
               </div>
 
               {/* Cost */}
@@ -256,9 +258,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
                   <DollarSign className="w-4 h-4" />
                   <span>Cout</span>
                 </div>
-                <p className="text-white font-medium">
-                  {call.cost?.toFixed(2) || '0.00'} EUR
-                </p>
+                <p className="text-white font-medium">{call.cost?.toFixed(2) || '0.00'} EUR</p>
               </div>
 
               {/* Status */}
@@ -280,7 +280,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
                 <div
                   className={cn(
                     'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium',
-                    outcomeConfig.className
+                    outcomeConfig.className,
                   )}
                 >
                   {outcomeConfig.icon}
@@ -294,7 +294,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
                   <div
                     className={cn(
                       'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium',
-                      emotionConfig.className
+                      emotionConfig.className,
                     )}
                   >
                     {emotionConfig.icon}

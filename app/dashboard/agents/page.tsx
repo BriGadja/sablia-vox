@@ -1,7 +1,7 @@
-import { Suspense } from 'react'
-import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
 import { Loader2 } from 'lucide-react'
+import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
+import { createClient } from '@/lib/supabase/server'
 import { AgentsListClient } from './AgentsListClient'
 
 export const metadata = {

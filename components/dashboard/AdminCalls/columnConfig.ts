@@ -329,7 +329,14 @@ export const COLUMN_GROUPS: AdminCallsColumnGroup[] = [
   {
     key: 'core',
     label: 'Informations principales',
-    columns: ['started_at', 'client_name', 'deployment_name', 'contact', 'phone_number', 'duration_seconds'],
+    columns: [
+      'started_at',
+      'client_name',
+      'deployment_name',
+      'contact',
+      'phone_number',
+      'duration_seconds',
+    ],
     collapsible: false,
     defaultCollapsed: false,
   },
@@ -350,7 +357,14 @@ export const COLUMN_GROUPS: AdminCallsColumnGroup[] = [
   {
     key: 'costs',
     label: 'Coûts',
-    columns: ['total_cost', 'stt_cost', 'tts_cost', 'llm_cost', 'telecom_cost', 'dipler_commission'],
+    columns: [
+      'total_cost',
+      'stt_cost',
+      'tts_cost',
+      'llm_cost',
+      'telecom_cost',
+      'dipler_commission',
+    ],
     collapsible: true,
     defaultCollapsed: true,
   },
@@ -358,9 +372,15 @@ export const COLUMN_GROUPS: AdminCallsColumnGroup[] = [
     key: 'latencies',
     label: 'Latences',
     columns: [
-      'avg_llm_latency_ms', 'min_llm_latency_ms', 'max_llm_latency_ms',
-      'avg_tts_latency_ms', 'min_tts_latency_ms', 'max_tts_latency_ms',
-      'avg_total_latency_ms', 'min_total_latency_ms', 'max_total_latency_ms',
+      'avg_llm_latency_ms',
+      'min_llm_latency_ms',
+      'max_llm_latency_ms',
+      'avg_tts_latency_ms',
+      'min_tts_latency_ms',
+      'max_tts_latency_ms',
+      'avg_total_latency_ms',
+      'min_total_latency_ms',
+      'max_total_latency_ms',
     ],
     collapsible: true,
     defaultCollapsed: true,
@@ -375,14 +395,14 @@ export const COLUMN_GROUPS: AdminCallsColumnGroup[] = [
 ]
 
 // Default visible columns
-export const DEFAULT_VISIBLE_COLUMNS = COLUMN_DEFINITIONS
-  .filter((col) => col.defaultVisible)
-  .map((col) => col.key)
+export const DEFAULT_VISIBLE_COLUMNS = COLUMN_DEFINITIONS.filter((col) => col.defaultVisible).map(
+  (col) => col.key,
+)
 
 // Default collapsed groups
-export const DEFAULT_COLLAPSED_GROUPS = COLUMN_GROUPS
-  .filter((group) => group.defaultCollapsed)
-  .map((group) => group.key)
+export const DEFAULT_COLLAPSED_GROUPS = COLUMN_GROUPS.filter((group) => group.defaultCollapsed).map(
+  (group) => group.key,
+)
 
 // Get column definition by key
 export function getColumnDef(key: string): AdminCallsColumnDef | undefined {

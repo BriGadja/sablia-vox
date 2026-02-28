@@ -1,9 +1,9 @@
 'use client'
 
+import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
-import { Loader2 } from 'lucide-react'
 
 export default function ConfirmPage() {
   const [error, setError] = useState('')

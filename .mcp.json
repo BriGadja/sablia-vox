@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "supabase-voipia": {
+    "supabase-vox": {
       "command": "C:\\Program Files\\nodejs\\npx.cmd",
       "args": [
         "-y",
@@ -14,11 +14,7 @@
     },
     "supabase-staging": {
       "command": "C:\\Program Files\\nodejs\\npx.cmd",
-      "args": [
-        "-y",
-        "@supabase/mcp-server-supabase@latest",
-        "--project-ref=vmmohjvwtbrotygzjias"
-      ],
+      "args": ["-y", "@supabase/mcp-server-supabase@latest", "--project-ref=vmmohjvwtbrotygzjias"],
       "env": {
         "SUPABASE_ACCESS_TOKEN": "sbp_f5410bfb53bc83280b10b378ba13c6308c29b0b1"
       }

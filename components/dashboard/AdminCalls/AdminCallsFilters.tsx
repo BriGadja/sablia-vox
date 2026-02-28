@@ -1,19 +1,19 @@
 'use client'
 
-import { useState, useCallback } from 'react'
-import { Search, ChevronDown, ChevronUp, X, RotateCcw } from 'lucide-react'
+import { ChevronDown, ChevronUp, RotateCcw, Search, X } from 'lucide-react'
+import { useCallback, useState } from 'react'
 import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
-import { MultiClientSelect } from './MultiClientSelect'
-import { cn } from '@/lib/utils'
 import {
-  CALL_OUTCOMES,
-  CALL_EMOTIONS,
-  CALL_DIRECTIONS,
   AGENT_TYPES,
-  OUTCOME_LABELS,
-  EMOTION_LABELS,
+  CALL_DIRECTIONS,
+  CALL_EMOTIONS,
+  CALL_OUTCOMES,
   DIRECTION_LABELS,
+  EMOTION_LABELS,
+  OUTCOME_LABELS,
 } from '@/lib/types/adminCalls'
+import { cn } from '@/lib/utils'
+import { MultiClientSelect } from './MultiClientSelect'
 
 interface Client {
   id: string
@@ -37,11 +37,7 @@ interface AdminCallsFiltersProps {
   onFilterChange: (filters: Partial<FilterState>) => void
 }
 
-export function AdminCallsFilters({
-  filters,
-  clients,
-  onFilterChange,
-}: AdminCallsFiltersProps) {
+export function AdminCallsFilters({ filters, clients, onFilterChange }: AdminCallsFiltersProps) {
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [searchInput, setSearchInput] = useState(filters.search || '')
 
@@ -55,7 +51,7 @@ export function AdminCallsFilters({
       }, 300)
       return () => clearTimeout(timeoutId)
     },
-    [onFilterChange]
+    [onFilterChange],
   )
 
   // Handle date range change
@@ -66,7 +62,7 @@ export function AdminCallsFilters({
         endDate: endDate.toISOString().split('T')[0],
       })
     },
-    [onFilterChange]
+    [onFilterChange],
   )
 
   // Handle outcome toggle
@@ -83,7 +79,7 @@ export function AdminCallsFilters({
         })
       }
     },
-    [filters.outcomes, onFilterChange]
+    [filters.outcomes, onFilterChange],
   )
 
   // Reset all filters
@@ -180,14 +176,10 @@ export function AdminCallsFilters({
             'flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg border transition-colors',
             showAdvanced
               ? 'bg-purple-500/20 border-purple-500/50 text-purple-400'
-              : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600'
+              : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600',
           )}
         >
-          {showAdvanced ? (
-            <ChevronUp className="w-4 h-4" />
-          ) : (
-            <ChevronDown className="w-4 h-4" />
-          )}
+          {showAdvanced ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           Filtres avancés
         </button>
 
@@ -223,7 +215,7 @@ export function AdminCallsFilters({
                       'px-3 py-1.5 text-xs font-medium rounded-full border transition-colors',
                       isSelected
                         ? 'bg-purple-500/20 border-purple-500/50 text-purple-400'
-                        : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600'
+                        : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600',
                     )}
                   >
                     {OUTCOME_LABELS[outcome]}
@@ -237,9 +229,7 @@ export function AdminCallsFilters({
           <div className="flex flex-wrap gap-6">
             {/* Emotion */}
             <div>
-              <label className="block text-xs font-medium text-gray-400 mb-2">
-                Émotion
-              </label>
+              <label className="block text-xs font-medium text-gray-400 mb-2">Émotion</label>
               <div className="flex gap-2">
                 <button
                   onClick={() => onFilterChange({ emotion: null })}
@@ -247,7 +237,7 @@ export function AdminCallsFilters({
                     'px-3 py-1.5 text-xs font-medium rounded-full border transition-colors',
                     !filters.emotion
                       ? 'bg-purple-500/20 border-purple-500/50 text-purple-400'
-                      : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600'
+                      : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600',
                   )}
                 >
                   Toutes
@@ -260,7 +250,7 @@ export function AdminCallsFilters({
                       'px-3 py-1.5 text-xs font-medium rounded-full border transition-colors',
                       filters.emotion === emotion
                         ? 'bg-purple-500/20 border-purple-500/50 text-purple-400'
-                        : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600'
+                        : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600',
                     )}
                   >
                     {EMOTION_LABELS[emotion]}
@@ -271,9 +261,7 @@ export function AdminCallsFilters({
 
             {/* Direction */}
             <div>
-              <label className="block text-xs font-medium text-gray-400 mb-2">
-                Direction
-              </label>
+              <label className="block text-xs font-medium text-gray-400 mb-2">Direction</label>
               <div className="flex gap-2">
                 <button
                   onClick={() => onFilterChange({ direction: null })}
@@ -281,7 +269,7 @@ export function AdminCallsFilters({
                     'px-3 py-1.5 text-xs font-medium rounded-full border transition-colors',
                     !filters.direction
                       ? 'bg-purple-500/20 border-purple-500/50 text-purple-400'
-                      : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600'
+                      : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600',
                   )}
                 >
                   Toutes
@@ -294,7 +282,7 @@ export function AdminCallsFilters({
                       'px-3 py-1.5 text-xs font-medium rounded-full border transition-colors',
                       filters.direction === direction
                         ? 'bg-purple-500/20 border-purple-500/50 text-purple-400'
-                        : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600'
+                        : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600',
                     )}
                   >
                     {DIRECTION_LABELS[direction]}

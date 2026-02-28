@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Clock, Mail, MessageSquare, Phone, TrendingUp } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
-import { Phone, MessageSquare, Mail, Clock, TrendingUp } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { useEffect, useState } from 'react'
 import { getDefaultDateRange } from '@/lib/queries/financial'
+import { createClient } from '@/lib/supabase/client'
 
 interface UsageMetrics {
   total_calls: number
@@ -93,7 +93,8 @@ export function ClientUsageDashboard() {
 
         // Calculate metrics
         const totalCalls = callsData?.length || 0
-        const totalSeconds = callsData?.reduce((sum, call) => sum + (call.duration_seconds || 0), 0) || 0
+        const totalSeconds =
+          callsData?.reduce((sum, call) => sum + (call.duration_seconds || 0), 0) || 0
         const totalMinutes = Math.round(totalSeconds / 60)
         const avgDuration = totalCalls > 0 ? Math.round(totalSeconds / totalCalls) : 0
         const totalSms = smsData?.length || 0
@@ -138,9 +139,10 @@ export function ClientUsageDashboard() {
           }
         })
 
-        const sortedDaily = Array.from(dailyMap.values()).sort((a, b) => a.date.localeCompare(b.date))
+        const sortedDaily = Array.from(dailyMap.values()).sort((a, b) =>
+          a.date.localeCompare(b.date),
+        )
         setDailyUsage(sortedDaily)
-
       } catch (err) {
         console.error('Error fetching usage metrics:', err)
         setError('Erreur lors du chargement des donnees')
@@ -165,12 +167,8 @@ export function ClientUsageDashboard() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-white mb-1">
-            Consommation
-          </h1>
-          <p className="text-gray-400 text-sm">
-            Suivi de votre utilisation des services Voipia
-          </p>
+          <h1 className="text-2xl font-bold text-white mb-1">Consommation</h1>
+          <p className="text-gray-400 text-sm">Suivi de votre utilisation des services Voipia</p>
         </div>
 
         {/* Date Range Filter */}
@@ -289,14 +287,16 @@ export function ClientUsageDashboard() {
                 <div className="h-5 bg-white/10 rounded animate-pulse w-16" />
               ) : (
                 <p className="text-lg font-semibold text-white">
-                  {Math.floor((metrics?.avg_call_duration || 0) / 60)}m {(metrics?.avg_call_duration || 0) % 60}s
+                  {Math.floor((metrics?.avg_call_duration || 0) / 60)}m{' '}
+                  {(metrics?.avg_call_duration || 0) % 60}s
                 </p>
               )}
             </div>
             <div>
               <p className="text-xs text-gray-500 mb-1">Periode</p>
               <p className="text-sm text-white">
-                {new Date(startDate).toLocaleDateString('fr-FR')} - {new Date(endDate).toLocaleDateString('fr-FR')}
+                {new Date(startDate).toLocaleDateString('fr-FR')} -{' '}
+                {new Date(endDate).toLocaleDateString('fr-FR')}
               </p>
             </div>
             <div>
@@ -304,9 +304,7 @@ export function ClientUsageDashboard() {
               {isLoading ? (
                 <div className="h-5 bg-white/10 rounded animate-pulse w-8" />
               ) : (
-                <p className="text-lg font-semibold text-white">
-                  {dailyUsage.length}
-                </p>
+                <p className="text-lg font-semibold text-white">{dailyUsage.length}</p>
               )}
             </div>
           </div>
@@ -323,24 +321,39 @@ export function ClientUsageDashboard() {
                 <thead>
                   <tr className="bg-gray-800/50">
                     <th className="px-4 py-2 text-left text-xs font-medium text-gray-400">Date</th>
-                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-400">Appels</th>
-                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-400">Minutes</th>
+                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-400">
+                      Appels
+                    </th>
+                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-400">
+                      Minutes
+                    </th>
                     <th className="px-4 py-2 text-right text-xs font-medium text-gray-400">SMS</th>
-                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-400">Emails</th>
+                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-400">
+                      Emails
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-700/30">
-                  {dailyUsage.slice(-14).reverse().map((day) => (
-                    <tr key={day.date} className="hover:bg-gray-800/30">
-                      <td className="px-4 py-2 text-sm text-white">
-                        {new Date(day.date).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}
-                      </td>
-                      <td className="px-4 py-2 text-sm text-right text-gray-300">{day.calls}</td>
-                      <td className="px-4 py-2 text-sm text-right text-gray-300">{day.minutes}</td>
-                      <td className="px-4 py-2 text-sm text-right text-gray-300">{day.sms}</td>
-                      <td className="px-4 py-2 text-sm text-right text-gray-300">{day.emails}</td>
-                    </tr>
-                  ))}
+                  {dailyUsage
+                    .slice(-14)
+                    .reverse()
+                    .map((day) => (
+                      <tr key={day.date} className="hover:bg-gray-800/30">
+                        <td className="px-4 py-2 text-sm text-white">
+                          {new Date(day.date).toLocaleDateString('fr-FR', {
+                            weekday: 'short',
+                            day: 'numeric',
+                            month: 'short',
+                          })}
+                        </td>
+                        <td className="px-4 py-2 text-sm text-right text-gray-300">{day.calls}</td>
+                        <td className="px-4 py-2 text-sm text-right text-gray-300">
+                          {day.minutes}
+                        </td>
+                        <td className="px-4 py-2 text-sm text-right text-gray-300">{day.sms}</td>
+                        <td className="px-4 py-2 text-sm text-right text-gray-300">{day.emails}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

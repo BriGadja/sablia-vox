@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import { ArrowRight, PhoneIncoming, Cog, CalendarCheck } from 'lucide-react';
+import { ArrowRight, CalendarCheck, Cog, PhoneIncoming } from 'lucide-react'
 
 const steps = [
   {
@@ -51,13 +51,12 @@ const steps = [
       'Escalade / transfert humain si lead stratégique ou demande complexe',
     ],
   },
-];
+]
 
 export function HowItWorksV2() {
   return (
     <section id="comment-ca-fonctionne" className="py-24 bg-gray-950">
       <div className="container mx-auto px-4">
-
         {/* Section header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
@@ -70,32 +69,36 @@ export function HowItWorksV2() {
 
         {/* Steps grid */}
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-
           {steps.map((step, index) => (
             <div key={step.id} className="relative">
               {/* Card */}
-              <div className={`h-full p-6 lg:p-8 rounded-2xl ${step.bgColor} border ${step.borderColor} backdrop-blur-sm text-center`}>
-
+              <div
+                className={`h-full p-6 lg:p-8 rounded-2xl ${step.bgColor} border ${step.borderColor} backdrop-blur-sm text-center`}
+              >
                 {/* Icon - centré */}
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${step.color} flex items-center justify-center mb-6 mx-auto`}>
+                <div
+                  className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${step.color} flex items-center justify-center mb-6 mx-auto`}
+                >
                   <step.icon className="w-8 h-8 text-white" />
                 </div>
 
                 {/* Title */}
-                <h3 className={`text-2xl font-bold mb-2 bg-gradient-to-r ${step.color} bg-clip-text text-transparent`}>
+                <h3
+                  className={`text-2xl font-bold mb-2 bg-gradient-to-r ${step.color} bg-clip-text text-transparent`}
+                >
                   {step.title}
                 </h3>
 
                 {/* Subtitle */}
-                <p className="text-gray-300 font-medium mb-6">
-                  {step.subtitle}
-                </p>
+                <p className="text-gray-300 font-medium mb-6">{step.subtitle}</p>
 
                 {/* Items list */}
                 <ul className="space-y-3 text-left">
                   {step.items.map((item, itemIndex) => (
                     <li key={itemIndex} className="flex items-start gap-3 text-sm text-gray-400">
-                      <span className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${step.color} mt-2 flex-shrink-0`} />
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${step.color} mt-2 flex-shrink-0`}
+                      />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -111,8 +114,7 @@ export function HowItWorksV2() {
             </div>
           ))}
         </div>
-
       </div>
     </section>
-  );
+  )
 }

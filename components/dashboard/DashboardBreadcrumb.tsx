@@ -1,10 +1,10 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
-import { ChevronRight, Home, BarChart3, Users, Target, Sparkles } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import type { LucideIcon } from 'lucide-react'
+import { BarChart3, ChevronRight, Home, Sparkles, Target, Users } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { cn } from '@/lib/utils'
 
 interface DashboardBreadcrumbProps {
   title?: string
@@ -79,9 +79,7 @@ export function DashboardBreadcrumb({ title }: DashboardBreadcrumbProps) {
 
         return (
           <div key={item.href} className="flex items-center gap-2">
-            {index > 0 && (
-              <ChevronRight className="w-4 h-4 text-white/40" />
-            )}
+            {index > 0 && <ChevronRight className="w-4 h-4 text-white/40" />}
 
             {isLast ? (
               <div className="flex items-center gap-2 text-white font-medium">
@@ -93,7 +91,7 @@ export function DashboardBreadcrumb({ title }: DashboardBreadcrumbProps) {
                 href={item.href}
                 className={cn(
                   'flex items-center gap-2 transition-colors hover:text-white',
-                  item.active ? 'text-white' : 'text-white/60'
+                  item.active ? 'text-white' : 'text-white/60',
                 )}
               >
                 <Icon className={cn('w-4 h-4', item.color)} />

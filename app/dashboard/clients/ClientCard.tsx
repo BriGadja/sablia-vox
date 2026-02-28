@@ -1,8 +1,18 @@
 'use client'
 
+import {
+  Activity,
+  ArrowRight,
+  Bot,
+  Building2,
+  Calendar,
+  Euro,
+  Phone,
+  TrendingUp,
+  Users,
+} from 'lucide-react'
 import Link from 'next/link'
-import { Building2, Users, Phone, Calendar, TrendingUp, Activity, ArrowRight, Euro, Bot } from 'lucide-react'
-import { ClientCardData } from '@/lib/types/dashboard'
+import type { ClientCardData } from '@/lib/types/dashboard'
 import { cn, formatRelativeTime } from '@/lib/utils'
 
 interface ClientCardProps {
@@ -22,7 +32,7 @@ export function ClientCard({ client }: ClientCardProps) {
       href={`/dashboard/clients/${client.client_id}`}
       className={cn(
         'group relative overflow-hidden rounded-xl border bg-gradient-to-br backdrop-blur-sm transition-all hover:scale-[1.02]',
-        'from-purple-500/20 to-purple-500/5 border-purple-500/30'
+        'from-purple-500/20 to-purple-500/5 border-purple-500/30',
       )}
     >
       <div className="p-5 space-y-4">
@@ -33,9 +43,7 @@ export function ClientCard({ client }: ClientCardProps) {
               <Building2 className="w-5 h-5" />
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className="text-base font-bold text-white truncate">
-                {client.client_name}
-              </h3>
+              <h3 className="text-base font-bold text-white truncate">{client.client_name}</h3>
               {client.industry && (
                 <p className="text-xs text-white/60 truncate">{client.industry}</p>
               )}
@@ -96,9 +104,7 @@ export function ClientCard({ client }: ClientCardProps) {
                   <TrendingUp className="w-3 h-3" />
                   <p className="text-xs">Taux reponse</p>
                 </div>
-                <p className="text-lg font-bold text-white">
-                  {client.answer_rate.toFixed(1)}%
-                </p>
+                <p className="text-lg font-bold text-white">{client.answer_rate.toFixed(1)}%</p>
               </div>
               <div>
                 <div className="flex items-center gap-1 text-white/50 mb-0.5">
@@ -114,9 +120,7 @@ export function ClientCard({ client }: ClientCardProps) {
                   <Users className="w-3 h-3" />
                   <p className="text-xs">Conversion</p>
                 </div>
-                <p className="text-lg font-bold text-white">
-                  {client.conversion_rate.toFixed(1)}%
-                </p>
+                <p className="text-lg font-bold text-white">{client.conversion_rate.toFixed(1)}%</p>
               </div>
             </div>
 

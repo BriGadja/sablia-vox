@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { KPICard } from '@/components/dashboard/KPICard';
-import type { ConsumptionMetrics } from '@/lib/types/financial';
+import { KPICard } from '@/components/dashboard/KPICard'
+import type { ConsumptionMetrics } from '@/lib/types/financial'
 
 interface ConsumptionKPIGridProps {
-  data: ConsumptionMetrics | undefined;
-  isLoading: boolean;
+  data: ConsumptionMetrics | undefined
+  isLoading: boolean
 }
 
 /**
@@ -32,7 +32,7 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
           />
         ))}
       </div>
-    );
+    )
   }
 
   if (!data) {
@@ -40,14 +40,12 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
       <div className="text-center text-white/60 py-12">
         Aucune donnée de consommation disponible pour la période sélectionnée
       </div>
-    );
+    )
   }
 
   // Calculate total volume and average cost per unit
-  const totalVolume = data.total_calls + data.total_sms + data.total_emails;
-  const avgCostPerUnit = totalVolume > 0
-    ? data.total_provider_cost / totalVolume
-    : 0;
+  const totalVolume = data.total_calls + data.total_sms + data.total_emails
+  const avgCostPerUnit = totalVolume > 0 ? data.total_provider_cost / totalVolume : 0
 
   const consumptionKPIs = [
     {
@@ -86,7 +84,7 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
       format: 'currency' as const,
       decorationColor: 'amber' as const,
     },
-  ];
+  ]
 
   return (
     <div className="space-y-4">
@@ -115,7 +113,9 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Volume</span>
-              <span className="text-white font-medium">{data.total_calls.toLocaleString('fr-FR')}</span>
+              <span className="text-white font-medium">
+                {data.total_calls.toLocaleString('fr-FR')}
+              </span>
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Revenu</span>
@@ -123,7 +123,9 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Coût</span>
-              <span className="text-red-400 font-medium">{data.call_provider_cost.toFixed(2)}€</span>
+              <span className="text-red-400 font-medium">
+                {data.call_provider_cost.toFixed(2)}€
+              </span>
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Marge</span>
@@ -131,11 +133,15 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
             </div>
             <div className="flex justify-between text-xs pt-1 border-t border-white/10">
               <span className="text-white/50">Marge %</span>
-              <span className="text-violet-400 font-semibold">{data.call_margin_pct.toFixed(1)}%</span>
+              <span className="text-violet-400 font-semibold">
+                {data.call_margin_pct.toFixed(1)}%
+              </span>
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Prix/min</span>
-              <span className="text-white font-medium">{data.avg_revenue_per_minute.toFixed(4)}€</span>
+              <span className="text-white font-medium">
+                {data.avg_revenue_per_minute.toFixed(4)}€
+              </span>
             </div>
           </div>
         </div>
@@ -149,7 +155,9 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Volume</span>
-              <span className="text-white font-medium">{data.total_sms.toLocaleString('fr-FR')}</span>
+              <span className="text-white font-medium">
+                {data.total_sms.toLocaleString('fr-FR')}
+              </span>
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Revenu</span>
@@ -165,7 +173,9 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
             </div>
             <div className="flex justify-between text-xs pt-1 border-t border-white/10">
               <span className="text-white/50">Marge %</span>
-              <span className="text-violet-400 font-semibold">{data.sms_margin_pct.toFixed(1)}%</span>
+              <span className="text-violet-400 font-semibold">
+                {data.sms_margin_pct.toFixed(1)}%
+              </span>
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Prix/SMS</span>
@@ -183,7 +193,9 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Volume</span>
-              <span className="text-white font-medium">{data.total_emails.toLocaleString('fr-FR')}</span>
+              <span className="text-white font-medium">
+                {data.total_emails.toLocaleString('fr-FR')}
+              </span>
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Revenu</span>
@@ -191,7 +203,9 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Coût</span>
-              <span className="text-red-400 font-medium">{data.email_provider_cost.toFixed(2)}€</span>
+              <span className="text-red-400 font-medium">
+                {data.email_provider_cost.toFixed(2)}€
+              </span>
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Marge</span>
@@ -199,11 +213,15 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
             </div>
             <div className="flex justify-between text-xs pt-1 border-t border-white/10">
               <span className="text-white/50">Marge %</span>
-              <span className="text-violet-400 font-semibold">{data.email_margin_pct.toFixed(1)}%</span>
+              <span className="text-violet-400 font-semibold">
+                {data.email_margin_pct.toFixed(1)}%
+              </span>
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-white/50">Prix/email</span>
-              <span className="text-white font-medium">{data.avg_revenue_per_email.toFixed(4)}€</span>
+              <span className="text-white font-medium">
+                {data.avg_revenue_per_email.toFixed(4)}€
+              </span>
             </div>
           </div>
         </div>
@@ -213,15 +231,11 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
         <div className="p-4 bg-slate-900/50 border border-slate-700/50 rounded-lg">
           <p className="text-xs text-white/50 mb-1">Clients actifs</p>
-          <p className="text-lg font-semibold text-white">
-            {data.consumption_client_count}
-          </p>
+          <p className="text-lg font-semibold text-white">{data.consumption_client_count}</p>
         </div>
         <div className="p-4 bg-slate-900/50 border border-slate-700/50 rounded-lg">
           <p className="text-xs text-white/50 mb-1">Agents en consommation</p>
-          <p className="text-lg font-semibold text-white">
-            {data.active_deployment_count}
-          </p>
+          <p className="text-lg font-semibold text-white">{data.active_deployment_count}</p>
         </div>
         <div className="p-4 bg-slate-900/50 border border-slate-700/50 rounded-lg">
           <p className="text-xs text-white/50 mb-1">Consommation moy./client</p>
@@ -231,5 +245,5 @@ export function ConsumptionKPIGrid({ data, isLoading }: ConsumptionKPIGridProps)
         </div>
       </div>
     </div>
-  );
+  )
 }

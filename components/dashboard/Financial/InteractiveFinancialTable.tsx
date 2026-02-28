@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowUpDown, ArrowUp, ArrowDown, Download, ChevronRight } from 'lucide-react'
-import { formatCurrency, formatPercentage, exportToCSV } from '@/lib/queries/financial'
+import { ArrowDown, ArrowUp, ArrowUpDown, ChevronRight, Download } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { exportToCSV, formatCurrency, formatPercentage } from '@/lib/queries/financial'
 
 // ============================================================================
 // Types
@@ -193,8 +193,8 @@ export function InteractiveFinancialTable<T extends Record<string, any>>({
                       column.align === 'right'
                         ? 'text-right'
                         : column.align === 'center'
-                        ? 'text-center'
-                        : 'text-left'
+                          ? 'text-center'
+                          : 'text-left'
                     } ${column.sortable ? 'cursor-pointer hover:text-white' : ''}`}
                     style={{ width: column.width }}
                     onClick={() => handleSort(column.key, column.sortable)}
@@ -204,8 +204,8 @@ export function InteractiveFinancialTable<T extends Record<string, any>>({
                         column.align === 'right'
                           ? 'justify-end'
                           : column.align === 'center'
-                          ? 'justify-center'
-                          : 'justify-start'
+                            ? 'justify-center'
+                            : 'justify-start'
                       }`}
                     >
                       <span>{column.label}</span>
@@ -240,17 +240,13 @@ export function InteractiveFinancialTable<T extends Record<string, any>>({
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
                   className={`border-b border-gray-800/30 transition-colors ${
-                    onRowClick
-                      ? 'cursor-pointer hover:bg-white/5'
-                      : ''
+                    onRowClick ? 'cursor-pointer hover:bg-white/5' : ''
                   }`}
                   onClick={() => onRowClick?.(row)}
                 >
                   {columns.map((column) => {
                     const value = row[column.key]
-                    const formattedValue = column.format
-                      ? column.format(value, row)
-                      : value
+                    const formattedValue = column.format ? column.format(value, row) : value
 
                     return (
                       <td
@@ -259,8 +255,8 @@ export function InteractiveFinancialTable<T extends Record<string, any>>({
                           column.align === 'right'
                             ? 'text-right'
                             : column.align === 'center'
-                            ? 'text-center'
-                            : 'text-left'
+                              ? 'text-center'
+                              : 'text-left'
                         } ${column.className || 'text-gray-300'}`}
                       >
                         {formattedValue}
@@ -292,8 +288,8 @@ export function InteractiveFinancialTable<T extends Record<string, any>>({
           <div className="mt-4 flex items-center justify-between">
             <p className="text-sm text-gray-400">
               Affichage {currentPage * pageSize + 1} à{' '}
-              {Math.min((currentPage + 1) * pageSize, sortedData.length)} sur{' '}
-              {sortedData.length} résultats
+              {Math.min((currentPage + 1) * pageSize, sortedData.length)} sur {sortedData.length}{' '}
+              résultats
             </p>
             <div className="flex items-center gap-2">
               <button

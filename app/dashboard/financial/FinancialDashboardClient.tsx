@@ -1,50 +1,69 @@
 'use client'
 
-import { useState, useMemo, useCallback } from 'react'
+import dynamic from 'next/dynamic'
 import { useSearchParams } from 'next/navigation'
 import { useQueryStates } from 'nuqs'
-import dynamic from 'next/dynamic'
-import { useFinancialKPIs, useClientBreakdown, useFinancialTimeSeries, useCostBreakdown, useLeasingMetrics, useConsumptionMetrics } from '@/lib/hooks/useFinancialData'
-import { useMonthlyInvoice } from '@/lib/hooks/useMonthlyInvoice'
-import { FinancialKPIGrid } from '@/components/dashboard/Financial/FinancialKPIGrid'
+import { useCallback, useMemo, useState } from 'react'
 import { ClientBreakdownTableV2 } from '@/components/dashboard/Financial/ClientBreakdownTableV2'
-import FinancialViewToggle from '@/components/dashboard/Financial/FinancialViewToggle'
-import { LeasingKPIGrid } from '@/components/dashboard/Financial/LeasingKPIGrid'
 import { ConsumptionKPIGrid } from '@/components/dashboard/Financial/ConsumptionKPIGrid'
-import { MonthSelector } from '@/components/dashboard/Financial/MonthSelector'
+import { FinancialKPIGrid } from '@/components/dashboard/Financial/FinancialKPIGrid'
+import FinancialViewToggle from '@/components/dashboard/Financial/FinancialViewToggle'
 import { InvoiceSummaryTable } from '@/components/dashboard/Financial/InvoiceSummaryTable'
-import { financialParsers, type FinancialViewMode } from '@/lib/hooks/financialSearchParams'
-import type { FinancialFilters, ClientFinancialData } from '@/lib/types/financial'
+import { LeasingKPIGrid } from '@/components/dashboard/Financial/LeasingKPIGrid'
+import { MonthSelector } from '@/components/dashboard/Financial/MonthSelector'
+import { type FinancialViewMode, financialParsers } from '@/lib/hooks/financialSearchParams'
+import {
+  useClientBreakdown,
+  useConsumptionMetrics,
+  useCostBreakdown,
+  useFinancialKPIs,
+  useFinancialTimeSeries,
+  useLeasingMetrics,
+} from '@/lib/hooks/useFinancialData'
+import { useMonthlyInvoice } from '@/lib/hooks/useMonthlyInvoice'
+import type { ClientFinancialData, FinancialFilters } from '@/lib/types/financial'
 import { getDefaultInvoiceMonth, type SelectedMonth } from '@/lib/types/invoice'
 
 // Lazy load heavy chart components
 const FinancialTimeSeriesChart = dynamic(
-  () => import('@/components/dashboard/Financial/FinancialTimeSeriesChart').then(mod => ({ default: mod.FinancialTimeSeriesChart })),
+  () =>
+    import('@/components/dashboard/Financial/FinancialTimeSeriesChart').then((mod) => ({
+      default: mod.FinancialTimeSeriesChart,
+    })),
   {
     loading: () => <ChartSkeleton height={280} />,
-    ssr: false
-  }
+    ssr: false,
+  },
 )
 
 const CostBreakdownChart = dynamic(
-  () => import('@/components/dashboard/Financial/CostBreakdownChart').then(mod => ({ default: mod.CostBreakdownChart })),
+  () =>
+    import('@/components/dashboard/Financial/CostBreakdownChart').then((mod) => ({
+      default: mod.CostBreakdownChart,
+    })),
   {
     loading: () => <ChartSkeleton height={280} />,
-    ssr: false
-  }
+    ssr: false,
+  },
 )
 
 const ClientDrilldownModal = dynamic(
-  () => import('@/components/dashboard/Financial/ClientDrilldownModal').then(mod => ({ default: mod.ClientDrilldownModal })),
-  { ssr: false }
+  () =>
+    import('@/components/dashboard/Financial/ClientDrilldownModal').then((mod) => ({
+      default: mod.ClientDrilldownModal,
+    })),
+  { ssr: false },
 )
 
 const ClientUsageDashboard = dynamic(
-  () => import('@/components/dashboard/Financial/ClientUsageDashboard').then(mod => ({ default: mod.ClientUsageDashboard })),
+  () =>
+    import('@/components/dashboard/Financial/ClientUsageDashboard').then((mod) => ({
+      default: mod.ClientUsageDashboard,
+    })),
   {
     loading: () => <DashboardSkeleton />,
-    ssr: false
-  }
+    ssr: false,
+  },
 )
 
 // Skeleton components for loading states
@@ -99,31 +118,40 @@ function AdminFinancialDashboard() {
   })
 
   // Derive filters from URL params
-  const filters: FinancialFilters = useMemo(() => ({
-    startDate: searchParams.startDate,
-    endDate: searchParams.endDate,
-    clientId: searchParams.clientId || null,
-    agentTypeName: searchParams.agentTypeName || null,
-    deploymentId: searchParams.deploymentId || null,
-  }), [searchParams])
+  const filters: FinancialFilters = useMemo(
+    () => ({
+      startDate: searchParams.startDate,
+      endDate: searchParams.endDate,
+      clientId: searchParams.clientId || null,
+      agentTypeName: searchParams.agentTypeName || null,
+      deploymentId: searchParams.deploymentId || null,
+    }),
+    [searchParams],
+  )
 
   // View mode from URL
   const viewMode = searchParams.viewMode
 
   // Callbacks for updating URL params
-  const setFilters = useCallback((newFilters: Partial<FinancialFilters>) => {
-    setSearchParams({
-      startDate: newFilters.startDate,
-      endDate: newFilters.endDate,
-      clientId: newFilters.clientId,
-      agentTypeName: newFilters.agentTypeName,
-      deploymentId: newFilters.deploymentId,
-    })
-  }, [setSearchParams])
+  const setFilters = useCallback(
+    (newFilters: Partial<FinancialFilters>) => {
+      setSearchParams({
+        startDate: newFilters.startDate,
+        endDate: newFilters.endDate,
+        clientId: newFilters.clientId,
+        agentTypeName: newFilters.agentTypeName,
+        deploymentId: newFilters.deploymentId,
+      })
+    },
+    [setSearchParams],
+  )
 
-  const setViewMode = useCallback((mode: FinancialViewMode) => {
-    setSearchParams({ viewMode: mode })
-  }, [setSearchParams])
+  const setViewMode = useCallback(
+    (mode: FinancialViewMode) => {
+      setSearchParams({ viewMode: mode })
+    },
+    [setSearchParams],
+  )
 
   // Modal state for drill down (local state is fine for modals)
   const [selectedClient, setSelectedClient] = useState<ClientFinancialData | null>(null)
@@ -133,10 +161,11 @@ function AdminFinancialDashboard() {
   const [invoiceMonth, setInvoiceMonth] = useState<SelectedMonth>(getDefaultInvoiceMonth)
 
   // Fetch invoice data
-  const { data: invoiceData, isLoading: invoiceLoading, error: invoiceError } = useMonthlyInvoice(
-    invoiceMonth.year,
-    invoiceMonth.month
-  )
+  const {
+    data: invoiceData,
+    isLoading: invoiceLoading,
+    error: invoiceError,
+  } = useMonthlyInvoice(invoiceMonth.year, invoiceMonth.month)
 
   // Fetch data
   const { data: kpiData, isLoading: kpiLoading, error: kpiError } = useFinancialKPIs(filters)
@@ -145,7 +174,7 @@ function AdminFinancialDashboard() {
   const { data: clientData, isLoading: clientLoading } = useClientBreakdown(filters)
   const { data: timeSeriesData, isLoading: timeSeriesLoading } = useFinancialTimeSeries({
     ...filters,
-    granularity: 'day'
+    granularity: 'day',
   })
   const { data: costBreakdownData, isLoading: costBreakdownLoading } = useCostBreakdown(filters)
 
@@ -181,10 +210,7 @@ function AdminFinancialDashboard() {
             30j
           </button>
         </div>
-        <FinancialViewToggle
-          mode={viewMode}
-          onModeChange={setViewMode}
-        />
+        <FinancialViewToggle mode={viewMode} onModeChange={setViewMode} />
       </div>
 
       {/* Error State */}
@@ -213,11 +239,7 @@ function AdminFinancialDashboard() {
           selectedMonth={invoiceMonth.month}
           onChange={(year, month) => setInvoiceMonth({ year, month })}
         />
-        <InvoiceSummaryTable
-          data={invoiceData}
-          isLoading={invoiceLoading}
-          error={invoiceError}
-        />
+        <InvoiceSummaryTable data={invoiceData} isLoading={invoiceLoading} error={invoiceError} />
       </div>
 
       {/* Charts Grid - Side by Side */}

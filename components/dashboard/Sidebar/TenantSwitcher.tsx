@@ -1,7 +1,8 @@
 'use client'
 
+import { Building2, Check, ChevronsUpDown, Globe } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { SidebarMenuButton } from '@/components/ui/sidebar'
-import { ChevronsUpDown, Globe, Building2, Check } from 'lucide-react'
 import { useAccessibleClients } from '@/lib/hooks/useDashboardData'
 import { cn } from '@/lib/utils'
 
@@ -33,7 +33,7 @@ export function TenantSwitcher({ isAdmin }: TenantSwitcherProps) {
   const { data: clients, isLoading } = useAccessibleClients()
 
   // Find current client name
-  const currentClient = clients?.find(c => c.client_id === currentTenantId)
+  const currentClient = clients?.find((c) => c.client_id === currentTenantId)
 
   // Handle tenant selection
   const handleSelectTenant = (clientId: string | null) => {
@@ -75,17 +75,15 @@ export function TenantSwitcher({ isAdmin }: TenantSwitcherProps) {
           size="lg"
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground hover:bg-white/10"
         >
-          <div className={cn(
-            "flex aspect-square size-8 items-center justify-center rounded-lg text-white font-bold",
-            currentTenantId
-              ? "bg-gradient-to-br from-amber-500 to-orange-600"
-              : "bg-gradient-to-br from-blue-500 to-purple-600"
-          )}>
-            {currentTenantId ? (
-              <Building2 className="size-4" />
-            ) : (
-              'V'
+          <div
+            className={cn(
+              'flex aspect-square size-8 items-center justify-center rounded-lg text-white font-bold',
+              currentTenantId
+                ? 'bg-gradient-to-br from-amber-500 to-orange-600'
+                : 'bg-gradient-to-br from-blue-500 to-purple-600',
             )}
+          >
+            {currentTenantId ? <Building2 className="size-4" /> : 'V'}
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-semibold text-white">
@@ -107,8 +105,8 @@ export function TenantSwitcher({ isAdmin }: TenantSwitcherProps) {
         <DropdownMenuItem
           onClick={() => handleSelectTenant(null)}
           className={cn(
-            "text-white/70 hover:text-white hover:bg-white/10 focus:bg-white/10 focus:text-white cursor-pointer",
-            !currentTenantId && "bg-white/10 text-white"
+            'text-white/70 hover:text-white hover:bg-white/10 focus:bg-white/10 focus:text-white cursor-pointer',
+            !currentTenantId && 'bg-white/10 text-white',
           )}
         >
           <Globe className="mr-2 h-4 w-4 text-blue-400" />
@@ -128,8 +126,8 @@ export function TenantSwitcher({ isAdmin }: TenantSwitcherProps) {
                   key={client.client_id}
                   onClick={() => handleSelectTenant(client.client_id)}
                   className={cn(
-                    "text-white/70 hover:text-white hover:bg-white/10 focus:bg-white/10 focus:text-white cursor-pointer",
-                    currentTenantId === client.client_id && "bg-white/10 text-white"
+                    'text-white/70 hover:text-white hover:bg-white/10 focus:bg-white/10 focus:text-white cursor-pointer',
+                    currentTenantId === client.client_id && 'bg-white/10 text-white',
                   )}
                 >
                   <Building2 className="mr-2 h-4 w-4 text-amber-400" />
@@ -144,9 +142,7 @@ export function TenantSwitcher({ isAdmin }: TenantSwitcherProps) {
         )}
 
         {isLoading && (
-          <div className="px-2 py-4 text-center text-sm text-white/40">
-            Chargement...
-          </div>
+          <div className="px-2 py-4 text-center text-sm text-white/40">Chargement...</div>
         )}
       </DropdownMenuContent>
     </DropdownMenu>

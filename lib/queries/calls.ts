@@ -48,7 +48,7 @@ export async function fetchAgentCalls(
   startDate: string,
   endDate: string,
   limit: number = 50,
-  offset: number = 0
+  offset: number = 0,
 ): Promise<{ calls: CallData[]; total: number }> {
   const supabase = createClient()
 

@@ -1,13 +1,13 @@
 'use client'
 
-import { useMemo, useCallback } from 'react'
-import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react'
+import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useCallback, useMemo } from 'react'
 import {
-  type MonthSelectorProps,
   getMonthLabel,
-  getPreviousMonth,
   getNextMonth,
+  getPreviousMonth,
   isFutureMonth,
+  type MonthSelectorProps,
 } from '@/lib/types/invoice'
 
 /**
@@ -27,7 +27,7 @@ export function MonthSelector({
   // Label du mois actuel
   const monthLabel = useMemo(
     () => getMonthLabel(selectedYear, selectedMonth),
-    [selectedYear, selectedMonth]
+    [selectedYear, selectedMonth],
   )
 
   // Vérifier si on peut aller au mois précédent

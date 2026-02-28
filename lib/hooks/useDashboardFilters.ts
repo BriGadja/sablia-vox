@@ -1,13 +1,13 @@
 'use client'
 
-import { useCallback, useMemo } from 'react'
-import { useQueryStates } from 'nuqs'
 import { useQuery } from '@tanstack/react-query'
-import { subDays, format, parseISO, isAfter, isValid } from 'date-fns'
+import { format, isAfter, isValid, parseISO, subDays } from 'date-fns'
+import { useQueryStates } from 'nuqs'
+import { useCallback, useMemo } from 'react'
 import { toast } from 'sonner'
-import { dashboardParsers, type AgentTypeName } from './dashboardSearchParams'
 import { createClient } from '@/lib/supabase/client'
 import type { DashboardFilters } from '@/lib/types/dashboard'
+import { type AgentTypeName, dashboardParsers } from './dashboardSearchParams'
 
 /**
  * Fetch client IDs for a specific user (admin only)
@@ -97,8 +97,7 @@ export function useDashboardFilters() {
 
       // Update clientIds (only if not in viewAsUser mode)
       if (updates.clientIds !== undefined && !viewAsUserId) {
-        newParams.clientIds =
-          updates.clientIds.length > 0 ? updates.clientIds : null
+        newParams.clientIds = updates.clientIds.length > 0 ? updates.clientIds : null
       }
 
       // Update deploymentId
@@ -143,7 +142,7 @@ export function useDashboardFilters() {
 
       setSearchParams(newParams)
     },
-    [setSearchParams, filters.startDate, filters.endDate, viewAsUserId]
+    [setSearchParams, filters.startDate, filters.endDate, viewAsUserId],
   )
 
   /**
@@ -156,7 +155,7 @@ export function useDashboardFilters() {
         clientIds: clientIds.length > 0 ? clientIds : null,
       })
     },
-    [setSearchParams, viewAsUserId]
+    [setSearchParams, viewAsUserId],
   )
 
   /**
@@ -166,7 +165,7 @@ export function useDashboardFilters() {
     (deploymentId: string | null) => {
       setSearchParams({ deploymentId })
     },
-    [setSearchParams]
+    [setSearchParams],
   )
 
   /**
@@ -176,7 +175,7 @@ export function useDashboardFilters() {
     (agentTypeName: AgentTypeName | null) => {
       setSearchParams({ agentTypeName })
     },
-    [setSearchParams]
+    [setSearchParams],
   )
 
   /**
@@ -206,7 +205,7 @@ export function useDashboardFilters() {
 
       setSearchParams({ startDate, endDate })
     },
-    [setSearchParams]
+    [setSearchParams],
   )
 
   /**

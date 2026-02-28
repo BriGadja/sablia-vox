@@ -2,14 +2,14 @@
 
 import { memo, useMemo } from 'react'
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
 } from 'recharts'
 import type { AgentConsumptionSummary } from '@/lib/types/consumption'
 
@@ -19,10 +19,10 @@ interface AgentConsumptionChartProps {
 
 // Couleurs par type d'agent
 const agentTypeColors: Record<string, string> = {
-  louis: '#3b82f6',     // blue
-  arthur: '#f97316',    // orange
+  louis: '#3b82f6', // blue
+  arthur: '#f97316', // orange
   alexandra: '#22c55e', // green
-  default: '#6366f1',   // indigo
+  default: '#6366f1', // indigo
 }
 
 function AgentConsumptionChartInner({ data }: AgentConsumptionChartProps) {
@@ -31,9 +31,10 @@ function AgentConsumptionChartInner({ data }: AgentConsumptionChartProps) {
     return data
       .slice(0, 10) // Top 10
       .map((item) => ({
-        name: item.deployment_name.length > 20
-          ? item.deployment_name.substring(0, 20) + '...'
-          : item.deployment_name,
+        name:
+          item.deployment_name.length > 20
+            ? item.deployment_name.substring(0, 20) + '...'
+            : item.deployment_name,
         fullName: item.deployment_name,
         cost: item.total_cost,
         minutes: item.total_minutes,
@@ -103,7 +104,8 @@ function AgentConsumptionChartInner({ data }: AgentConsumptionChartProps) {
                   {value.toFixed(2)}€
                   <br />
                   <span className="text-xs text-white/60">
-                    {props?.payload?.minutes?.toFixed(1) || 0} min | {props?.payload?.sms || 0} SMS | {props?.payload?.emails || 0} emails
+                    {props?.payload?.minutes?.toFixed(1) || 0} min | {props?.payload?.sms || 0} SMS
+                    | {props?.payload?.emails || 0} emails
                   </span>
                 </span>,
                 props?.payload?.fullName || '',

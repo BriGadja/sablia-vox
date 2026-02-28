@@ -1,14 +1,7 @@
 'use client'
 
-import { memo, useMemo, useCallback } from 'react'
-import {
-  PieChart,
-  Pie,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-  Legend,
-} from 'recharts'
+import { memo, useCallback, useMemo } from 'react'
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import type { OutcomeData } from '@/lib/types/dashboard'
 
 interface NestennOutcomeChartProps {
@@ -33,13 +26,13 @@ const outcomeLabels: Record<string, string> = {
 
 // Couleurs spécifiques pour chaque résultat Nestenn
 const outcomeColors: Record<string, string> = {
-  appointment_requested: '#10b981',  // emerald - succès
-  callback_requested: '#3b82f6',     // blue
-  voicemail: '#f59e0b',              // amber
-  no_answer: '#6b7280',              // gray
-  not_interested: '#ef4444',         // red
-  unknown: '#8b5cf6',                // violet
-  null: '#64748b',                   // slate
+  appointment_requested: '#10b981', // emerald - succès
+  callback_requested: '#3b82f6', // blue
+  voicemail: '#f59e0b', // amber
+  no_answer: '#6b7280', // gray
+  not_interested: '#ef4444', // red
+  unknown: '#8b5cf6', // violet
+  null: '#64748b', // slate
 }
 
 function NestennOutcomeChartInner({ data }: NestennOutcomeChartProps) {
@@ -58,10 +51,7 @@ function NestennOutcomeChartInner({ data }: NestennOutcomeChartProps) {
       .sort((a, b) => b.value - a.value)
   }, [data])
 
-  const total = useMemo(
-    () => chartData.reduce((sum, item) => sum + item.value, 0),
-    [chartData]
-  )
+  const total = useMemo(() => chartData.reduce((sum, item) => sum + item.value, 0), [chartData])
 
   const renderCustomLabel = useCallback(
     (props: any) => {
@@ -88,7 +78,7 @@ function NestennOutcomeChartInner({ data }: NestennOutcomeChartProps) {
         </text>
       )
     },
-    [total]
+    [total],
   )
 
   const renderLegend = useCallback(
@@ -113,7 +103,7 @@ function NestennOutcomeChartInner({ data }: NestennOutcomeChartProps) {
         </ul>
       )
     },
-    [total]
+    [total],
   )
 
   if (!data || data.length === 0 || total === 0) {

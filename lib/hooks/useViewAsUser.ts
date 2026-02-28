@@ -1,8 +1,8 @@
 'use client'
 
-import { useCallback, useMemo } from 'react'
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 // Types
@@ -78,7 +78,7 @@ export function useViewAsUser(isAdmin: boolean) {
   // Find selected user info
   const selectedUser = useMemo(() => {
     if (!viewAsUserId || !usersQuery.data) return null
-    return usersQuery.data.find(u => u.user_id === viewAsUserId) || null
+    return usersQuery.data.find((u) => u.user_id === viewAsUserId) || null
   }, [viewAsUserId, usersQuery.data])
 
   // Set view as user (persists in URL)
@@ -98,7 +98,7 @@ export function useViewAsUser(isAdmin: boolean) {
       const newUrl = queryString ? `${pathname}?${queryString}` : pathname
       router.push(newUrl)
     },
-    [router, pathname, searchParams]
+    [router, pathname, searchParams],
   )
 
   // Clear view as user

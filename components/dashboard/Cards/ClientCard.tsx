@@ -1,7 +1,7 @@
 'use client'
 
-import { Building2, TrendingUp, Phone, Calendar, Target } from 'lucide-react'
-import { ClientCardData } from '@/lib/types/dashboard'
+import { Building2, Calendar, Phone, Target, TrendingUp } from 'lucide-react'
+import type { ClientCardData } from '@/lib/types/dashboard'
 import { cn } from '@/lib/utils'
 
 interface ClientCardProps {
@@ -19,7 +19,7 @@ export function ClientCard({ client }: ClientCardProps) {
     <div
       className={cn(
         'group relative overflow-hidden rounded-xl border bg-gradient-to-br backdrop-blur-sm transition-all hover:scale-[1.02]',
-        'from-purple-500/20 to-purple-500/5 border-purple-500/30'
+        'from-purple-500/20 to-purple-500/5 border-purple-500/30',
       )}
     >
       <div className="p-4 space-y-3">
@@ -30,12 +30,8 @@ export function ClientCard({ client }: ClientCardProps) {
               <Building2 className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white">
-                {client.client_name}
-              </h3>
-              <p className="text-xs text-white/60">
-                {client.industry || 'Non spécifié'}
-              </p>
+              <h3 className="text-base font-bold text-white">{client.client_name}</h3>
+              <p className="text-xs text-white/60">{client.industry || 'Non spécifié'}</p>
             </div>
           </div>
           <div className="text-right">
@@ -58,7 +54,7 @@ export function ClientCard({ client }: ClientCardProps) {
                   'px-2 py-1 rounded-md text-xs font-medium',
                   type === 'louis' && 'bg-blue-500/20 text-blue-400',
                   type === 'arthur' && 'bg-orange-500/20 text-orange-400',
-                  type === 'alexandra' && 'bg-green-500/20 text-green-400'
+                  type === 'alexandra' && 'bg-green-500/20 text-green-400',
                 )}
               >
                 {type === 'louis' && 'Louis'}
@@ -88,35 +84,27 @@ export function ClientCard({ client }: ClientCardProps) {
                   <TrendingUp className="w-3 h-3" />
                   <p className="text-xs">Taux réponse</p>
                 </div>
-                <p className="text-lg font-bold text-white">
-                  {client.answer_rate.toFixed(1)}%
-                </p>
+                <p className="text-lg font-bold text-white">{client.answer_rate.toFixed(1)}%</p>
               </div>
               <div>
                 <div className="flex items-center gap-1 text-white/60 mb-0.5">
                   <Calendar className="w-3 h-3" />
                   <p className="text-xs">RDV pris</p>
                 </div>
-                <p className="text-lg font-bold text-white">
-                  {client.appointments_scheduled}
-                </p>
+                <p className="text-lg font-bold text-white">{client.appointments_scheduled}</p>
               </div>
               <div>
                 <div className="flex items-center gap-1 text-white/60 mb-0.5">
                   <Target className="w-3 h-3" />
                   <p className="text-xs">Conversion</p>
                 </div>
-                <p className="text-lg font-bold text-white">
-                  {client.conversion_rate.toFixed(1)}%
-                </p>
+                <p className="text-lg font-bold text-white">{client.conversion_rate.toFixed(1)}%</p>
               </div>
             </div>
           </div>
         ) : (
           <div className="pt-3 border-t border-white/10">
-            <p className="text-sm text-white/40 text-center">
-              Aucune donnée pour cette période
-            </p>
+            <p className="text-sm text-white/40 text-center">Aucune donnée pour cette période</p>
           </div>
         )}
       </div>

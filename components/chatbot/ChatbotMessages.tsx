@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { AnimatePresence } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import { cn } from '@/lib/utils'
+import type { ChatMessage } from '@/types/chatbot'
 import ChatbotMessage from './ChatbotMessage'
 import ChatbotTypingIndicator from './ChatbotTypingIndicator'
-import type { ChatMessage } from '@/types/chatbot'
-import { cn } from '@/lib/utils'
 
 interface ChatbotMessagesProps {
   messages: ChatMessage[]
@@ -19,9 +19,9 @@ export default function ChatbotMessages({ messages, isTyping }: ChatbotMessagesP
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ 
+      messagesEndRef.current.scrollIntoView({
         behavior: 'smooth',
-        block: 'end'
+        block: 'end',
       })
     }
   }, [messages.length, isTyping])
@@ -33,9 +33,9 @@ export default function ChatbotMessages({ messages, isTyping }: ChatbotMessagesP
 
     const resizeObserver = new ResizeObserver(() => {
       if (messagesEndRef.current) {
-        messagesEndRef.current.scrollIntoView({ 
+        messagesEndRef.current.scrollIntoView({
           behavior: 'smooth',
-          block: 'end'
+          block: 'end',
         })
       }
     })
@@ -58,16 +58,16 @@ export default function ChatbotMessages({ messages, isTyping }: ChatbotMessagesP
   }
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={cn(
-        'voipia-chatbot-messages',
+        'sablia-chatbot-messages',
         'flex-1 overflow-y-auto overflow-x-hidden',
-        'scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent'
+        'scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent',
       )}
       style={{
         scrollbarWidth: 'thin',
-        scrollbarColor: '#4B5563 transparent'
+        scrollbarColor: '#4B5563 transparent',
       }}
     >
       <div className="space-y-1">
@@ -79,7 +79,7 @@ export default function ChatbotMessages({ messages, isTyping }: ChatbotMessagesP
               isLast={index === messages.length - 1}
             />
           ))}
-          
+
           {isTyping && (
             <div className="flex gap-3 p-4">
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
@@ -94,7 +94,7 @@ export default function ChatbotMessages({ messages, isTyping }: ChatbotMessagesP
           )}
         </AnimatePresence>
       </div>
-      
+
       {/* Scroll anchor */}
       <div ref={messagesEndRef} className="h-1" />
     </div>

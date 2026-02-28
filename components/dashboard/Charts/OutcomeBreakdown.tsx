@@ -1,14 +1,7 @@
 'use client'
 
-import { memo, useMemo, useCallback } from 'react'
-import {
-  PieChart,
-  Pie,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-  Legend,
-} from 'recharts'
+import { memo, useCallback, useMemo } from 'react'
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 interface OutcomeBreakdownProps {
   data: Array<{
@@ -33,10 +26,10 @@ const outcomeLabels: Record<string, string> = {
 
 // Couleurs spécifiques pour chaque résultat (Louis Dashboard)
 const outcomeColors: Record<string, string> = {
-  'Messagerie': '#06b6d4',    // cyan
-  'RDV refusé': '#8b5cf6',    // violet
-  'Non significatifs': '#10b981',      // emerald
-  'RDV PRIS': '#f59e0b',      // amber/orange
+  Messagerie: '#06b6d4', // cyan
+  'RDV refusé': '#8b5cf6', // violet
+  'Non significatifs': '#10b981', // emerald
+  'RDV PRIS': '#f59e0b', // amber/orange
 }
 
 // Fallback colors for other outcomes
@@ -58,7 +51,6 @@ const colors = [
 const SPECIFIC_OUTCOMES = ['voicemail', 'appointment_refused', 'too_short', 'appointment_scheduled']
 
 function OutcomeBreakdownInner({ data }: OutcomeBreakdownProps) {
-
   const chartData = useMemo(
     () =>
       data
@@ -69,14 +61,11 @@ function OutcomeBreakdownInner({ data }: OutcomeBreakdownProps) {
           color: outcomeColors[outcomeLabels[item.outcome]] || colors[0],
         }))
         .sort((a, b) => b.value - a.value),
-    [data]
+    [data],
   )
 
   // Calculate total for percentages
-  const total = useMemo(
-    () => chartData.reduce((sum, item) => sum + item.value, 0),
-    [chartData]
-  )
+  const total = useMemo(() => chartData.reduce((sum, item) => sum + item.value, 0), [chartData])
 
   // Custom label renderer with external labels and connecting lines
   const renderCustomLabel = useCallback(
@@ -105,7 +94,7 @@ function OutcomeBreakdownInner({ data }: OutcomeBreakdownProps) {
         </text>
       )
     },
-    [total]
+    [total],
   )
 
   // Custom legend formatter with percentages
@@ -131,7 +120,7 @@ function OutcomeBreakdownInner({ data }: OutcomeBreakdownProps) {
         </ul>
       )
     },
-    [total]
+    [total],
   )
 
   return (

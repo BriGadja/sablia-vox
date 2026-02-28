@@ -1,22 +1,23 @@
-'use client';
+'use client'
 
-import React, { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion'
+import { CheckCircle, X } from 'lucide-react'
+import type React from 'react'
+import { useEffect } from 'react'
 
 interface SuccessToastProps {
-  show: boolean;
-  message: string;
-  onClose: () => void;
+  show: boolean
+  message: string
+  onClose: () => void
 }
 
 const SuccessToast: React.FC<SuccessToastProps> = ({ show, message, onClose }) => {
   useEffect(() => {
     if (show) {
-      const timer = setTimeout(onClose, 5000); // Auto-close after 5s
-      return () => clearTimeout(timer);
+      const timer = setTimeout(onClose, 5000) // Auto-close after 5s
+      return () => clearTimeout(timer)
     }
-  }, [show, onClose]);
+  }, [show, onClose])
 
   return (
     <AnimatePresence>
@@ -40,7 +41,7 @@ const SuccessToast: React.FC<SuccessToastProps> = ({ show, message, onClose }) =
         </motion.div>
       )}
     </AnimatePresence>
-  );
-};
+  )
+}
 
-export default SuccessToast;
+export default SuccessToast

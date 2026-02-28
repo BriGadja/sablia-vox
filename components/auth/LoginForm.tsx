@@ -1,10 +1,10 @@
 'use client'
 
+import { motion } from 'framer-motion'
+import { Eye, EyeOff, Loader2, LogIn } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
-import { Eye, EyeOff, LogIn, Loader2 } from 'lucide-react'
 
 export function LoginForm() {
   const [email, setEmail] = useState('')
@@ -31,7 +31,7 @@ export function LoginForm() {
       // Email format validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(email)) {
-        setError('Format d\'email invalide')
+        setError("Format d'email invalide")
         setIsLoading(false)
         return
       }
@@ -94,12 +94,8 @@ export function LoginForm() {
               <LogIn className="w-8 h-8 text-white" />
             </div>
           </motion.div>
-          <h1 className="text-3xl font-bold text-white mb-2">
-            Connexion Dashboard
-          </h1>
-          <p className="text-white/60">
-            Accédez à vos statistiques d&apos;agents IA
-          </p>
+          <h1 className="text-3xl font-bold text-white mb-2">Connexion Dashboard</h1>
+          <p className="text-white/60">Accédez à vos statistiques d&apos;agents IA</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
@@ -143,11 +139,7 @@ export function LoginForm() {
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors disabled:opacity-50"
                 aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
               >
-                {showPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -207,9 +199,7 @@ export function LoginForm() {
             </p>
           </div>
           <div className="text-center pt-3 border-t border-white/10">
-            <p className="text-xs text-white/40 mb-2">
-              Pas encore client ?
-            </p>
+            <p className="text-xs text-white/40 mb-2">Pas encore client ?</p>
             <a
               href="https://forms.fillout.com/t/nU9QEqNRRRus"
               target="_blank"

@@ -1,34 +1,26 @@
 'use client'
 
-import { useMemo } from 'react'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import {
-  ChevronUp,
   ChevronDown,
-  ChevronsUpDown,
-  ChevronLeft,
-  ChevronRight,
+  ChevronDown as ChevronDownIcon,
   ChevronFirst,
   ChevronLast,
-  Play,
-  FileText,
+  ChevronLeft,
+  ChevronRight,
   ChevronRight as ChevronRightIcon,
-  ChevronDown as ChevronDownIcon,
+  ChevronsUpDown,
+  ChevronUp,
+  FileText,
   Loader2,
+  Play,
 } from 'lucide-react'
+import { useMemo } from 'react'
+import type { AdminCallRow, AdminCallsPagination, AdminCallsSort } from '@/lib/types/adminCalls'
+import { DIRECTION_LABELS, EMOTION_LABELS, OUTCOME_LABELS } from '@/lib/types/adminCalls'
 import { cn } from '@/lib/utils'
-import type {
-  AdminCallRow,
-  AdminCallsSort,
-  AdminCallsPagination,
-} from '@/lib/types/adminCalls'
-import {
-  COLUMN_DEFINITIONS,
-  COLUMN_GROUPS,
-  getColumnDef,
-} from './columnConfig'
-import { OUTCOME_LABELS, EMOTION_LABELS, DIRECTION_LABELS } from '@/lib/types/adminCalls'
+import { type COLUMN_DEFINITIONS, COLUMN_GROUPS, getColumnDef } from './columnConfig'
 
 interface AdminCallsTableProps {
   data: AdminCallRow[]
@@ -83,7 +75,7 @@ export function AdminCallsTable({
   // Get visible columns in order, grouped
   const visibleColumnDefs = useMemo(() => {
     const result: Array<{
-      column: typeof COLUMN_DEFINITIONS[0]
+      column: (typeof COLUMN_DEFINITIONS)[0]
       isGroupHeader?: boolean
       isFirstOfExpandedGroup?: boolean
       groupKey?: string
@@ -135,27 +127,22 @@ export function AdminCallsTable({
   }, [visibleColumns, collapsedGroups])
 
   // Format cell value
-  const formatCellValue = (
-    row: AdminCallRow,
-    columnKey: string
-  ): React.ReactNode => {
+  const formatCellValue = (row: AdminCallRow, columnKey: string): React.ReactNode => {
     switch (columnKey) {
       case 'started_at':
         return format(new Date(row.started_at), 'dd/MM HH:mm', { locale: fr })
 
-      case 'contact':
-        const name = [row.first_name, row.last_name]
-          .filter(Boolean)
-          .join(' ')
-          .trim()
+      case 'contact': {
+        const name = [row.first_name, row.last_name].filter(Boolean).join(' ').trim()
         return name || '-'
+      }
 
       case 'agent_type_name':
         return (
           <span
             className={cn(
               'px-2 py-0.5 text-xs font-medium rounded border capitalize',
-              AGENT_COLORS[row.agent_type_name] || 'bg-gray-500/20 text-gray-400'
+              AGENT_COLORS[row.agent_type_name] || 'bg-gray-500/20 text-gray-400',
             )}
           >
             {row.agent_type_name}
@@ -168,7 +155,7 @@ export function AdminCallsTable({
           <span
             className={cn(
               'px-2 py-0.5 text-xs font-medium rounded',
-              OUTCOME_COLORS[row.outcome] || 'bg-gray-500/20 text-gray-400'
+              OUTCOME_COLORS[row.outcome] || 'bg-gray-500/20 text-gray-400',
             )}
           >
             {OUTCOME_LABELS[row.outcome as keyof typeof OUTCOME_LABELS] || row.outcome}
@@ -181,7 +168,7 @@ export function AdminCallsTable({
           <span
             className={cn(
               'px-2 py-0.5 text-xs font-medium rounded',
-              EMOTION_COLORS[row.emotion] || 'bg-gray-500/20 text-gray-400'
+              EMOTION_COLORS[row.emotion] || 'bg-gray-500/20 text-gray-400',
             )}
           >
             {EMOTION_LABELS[row.emotion as keyof typeof EMOTION_LABELS] || row.emotion}
@@ -202,28 +189,31 @@ export function AdminCallsTable({
           <span className="text-gray-500">-</span>
         )
 
-      case 'duration_seconds':
+      case 'duration_seconds': {
         if (row.duration_seconds === null) return '-'
         const mins = Math.floor(row.duration_seconds / 60)
         const secs = row.duration_seconds % 60
         return `${mins}:${secs.toString().padStart(2, '0')}`
+      }
 
-      case 'call_quality_score':
+      case 'call_quality_score': {
         if (row.call_quality_score === null) return '-'
         const score = row.call_quality_score
         const scoreColor =
           score >= 70 ? 'text-green-400' : score >= 40 ? 'text-yellow-400' : 'text-red-400'
         return <span className={scoreColor}>{score}</span>
+      }
 
       case 'total_cost':
       case 'stt_cost':
       case 'tts_cost':
       case 'llm_cost':
       case 'telecom_cost':
-      case 'dipler_commission':
+      case 'dipler_commission': {
         const cost = row[columnKey as keyof AdminCallRow] as number | null
         if (cost === null) return '-'
         return `${cost.toFixed(4)} €`
+      }
 
       case 'avg_llm_latency_ms':
       case 'min_llm_latency_ms':
@@ -233,10 +223,11 @@ export function AdminCallsTable({
       case 'max_tts_latency_ms':
       case 'avg_total_latency_ms':
       case 'min_total_latency_ms':
-      case 'max_total_latency_ms':
+      case 'max_total_latency_ms': {
         const latency = row[columnKey as keyof AdminCallRow] as number | null
         if (latency === null) return '-'
         return `${Math.round(latency)} ms`
+      }
 
       case 'direction':
         if (!row.direction) return '-'
@@ -268,15 +259,14 @@ export function AdminCallsTable({
           </button>
         )
 
-      default:
+      default: {
         const value = row[columnKey as keyof AdminCallRow]
         if (value === null || value === undefined) return '-'
         if (typeof value === 'string' && value.length > 30) {
-          return (
-            <span title={value}>{value.substring(0, 27)}...</span>
-          )
+          return <span title={value}>{value.substring(0, 27)}...</span>
         }
         return String(value)
+      }
     }
   }
 
@@ -284,8 +274,7 @@ export function AdminCallsTable({
   const handleSortClick = (columnKey: string, sortable: boolean) => {
     if (!sortable) return
 
-    const newDirection =
-      sort.column === columnKey && sort.direction === 'desc' ? 'asc' : 'desc'
+    const newDirection = sort.column === columnKey && sort.direction === 'desc' ? 'asc' : 'desc'
     onSortChange(columnKey, newDirection)
   }
 
@@ -317,53 +306,53 @@ export function AdminCallsTable({
           {/* Sticky header */}
           <thead className="sticky top-0 z-10 bg-gray-900/95 backdrop-blur-sm">
             <tr className="border-b border-gray-800">
-              {visibleColumnDefs.map(({ column, isGroupHeader, isFirstOfExpandedGroup, groupKey, groupLabel }) => (
-                <th
-                  key={column.key}
-                  className={cn(
-                    'px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap',
-                    column.align === 'center' && 'text-center',
-                    column.align === 'right' && 'text-right',
-                    column.sortable && 'cursor-pointer hover:text-gray-200 select-none',
-                    isGroupHeader && 'bg-gray-800/50',
-                    isFirstOfExpandedGroup && 'bg-purple-900/20'
-                  )}
-                  style={{ width: column.width }}
-                  onClick={() =>
-                    isGroupHeader && groupKey
-                      ? onToggleGroup(groupKey)
-                      : handleSortClick(column.key, column.sortable)
-                  }
-                >
-                  <div
+              {visibleColumnDefs.map(
+                ({ column, isGroupHeader, isFirstOfExpandedGroup, groupKey, groupLabel }) => (
+                  <th
+                    key={column.key}
                     className={cn(
-                      'flex items-center gap-1',
-                      column.align === 'center' && 'justify-center',
-                      column.align === 'right' && 'justify-end'
+                      'px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap',
+                      column.align === 'center' && 'text-center',
+                      column.align === 'right' && 'text-right',
+                      column.sortable && 'cursor-pointer hover:text-gray-200 select-none',
+                      isGroupHeader && 'bg-gray-800/50',
+                      isFirstOfExpandedGroup && 'bg-purple-900/20',
                     )}
+                    style={{ width: column.width }}
+                    onClick={() =>
+                      isGroupHeader && groupKey
+                        ? onToggleGroup(groupKey)
+                        : handleSortClick(column.key, column.sortable)
+                    }
                   >
-                    {/* Collapsed group header - expand button */}
-                    {isGroupHeader && groupKey && (
-                      <ChevronRightIcon className="w-4 h-4" />
-                    )}
-                    {/* First column of expanded group - collapse button */}
-                    {isFirstOfExpandedGroup && groupKey && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          onToggleGroup(groupKey)
-                        }}
-                        className="mr-1 p-0.5 rounded hover:bg-gray-700"
-                        title={`Réduire ${groupLabel}`}
-                      >
-                        <ChevronDownIcon className="w-3 h-3 text-purple-400" />
-                      </button>
-                    )}
-                    <span>{column.label}</span>
-                    {!isGroupHeader && renderSortIcon(column.key, column.sortable)}
-                  </div>
-                </th>
-              ))}
+                    <div
+                      className={cn(
+                        'flex items-center gap-1',
+                        column.align === 'center' && 'justify-center',
+                        column.align === 'right' && 'justify-end',
+                      )}
+                    >
+                      {/* Collapsed group header - expand button */}
+                      {isGroupHeader && groupKey && <ChevronRightIcon className="w-4 h-4" />}
+                      {/* First column of expanded group - collapse button */}
+                      {isFirstOfExpandedGroup && groupKey && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            onToggleGroup(groupKey)
+                          }}
+                          className="mr-1 p-0.5 rounded hover:bg-gray-700"
+                          title={`Réduire ${groupLabel}`}
+                        >
+                          <ChevronDownIcon className="w-3 h-3 text-purple-400" />
+                        </button>
+                      )}
+                      <span>{column.label}</span>
+                      {!isGroupHeader && renderSortIcon(column.key, column.sortable)}
+                    </div>
+                  </th>
+                ),
+              )}
             </tr>
           </thead>
 
@@ -371,10 +360,7 @@ export function AdminCallsTable({
           <tbody className="divide-y divide-gray-800/50">
             {isLoading ? (
               <tr>
-                <td
-                  colSpan={visibleColumnDefs.length}
-                  className="px-3 py-12 text-center"
-                >
+                <td colSpan={visibleColumnDefs.length} className="px-3 py-12 text-center">
                   <div className="flex items-center justify-center gap-2 text-gray-400">
                     <Loader2 className="w-5 h-5 animate-spin" />
                     <span>Chargement...</span>
@@ -392,18 +378,12 @@ export function AdminCallsTable({
               </tr>
             ) : (
               data.map((row) => (
-                <tr
-                  key={row.id}
-                  className="hover:bg-gray-800/30 transition-colors"
-                >
+                <tr key={row.id} className="hover:bg-gray-800/30 transition-colors">
                   {visibleColumnDefs.map(({ column, isGroupHeader, groupKey }) => {
                     // For collapsed group headers, show expand button
                     if (isGroupHeader && groupKey) {
                       return (
-                        <td
-                          key={column.key}
-                          className="px-3 py-2 text-center"
-                        >
+                        <td key={column.key} className="px-3 py-2 text-center">
                           <button
                             onClick={() => onToggleGroup(groupKey)}
                             className="text-gray-500 hover:text-gray-300"
@@ -421,7 +401,7 @@ export function AdminCallsTable({
                         className={cn(
                           'px-3 py-2 text-sm text-gray-300 whitespace-nowrap',
                           column.align === 'center' && 'text-center',
-                          column.align === 'right' && 'text-right'
+                          column.align === 'right' && 'text-right',
                         )}
                       >
                         {formatCellValue(row, column.key)}
@@ -443,7 +423,7 @@ export function AdminCallsTable({
             {pagination.totalCount > 0
               ? `${(pagination.page - 1) * pagination.pageSize + 1}-${Math.min(
                   pagination.page * pagination.pageSize,
-                  pagination.totalCount
+                  pagination.totalCount,
                 )}`
               : '0'}{' '}
             sur {pagination.totalCount.toLocaleString('fr-FR')}
@@ -472,26 +452,25 @@ export function AdminCallsTable({
 
             {/* Page numbers */}
             <div className="flex items-center gap-1 mx-2">
-              {generatePageNumbers(pagination.page, pagination.totalPages).map(
-                (pageNum, idx) =>
-                  pageNum === '...' ? (
-                    <span key={`ellipsis-${idx}`} className="px-2 text-gray-500">
-                      ...
-                    </span>
-                  ) : (
-                    <button
-                      key={pageNum}
-                      onClick={() => onPageChange(pageNum as number)}
-                      className={cn(
-                        'px-3 py-1 text-sm rounded transition-colors',
-                        pageNum === pagination.page
-                          ? 'bg-purple-600 text-white'
-                          : 'text-gray-400 hover:bg-gray-800'
-                      )}
-                    >
-                      {pageNum}
-                    </button>
-                  )
+              {generatePageNumbers(pagination.page, pagination.totalPages).map((pageNum, idx) =>
+                pageNum === '...' ? (
+                  <span key={`ellipsis-${idx}`} className="px-2 text-gray-500">
+                    ...
+                  </span>
+                ) : (
+                  <button
+                    key={pageNum}
+                    onClick={() => onPageChange(pageNum as number)}
+                    className={cn(
+                      'px-3 py-1 text-sm rounded transition-colors',
+                      pageNum === pagination.page
+                        ? 'bg-purple-600 text-white'
+                        : 'text-gray-400 hover:bg-gray-800',
+                    )}
+                  >
+                    {pageNum}
+                  </button>
+                ),
               )}
             </div>
 
@@ -522,10 +501,7 @@ export function AdminCallsTable({
 }
 
 // Helper function to generate page numbers with ellipsis
-function generatePageNumbers(
-  currentPage: number,
-  totalPages: number
-): (number | string)[] {
+function generatePageNumbers(currentPage: number, totalPages: number): (number | string)[] {
   if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, i) => i + 1)
   }

@@ -1,4 +1,4 @@
-# 📜 Scripts de Maintenance - Voipia
+# 📜 Scripts de Maintenance - Sablia Vox
 
 Ce dossier contient des scripts utilitaires pour la maintenance de la base de données Supabase.
 
@@ -150,7 +150,7 @@ Ce guide contient :
 **Linux/Mac** (cron) :
 ```bash
 # Ajouter au crontab (crontab -e)
-0 2 * * * cd /path/to/voipia-landing && ./scripts/backup-prod.sh
+0 2 * * * cd /path/to/sablia-vox && ./scripts/backup-prod.sh
 ```
 
 **Windows** (Task Scheduler) :

@@ -1,30 +1,30 @@
 'use client'
 
-import { useMemo } from 'react'
-import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
+import {
+  Activity,
+  AlertCircle,
+  ArrowLeft,
+  Building2,
+  Loader2,
+  Sparkles,
+  Target,
+  Users,
+} from 'lucide-react'
+import Link from 'next/link'
+import { useMemo } from 'react'
+import { CallVolumeChart } from '@/components/dashboard/Charts/CallVolumeChart'
+import { EmotionDistribution } from '@/components/dashboard/Charts/EmotionDistribution'
+import { LatencyTimeSeriesChart } from '@/components/dashboard/Charts/LatencyTimeSeriesChart'
+import { OutcomeBreakdown } from '@/components/dashboard/Charts/OutcomeBreakdown'
+import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
+import { KPIGrid } from '@/components/dashboard/KPIGrid'
+import { PageHeader } from '@/components/dashboard/PageHeader'
+import { useLouisChartData, useLouisKPIs } from '@/lib/hooks/useDashboardData'
 import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
-import { useLouisKPIs, useLouisChartData } from '@/lib/hooks/useDashboardData'
 import { useLatencyMetrics } from '@/lib/hooks/useLatencyData'
 import { createClient } from '@/lib/supabase/client'
 import type { AccessibleAgent } from '@/lib/types/dashboard'
-import { PageHeader } from '@/components/dashboard/PageHeader'
-import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
-import { KPIGrid } from '@/components/dashboard/KPIGrid'
-import { CallVolumeChart } from '@/components/dashboard/Charts/CallVolumeChart'
-import { OutcomeBreakdown } from '@/components/dashboard/Charts/OutcomeBreakdown'
-import { EmotionDistribution } from '@/components/dashboard/Charts/EmotionDistribution'
-import { LatencyTimeSeriesChart } from '@/components/dashboard/Charts/LatencyTimeSeriesChart'
-import {
-  Users,
-  Target,
-  Sparkles,
-  ArrowLeft,
-  Building2,
-  Activity,
-  Loader2,
-  AlertCircle,
-} from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface AgentDetailClientProps {
@@ -74,11 +74,14 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
   const { filters, setDateRange } = useDashboardFilters()
 
   // Create filters with this specific deployment
-  const deploymentFilters = useMemo(() => ({
-    ...filters,
-    deploymentId: agentId,
-    clientIds: agent?.client_id ? [agent.client_id] : [],
-  }), [filters, agentId, agent?.client_id])
+  const deploymentFilters = useMemo(
+    () => ({
+      ...filters,
+      deploymentId: agentId,
+      clientIds: agent?.client_id ? [agent.client_id] : [],
+    }),
+    [filters, agentId, agent?.client_id],
+  )
 
   // Fetch metrics (only Louis for now - can be extended)
   const { data: kpiData, isLoading: isLoadingKPIs } = useLouisKPIs(deploymentFilters)
@@ -94,12 +97,13 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
   })
 
   // Calculate average total latency for KPI
-  const avgTotalLatency = latencyData && latencyData.length > 0
-    ? Math.round(
-        latencyData.reduce((sum, m) => sum + m.avg_total_latency_ms * m.call_count, 0) /
-        latencyData.reduce((sum, m) => sum + m.call_count, 0)
-      )
-    : 0
+  const avgTotalLatency =
+    latencyData && latencyData.length > 0
+      ? Math.round(
+          latencyData.reduce((sum, m) => sum + m.avg_total_latency_ms * m.call_count, 0) /
+            latencyData.reduce((sum, m) => sum + m.call_count, 0),
+        )
+      : 0
 
   // Handle date filter changes
   const handleDateChange = (start: Date, end: Date) => {
@@ -178,28 +182,20 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
       </Link>
 
       {/* Agent Header */}
-      <div className={cn(
-        'rounded-xl border bg-gradient-to-br p-6',
-        config.color
-      )}>
+      <div className={cn('rounded-xl border bg-gradient-to-br p-6', config.color)}>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className={cn('p-3 rounded-lg bg-white/10', config.iconColor)}>
               <Icon className="w-8 h-8" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">
-                {agent.deployment_name}
-              </h1>
+              <h1 className="text-2xl font-bold text-white">{agent.deployment_name}</h1>
               <div className="flex items-center gap-3 mt-1">
                 <div className="flex items-center gap-1.5 text-white/60">
                   <Building2 className="w-4 h-4" />
                   <span className="text-sm">{agent.client_name}</span>
                 </div>
-                <span className={cn(
-                  'px-2 py-0.5 rounded text-xs font-medium',
-                  config.badgeColor
-                )}>
+                <span className={cn('px-2 py-0.5 rounded text-xs font-medium', config.badgeColor)}>
                   {agent.agent_display_name}
                 </span>
               </div>
@@ -228,7 +224,8 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
         <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/10">
           <Activity className="w-4 h-4 text-white/40" />
           <span className="text-sm text-white/60">
-            Derniere activite: {agent.last_call_at
+            Derniere activite:{' '}
+            {agent.last_call_at
               ? new Date(agent.last_call_at).toLocaleDateString('fr-FR', {
                   day: 'numeric',
                   month: 'long',
@@ -259,25 +256,16 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
       {/* Charts Grid - 2x2 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="h-[300px]">
-          <CallVolumeChart
-            data={chartData?.call_volume_by_day || []}
-          />
+          <CallVolumeChart data={chartData?.call_volume_by_day || []} />
         </div>
         <div className="h-[300px]">
-          <EmotionDistribution
-            data={chartData?.emotion_distribution || []}
-          />
+          <EmotionDistribution data={chartData?.emotion_distribution || []} />
         </div>
         <div className="h-[300px]">
-          <OutcomeBreakdown
-            data={chartData?.outcome_distribution || []}
-          />
+          <OutcomeBreakdown data={chartData?.outcome_distribution || []} />
         </div>
         <div className="h-[300px]">
-          <LatencyTimeSeriesChart
-            data={latencyData || []}
-            isLoading={isLoadingLatencies}
-          />
+          <LatencyTimeSeriesChart data={latencyData || []} isLoading={isLoadingLatencies} />
         </div>
       </div>
     </div>

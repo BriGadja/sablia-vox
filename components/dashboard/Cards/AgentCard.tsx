@@ -1,8 +1,19 @@
 'use client'
 
+import {
+  Activity,
+  ArrowRight,
+  Calendar,
+  Clock,
+  Euro,
+  Phone,
+  Sparkles,
+  Target,
+  TrendingUp,
+  Users,
+} from 'lucide-react'
 import Link from 'next/link'
-import { Users, Target, Sparkles, ArrowRight, Phone, TrendingUp, Calendar, Clock, Euro, Activity } from 'lucide-react'
-import { AgentCardData } from '@/lib/types/dashboard'
+import type { AgentCardData } from '@/lib/types/dashboard'
 import { cn, formatRelativeTime } from '@/lib/utils'
 
 interface AgentCardProps {
@@ -16,9 +27,7 @@ interface AgentCardProps {
  */
 export function AgentCard({ agent }: AgentCardProps) {
   const hasData = agent.total_calls > 0
-  const costPerCall = agent.total_calls > 0
-    ? agent.total_cost / agent.total_calls
-    : 0
+  const costPerCall = agent.total_calls > 0 ? agent.total_cost / agent.total_calls : 0
 
   // Agent type configuration
   const agentConfig = {
@@ -50,7 +59,7 @@ export function AgentCard({ agent }: AgentCardProps) {
       href={`/dashboard/${agent.agent_type_name}`}
       className={cn(
         'group relative overflow-hidden rounded-xl border bg-gradient-to-br backdrop-blur-sm transition-all hover:scale-[1.02]',
-        config.color
+        config.color,
       )}
     >
       <div className="p-6 space-y-4">
@@ -61,9 +70,7 @@ export function AgentCard({ agent }: AgentCardProps) {
               <Icon className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">
-                {agent.deployment_name}
-              </h3>
+              <h3 className="text-lg font-bold text-white">{agent.deployment_name}</h3>
               <p className="text-sm text-white/60">{agent.client_name}</p>
             </div>
           </div>
@@ -108,27 +115,21 @@ export function AgentCard({ agent }: AgentCardProps) {
                   <Phone className="w-3 h-3" />
                   <p className="text-xs">Appels</p>
                 </div>
-                <p className="text-xl font-bold text-white">
-                  {agent.total_calls.toLocaleString()}
-                </p>
+                <p className="text-xl font-bold text-white">{agent.total_calls.toLocaleString()}</p>
               </div>
               <div>
                 <div className="flex items-center gap-1 text-white/60 mb-1">
                   <TrendingUp className="w-3 h-3" />
                   <p className="text-xs">Taux réponse</p>
                 </div>
-                <p className="text-xl font-bold text-white">
-                  {agent.answer_rate.toFixed(1)}%
-                </p>
+                <p className="text-xl font-bold text-white">{agent.answer_rate.toFixed(1)}%</p>
               </div>
               <div>
                 <div className="flex items-center gap-1 text-white/60 mb-1">
                   <Calendar className="w-3 h-3" />
                   <p className="text-xs">Conversion</p>
                 </div>
-                <p className="text-xl font-bold text-white">
-                  {agent.conversion_rate.toFixed(1)}%
-                </p>
+                <p className="text-xl font-bold text-white">{agent.conversion_rate.toFixed(1)}%</p>
               </div>
               <div>
                 <div className="flex items-center gap-1 text-white/60 mb-1">
@@ -148,26 +149,20 @@ export function AgentCard({ agent }: AgentCardProps) {
                   <Euro className="w-3 h-3" />
                   <p className="text-xs">Coût total</p>
                 </div>
-                <p className="text-lg font-bold text-white">
-                  {agent.total_cost.toFixed(2)} €
-                </p>
+                <p className="text-lg font-bold text-white">{agent.total_cost.toFixed(2)} €</p>
               </div>
               <div>
                 <div className="flex items-center gap-1 text-white/60 mb-1">
                   <Euro className="w-3 h-3" />
                   <p className="text-xs">Coût/appel</p>
                 </div>
-                <p className="text-lg font-bold text-white">
-                  {costPerCall.toFixed(2)} €
-                </p>
+                <p className="text-lg font-bold text-white">{costPerCall.toFixed(2)} €</p>
               </div>
             </div>
           </div>
         ) : (
           <div className="pt-4 border-t border-white/10">
-            <p className="text-sm text-white/40 text-center">
-              Aucune donnée pour cette période
-            </p>
+            <p className="text-sm text-white/40 text-center">Aucune donnée pour cette période</p>
           </div>
         )}
       </div>

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase/client'
-import type { LatencyMetric, LatencyFilters, LatencyKPIs } from '@/lib/types/latency'
+import type { LatencyFilters, LatencyKPIs, LatencyMetric } from '@/lib/types/latency'
 
 /**
  * Hook to fetch latency metrics from get_latency_metrics() RPC
@@ -83,12 +83,15 @@ export function calculateLatencyKPIs(metrics: LatencyMetric[]): LatencyKPIs {
  * Group metrics by date for time-series chart
  */
 export function groupMetricsByDate(metrics: LatencyMetric[]) {
-  const grouped = new Map<string, {
-    avgLlmLatency: number
-    avgTtsLatency: number
-    avgTotalLatency: number
-    callCount: number
-  }>()
+  const grouped = new Map<
+    string,
+    {
+      avgLlmLatency: number
+      avgTtsLatency: number
+      avgTotalLatency: number
+      callCount: number
+    }
+  >()
 
   metrics.forEach((metric) => {
     const existing = grouped.get(metric.date)
@@ -131,11 +134,14 @@ export function groupMetricsByDate(metrics: LatencyMetric[]) {
  * Group metrics by deployment for bar chart
  */
 export function groupMetricsByDeployment(metrics: LatencyMetric[]) {
-  const grouped = new Map<string, {
-    avgLlmLatency: number
-    avgTtsLatency: number
-    callCount: number
-  }>()
+  const grouped = new Map<
+    string,
+    {
+      avgLlmLatency: number
+      avgTtsLatency: number
+      callCount: number
+    }
+  >()
 
   metrics.forEach((metric) => {
     const existing = grouped.get(metric.deployment_name)

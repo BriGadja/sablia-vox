@@ -1,18 +1,14 @@
 'use client'
 
-import { useState, useMemo } from 'react'
-import { ChevronRight, Building2, Bot, FileText, Phone, MessageSquare, Mail } from 'lucide-react'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
+import { Bot, Building2, ChevronRight, FileText, Mail, MessageSquare, Phone } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import type {
-  InvoiceSummaryTableProps,
   ClientInvoice,
   DeploymentInvoice,
   InvoiceLine,
+  InvoiceSummaryTableProps,
 } from '@/lib/types/invoice'
 import { formatCurrency } from '@/lib/types/invoice'
 
@@ -24,11 +20,7 @@ import { formatCurrency } from '@/lib/types/invoice'
  * 2. Un tableau récapitulatif par client
  * 3. Un détail expandable par client avec les lignes de facturation
  */
-export function InvoiceSummaryTable({
-  data,
-  isLoading,
-  error,
-}: InvoiceSummaryTableProps) {
+export function InvoiceSummaryTable({ data, isLoading, error }: InvoiceSummaryTableProps) {
   if (error) {
     if (error.message.includes('Access denied')) {
       return null
@@ -65,9 +57,7 @@ export function InvoiceSummaryTable({
             <FileText className="h-5 w-5 text-emerald-400" />
             Résumé Facturation
           </span>
-          <span className="text-sm font-normal text-white/50 capitalize">
-            {data.period.label}
-          </span>
+          <span className="text-sm font-normal text-white/50 capitalize">{data.period.label}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -97,12 +87,7 @@ interface SummaryKPIsProps {
 function SummaryKPIs({ summary }: SummaryKPIsProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-      <KPICard
-        label="Total à facturer"
-        value={summary.total_invoice}
-        format="currency"
-        highlight
-      />
+      <KPICard label="Total à facturer" value={summary.total_invoice} format="currency" highlight />
       <KPICard
         label="Leasing"
         value={summary.total_leasing}
@@ -142,7 +127,9 @@ function KPICard({ label, value, format, highlight, icon }: KPICardProps) {
   }, [value, format])
 
   return (
-    <div className={`p-3 rounded-lg ${highlight ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5'}`}>
+    <div
+      className={`p-3 rounded-lg ${highlight ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5'}`}
+    >
       <div className="flex items-center gap-1.5 mb-1">
         {icon && <span className="text-white/40">{icon}</span>}
         <p className="text-xs text-white/50 truncate">{label}</p>
@@ -174,11 +161,14 @@ function ClientSummaryTable({ clients }: ClientSummaryTableProps) {
   }
 
   // Calculer les totaux
-  const totals = useMemo(() => ({
-    leasing: clients.reduce((sum, c) => sum + c.total_leasing, 0),
-    consumption: clients.reduce((sum, c) => sum + c.total_consumption, 0),
-    total: clients.reduce((sum, c) => sum + c.total_client, 0),
-  }), [clients])
+  const totals = useMemo(
+    () => ({
+      leasing: clients.reduce((sum, c) => sum + c.total_leasing, 0),
+      consumption: clients.reduce((sum, c) => sum + c.total_consumption, 0),
+      total: clients.reduce((sum, c) => sum + c.total_client, 0),
+    }),
+    [clients],
+  )
 
   return (
     <div className="bg-zinc-900/50 rounded-lg border border-white/10 overflow-hidden">
@@ -236,9 +226,7 @@ function ClientRow({ client, isExpanded, onToggle }: ClientRowProps) {
               />
             )}
             <Building2 className="h-4 w-4 text-white/40" />
-            <span className="text-sm font-medium text-white truncate">
-              {client.client_name}
-            </span>
+            <span className="text-sm font-medium text-white truncate">{client.client_name}</span>
           </div>
           <div className="text-right text-sm text-white/70">
             {formatCurrency(client.total_leasing)}
@@ -337,9 +325,7 @@ function InvoiceLineRow({ line }: InvoiceLineRowProps) {
       <div className="col-span-2 text-right text-white/40">
         {formatCurrency(line.unit_price)}/{line.unit}
       </div>
-      <div className="col-span-3 text-right text-white/80">
-        {formatCurrency(line.amount)}
-      </div>
+      <div className="col-span-3 text-right text-white/80">{formatCurrency(line.amount)}</div>
     </div>
   )
 }

@@ -2,14 +2,14 @@
 
 import { memo, useMemo } from 'react'
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
 } from 'recharts'
 import type { AgentTypePerformance } from '@/lib/types/dashboard'
 
@@ -20,8 +20,8 @@ interface AgentTypeComparisonChartProps {
 
 // Agent type colors matching the brand
 const agentTypeColors: Record<string, string> = {
-  louis: '#3b82f6',     // blue
-  arthur: '#f97316',    // orange
+  louis: '#3b82f6', // blue
+  arthur: '#f97316', // orange
   alexandra: '#10b981', // green/emerald
 }
 
@@ -87,11 +87,7 @@ function AgentTypeComparisonChartInner({ data, isLoading }: AgentTypeComparisonC
           margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
           barCategoryGap="20%"
         >
-          <CartesianGrid
-            strokeDasharray="3 3"
-            stroke="rgba(255,255,255,0.1)"
-            vertical={false}
-          />
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
           <XAxis
             dataKey="name"
             tick={{ fill: 'rgba(255,255,255,0.7)', fontSize: 11 }}
@@ -124,15 +120,11 @@ function AgentTypeComparisonChartInner({ data, isLoading }: AgentTypeComparisonC
               return [value, name]
             }}
             labelFormatter={(label) => {
-              const item = chartData.find(d => d.name === label)
+              const item = chartData.find((d) => d.name === label)
               return `${label} (${item?.total_calls || 0} appels, ${item?.deployments || 0} agents)`
             }}
           />
-          <Bar
-            dataKey="conversion_rate"
-            name="conversion_rate"
-            radius={[4, 4, 0, 0]}
-          >
+          <Bar dataKey="conversion_rate" name="conversion_rate" radius={[4, 4, 0, 0]}>
             {chartData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
@@ -143,10 +135,7 @@ function AgentTypeComparisonChartInner({ data, isLoading }: AgentTypeComparisonC
       <div className="flex justify-center gap-4 mt-1 flex-shrink-0">
         {chartData.map((item) => (
           <div key={item.type} className="flex items-center gap-1.5">
-            <span
-              className="w-2.5 h-2.5 rounded-sm"
-              style={{ backgroundColor: item.color }}
-            />
+            <span className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: item.color }} />
             <span className="text-xs text-white/70">
               {item.name} ({item.total_calls})
             </span>

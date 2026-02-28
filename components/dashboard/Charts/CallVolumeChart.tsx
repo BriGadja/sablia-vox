@@ -2,14 +2,14 @@
 
 import { memo, useMemo } from 'react'
 import {
-  AreaChart,
   Area,
-  XAxis,
-  YAxis,
+  AreaChart,
   CartesianGrid,
-  Tooltip,
   Legend,
   ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts'
 
 interface CallVolumeChartProps {
@@ -33,7 +33,7 @@ function CallVolumeChartInner({ data }: CallVolumeChartProps) {
         'Appels répondus': item.answered_calls,
         'RDV pris': item.appointments,
       })),
-    [data]
+    [data],
   )
 
   return (

@@ -4,13 +4,10 @@ import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 
 // Lazy load chatbot widget for performance
-const ChatbotWidget = dynamic(
-  () => import('./ChatbotWidget'),
-  {
-    ssr: false,
-    loading: () => null
-  }
-)
+const ChatbotWidget = dynamic(() => import('./ChatbotWidget'), {
+  ssr: false,
+  loading: () => null,
+})
 
 // Pages où le chatbot ne doit pas apparaître
 const HIDDEN_PATHS = ['/landingv2']

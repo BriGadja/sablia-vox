@@ -1,12 +1,12 @@
 # Database Reference - Complete Schema
 
-This document provides a comprehensive reference for the Voipia database schema, including all tables, views, functions, and their relationships.
+This document provides a comprehensive reference for the Sablia Vox database schema, including all tables, views, functions, and their relationships.
 
 ---
 
 ## Database Environments
 
-### Production Database (`mcp__supabase-voipia__*`)
+### Production Database (`mcp__supabase-vox__*`)
 
 - **Purpose**: Live production data used by real customers
 - **Access**: Read-only for Claude
@@ -168,7 +168,7 @@ Types of AI agents (Louis, Arthur, Alexandra).
 
 ### `clients`
 
-Customer companies using Voipia agents.
+Customer companies using Sablia Vox agents.
 
 **Columns**:
 

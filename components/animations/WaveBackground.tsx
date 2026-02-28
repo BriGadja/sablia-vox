@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 /**
  * WaveBackground Component
@@ -63,5 +63,5 @@ export function WaveBackground() {
       {/* Grid pattern overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:4rem_4rem]" />
     </div>
-  );
+  )
 }

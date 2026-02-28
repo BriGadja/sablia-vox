@@ -1,7 +1,16 @@
 'use client'
 
+import { ChevronsUpDown, LogOut, User } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import {
   Sidebar,
   SidebarContent,
@@ -16,20 +25,10 @@ import {
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { sidebarConfig, settingsNavItem } from './SidebarConfig'
-import { AgentTree } from './AgentTree'
-import { UserSwitcher } from './UserSwitcher'
-import { LogOut, ChevronsUpDown, User } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
+import { AgentTree } from './AgentTree'
+import { settingsNavItem, sidebarConfig } from './SidebarConfig'
+import { UserSwitcher } from './UserSwitcher'
 
 interface AppSidebarProps {
   userEmail: string
@@ -77,10 +76,7 @@ export function AppSidebar({ userEmail, isAdmin }: AppSidebarProps) {
     // Filter out groups with no items after filtering
     .filter((group) => group.items.length > 0)
 
-  const userInitials = userEmail
-    .split('@')[0]
-    .slice(0, 2)
-    .toUpperCase()
+  const userInitials = userEmail.split('@')[0].slice(0, 2).toUpperCase()
 
   return (
     <Sidebar collapsible="icon" className="border-r border-white/10">
@@ -102,7 +98,8 @@ export function AppSidebar({ userEmail, isAdmin }: AppSidebarProps) {
             <SidebarGroupContent>
               <SidebarMenu>
                 {group.items.map((item) => {
-                  const isActive = pathname === item.href ||
+                  const isActive =
+                    pathname === item.href ||
                     (item.href !== '/dashboard' && pathname.startsWith(item.href))
 
                   return (
@@ -138,7 +135,8 @@ export function AppSidebar({ userEmail, isAdmin }: AppSidebarProps) {
             <SidebarGroupContent>
               <SidebarMenu>
                 {group.items.map((item) => {
-                  const isActive = pathname === item.href ||
+                  const isActive =
+                    pathname === item.href ||
                     (item.href !== '/dashboard' && pathname.startsWith(item.href))
 
                   return (
@@ -181,9 +179,7 @@ export function AppSidebar({ userEmail, isAdmin }: AppSidebarProps) {
                     <span className="truncate font-semibold text-white">
                       {userEmail.split('@')[0]}
                     </span>
-                    <span className="truncate text-xs text-white/60">
-                      {userEmail}
-                    </span>
+                    <span className="truncate text-xs text-white/60">{userEmail}</span>
                   </div>
                   <ChevronsUpDown className="ml-auto size-4 text-white/60" />
                 </SidebarMenuButton>
@@ -194,7 +190,10 @@ export function AppSidebar({ userEmail, isAdmin }: AppSidebarProps) {
                 align="end"
                 sideOffset={4}
               >
-                <DropdownMenuItem asChild className="text-white/70 hover:text-white hover:bg-white/10 focus:bg-white/10 focus:text-white cursor-pointer">
+                <DropdownMenuItem
+                  asChild
+                  className="text-white/70 hover:text-white hover:bg-white/10 focus:bg-white/10 focus:text-white cursor-pointer"
+                >
                   <Link href={settingsNavItem.href}>
                     <User className="mr-2 h-4 w-4" />
                     {settingsNavItem.title}

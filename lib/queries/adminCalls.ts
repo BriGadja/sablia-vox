@@ -5,10 +5,10 @@
 
 import { createClient } from '@/lib/supabase/client'
 import type {
-  AdminCallsFilters,
-  AdminCallsSort,
-  AdminCallsResponse,
   AdminCallRow,
+  AdminCallsFilters,
+  AdminCallsResponse,
+  AdminCallsSort,
 } from '@/lib/types/adminCalls'
 
 interface ExportResponse {
@@ -24,7 +24,7 @@ export async function fetchAdminCallsPaginated(
   filters: AdminCallsFilters,
   sort: AdminCallsSort,
   page: number,
-  pageSize: number
+  pageSize: number,
 ): Promise<AdminCallsResponse> {
   const supabase = createClient()
 
@@ -56,9 +56,7 @@ export async function fetchAdminCallsPaginated(
 /**
  * Fetch all filtered calls for export (no pagination)
  */
-export async function fetchAdminCallsExport(
-  filters: AdminCallsFilters
-): Promise<ExportResponse> {
+export async function fetchAdminCallsExport(filters: AdminCallsFilters): Promise<ExportResponse> {
   const supabase = createClient()
 
   const { data, error } = await supabase.rpc('get_admin_calls_export', {
@@ -136,10 +134,7 @@ export function exportCallsToCSV(data: AdminCallRow[], filename: string): void {
         if (col.key === 'started_at' && typeof value === 'string') {
           return new Date(value).toLocaleString('fr-FR')
         }
-        if (
-          (col.key.includes('cost') || col.key === 'total_cost') &&
-          typeof value === 'number'
-        ) {
+        if ((col.key.includes('cost') || col.key === 'total_cost') && typeof value === 'number') {
           return value.toFixed(4)
         }
         if (typeof value === 'string') {
@@ -171,15 +166,10 @@ export function exportCallsToCSV(data: AdminCallRow[], filename: string): void {
 /**
  * Fetch all clients for multi-select filter (admin only)
  */
-export async function fetchAllClients(): Promise<
-  Array<{ id: string; name: string }>
-> {
+export async function fetchAllClients(): Promise<Array<{ id: string; name: string }>> {
   const supabase = createClient()
 
-  const { data, error } = await supabase
-    .from('clients')
-    .select('id, name')
-    .order('name')
+  const { data, error } = await supabase.from('clients').select('id, name').order('name')
 
   if (error) {
     console.error('Error fetching clients:', error)

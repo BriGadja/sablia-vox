@@ -23,7 +23,7 @@ export function LemlistTracker() {
   if (!lemlistKey || !lemlistTeam) {
     if (process.env.NODE_ENV === 'development') {
       console.warn(
-        'Lemlist tracking disabled: NEXT_PUBLIC_LEMLIST_KEY or NEXT_PUBLIC_LEMLIST_TEAM not configured'
+        'Lemlist tracking disabled: NEXT_PUBLIC_LEMLIST_KEY or NEXT_PUBLIC_LEMLIST_TEAM not configured',
       )
     }
     return null
@@ -31,11 +31,5 @@ export function LemlistTracker() {
 
   const trackingUrl = `https://app.lemlist.com/api/visitors/tracking?k=${lemlistKey}&t=${lemlistTeam}`
 
-  return (
-    <Script
-      id="lemlist-tracking"
-      src={trackingUrl}
-      strategy="afterInteractive"
-    />
-  )
+  return <Script id="lemlist-tracking" src={trackingUrl} strategy="afterInteractive" />
 }

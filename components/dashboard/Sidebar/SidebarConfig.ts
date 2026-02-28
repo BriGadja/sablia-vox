@@ -1,11 +1,11 @@
 import {
   LayoutDashboard,
-  Users,
+  type LucideIcon,
+  Phone,
   Receipt,
   Settings,
+  Users,
   Wallet,
-  Phone,
-  type LucideIcon,
 } from 'lucide-react'
 
 export interface NavItem {
@@ -14,7 +14,7 @@ export interface NavItem {
   icon: LucideIcon
   badge?: string
   adminOnly?: boolean
-  userOnly?: boolean  // Visible uniquement pour les non-admins
+  userOnly?: boolean // Visible uniquement pour les non-admins
 }
 
 export interface NavGroup {
@@ -31,7 +31,7 @@ export const sidebarConfig: NavGroup[] = [
     label: 'Platform',
     items: [
       {
-        title: 'Vue d\'ensemble',
+        title: "Vue d'ensemble",
         href: '/dashboard/overview',
         icon: LayoutDashboard,
       },
@@ -50,7 +50,7 @@ export const sidebarConfig: NavGroup[] = [
   // "Mes Agents" est insere dynamiquement via AgentTree dans AppSidebar
   {
     label: 'Financier',
-    adminOnly: true,  // Section visible uniquement pour les admins
+    adminOnly: true, // Section visible uniquement pour les admins
     items: [
       {
         title: 'Dashboard Financier',

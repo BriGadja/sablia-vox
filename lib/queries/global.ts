@@ -1,24 +1,24 @@
 import { createClient } from '@/lib/supabase/client'
-import {
-  buildCSV,
-  formatDateForCSV,
-  formatBooleanForCSV,
-  formatCurrencyForCSV,
-  type CSVColumn,
-} from '@/lib/utils'
 import type {
-  DashboardFilters,
-  KPIMetrics,
-  ChartData,
-  AccessibleClient,
   AccessibleAgent,
-  AgentTypePerformance,
-  TopClientData,
-  ClientCardData,
+  AccessibleClient,
   AgentCardData,
   AgentTypeCardData,
+  AgentTypePerformance,
   CallExportRow,
+  ChartData,
+  ClientCardData,
+  DashboardFilters,
+  KPIMetrics,
+  TopClientData,
 } from '@/lib/types/dashboard'
+import {
+  buildCSV,
+  type CSVColumn,
+  formatBooleanForCSV,
+  formatCurrencyForCSV,
+  formatDateForCSV,
+} from '@/lib/utils'
 
 /**
  * Check if the current user has admin permissions
@@ -69,7 +69,7 @@ export async function fetchAccessibleClients(): Promise<AccessibleClient[]> {
  */
 export async function fetchAccessibleAgents(
   clientIds?: string[],
-  agentTypeName?: 'louis' | 'arthur' | 'alexandra' | null
+  agentTypeName?: 'louis' | 'arthur' | 'alexandra' | null,
 ): Promise<AccessibleAgent[]> {
   const supabase = createClient()
 
@@ -102,9 +102,7 @@ export async function fetchAccessibleAgents(
  * Returns current period and previous period comparison
  * @param filters - Dashboard filters (clientIds, deploymentId, agentTypeName, startDate, endDate)
  */
-export async function fetchGlobalKPIs(
-  filters: DashboardFilters
-): Promise<KPIMetrics> {
+export async function fetchGlobalKPIs(filters: DashboardFilters): Promise<KPIMetrics> {
   const supabase = createClient()
 
   const { data, error } = await supabase.rpc('get_global_kpis', {
@@ -128,9 +126,7 @@ export async function fetchGlobalKPIs(
  * Returns call volume by day, outcome distribution, emotion distribution, etc.
  * @param filters - Dashboard filters (clientIds, deploymentId, agentTypeName, startDate, endDate)
  */
-export async function fetchGlobalChartData(
-  filters: DashboardFilters
-): Promise<ChartData> {
+export async function fetchGlobalChartData(filters: DashboardFilters): Promise<ChartData> {
   const supabase = createClient()
 
   const { data, error } = await supabase.rpc('get_global_chart_data', {
@@ -157,7 +153,7 @@ export async function fetchGlobalChartData(
  */
 export async function fetchTopClients(
   filters: DashboardFilters,
-  limit: number = 10
+  limit: number = 10,
 ): Promise<TopClientData[]> {
   const supabase = createClient()
 
@@ -183,7 +179,7 @@ export async function fetchTopClients(
  * @param filters - Dashboard filters
  */
 export async function fetchAgentTypePerformance(
-  filters: DashboardFilters
+  filters: DashboardFilters,
 ): Promise<AgentTypePerformance[]> {
   const supabase = createClient()
 
@@ -206,9 +202,7 @@ export async function fetchAgentTypePerformance(
  * Uses RPC function get_client_cards_data
  * @param filters - Dashboard filters (startDate, endDate, optional clientIds)
  */
-export async function fetchClientCardsData(
-  filters: DashboardFilters
-): Promise<ClientCardData[]> {
+export async function fetchClientCardsData(filters: DashboardFilters): Promise<ClientCardData[]> {
   const supabase = createClient()
 
   const { data, error } = await supabase.rpc('get_client_cards_data', {
@@ -230,9 +224,7 @@ export async function fetchClientCardsData(
  * Uses RPC function get_agent_cards_data
  * @param filters - Dashboard filters (startDate, endDate, optional clientIds)
  */
-export async function fetchAgentCardsData(
-  filters: DashboardFilters
-): Promise<AgentCardData[]> {
+export async function fetchAgentCardsData(filters: DashboardFilters): Promise<AgentCardData[]> {
   const supabase = createClient()
 
   const { data, error } = await supabase.rpc('get_agent_cards_data', {
@@ -256,7 +248,7 @@ export async function fetchAgentCardsData(
  * @param filters - Dashboard filters (startDate, endDate, optional clientIds)
  */
 export async function fetchAgentTypeCardsData(
-  filters: DashboardFilters
+  filters: DashboardFilters,
 ): Promise<AgentTypeCardData[]> {
   const supabase = createClient()
 
@@ -290,10 +282,7 @@ export async function getDashboardDestination(): Promise<{
 }> {
   try {
     // Fetch accessible clients and agents
-    const [clients, agents] = await Promise.all([
-      fetchAccessibleClients(),
-      fetchAccessibleAgents(),
-    ])
+    const [clients, agents] = await Promise.all([fetchAccessibleClients(), fetchAccessibleAgents()])
 
     // If user has 2+ clients or 2+ agents, show global dashboard
     if (clients.length >= 2 || agents.length >= 2) {
@@ -323,9 +312,7 @@ export async function getDashboardDestination(): Promise<{
  * Uses the generic buildCSV utility for consistent CSV generation
  * @param filters - Dashboard filters
  */
-export async function exportGlobalCallsToCSV(
-  filters: DashboardFilters
-): Promise<string> {
+export async function exportGlobalCallsToCSV(filters: DashboardFilters): Promise<string> {
   const supabase = createClient()
 
   let query = supabase
@@ -365,21 +352,40 @@ export async function exportGlobalCallsToCSV(
 
   // Define columns using the generic CSV builder
   const columns: CSVColumn<CallExportRow>[] = [
-    { header: 'Date', accessor: (row) => row.started_at, format: (v) => formatDateForCSV(v as string) },
+    {
+      header: 'Date',
+      accessor: (row) => row.started_at,
+      format: (v) => formatDateForCSV(v as string),
+    },
     { header: 'Client', accessor: (row) => row.agent_deployments?.clients?.name || '' },
     { header: 'Industry', accessor: (row) => row.agent_deployments?.clients?.industry || '' },
-    { header: 'Agent Type', accessor: (row) => row.agent_deployments?.agent_types?.display_name || '' },
+    {
+      header: 'Agent Type',
+      accessor: (row) => row.agent_deployments?.agent_types?.display_name || '',
+    },
     { header: 'Agent Name', accessor: (row) => row.agent_deployments?.name || '' },
     { header: 'First Name', accessor: (row) => row.first_name || '' },
     { header: 'Last Name', accessor: (row) => row.last_name || '' },
     { header: 'Phone', accessor: (row) => row.phone_number || '' },
     { header: 'Email', accessor: (row) => row.email || '' },
     { header: 'Duration (s)', accessor: (row) => row.duration_seconds || '' },
-    { header: 'Cost (€)', accessor: (row) => row.cost, format: (v) => formatCurrencyForCSV(v as number) },
+    {
+      header: 'Cost (€)',
+      accessor: (row) => row.cost,
+      format: (v) => formatCurrencyForCSV(v as number),
+    },
     { header: 'Outcome', accessor: (row) => row.outcome || '' },
     { header: 'Emotion', accessor: (row) => row.emotion || '' },
-    { header: 'Answered', accessor: (row) => row.answered, format: (v) => formatBooleanForCSV(v as boolean) },
-    { header: 'RDV Scheduled', accessor: (row) => row.metadata?.appointment_scheduled_at, format: (v) => formatDateForCSV(v as string) },
+    {
+      header: 'Answered',
+      accessor: (row) => row.answered,
+      format: (v) => formatBooleanForCSV(v as boolean),
+    },
+    {
+      header: 'RDV Scheduled',
+      accessor: (row) => row.metadata?.appointment_scheduled_at,
+      format: (v) => formatDateForCSV(v as string),
+    },
   ]
 
   return buildCSV(data as CallExportRow[], columns)

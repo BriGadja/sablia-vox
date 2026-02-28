@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export function useCountAnimation(endValue: string, isInView: boolean, delay: number = 0) {
   const [displayValue, setDisplayValue] = useState('0')

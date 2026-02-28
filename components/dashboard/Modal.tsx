@@ -1,8 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useRef } from 'react'
-import { useRouter } from 'next/navigation'
 import { X } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
 
 interface ModalProps {
@@ -30,7 +30,7 @@ export function Modal({ children, className }: ModalProps) {
         onDismiss()
       }
     },
-    [onDismiss]
+    [onDismiss],
   )
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export function Modal({ children, className }: ModalProps) {
         onDismiss()
       }
     },
-    [onDismiss]
+    [onDismiss],
   )
 
   return (
@@ -67,7 +67,7 @@ export function Modal({ children, className }: ModalProps) {
         <div
           className={cn(
             'relative w-full max-w-5xl bg-gradient-to-br from-gray-900 via-gray-900 to-purple-950/30 rounded-2xl border border-white/10 shadow-2xl my-4',
-            className
+            className,
           )}
         >
           {/* Close Button */}

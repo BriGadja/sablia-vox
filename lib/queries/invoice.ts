@@ -15,7 +15,7 @@ import type { MonthlyInvoiceSummaryResponse } from '@/lib/types/invoice'
  */
 export async function fetchMonthlyInvoiceSummary(
   year: number,
-  month: number
+  month: number,
 ): Promise<MonthlyInvoiceSummaryResponse> {
   const supabase = createClient()
 

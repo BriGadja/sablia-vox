@@ -12,7 +12,7 @@ import type { CompanyAgentHierarchy } from '@/lib/types/navigation'
  * @param viewAsUserId - Pour les admins: voir la hierarchie d'un autre utilisateur
  */
 export async function fetchCompanyAgentHierarchy(
-  viewAsUserId?: string | null
+  viewAsUserId?: string | null,
 ): Promise<CompanyAgentHierarchy> {
   const supabase = createClient()
 

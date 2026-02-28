@@ -3,7 +3,7 @@
 // Hook pour la hierarchie entreprise/agent
 // Utilise par le composant AgentTree dans la sidebar
 
-import { useQuery, type UseQueryResult } from '@tanstack/react-query'
+import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import { fetchCompanyAgentHierarchy } from '@/lib/queries/hierarchy'
 import type { CompanyAgentHierarchy } from '@/lib/types/navigation'
 
@@ -14,7 +14,7 @@ import type { CompanyAgentHierarchy } from '@/lib/types/navigation'
  * @param viewAsUserId - Pour les admins: voir la hierarchie d'un autre utilisateur
  */
 export function useAgentHierarchy(
-  viewAsUserId?: string | null
+  viewAsUserId?: string | null,
 ): UseQueryResult<CompanyAgentHierarchy> {
   return useQuery({
     queryKey: ['agent-hierarchy', viewAsUserId],

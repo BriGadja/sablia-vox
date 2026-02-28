@@ -1,30 +1,30 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
-import { fetchCallById } from '@/lib/queries/calls'
 import {
   Calendar,
-  Clock,
-  Phone,
-  User,
-  Mail,
   CheckCircle2,
-  XCircle,
-  Voicemail,
-  MessageSquare,
-  Play,
-  Pause,
-  Volume2,
-  FileText,
-  Loader2,
+  Clock,
   DollarSign,
-  Smile,
-  Frown,
-  Meh,
   ExternalLink,
+  FileText,
+  Frown,
+  Loader2,
+  Mail,
+  Meh,
+  MessageSquare,
+  Pause,
+  Phone,
+  Play,
+  Smile,
+  User,
+  Voicemail,
+  Volume2,
+  XCircle,
 } from 'lucide-react'
+import Link from 'next/link'
+import { useState } from 'react'
+import { fetchCallById } from '@/lib/queries/calls'
 import { cn } from '@/lib/utils'
 
 interface CallDetailModalContentProps {
@@ -132,9 +132,17 @@ function AudioPlayer({ url }: { url: string }) {
  * Call Detail Modal Content
  * Simplified version of call details for modal display
  */
-export function CallDetailModalContent({ callId, agentId, agentName }: CallDetailModalContentProps) {
+export function CallDetailModalContent({
+  callId,
+  agentId,
+  agentName,
+}: CallDetailModalContentProps) {
   // Fetch call data
-  const { data: call, isLoading, error } = useQuery({
+  const {
+    data: call,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['call-detail', callId],
     queryFn: () => fetchCallById(callId),
   })
@@ -191,7 +199,8 @@ export function CallDetailModalContent({ callId, agentId, agentName }: CallDetai
         <div>
           <h2 className="text-xl font-bold text-white">Detail de l&apos;appel</h2>
           <p className="text-sm text-white/60 mt-1">
-            {agentName} - {new Date(call.started_at).toLocaleDateString('fr-FR', {
+            {agentName} -{' '}
+            {new Date(call.started_at).toLocaleDateString('fr-FR', {
               weekday: 'long',
               year: 'numeric',
               month: 'long',
@@ -259,7 +268,12 @@ export function CallDetailModalContent({ callId, agentId, agentName }: CallDetai
                 <Phone className="w-3 h-3" />
                 <span>Statut</span>
               </div>
-              <p className={cn('text-sm font-medium', call.answered ? 'text-green-400' : 'text-red-400')}>
+              <p
+                className={cn(
+                  'text-sm font-medium',
+                  call.answered ? 'text-green-400' : 'text-red-400',
+                )}
+              >
                 {call.answered ? 'Repondu' : 'Non repondu'}
               </p>
             </div>
@@ -272,7 +286,7 @@ export function CallDetailModalContent({ callId, agentId, agentName }: CallDetai
               <div
                 className={cn(
                   'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium',
-                  outcomeConfig.className
+                  outcomeConfig.className,
                 )}
               >
                 {outcomeConfig.icon}
@@ -286,7 +300,7 @@ export function CallDetailModalContent({ callId, agentId, agentName }: CallDetai
                 <div
                   className={cn(
                     'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium',
-                    emotionConfig.className
+                    emotionConfig.className,
                   )}
                 >
                   {emotionConfig.icon}

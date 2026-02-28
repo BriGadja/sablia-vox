@@ -1,11 +1,11 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
-import { X, ChevronRight, TrendingUp, DollarSign, Phone, Calendar } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Calendar, ChevronRight, DollarSign, Phone, TrendingUp, X } from 'lucide-react'
 import { useDeploymentChannels } from '@/lib/hooks/useFinancialData'
-import { InteractiveFinancialTable, ColumnDefinition } from './InteractiveFinancialTable'
 import { formatCurrency, formatPercentage } from '@/lib/queries/financial'
 import type { ClientDeploymentData, DeploymentChannelData } from '@/lib/types/financial'
+import { type ColumnDefinition, InteractiveFinancialTable } from './InteractiveFinancialTable'
 
 interface DeploymentDrilldownModalProps {
   deployment: ClientDeploymentData | null
@@ -29,7 +29,7 @@ export function DeploymentDrilldownModal({
     deployment?.deployment_id || '',
     startDate,
     endDate,
-    isOpen && !!deployment
+    isOpen && !!deployment,
   )
 
   // Define columns for channel table
@@ -61,9 +61,7 @@ export function DeploymentDrilldownModal({
       label: 'Coût Provider',
       sortable: true,
       align: 'right',
-      format: (value) => (
-        <span className="text-gray-300">{formatCurrency(value)}</span>
-      ),
+      format: (value) => <span className="text-gray-300">{formatCurrency(value)}</span>,
     },
     {
       key: 'margin',
@@ -85,8 +83,8 @@ export function DeploymentDrilldownModal({
             value >= 95
               ? 'bg-emerald-500/20 text-emerald-400'
               : value >= 90
-              ? 'bg-amber-500/20 text-amber-400'
-              : 'bg-red-500/20 text-red-400'
+                ? 'bg-amber-500/20 text-amber-400'
+                : 'bg-red-500/20 text-red-400'
           }`}
         >
           {formatPercentage(value)}
@@ -98,9 +96,7 @@ export function DeploymentDrilldownModal({
       label: 'Volume',
       sortable: true,
       align: 'right',
-      format: (value) => (
-        <span className="text-gray-300">{value.toLocaleString('fr-FR')}</span>
-      ),
+      format: (value) => <span className="text-gray-300">{value.toLocaleString('fr-FR')}</span>,
     },
     {
       key: 'answered_calls',
@@ -131,9 +127,7 @@ export function DeploymentDrilldownModal({
       label: 'Rev./Item',
       sortable: true,
       align: 'right',
-      format: (value) => (
-        <span className="text-xs text-gray-400">{formatCurrency(value)}</span>
-      ),
+      format: (value) => <span className="text-xs text-gray-400">{formatCurrency(value)}</span>,
     },
   ]
 
@@ -145,7 +139,7 @@ export function DeploymentDrilldownModal({
       totalMargin: acc.totalMargin + channel.margin,
       totalVolume: acc.totalVolume + channel.volume,
     }),
-    { totalRevenue: 0, totalCost: 0, totalMargin: 0, totalVolume: 0 }
+    { totalRevenue: 0, totalCost: 0, totalMargin: 0, totalVolume: 0 },
   ) || { totalRevenue: 0, totalCost: 0, totalMargin: 0, totalVolume: 0 }
 
   if (!deployment) return null
@@ -186,9 +180,7 @@ export function DeploymentDrilldownModal({
                   <h2 className="text-3xl font-bold text-white mb-1">
                     {deployment.deployment_name}
                   </h2>
-                  <p className="text-gray-400">
-                    Drill down: Canaux de communication
-                  </p>
+                  <p className="text-gray-400">Drill down: Canaux de communication</p>
                   <div className="flex items-center gap-2 mt-2">
                     <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-violet-500/20 text-violet-400">
                       {deployment.agent_type_label}
@@ -198,11 +190,15 @@ export function DeploymentDrilldownModal({
                         deployment.status === 'active'
                           ? 'bg-emerald-500/20 text-emerald-400'
                           : deployment.status === 'paused'
-                          ? 'bg-amber-500/20 text-amber-400'
-                          : 'bg-gray-500/20 text-gray-400'
+                            ? 'bg-amber-500/20 text-amber-400'
+                            : 'bg-gray-500/20 text-gray-400'
                       }`}
                     >
-                      {deployment.status === 'active' ? 'Actif' : deployment.status === 'paused' ? 'Pause' : 'Archivé'}
+                      {deployment.status === 'active'
+                        ? 'Actif'
+                        : deployment.status === 'paused'
+                          ? 'Pause'
+                          : 'Archivé'}
                     </span>
                   </div>
                 </div>
@@ -277,9 +273,7 @@ export function DeploymentDrilldownModal({
               {/* Summary Footer */}
               {!isLoading && channels && channels.length > 0 && (
                 <div className="mt-6 rounded-xl border border-gray-800/50 bg-black/20 backdrop-blur-sm p-6">
-                  <h4 className="text-sm font-semibold text-gray-400 mb-4">
-                    Totaux par canal
-                  </h4>
+                  <h4 className="text-sm font-semibold text-gray-400 mb-4">Totaux par canal</h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     <div>
                       <p className="text-gray-400 mb-1">Total Revenue</p>
@@ -287,9 +281,7 @@ export function DeploymentDrilldownModal({
                     </div>
                     <div>
                       <p className="text-gray-400 mb-1">Total Coût</p>
-                      <p className="text-gray-300 font-bold">
-                        {formatCurrency(summary.totalCost)}
-                      </p>
+                      <p className="text-gray-300 font-bold">{formatCurrency(summary.totalCost)}</p>
                     </div>
                     <div>
                       <p className="text-gray-400 mb-1">Total Marge</p>
