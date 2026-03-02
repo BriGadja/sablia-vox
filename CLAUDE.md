@@ -16,7 +16,7 @@
 
 ## Critical Rules
 1. ALWAYS use Server Components by default — add `'use client'` only when needed
-2. NEVER use `any` type — define interfaces in `types/`
+2. NEVER use `any` type — define interfaces in `types/` or `lib/types/`
 3. NEVER `pkill node` or `taskkill /IM node.exe` (kills Claude Code)
 4. NEVER create files at project root (except config) — use `app/`, `components/`, `lib/`
 5. Before starting dev server: check port 3000 is free, kill only the exact PID
@@ -24,9 +24,12 @@
 ## Architecture
 - App Router: `app/` (layouts, pages, route handlers)
 - Components: `components/` (shared) | `components/ui/` (shadcn)
-- Lib: `lib/` (supabase clients, queries, utilities)
-- Types: `types/` (shared TypeScript interfaces)
-- Hooks: `hooks/` (custom React hooks)
+- Lib: `lib/` (supabase clients, queries, hooks, utilities, types)
+  - `lib/queries/` — Supabase data fetching functions
+  - `lib/hooks/` — TanStack Query hooks + URL state parsers (main hooks directory)
+  - `lib/types/` — TypeScript type definitions (dashboard, financial, consumption, etc.)
+- Types: `types/` (root — only chatbot types and gtag declarations)
+- Hooks: `hooks/` (root — only `useIsMobile` from shadcn)
 
 ## Code Patterns
 
@@ -53,16 +56,12 @@ export async function createClient() {
 }
 ```
 
-### Data Fetching (Server Component)
+### Dashboard Page Pattern
 ```typescript
-import { createClient } from '@/lib/supabase/server'
-
-export default async function Page() {
-  const supabase = await createClient()
-  const { data, error } = await supabase.from('calls').select('*').order('created_at', { ascending: false })
-  if (error) throw new Error(error.message)
-  return <div>{/* render data */}</div>
-}
+// page.tsx (Server) — auth guard + Suspense wrapper
+// *Client.tsx (Client) — useDashboardFilters() + useGlobalKPIs(filters) + render
+// All data fetching via TanStack Query hooks in lib/hooks/
+// All Supabase calls via browser client in lib/queries/
 ```
 
 ## Database
@@ -85,19 +84,28 @@ Cost per RDV     = total_cost / appointments
 
 ## Domain Reference
 ### Outcomes (lowercase)
-`appointment_scheduled`, `appointment_refused`, `voicemail`, `not_interested`, `callback_requested`, `too_short`, `call_failed`, `no_answer`, `busy`, `error`
+`appointment_scheduled`, `appointment_refused`, `voicemail`, `not_interested`, `callback_requested`, `too_short`, `call_failed`, `no_answer`, `busy`, `not_available`, `invalid_number`, `do_not_call`, `error`, `canceled`, `rejected`
+
+### Emotions
+`positive`, `neutral`, `negative`, `unknown`
 
 ### Design Tokens
 - Background: Dark gradient (black → purple-950/20 → black)
 - Cards: Glassmorphism (`bg-white/5`, `border-white/10`)
 - Accent: Violet/Purple (`#8B5CF6`)
+- Agent Louis: `#3B82F6` (Blue)
+- Agent Arthur: `#FB923C` (Orange)
+- Agent Alexandra: `#10B981` (Green)
 
 ## Routes
 ### Public
 `/` (landing), `/tester-nos-agents` (demo form), `/login`
 
+### Auth
+`/auth/callback`, `/auth/confirm`, `/auth/error`, `/auth/reset-password`, `/auth/update-password`
+
 ### Dashboard
-`/dashboard`, `/dashboard/agents`, `/dashboard/agents/[agentId]`, `/dashboard/clients`, `/dashboard/clients/[clientId]`, `/dashboard/financial`, `/dashboard/consumption`, `/dashboard/admin/calls`, `/dashboard/performance`
+`/dashboard` (→ redirects to overview), `/dashboard/overview`, `/dashboard/agents`, `/dashboard/agents/[agentId]`, `/dashboard/agents/[agentId]/calls`, `/dashboard/agents/[agentId]/calls/[callId]`, `/dashboard/clients` (admin), `/dashboard/clients/[clientId]` (admin), `/dashboard/financial` (admin), `/dashboard/consumption`, `/dashboard/admin/calls` (admin), `/dashboard/performance`, `/dashboard/settings` (placeholder)
 
 ## Testing
 - Framework: Vitest + React Testing Library
@@ -107,5 +115,7 @@ Cost per RDV     = total_cost / appointments
 
 ## Documentation
 - [`PRD.md`](PRD.md) — Full product reference document
+- `docs/ARCHITECTURE.md` — Code architecture and data flow
 - `docs/DATABASE_REFERENCE.md` — Complete database schema
+- `docs/TECH_DEBT.md` — Tech debt inventory (drives refactoring)
 - `docs/KNOWN_ISSUES.md` — Bug history and solutions
