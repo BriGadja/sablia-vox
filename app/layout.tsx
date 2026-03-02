@@ -68,9 +68,6 @@ export const metadata: Metadata = {
     apple: '/favicon.svg',
   },
   manifest: '/site.webmanifest',
-  verification: {
-    google: 'your-google-verification-code',
-  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

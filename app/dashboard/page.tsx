@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import './styles.css'
 
 export const metadata = {
   title: 'Dashboard | Sablia Vox',

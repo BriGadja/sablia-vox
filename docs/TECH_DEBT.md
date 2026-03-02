@@ -19,7 +19,7 @@
 
 | # | Issue | File(s) | Impact |
 |---|-------|---------|--------|
-| H1 | **ESLint + Biome dual config** — `.eslintrc.json` exists alongside Biome. `eslint` and `eslint-config-next@15.1.0` still in devDependencies (version mismatch with Next 16). | `.eslintrc.json`, `package.json` | Confusion, bloated deps |
+| ~~H1~~ | ~~**ESLint + Biome dual config**~~ — Resolved: ESLint removed, Biome is sole linter. | | |
 | H2 | **Hardcoded webhook URLs** — CTA forms hardcode `https://n8n.sablia.io/webhook/voipia_louis_from_site` and `https://n8n.sablia.io/webhook/formulaire_rdv`. | `components/ui/CTAStaticForm.tsx:161`, `CTAPopupForm.tsx:188`, `ContactModal.tsx:33` | Should be env vars; contain old "voipia" name |
 | H3 | **Duplicate CTA forms** — `CTAPopupForm.tsx` (484 lines) and `CTAStaticForm.tsx` (404 lines) have identical FormData, FormField, and handleSubmit logic. Only difference: popup vs inline layout. | `components/ui/CTAPopupForm.tsx`, `CTAStaticForm.tsx` | Double maintenance burden |
 | H4 | **Duplicate ConsumptionKPIGrid** — Two components with same name in different directories, accepting different types (`ConsumptionMetrics` vs `UserConsumptionResponse`). | `components/dashboard/Financial/ConsumptionKPIGrid.tsx`, `components/dashboard/Consumption/ConsumptionKPIGrid.tsx` | Name collision, confusing |
@@ -41,7 +41,7 @@
 | M4 | **No test coverage** — Test infrastructure (Vitest + RTL) exists but zero tests written. | `test/` directory | No regression safety net |
 | M5 | **Large files needing splitting** — Multiple files exceed 400 lines with mixed concerns. | See "Large Files" section below | Hard to maintain |
 | M6 | **Inline Recharts styles** — `style={{ fontSize: '12px' }}` repeated verbatim across all chart components. | `components/dashboard/Charts/` (16 files) | Repetition, no shared constant |
-| M7 | **Stale sitemap and robots** — sitemap.ts lists `/louis`, `/arthur`, `/alexandra` (removed routes). robots.ts disallows `/landingv2/` (removed route). | `app/sitemap.ts`, `app/robots.ts` | SEO noise |
+| ~~M7~~ | ~~**Stale sitemap and robots**~~ — Resolved: dead routes removed from sitemap.ts and robots.ts. | | |
 | M8 | **`redirect` param set but never consumed** — Middleware sets `?redirect=<path>` but LoginForm always redirects to `/dashboard`. | `middleware.ts`, `components/auth/LoginForm.tsx` | Users lose deep-link context |
 | M9 | **Chatbot webhook URL hardcoded** — `lib/constants.ts` hardcodes `https://n8n.sablia.io/webhook/chatbot-iapreneurs`. | `lib/constants.ts:92` | Should be env var |
 | M10 | **Two answered definitions in SQL** — `v_agent_calls_enriched` and `get_admin_calls_paginated` use different outcome exclusion lists. | Supabase functions | Potential metric discrepancy |
@@ -55,43 +55,16 @@
 | L1 | **Performance page not in sidebar** — Route exists but no `SidebarConfig` entry. | `components/dashboard/Sidebar/SidebarConfig.ts` | Must access via direct URL |
 | L2 | **`use client` unnecessary** — `WaveBackground.tsx` and `EmptyState.tsx` have `'use client'` but contain no hooks or browser APIs. | `components/animations/WaveBackground.tsx`, `components/dashboard/EmptyState.tsx` | Prevents server rendering |
 | L3 | **ESLint disable comment** — `react-hooks/exhaustive-deps` suppressed in ClientAgentFilter. | `components/dashboard/Filters/ClientAgentFilter.tsx:55` | Potential stale closure bug |
-| L4 | **`@tremor/**` in Tailwind content** — Referenced but not installed. | `tailwind.config.ts` | Dead config |
+| ~~L4~~ | ~~**`@tremor/**` in Tailwind content**~~ — Resolved: removed from tailwind.config.ts. | | |
 | L5 | **French docs** — `DATABASE_BACKUP_GUIDE.md` and `MIGRATION_BEST_PRACTICES.md` are in French (internal docs should be English per policy). | `docs/` | Language inconsistency |
-| L6 | **Dead `.claude/commands`** — `generate-prp.md` and `execute-prp.md` reference deleted directories. | `.claude/commands/` | Dead command files |
-| L7 | **Stale types in `lib/types/database.ts`** — Contains legacy types that don't match current schema. | `lib/types/database.ts` | Confusion |
+| ~~L6~~ | ~~**Dead `.claude/commands`**~~ — Resolved: deleted generate-prp.md and execute-prp.md. | | |
+| ~~L7~~ | ~~**Stale types in `lib/types/database.ts`**~~ — Resolved: file deleted. | | |
 
 ---
 
 ## Dead Code (Confirmed Unused)
 
-### Files
-
-| File | Evidence |
-|------|----------|
-| `components/ThemeToggle.tsx` | Not imported anywhere |
-| `lib/useCountAnimation.ts` | Not imported anywhere |
-| `lib/queries/dashboard.ts` | Not imported by any hook, page, or component (superseded by `global.ts`) |
-| `components/dashboard/Charts/NestennOutcomeChart.tsx` | No import found |
-| `components/dashboard/Charts/LatencyChart.tsx` | No import found (replaced by `LatencyTimeSeriesChart`) |
-| `components/dashboard/Charts/FunnelChart.tsx` | No import found |
-| `components/dashboard/Charts/DurationByOutcomeChart.tsx` | No import found |
-| `components/dashboard/Charts/OwnerPerformanceChart.tsx` | No import found |
-| `components/dashboard/Charts/VoicemailByAgent.tsx` | No import found |
-| `components/dashboard/DashboardBreadcrumb.tsx` | Not imported (layout uses `DynamicBreadcrumb`) |
-| `components/dashboard/DashboardHeader.tsx` | Not imported |
-| `components/dashboard/EmptyState.tsx` | Not imported |
-| `components/dashboard/Sidebar/TenantSwitcher.tsx` | Not imported |
-| `components/ui/GlassCard.tsx` | Not imported |
-| `components/dashboard/Financial/ClientBreakdownTable.tsx` | Superseded by `ClientBreakdownTableV2.tsx` |
-| `app/dashboard/GlobalDashboardClient.tsx` | Not rendered by any page (dashboard redirects to overview) |
-
-### Dead Exports (in otherwise-used files)
-
-| File | Dead Export |
-|------|-----------|
-| `lib/queries/louis.ts` | `fetchLouisNestennKPIs`, `fetchLouisNestennChartData` |
-| `lib/hooks/useDashboardData.ts` | `useLouisAgentPerformance` |
-| `lib/constants.ts` | `agents`, `metrics`, `howItWorksSteps`, `calculatorDefaults`, `calculatorLimits` (only `chatbotConfig` is used) |
+> **Resolved** — All dead files (29), dead exports (4 functions), dead assets (7), and dead config entries were removed in the dead code cleanup pass (2026-03-02).
 
 ---
 

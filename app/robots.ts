@@ -6,11 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: [
-          '/dashboard/',
-          '/api/',
-          '/landingv2/', // Temporaire, sera retiré après migration
-        ],
+        disallow: ['/dashboard/', '/api/'],
       },
     ],
     sitemap: 'https://vox.sablia.io/sitemap.xml',

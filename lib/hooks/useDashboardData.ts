@@ -10,16 +10,11 @@ import {
   fetchGlobalKPIs,
   fetchTopClients,
 } from '@/lib/queries/global'
-import {
-  fetchLouisAgentPerformance,
-  fetchLouisChartData,
-  fetchLouisKPIMetrics,
-} from '@/lib/queries/louis'
+import { fetchLouisChartData, fetchLouisKPIMetrics } from '@/lib/queries/louis'
 import type {
   AccessibleAgent,
   AccessibleClient,
   AgentCardData,
-  AgentPerformanceData,
   AgentTypeCardData,
   AgentTypePerformance,
   ChartData,
@@ -158,21 +153,6 @@ export function useLouisChartData(filters: DashboardFilters): UseQueryResult<Cha
   return useQuery({
     queryKey: ['louis-chart-data', serializeFilters(filters)],
     queryFn: () => fetchLouisChartData(filters),
-    staleTime: STALE_TIME,
-    refetchInterval: REFETCH_INTERVAL,
-  })
-}
-
-/**
- * Hook to fetch Louis agent performance
- * @param filters - Dashboard filters
- */
-export function useLouisAgentPerformance(
-  filters: DashboardFilters,
-): UseQueryResult<AgentPerformanceData[]> {
-  return useQuery({
-    queryKey: ['louis-agent-performance', serializeFilters(filters)],
-    queryFn: () => fetchLouisAgentPerformance(filters),
     staleTime: STALE_TIME,
     refetchInterval: REFETCH_INTERVAL,
   })
