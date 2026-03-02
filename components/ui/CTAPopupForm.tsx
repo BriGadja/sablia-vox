@@ -185,7 +185,7 @@ const CTAPopupForm: React.FC<CTAPopupFormProps> = ({ isOpen, onClose, onSuccess 
         timestamp: new Date().toISOString(),
       }
 
-      const response = await fetch('https://n8n.sablia.io/webhook/voipia_louis_from_site', {
+      const response = await fetch(process.env.NEXT_PUBLIC_CTA_WEBHOOK_URL!, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -158,7 +158,7 @@ const CTAStaticForm: React.FC<CTAStaticFormProps> = ({ onSuccess }) => {
         source: 'landing_page_tester_nos_agents',
       }
 
-      const response = await fetch('https://n8n.sablia.io/webhook/voipia_louis_from_site', {
+      const response = await fetch(process.env.NEXT_PUBLIC_CTA_WEBHOOK_URL!, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

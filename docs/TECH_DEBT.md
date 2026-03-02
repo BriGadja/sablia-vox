@@ -10,7 +10,7 @@
 | # | Issue | File(s) | Impact |
 |---|-------|---------|--------|
 | C1 | **AgentTree links to dead route** — Generates hrefs to `/dashboard/agent/[id]` (singular) instead of `/dashboard/agents/[id]` (plural). Sidebar agent navigation is entirely broken. | `components/dashboard/Sidebar/AgentTree.tsx` | Sidebar "Mes Agents" tree clicks navigate to 404 |
-| C2 | **react-query-devtools in production deps** — Listed under `dependencies` not `devDependencies`. DevTools panel ships to production bundle. | `package.json` | Unnecessary JS in production bundle |
+| ~~C2~~ | ~~**react-query-devtools in production deps**~~ — Resolved: moved to devDependencies + dev-only dynamic import in providers.tsx. | | |
 | C3 | **Unapplied migration** — `20260302_remove_leasing_prorata.sql` exists but is not applied. Frontend `InvoiceSummaryTable` still renders prorata rows. | `supabase/migrations/`, `components/dashboard/Financial/InvoiceSummaryTable.tsx` | Frontend/DB divergence after migration is applied |
 
 ---
@@ -20,7 +20,7 @@
 | # | Issue | File(s) | Impact |
 |---|-------|---------|--------|
 | ~~H1~~ | ~~**ESLint + Biome dual config**~~ — Resolved: ESLint removed, Biome is sole linter. | | |
-| H2 | **Hardcoded webhook URLs** — CTA forms hardcode `https://n8n.sablia.io/webhook/voipia_louis_from_site` and `https://n8n.sablia.io/webhook/formulaire_rdv`. | `components/ui/CTAStaticForm.tsx:161`, `CTAPopupForm.tsx:188`, `ContactModal.tsx:33` | Should be env vars; contain old "voipia" name |
+| ~~H2~~ | ~~**Hardcoded webhook URLs**~~ — Resolved: CTA forms and chatbot now use `NEXT_PUBLIC_CTA_WEBHOOK_URL` and `NEXT_PUBLIC_CHATBOT_WEBHOOK_URL` env vars. | | |
 | H3 | **Duplicate CTA forms** — `CTAPopupForm.tsx` (484 lines) and `CTAStaticForm.tsx` (404 lines) have identical FormData, FormField, and handleSubmit logic. Only difference: popup vs inline layout. | `components/ui/CTAPopupForm.tsx`, `CTAStaticForm.tsx` | Double maintenance burden |
 | H4 | **Duplicate ConsumptionKPIGrid** — Two components with same name in different directories, accepting different types (`ConsumptionMetrics` vs `UserConsumptionResponse`). | `components/dashboard/Financial/ConsumptionKPIGrid.tsx`, `components/dashboard/Consumption/ConsumptionKPIGrid.tsx` | Name collision, confusing |
 | H5 | **Financial page has no admin gate** — No server-side admin check. Non-admins see empty UI (RPC returns nothing but page renders). | `app/dashboard/financial/page.tsx` | UX issue for non-admins |
@@ -43,7 +43,7 @@
 | M6 | **Inline Recharts styles** — `style={{ fontSize: '12px' }}` repeated verbatim across all chart components. | `components/dashboard/Charts/` (16 files) | Repetition, no shared constant |
 | ~~M7~~ | ~~**Stale sitemap and robots**~~ — Resolved: dead routes removed from sitemap.ts and robots.ts. | | |
 | M8 | **`redirect` param set but never consumed** — Middleware sets `?redirect=<path>` but LoginForm always redirects to `/dashboard`. | `middleware.ts`, `components/auth/LoginForm.tsx` | Users lose deep-link context |
-| M9 | **Chatbot webhook URL hardcoded** — `lib/constants.ts` hardcodes `https://n8n.sablia.io/webhook/chatbot-iapreneurs`. | `lib/constants.ts:92` | Should be env var |
+| ~~M9~~ | ~~**Chatbot webhook URL hardcoded**~~ — Resolved: uses `NEXT_PUBLIC_CHATBOT_WEBHOOK_URL` env var with fallback. | | |
 | M10 | **Two answered definitions in SQL** — `v_agent_calls_enriched` and `get_admin_calls_paginated` use different outcome exclusion lists. | Supabase functions | Potential metric discrepancy |
 
 ---

@@ -1,5 +1,7 @@
 export const chatbotConfig = {
-  webhookUrl: 'https://n8n.sablia.io/webhook/chatbot-iapreneurs',
+  webhookUrl:
+    process.env.NEXT_PUBLIC_CHATBOT_WEBHOOK_URL ||
+    'https://n8n.sablia.io/webhook/chatbot-iapreneurs',
   welcomeMessage:
     "Bonjour ! Je suis l'assistant IA de Sablia Vox. Comment puis-je vous aider aujourd'hui ?",
   placeholder: 'Écrivez votre message...',
