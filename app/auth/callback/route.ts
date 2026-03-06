@@ -1,32 +1,46 @@
 import { NextResponse } from 'next/server'
+import type { EmailOtpType } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/server'
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/dashboard'
+  const token_hash = searchParams.get('token_hash')
+  const type = searchParams.get('type') as EmailOtpType | null
+  let next = searchParams.get('next') ?? '/dashboard'
 
-  if (code) {
-    const supabase = await createClient()
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+  // Open-redirect protection
+  if (!next.startsWith('/') || next.startsWith('//')) {
+    next = '/dashboard'
+  }
 
+  // Build redirect URL respecting proxy headers (required for Vercel)
+  function buildRedirectUrl(path: string) {
+    const forwardedHost = request.headers.get('x-forwarded-host')
+    const isLocalEnv = process.env.NODE_ENV === 'development'
+    if (isLocalEnv) {
+      return `${origin}${path}`
+    } else if (forwardedHost) {
+      return `https://${forwardedHost}${path}`
+    }
+    return `${origin}${path}`
+  }
+
+  const supabase = await createClient()
+
+  if (token_hash && type) {
+    // Recovery/invite flow via token_hash (works cross-browser)
+    const { error } = await supabase.auth.verifyOtp({ token_hash, type })
     if (!error) {
-      const forwardedHost = request.headers.get('x-forwarded-host')
-      const isLocalEnv = process.env.NODE_ENV === 'development'
-
-      if (isLocalEnv) {
-        // En développement local, utiliser localhost
-        return NextResponse.redirect(`${origin}${next}`)
-      } else if (forwardedHost) {
-        // En production avec proxy
-        return NextResponse.redirect(`https://${forwardedHost}${next}`)
-      } else {
-        // Fallback sur l'origine
-        return NextResponse.redirect(`${origin}${next}`)
-      }
+      return NextResponse.redirect(buildRedirectUrl(next))
+    }
+  } else if (code) {
+    // OAuth/magic-link flow via PKCE code exchange
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    if (!error) {
+      return NextResponse.redirect(buildRedirectUrl(next))
     }
   }
 
-  // Rediriger vers une page d'erreur si quelque chose ne va pas
-  return NextResponse.redirect(`${origin}/auth/error`)
+  return NextResponse.redirect(buildRedirectUrl('/auth/error'))
 }

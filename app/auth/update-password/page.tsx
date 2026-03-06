@@ -1,9 +1,10 @@
 'use client'
 
+import type { EmailOtpType } from '@supabase/supabase-js'
 import { motion } from 'framer-motion'
 import { CheckCircle2, Eye, EyeOff, Loader2, Lock } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 export default function UpdatePasswordPage() {
@@ -15,24 +16,12 @@ export default function UpdatePasswordPage() {
   const [error, setError] = useState('')
   const [isValidSession, setIsValidSession] = useState(false)
   const router = useRouter()
+  const pathname = usePathname()
   const supabase = createClient()
+  const verifyAttempted = useRef(false)
 
   useEffect(() => {
-    // Vérifier si l'utilisateur a une session valide (venant du lien de réinitialisation)
-    const checkSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
-      if (session) {
-        setIsValidSession(true)
-      } else {
-        // Si pas de session, rediriger vers la page de reset
-        router.push('/auth/reset-password')
-      }
-    }
-    checkSession()
-
-    // Écouter les changements d'authentification
+    // Listen for auth state changes first (before async work)
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event) => {
@@ -41,10 +30,41 @@ export default function UpdatePasswordPage() {
       }
     })
 
+    const checkSession = async () => {
+      // Handle token_hash if present (fallback for direct redirects)
+      const urlParams = new URLSearchParams(window.location.search)
+      const tokenHash = urlParams.get('token_hash')
+      const type = urlParams.get('type')
+
+      if (tokenHash && type && !verifyAttempted.current) {
+        verifyAttempted.current = true
+        const { error } = await supabase.auth.verifyOtp({
+          token_hash: tokenHash,
+          type: type as EmailOtpType,
+        })
+        if (!error) {
+          setIsValidSession(true)
+          router.replace(pathname)
+          return
+        }
+      }
+
+      // Check existing session
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      if (session) {
+        setIsValidSession(true)
+      } else {
+        router.push('/auth/reset-password')
+      }
+    }
+    checkSession()
+
     return () => {
       subscription.unsubscribe()
     }
-  }, [supabase, router])
+  }, [supabase, router, pathname])
 
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault()
