@@ -628,6 +628,55 @@ When making changes to KPI calculations or dashboard queries:
 
 ---
 
+## Issue: Auth Emails Landing in Gmail Spam
+
+**Status**: ✅ SOLVED
+
+**Date Discovered**: 2026-03-06
+
+**Severity**: 🟠 HIGH - Users may not receive auth emails
+
+### Problem Description
+
+Emails from `noreply@sablia.io` (sent via Resend/Amazon SES through Supabase custom SMTP) land in Gmail spam despite SPF, DKIM, and DMARC all passing.
+
+### Root Cause
+
+Not a DNS issue — SPF/DKIM/DMARC all pass. The causes are:
+
+1. **Suspicious link URLs**: Default Supabase `{{ .ConfirmationURL }}` generates links like `tcpecjoeelbnnvdkvgvg.supabase.co/auth/v1/verify?token=...` — domain mismatch between From address (`sablia.io`) and link domain (`supabase.co`) is the #1 spam trigger per Resend docs
+2. **Bare-bones email content**: Default Supabase templates are plain `<h2>` + raw link with no branding — triggers Gmail content filters
+3. **Low sender reputation**: New domain, low volume, shared SES IP
+
+### Solution
+
+1. **Use `{{ .TokenHash }}` templates** with custom `vox.sablia.io/auth/callback` links — eliminates `supabase.co` URLs from emails entirely
+2. **Branded HTML templates** — proper structure, inline CSS, Sablia Vox branding, French content
+3. **DNS hardening** — explicit DMARC alignment tags, root SPF includes `amazonses.com`
+4. **Disable Resend link tracking** — prevents URL rewriting through tracking domain
+
+### Key Decision: TokenHash vs ConfirmationURL
+
+| Approach | Pros | Cons |
+|----------|------|------|
+| `{{ .ConfirmationURL }}` | Simple, server-side verify | Suspicious `supabase.co` URL, enterprise scanners consume one-time tokens |
+| `{{ .TokenHash }}` | Custom domain links, cross-browser compatible | Loses dynamic `redirectTo` support (acceptable — all flows use static redirects) |
+
+**Decision**: `{{ .TokenHash }}` — aligns with existing `verifyOtp` flow in `/auth/callback/route.ts`.
+
+### Templates
+
+Stored in `docs/email-templates/`. See `docs/email-templates/README.md` for application guide.
+
+### Verification
+
+After applying templates, trigger a password reset to `brice.gachadoat@gmail.com`:
+- Must arrive in inbox (not spam)
+- Must render correctly on mobile + desktop
+- Links must redirect to `vox.sablia.io` correctly
+
+---
+
 ## Related Documentation
 
 - **CLAUDE.md**: Main documentation with critical rules

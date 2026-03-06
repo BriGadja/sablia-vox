@@ -27,6 +27,8 @@ export default function ResetPasswordPage() {
         return
       }
 
+      // Note: redirectTo is cosmetic with TokenHash email templates — the template hardcodes
+      // next=/auth/update-password. Both match, but if changed here, update the Supabase template too.
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/callback?next=/auth/update-password`,
       })

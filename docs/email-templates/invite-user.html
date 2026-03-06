@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vous êtes invité sur Sablia Vox</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;" bgcolor="#f4f4f5">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f5;" bgcolor="#f4f4f5">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%;">
+          <!-- Header -->
+          <tr>
+            <td align="center" style="background-color: #0a0a0a; padding: 32px 40px; border-radius: 12px 12px 0 0;" bgcolor="#0a0a0a">
+              <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px;">
+                <span style="color: #8B5CF6;">Sablia</span> Vox
+              </h1>
+            </td>
+          </tr>
+          <!-- Body -->
+          <tr>
+            <td style="background-color: #ffffff; padding: 40px;" bgcolor="#ffffff">
+              <h2 style="margin: 0 0 16px; font-size: 22px; font-weight: 600; color: #18181b;">
+                Vous êtes invité(e) sur Sablia Vox
+              </h2>
+              <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #3f3f46;">
+                Vous avez été invité(e) à rejoindre Sablia Vox, la plateforme d'agents vocaux IA. Cliquez sur le bouton ci-dessous pour accepter l'invitation et créer votre mot de passe.
+              </p>
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 0 auto 24px;">
+                <tr>
+                  <td align="center" style="background-color: #8B5CF6; border-radius: 8px;">
+                    <a href="{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=invite&next=/auth/update-password"
+                       target="_blank"
+                       style="display: inline-block; padding: 14px 32px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none;">
+                      Accepter l'invitation
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin: 0 0 8px; font-size: 14px; line-height: 1.5; color: #71717a;">
+                Si le bouton ne fonctionne pas, copiez-collez ce lien dans votre navigateur :
+              </p>
+              <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #8B5CF6; word-break: break-all;">
+                {{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=invite&next=/auth/update-password
+              </p>
+            </td>
+          </tr>
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #fafafa; padding: 24px 40px; border-radius: 0 0 12px 12px; border-top: 1px solid #e4e4e7;" bgcolor="#fafafa">
+              <p style="margin: 0 0 8px; font-size: 13px; color: #a1a1aa; text-align: center;">
+                Sablia Vox &mdash; Plateforme d'agents vocaux IA
+              </p>
+              <p style="margin: 0; font-size: 12px; color: #a1a1aa; text-align: center;">
+                <a href="https://vox.sablia.io" style="color: #8B5CF6; text-decoration: none;">vox.sablia.io</a>
+                &nbsp;|&nbsp;
+                <a href="https://sablia.io" style="color: #8B5CF6; text-decoration: none;">sablia.io</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
