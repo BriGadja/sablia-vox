@@ -41,6 +41,9 @@ next-env.d.ts
 *.swp
 *.swo
 
+# Claude MCP config (may contain secrets)
+.claude.json
+
 # OS
 Thumbs.db
 
