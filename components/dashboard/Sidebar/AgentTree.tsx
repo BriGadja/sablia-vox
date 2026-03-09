@@ -76,7 +76,7 @@ export function AgentTree({ viewAsUserId }: AgentTreeProps) {
 
   // Check if an agent is currently active
   const isAgentActive = (deploymentId: string) => {
-    return pathname === `/dashboard/agent/${deploymentId}`
+    return pathname === `/dashboard/agents/${deploymentId}`
   }
 
   // Check if any agent in a company is active
@@ -210,7 +210,7 @@ interface AgentNodeProps {
 }
 
 function AgentNode({ agent, buildHref, isActive }: AgentNodeProps) {
-  const href = buildHref(`/dashboard/agent/${agent.deployment_id}`)
+  const href = buildHref(`/dashboard/agents/${agent.deployment_id}`)
 
   return (
     <SidebarMenuSubItem>

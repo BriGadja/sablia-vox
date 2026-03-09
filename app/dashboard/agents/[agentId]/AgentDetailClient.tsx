@@ -2,14 +2,9 @@
 
 import { useQuery } from '@tanstack/react-query'
 import {
-  Activity,
   AlertCircle,
   ArrowLeft,
-  Building2,
   Loader2,
-  Sparkles,
-  Target,
-  Users,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useMemo } from 'react'
@@ -19,13 +14,11 @@ import { LatencyTimeSeriesChart } from '@/components/dashboard/Charts/LatencyTim
 import { OutcomeBreakdown } from '@/components/dashboard/Charts/OutcomeBreakdown'
 import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import { KPIGrid } from '@/components/dashboard/KPIGrid'
-import { PageHeader } from '@/components/dashboard/PageHeader'
 import { useLouisChartData, useLouisKPIs } from '@/lib/hooks/useDashboardData'
 import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
 import { useLatencyMetrics } from '@/lib/hooks/useLatencyData'
 import { createClient } from '@/lib/supabase/client'
 import type { AccessibleAgent } from '@/lib/types/dashboard'
-import { cn } from '@/lib/utils'
 
 interface AgentDetailClientProps {
   agentId: string
@@ -85,7 +78,7 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
 
   // Fetch metrics (only Louis for now - can be extended)
   const { data: kpiData, isLoading: isLoadingKPIs } = useLouisKPIs(deploymentFilters)
-  const { data: chartData, isLoading: isLoadingCharts } = useLouisChartData(deploymentFilters)
+  const { data: chartData } = useLouisChartData(deploymentFilters)
 
   // Fetch latency metrics
   const { data: latencyData, isLoading: isLoadingLatencies } = useLatencyMetrics({
@@ -108,28 +101,6 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
   // Handle date filter changes
   const handleDateChange = (start: Date, end: Date) => {
     setDateRange(start.toISOString().split('T')[0], end.toISOString().split('T')[0])
-  }
-
-  // Agent type configuration
-  const agentConfig = {
-    louis: {
-      icon: Users,
-      color: 'from-blue-500/20 to-blue-500/5 border-blue-500/30',
-      iconColor: 'text-blue-400',
-      badgeColor: 'bg-blue-500/20 text-blue-400',
-    },
-    arthur: {
-      icon: Target,
-      color: 'from-orange-500/20 to-orange-500/5 border-orange-500/30',
-      iconColor: 'text-orange-400',
-      badgeColor: 'bg-orange-500/20 text-orange-400',
-    },
-    alexandra: {
-      icon: Sparkles,
-      color: 'from-green-500/20 to-green-500/5 border-green-500/30',
-      iconColor: 'text-green-400',
-      badgeColor: 'bg-green-500/20 text-green-400',
-    },
   }
 
   // Loading state
@@ -167,77 +138,8 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
     )
   }
 
-  const config = agentConfig[agent.agent_type_name]
-  const Icon = config.icon
-
   return (
-    <div className="p-6 space-y-6">
-      {/* Back link */}
-      <Link
-        href="/dashboard/agents"
-        className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Retour aux agents
-      </Link>
-
-      {/* Agent Header */}
-      <div className={cn('rounded-xl border bg-gradient-to-br p-6', config.color)}>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className={cn('p-3 rounded-lg bg-white/10', config.iconColor)}>
-              <Icon className="w-8 h-8" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-white">{agent.deployment_name}</h1>
-              <div className="flex items-center gap-3 mt-1">
-                <div className="flex items-center gap-1.5 text-white/60">
-                  <Building2 className="w-4 h-4" />
-                  <span className="text-sm">{agent.client_name}</span>
-                </div>
-                <span className={cn('px-2 py-0.5 rounded text-xs font-medium', config.badgeColor)}>
-                  {agent.agent_display_name}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {/* Status Badge */}
-            {agent.deployment_status === 'active' ? (
-              <span className="px-3 py-1.5 rounded-lg text-sm font-medium bg-green-500/20 text-green-400 border border-green-500/30">
-                Actif
-              </span>
-            ) : agent.deployment_status === 'paused' ? (
-              <span className="px-3 py-1.5 rounded-lg text-sm font-medium bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
-                En pause
-              </span>
-            ) : (
-              <span className="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-500/20 text-gray-400 border border-gray-500/30">
-                Archive
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* Last Activity */}
-        <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/10">
-          <Activity className="w-4 h-4 text-white/40" />
-          <span className="text-sm text-white/60">
-            Derniere activite:{' '}
-            {agent.last_call_at
-              ? new Date(agent.last_call_at).toLocaleDateString('fr-FR', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })
-              : 'Jamais'}
-          </span>
-        </div>
-      </div>
-
+    <div className="p-6 space-y-4">
       {/* Filters */}
       <DateRangeFilter
         startDate={new Date(filters.startDate)}
