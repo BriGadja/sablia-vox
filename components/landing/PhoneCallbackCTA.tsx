@@ -11,10 +11,26 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
 
+/** Normalize French phone numbers: accepts +33X, 0X, or X (without prefix) */
+function normalizeFrenchPhone(raw: string): string {
+  const digits = raw.replace(/[\s\-.()]/g, '')
+  // Already E.164: +33XXXXXXXXX
+  if (/^\+33\d{9}$/.test(digits)) return digits
+  // Starts with 0: 0XXXXXXXXX → +33XXXXXXXXX
+  if (/^0\d{9}$/.test(digits)) return `+33${digits.slice(1)}`
+  // Raw 9 digits (no prefix): XXXXXXXXX → +33XXXXXXXXX
+  if (/^\d{9}$/.test(digits)) return `+33${digits}`
+  return digits
+}
+
 const phoneSchema = z
   .string()
-  .transform((val) => val.replace(/\s/g, ''))
-  .pipe(z.string().regex(/^\+33[0-9]{9}$/, 'Numéro invalide (format : +33 6 12 34 56 78)'))
+  .transform(normalizeFrenchPhone)
+  .pipe(
+    z
+      .string()
+      .regex(/^\+33[0-9]{9}$/, 'Numéro invalide (format : 06 12 34 56 78 ou +33 6 12 34 56 78)'),
+  )
 
 type CallbackState = 'idle' | 'submitting' | 'calling' | 'success' | 'error'
 

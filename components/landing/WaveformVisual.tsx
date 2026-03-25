@@ -12,9 +12,8 @@ interface WaveformVisualProps {
 const BAR_COUNT = 40
 
 /** Pre-computed bar heights for deterministic rendering (avoids Math.random in render) */
-const BAR_HEIGHTS = Array.from(
-  { length: BAR_COUNT },
-  (_, i) => 20 + Math.sin(i * 0.5) * 40 + ((i * 17 + 7) % 30),
+const BAR_HEIGHTS = Array.from({ length: BAR_COUNT }, (_, i) =>
+  Math.max(8, 20 + Math.sin(i * 0.5) * 40 + ((i * 17 + 7) % 30)),
 )
 
 export function WaveformVisual({ calling = false, className }: WaveformVisualProps) {

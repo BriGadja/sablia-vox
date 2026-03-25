@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
 const phoneCallbackSchema = z.object({
-  phone: z.string().regex(/^\+33[0-9]{9}$/, 'Numéro invalide'),
+  phone: z.string().regex(/^\+33[0-9]{9}$/, 'Numéro invalide — format attendu : +33XXXXXXXXX'),
 })
 
 const contactFormSchema = z.object({
