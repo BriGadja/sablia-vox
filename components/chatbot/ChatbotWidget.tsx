@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'motion/react'
 import { ChatbotContextProvider } from '@/contexts/ChatbotContext'
 import ChatbotTrigger from './ChatbotTrigger'
 import ChatbotWindow from './ChatbotWindow'

@@ -163,12 +163,14 @@ export function ClientUsageDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+    <div className="min-h-screen bg-linear-to-br from-gray-950 via-gray-900 to-black">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-white mb-1">Consommation</h1>
-          <p className="text-gray-400 text-sm">Suivi de votre utilisation des services Voipia</p>
+          <p className="text-gray-400 text-sm">
+            Suivi de votre utilisation des services Sablia Vox
+          </p>
         </div>
 
         {/* Date Range Filter */}
@@ -213,7 +215,7 @@ export function ClientUsageDashboard() {
         {/* KPI Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {/* Total Calls */}
-          <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/30 rounded-xl p-4">
+          <div className="bg-linear-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/30 rounded-xl p-4">
             <div className="flex items-center gap-2 mb-2">
               <Phone className="w-4 h-4 text-blue-400" />
               <span className="text-xs text-blue-300 font-medium">Appels</span>
@@ -228,7 +230,7 @@ export function ClientUsageDashboard() {
           </div>
 
           {/* Total Minutes */}
-          <div className="bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 border border-emerald-500/30 rounded-xl p-4">
+          <div className="bg-linear-to-br from-emerald-500/20 to-emerald-600/10 border border-emerald-500/30 rounded-xl p-4">
             <div className="flex items-center gap-2 mb-2">
               <Clock className="w-4 h-4 text-emerald-400" />
               <span className="text-xs text-emerald-300 font-medium">Minutes</span>
@@ -244,7 +246,7 @@ export function ClientUsageDashboard() {
           </div>
 
           {/* Total SMS */}
-          <div className="bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-xl p-4">
+          <div className="bg-linear-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-xl p-4">
             <div className="flex items-center gap-2 mb-2">
               <MessageSquare className="w-4 h-4 text-amber-400" />
               <span className="text-xs text-amber-300 font-medium">SMS</span>
@@ -259,7 +261,7 @@ export function ClientUsageDashboard() {
           </div>
 
           {/* Total Emails */}
-          <div className="bg-gradient-to-br from-violet-500/20 to-violet-600/10 border border-violet-500/30 rounded-xl p-4">
+          <div className="bg-linear-to-br from-violet-500/20 to-violet-600/10 border border-violet-500/30 rounded-xl p-4">
             <div className="flex items-center gap-2 mb-2">
               <Mail className="w-4 h-4 text-violet-400" />
               <span className="text-xs text-violet-300 font-medium">Emails</span>

@@ -1,7 +1,7 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
 import { Calendar, ChevronRight, DollarSign, Phone, TrendingUp, X } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
 import { useDeploymentChannels } from '@/lib/hooks/useFinancialData'
 import { formatCurrency, formatPercentage } from '@/lib/queries/financial'
 import type { ClientDeploymentData, DeploymentChannelData } from '@/lib/types/financial'
@@ -163,7 +163,7 @@ export function DeploymentDrilldownModal({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 bottom-0 w-full max-w-6xl bg-gradient-to-br from-gray-950 via-gray-900 to-black border-l border-gray-800/50 z-50 overflow-y-auto"
+            className="fixed right-0 top-0 bottom-0 w-full max-w-6xl bg-linear-to-br from-gray-950 via-gray-900 to-black border-l border-gray-800/50 z-50 overflow-y-auto"
           >
             <div className="p-8">
               {/* Header */}
@@ -224,7 +224,7 @@ export function DeploymentDrilldownModal({
                 <div className="rounded-xl border border-gray-800/50 bg-black/20 backdrop-blur-sm p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <TrendingUp className="w-5 h-5 text-emerald-400" />
-                    <p className="text-sm text-gray-400">Marge Voipia</p>
+                    <p className="text-sm text-gray-400">Marge Sablia Vox</p>
                   </div>
                   <p className="text-2xl font-bold text-emerald-400">
                     {formatCurrency(deployment.total_margin)}

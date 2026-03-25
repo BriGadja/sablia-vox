@@ -8,9 +8,9 @@ import { createClient } from '@/lib/supabase/client'
 export function LogoutButton() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
 
   const handleLogout = async () => {
+    const supabase = createClient()
     setIsLoading(true)
     await supabase.auth.signOut()
     router.push('/login')

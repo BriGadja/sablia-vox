@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { AlertCircle, Bot, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { ChatMessage } from '@/types/chatbot'
@@ -44,7 +44,7 @@ export default function ChatbotMessage({ message, isLast }: ChatbotMessageProps)
             ? 'bg-blue-500'
             : isError
               ? 'bg-red-500/20 border border-red-500/30'
-              : 'bg-gradient-to-br from-purple-500 to-purple-600',
+              : 'bg-linear-to-br from-purple-500 to-purple-600',
         )}
       >
         {isUser ? (

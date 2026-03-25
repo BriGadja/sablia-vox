@@ -1,85 +1,246 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss' source(none);
+@source "../app";
+@source "../components";
+@source "../lib";
+@source "../hooks";
+
+/* Safelist — dynamic agent classes + chatbot widget classes */
+@source inline("from-louis to-louis from-arthur to-arthur from-alexandra to-alexandra bg-louis bg-arthur bg-alexandra text-louis text-arthur text-alexandra lg:grid-cols-5 sablia-chatbot-trigger sablia-chatbot-window sablia-chatbot-header sablia-chatbot-messages sablia-chatbot-input sablia-chatbot-message sablia-chatbot-widget from-blue-500 to-blue-600 to-orange-600 to-green-600");
+
+@import "tw-animate-css";
+
+/* Theme — OKLCh tokens from design spec (dark-first) */
+@theme {
+  /* Agent colors */
+  --color-louis: #3B82F6;
+  --color-arthur: #FB923C;
+  --color-alexandra: #10B981;
+
+  /* Semantic colors — OKLCh via CSS vars (Tailwind v4 native) */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar-background);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Font families */
+  --font-display: var(--font-fraunces);
+  --font-body: var(--font-dm-sans);
+  --font-mono: var(--font-jetbrains-mono);
+
+  /* Border radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+@utility scrollbar-thumb-purple-600 {
+  &::-webkit-scrollbar-thumb {
+    background-color: #9333ea;
+    border-radius: 4px;
+  }
+}
+
+@utility scrollbar-track-gray-800 {
+  &::-webkit-scrollbar-track {
+    background-color: #1f2937;
+    border-radius: 4px;
+  }
+}
+
+@utility scrollbar-thumb-hover-purple-500 {
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: #a855f7;
+  }
+}
+
+@utility glass {
+  @apply bg-white/10 backdrop-blur-md border border-white/20;
+}
+
+@utility glass-dark {
+  @apply bg-black/10 backdrop-blur-md border border-white/10;
+}
+
+@utility gradient-primary {
+  @apply bg-linear-to-r from-primary to-secondary;
+}
+
+@utility gradient-mesh {
+  background-image:
+    radial-gradient(at 40% 20%, oklch(0.55 0.14 260 / 0.3) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, oklch(0.55 0.18 230 / 0.3) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, oklch(0.55 0.14 260 / 0.3) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, oklch(0.55 0.18 230 / 0.3) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, oklch(0.55 0.14 260 / 0.3) 0px, transparent 50%);
+}
+
+@utility text-gradient {
+  @apply bg-linear-to-r from-primary to-accent bg-clip-text text-transparent;
+}
+
+@utility animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+@utility animation-delay-400 {
+  animation-delay: 400ms;
+}
+
+@utility animation-delay-600 {
+  animation-delay: 600ms;
+}
 
 @layer base {
+  /* Dark mode (default) — OKLCh from design spec */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --background: oklch(0.13 0.025 260);
+    --foreground: oklch(0.96 0.005 260);
+    --card: oklch(0.19 0.020 260);
+    --card-foreground: oklch(0.96 0.005 260);
+    --popover: oklch(0.19 0.020 260);
+    --popover-foreground: oklch(0.96 0.005 260);
+    --primary: oklch(0.75 0.14 230);
+    --primary-foreground: oklch(0.13 0.025 260);
+    --secondary: oklch(0.22 0.015 260);
+    --secondary-foreground: oklch(0.96 0.005 260);
+    --muted: oklch(0.22 0.015 260);
+    --muted-foreground: oklch(0.65 0.02 255);
+    --accent: oklch(0.80 0.16 80);
+    --accent-foreground: oklch(0.13 0.025 260);
+    --destructive: oklch(0.55 0.22 27);
+    --destructive-foreground: oklch(0.96 0.005 260);
+    --border: oklch(0.28 0.015 260);
+    --input: oklch(0.28 0.015 260);
+    --ring: oklch(0.75 0.14 230);
+    --surface: oklch(0.19 0.020 260);
+    --chart-1: oklch(0.65 0.18 230);
+    --chart-2: oklch(0.65 0.15 165);
+    --chart-3: oklch(0.75 0.16 80);
+    --chart-4: oklch(0.60 0.18 300);
+    --chart-5: oklch(0.60 0.18 350);
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: oklch(0.15 0.020 260);
+    --sidebar-foreground: oklch(0.93 0.005 260);
+    --sidebar-primary: oklch(0.65 0.16 230);
+    --sidebar-primary-foreground: oklch(0.98 0.005 260);
+    --sidebar-accent: oklch(0.22 0.015 260);
+    --sidebar-accent-foreground: oklch(0.93 0.005 260);
+    --sidebar-border: oklch(0.22 0.015 260);
+    --sidebar-ring: oklch(0.65 0.16 230);
+
+    /* Typography */
+    --font-size-base: 16px;
+    --font-scale-ratio: 1.25;
+
+    /* Animation */
+    --duration-fast: 75ms;
+    --duration-normal: 150ms;
+    --duration-slow: 300ms;
+    --duration-waveform: 3000ms;
+
+    /* Layout */
+    --container-max: 1152px;
+    --section-padding: 6rem;
+    --hero-min-height: 100vh;
   }
 
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  /* Light mode override */
+  .light {
+    --background: oklch(0.98 0.005 260);
+    --foreground: oklch(0.15 0.02 260);
+    --card: oklch(1.0 0 0);
+    --card-foreground: oklch(0.15 0.02 260);
+    --popover: oklch(1.0 0 0);
+    --popover-foreground: oklch(0.15 0.02 260);
+    --primary: oklch(0.55 0.18 230);
+    --primary-foreground: oklch(0.98 0.005 260);
+    --secondary: oklch(0.93 0.005 260);
+    --secondary-foreground: oklch(0.15 0.02 260);
+    --muted: oklch(0.93 0.005 260);
+    --muted-foreground: oklch(0.40 0.02 255);
+    --accent: oklch(0.65 0.18 80);
+    --accent-foreground: oklch(0.15 0.02 260);
+    --destructive: oklch(0.55 0.22 27);
+    --destructive-foreground: oklch(0.98 0.005 260);
+    --border: oklch(0.88 0.005 260);
+    --input: oklch(0.88 0.005 260);
+    --ring: oklch(0.55 0.18 230);
+    --surface: oklch(0.95 0.003 260);
   }
 
   * {
-    @apply border-gray-200;
+    @apply border-border;
   }
 
   body {
-    @apply bg-black text-white overflow-x-hidden;
+    @apply bg-background text-foreground overflow-x-hidden;
+    font-family: var(--font-body), system-ui, sans-serif;
   }
 
   html {
@@ -88,74 +249,59 @@
   }
 }
 
-@layer utilities {
-  /* Custom scrollbar styles */
-  .scrollbar-thin {
-    scrollbar-width: thin;
+/* Landing page keyframe animations */
+@keyframes waveform-bar {
+  0%, 100% {
+    transform: scaleY(1);
   }
-
-  .scrollbar-thumb-purple-600::-webkit-scrollbar-thumb {
-    background-color: #9333ea;
-    border-radius: 4px;
-  }
-
-  .scrollbar-track-gray-800::-webkit-scrollbar-track {
-    background-color: #1f2937;
-    border-radius: 4px;
-  }
-
-  .hover\:scrollbar-thumb-purple-500:hover::-webkit-scrollbar-thumb {
-    background-color: #a855f7;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  .glass {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
-  }
-
-  .glass-dark {
-    @apply bg-black/10 backdrop-blur-md border border-white/10;
-  }
-
-  .gradient-primary {
-    @apply bg-gradient-to-r from-primary to-secondary;
-  }
-
-  .gradient-mesh {
-    background-image:
-      radial-gradient(at 40% 20%, hsla(270, 50%, 60%, 0.3) 0px, transparent 50%),
-      radial-gradient(at 80% 0%, hsla(220, 70%, 50%, 0.3) 0px, transparent 50%),
-      radial-gradient(at 0% 50%, hsla(270, 50%, 60%, 0.3) 0px, transparent 50%),
-      radial-gradient(at 80% 50%, hsla(220, 70%, 50%, 0.3) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, hsla(270, 50%, 60%, 0.3) 0px, transparent 50%);
-  }
-
-  .text-gradient {
-    @apply bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent;
-  }
-
-  .animation-delay-200 {
-    animation-delay: 200ms;
-  }
-
-  .animation-delay-400 {
-    animation-delay: 400ms;
-  }
-
-  .animation-delay-600 {
-    animation-delay: 600ms;
+  50% {
+    transform: scaleY(1.8);
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
+@keyframes waveform-bar-calling {
+  0%, 100% {
+    transform: scaleY(1);
   }
-  body {
-    @apply bg-background text-foreground;
+  50% {
+    transform: scaleY(2.5);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(245, 158, 11, 0.5);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes logo-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'motion/react'
 import { useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import type { ChatMessage } from '@/types/chatbot'
@@ -82,7 +82,7 @@ export default function ChatbotMessages({ messages, isTyping }: ChatbotMessagesP
 
           {isTyping && (
             <div className="flex gap-3 p-4">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-linear-to-br from-purple-500 to-purple-600 flex items-center justify-center">
                 <span className="text-white text-xs">...</span>
               </div>
               <div className="flex-1">

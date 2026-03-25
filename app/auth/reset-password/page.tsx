@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { ArrowLeft, CheckCircle2, Loader2, Mail } from 'lucide-react'
+import { motion } from 'motion/react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
@@ -11,9 +11,9 @@ export default function ResetPasswordPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
-  const supabase = createClient()
 
   const handleResetPassword = async (e: React.FormEvent) => {
+    const supabase = createClient()
     e.preventDefault()
     setError('')
     setIsLoading(true)
@@ -49,7 +49,7 @@ export default function ResetPasswordPage() {
 
   if (success) {
     return (
-      <main className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20">
+      <main className="min-h-screen flex items-center justify-center p-6 bg-linear-to-br from-purple-900/20 via-black to-blue-900/20">
         {/* Background gradient effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl" />
@@ -69,7 +69,7 @@ export default function ResetPasswordPage() {
               transition={{ delay: 0.2, type: 'spring' }}
               className="inline-block mb-4"
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto">
+              <div className="w-16 h-16 bg-linear-to-br from-green-600 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-8 h-8 text-white" />
               </div>
             </motion.div>
@@ -94,7 +94,7 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20">
+    <main className="min-h-screen flex items-center justify-center p-6 bg-linear-to-br from-purple-900/20 via-black to-blue-900/20">
       {/* Background gradient effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl" />
@@ -115,7 +115,7 @@ export default function ResetPasswordPage() {
               transition={{ duration: 0.3 }}
               className="inline-block mb-4"
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto">
+              <div className="w-16 h-16 bg-linear-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto">
                 <Mail className="w-8 h-8 text-white" />
               </div>
             </motion.div>
@@ -156,7 +156,7 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-purple-600/50 disabled:to-blue-600/50 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+              className="w-full px-6 py-3 bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-purple-600/50 disabled:to-blue-600/50 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>

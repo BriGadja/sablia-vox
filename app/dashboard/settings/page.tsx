@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function SettingsPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+    <div className="min-h-screen bg-linear-to-br from-gray-950 via-gray-900 to-black">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">

@@ -196,14 +196,6 @@ export function AdminCallsTable({
         return `${mins}:${secs.toString().padStart(2, '0')}`
       }
 
-      case 'call_quality_score': {
-        if (row.call_quality_score === null) return '-'
-        const score = row.call_quality_score
-        const scoreColor =
-          score >= 70 ? 'text-green-400' : score >= 40 ? 'text-yellow-400' : 'text-red-400'
-        return <span className={scoreColor}>{score}</span>
-      }
-
       case 'total_cost':
       case 'stt_cost':
       case 'tts_cost':
@@ -296,7 +288,7 @@ export function AdminCallsTable({
     <div className="flex flex-col h-full">
       {/* Table container with horizontal scroll - custom scrollbar */}
       <div
-        className="flex-1 overflow-auto scrollbar-thin scrollbar-thumb-purple-600 scrollbar-track-gray-800 hover:scrollbar-thumb-purple-500"
+        className="flex-1 overflow-auto scrollbar-thin scrollbar-thumb-purple-600 scrollbar-track-gray-800 scrollbar-thumb-hover-purple-500"
         style={{
           scrollbarWidth: 'thin',
           scrollbarColor: '#9333ea #1f2937',

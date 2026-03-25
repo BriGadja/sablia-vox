@@ -33,7 +33,7 @@ export function UserSwitcher({ isAdmin }: UserSwitcherProps) {
         size="lg"
         className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-default"
       >
-        <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 text-white font-bold">
+        <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-linear-to-br from-blue-500 to-purple-600 text-white font-bold">
           V
         </div>
         <div className="grid flex-1 text-left text-sm leading-tight">
@@ -55,8 +55,8 @@ export function UserSwitcher({ isAdmin }: UserSwitcherProps) {
             className={cn(
               'flex aspect-square size-8 items-center justify-center rounded-lg text-white font-bold',
               isViewingAsUser
-                ? 'bg-gradient-to-br from-amber-500 to-orange-600'
-                : 'bg-gradient-to-br from-blue-500 to-purple-600',
+                ? 'bg-linear-to-br from-amber-500 to-orange-600'
+                : 'bg-linear-to-br from-blue-500 to-purple-600',
             )}
           >
             {isViewingAsUser ? <User className="size-4" /> : <Shield className="size-4" />}

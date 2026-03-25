@@ -15,7 +15,7 @@ export function FinancialKPIGrid({ data, isLoading }: FinancialKPIGridProps) {
         {[...Array(6)].map((_, i) => (
           <div
             key={i}
-            className="h-24 rounded-xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-gray-700/30 animate-pulse"
+            className="h-24 rounded-xl bg-linear-to-br from-gray-800/50 to-gray-900/50 border border-gray-700/30 animate-pulse"
           />
         ))}
       </div>

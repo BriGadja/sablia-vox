@@ -133,7 +133,7 @@ export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 
   ]
 
   // Overview Dashboard - 6 KPIs opérationnels agrégés (tous agents)
-  // Order: funnel chronologique (Total → Décroché → Répondus → Durée → Qualité → Latence)
+  // Order: funnel chronologique (Total → Décroché → Répondus → Durée → Latence)
   const overviewKPIs = [
     {
       label: 'Total Appels',
@@ -162,13 +162,6 @@ export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 
       previousValue: previous_period.avg_duration,
       format: 'duration' as const,
       decorationColor: 'amber' as const,
-    },
-    {
-      label: 'Qualité Moyenne',
-      value: current_period.avg_quality_score || 0,
-      previousValue: previous_period.avg_quality_score || 0,
-      format: 'score' as const,
-      decorationColor: 'violet' as const,
     },
     {
       label: 'Latence Moyenne',
@@ -344,18 +337,20 @@ export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 
       : agentType === 'louis-nestenn'
         ? louisNestennKPIs // Use qualification-focused 6 KPIs for Nestenn
         : agentType === 'overview'
-          ? overviewKPIs // Use 6 KPIs for Overview (aggregated)
+          ? overviewKPIs // Use 5 KPIs for Overview (aggregated)
           : [
               ...coreKPIs,
               ...(agentType === 'arthur' ? arthurKPIs : []),
               ...(agentType === 'global' ? globalKPIs : []),
             ]
 
-  // Grid columns: 6 for Louis/Louis-Nestenn/Overview (6 KPIs compact), 4 for others
+  // Grid columns: 6 for Louis/Louis-Nestenn, 5 for Overview, 4 for others
   const gridCols =
-    agentType === 'louis' || agentType === 'louis-nestenn' || agentType === 'overview'
+    agentType === 'louis' || agentType === 'louis-nestenn'
       ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-6'
-      : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
+      : agentType === 'overview'
+        ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5'
+        : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
 
   // Gap: smaller for Louis/Louis-Nestenn/Overview to fit better
   const gridGap =

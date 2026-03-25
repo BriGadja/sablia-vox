@@ -1,13 +1,13 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { Minus, TrendingDown, TrendingUp } from 'lucide-react'
 
 interface KPICardProps {
   label: string
   value: string | number | undefined
   previousValue?: number
-  format?: 'number' | 'currency' | 'percentage' | 'duration' | 'latency' | 'score'
+  format?: 'number' | 'currency' | 'percentage' | 'duration' | 'latency'
   decorationColor?: 'blue' | 'emerald' | 'amber' | 'red' | 'violet' | 'teal'
   delay?: number
   compact?: boolean
@@ -56,8 +56,6 @@ export function KPICard({
       }
       case 'latency':
         return `${Math.round(val)} ms`
-      case 'score':
-        return `${Math.round(val)}/100`
       default:
         return val.toLocaleString('fr-FR')
     }
@@ -88,7 +86,7 @@ export function KPICard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay }}
-      className={`relative overflow-hidden rounded-xl border bg-gradient-to-br backdrop-blur-sm ${colorClasses[decorationColor]}`}
+      className={`relative overflow-hidden rounded-xl border bg-linear-to-br backdrop-blur-sm ${colorClasses[decorationColor]}`}
     >
       {/* Decoration bar */}
       <div className={`absolute top-0 left-0 right-0 h-1 ${decorationColors[decorationColor]}`} />
@@ -135,7 +133,7 @@ export function KPICard({
       </div>
 
       {/* Subtle gradient overlay */}
-      <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-linear-to-t from-black/10 to-transparent pointer-events-none" />
     </motion.div>
   )
 }

@@ -1,3 +1,8 @@
+@/home/sablia/workspace/CLAUDE.md
+
+# NOTE: .claude/rules/ and .claude/skills/ are symlinked to the hub workspace.
+# Edits to these files from this repo will modify the shared originals.
+
 # CLAUDE.md - Sablia Vox
 
 **Voice AI Agent Platform** — `vox.sablia.io` | Full docs: [`PRD.md`](PRD.md)

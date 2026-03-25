@@ -1,11 +1,15 @@
 'use client'
 
 import type { EmailOtpType } from '@supabase/supabase-js'
-import { motion } from 'framer-motion'
 import { CheckCircle2, Eye, EyeOff, Loader2, Lock } from 'lucide-react'
+import { motion } from 'motion/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+
+function getSupabase() {
+  return createClient()
+}
 
 export default function UpdatePasswordPage() {
   const [password, setPassword] = useState('')
@@ -17,10 +21,10 @@ export default function UpdatePasswordPage() {
   const [isValidSession, setIsValidSession] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
-  const supabase = createClient()
   const verifyAttempted = useRef(false)
 
   useEffect(() => {
+    const supabase = getSupabase()
     // Listen for auth state changes first (before async work)
     const {
       data: { subscription },
@@ -64,7 +68,7 @@ export default function UpdatePasswordPage() {
     return () => {
       subscription.unsubscribe()
     }
-  }, [supabase, router, pathname])
+  }, [router, pathname])
 
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -89,6 +93,7 @@ export default function UpdatePasswordPage() {
     setIsLoading(true)
 
     try {
+      const supabase = getSupabase()
       const { error: updateError } = await supabase.auth.updateUser({
         password: password,
       })
@@ -109,7 +114,7 @@ export default function UpdatePasswordPage() {
 
   if (!isValidSession) {
     return (
-      <main className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20">
+      <main className="min-h-screen flex items-center justify-center p-6 bg-linear-to-br from-purple-900/20 via-black to-blue-900/20">
         <div className="text-center">
           <Loader2 className="w-8 h-8 text-white animate-spin mx-auto mb-4" />
           <p className="text-white/60">Vérification...</p>
@@ -119,7 +124,7 @@ export default function UpdatePasswordPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20">
+    <main className="min-h-screen flex items-center justify-center p-6 bg-linear-to-br from-purple-900/20 via-black to-blue-900/20">
       {/* Background gradient effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl" />
@@ -140,7 +145,7 @@ export default function UpdatePasswordPage() {
               transition={{ duration: 0.3 }}
               className="inline-block mb-4"
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto">
+              <div className="w-16 h-16 bg-linear-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto">
                 <Lock className="w-8 h-8 text-white" />
               </div>
             </motion.div>
@@ -257,7 +262,7 @@ export default function UpdatePasswordPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-purple-600/50 disabled:to-blue-600/50 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+              className="w-full px-6 py-3 bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-purple-600/50 disabled:to-blue-600/50 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>

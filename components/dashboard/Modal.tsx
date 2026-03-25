@@ -66,7 +66,7 @@ export function Modal({ children, className }: ModalProps) {
       >
         <div
           className={cn(
-            'relative w-full max-w-5xl bg-gradient-to-br from-gray-900 via-gray-900 to-purple-950/30 rounded-2xl border border-white/10 shadow-2xl my-4',
+            'relative w-full max-w-5xl bg-linear-to-br from-gray-900 via-gray-900 to-purple-950/30 rounded-2xl border border-white/10 shadow-2xl my-4',
             className,
           )}
         >

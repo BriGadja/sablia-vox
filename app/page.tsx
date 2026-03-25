@@ -1,32 +1,36 @@
 import type { Metadata } from 'next'
-import { CustomDevelopment } from '@/components/landing/CustomDevelopment'
-import { DashboardShowcase } from '@/components/landing/DashboardShowcase'
-import { FAQAccordion } from '@/components/landing/FAQAccordion'
-import { FloatingCTA } from '@/components/landing/FloatingCTA'
-import { HeroHomeV2 } from '@/components/landing/HeroHomeV2'
-import { HowItWorksV2 } from '@/components/landing/HowItWorksV2'
-import { IntegrationsTriple } from '@/components/landing/IntegrationsTriple'
-import { SDRComparison } from '@/components/landing/SDRComparison'
-import { HeaderV2 } from '@/components/shared/HeaderV2'
-import { faqs } from '@/lib/data/faqs'
+import { BenefitsSection } from '@/components/landing/BenefitsSection'
+import { DashboardPreview } from '@/components/landing/DashboardPreview'
+import { FAQSection } from '@/components/landing/FAQSection'
+import { FinalCTA } from '@/components/landing/FinalCTA'
+import { Footer } from '@/components/landing/Footer'
+import { Header } from '@/components/landing/Header'
+import { HeroSection } from '@/components/landing/HeroSection'
+import { HowItWorks } from '@/components/landing/HowItWorks'
+import { IntegrationsSection } from '@/components/landing/IntegrationsSection'
+import { PainAmplification } from '@/components/landing/PainAmplification'
+import { SectorUseCases } from '@/components/landing/SectorUseCases'
+import { SocialProof } from '@/components/landing/SocialProof'
+import { StickyMobileCTA } from '@/components/landing/StickyMobileCTA'
 import { getOrganizationSchema } from '@/lib/seo/structured-data'
 
 export const metadata: Metadata = {
-  title: 'Sablia Vox - Agents IA Vocaux | Disponibles 24/7',
+  title: 'Sablia Vox — Agent Vocal IA pour Entreprises | Disponible 24/7',
   description:
-    'Nos agents IA répondent et rappellent 24/7, qualifient vos prospects, prennent vos rendez-vous et répondent aux questions courantes. Zéro appel manqué, zéro interruption.',
+    'Chaque appel manqué est un client perdu. Notre agent vocal IA répond 24/7, qualifie vos prospects et prend vos rendez-vous en moins de 60 secondes. Hébergé en France, RGPD conforme.',
   keywords: [
-    'agent IA vocal',
+    'agent vocal IA',
+    'agent IA entreprise',
     'rappel automatique leads',
-    'réception appels IA',
-    'automatisation commerciale',
-    'prospection IA',
     'standard téléphonique IA',
+    'automatisation appels',
+    'qualification prospects IA',
+    'RGPD conforme',
   ],
   openGraph: {
-    title: 'Sablia Vox - Agents IA Vocaux | Disponibles 24/7',
+    title: 'Sablia Vox — Agent Vocal IA pour Entreprises',
     description:
-      'Déléguez le traitement de vos appels à nos agents IA. Zéro appel manqué, zéro interruption pour vos équipes.',
+      'Notre agent vocal IA répond 24/7, qualifie vos prospects et prend vos rendez-vous. Zéro appel manqué.',
     url: 'https://vox.sablia.io',
     siteName: 'Sablia Vox',
     images: [
@@ -34,7 +38,7 @@ export const metadata: Metadata = {
         url: 'https://vox.sablia.io/og-home.png',
         width: 1200,
         height: 630,
-        alt: 'Sablia Vox - Agents IA Vocaux',
+        alt: 'Sablia Vox — Agent Vocal IA',
       },
     ],
     type: 'website',
@@ -42,8 +46,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sablia Vox - Agents IA Vocaux',
-    description: 'Déléguez le traitement de vos appels à nos agents IA disponibles 24/7',
+    title: 'Sablia Vox — Agent Vocal IA pour Entreprises',
+    description:
+      'Notre agent vocal IA répond 24/7, qualifie vos prospects et prend vos rendez-vous.',
     images: ['https://vox.sablia.io/og-home.png'],
   },
 }
@@ -53,40 +58,28 @@ export default function Home() {
 
   return (
     <>
-      <HeaderV2 />
-      <main className="overflow-x-hidden pt-12">
+      <Header />
+      <main className="overflow-x-hidden">
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: standard JSON-LD pattern for schema.org structured data
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
 
-        {/* 1. Hero Section (USP) - Nouveaux textes, sans cartes agents */}
-        <HeroHomeV2 />
-
-        {/* 2. Comment ça fonctionne - 3 blocs Entrée/Traitement/Sortie */}
-        <HowItWorksV2 />
-
-        {/* 4. Section Dashboards avec Tabs */}
-        <DashboardShowcase />
-
-        {/* 5. Section Intégrations 3 volets */}
-        <IntegrationsTriple />
-
-        {/* Conservé: SDR Comparison */}
-        <SDRComparison />
-
-        {/* Conservé: Custom Development */}
-        <CustomDevelopment />
-
-        {/* 8. FAQ */}
-        <div id="faq">
-          <FAQAccordion faqs={faqs.home} />
-        </div>
-
-        {/* Bouton flottant CTA */}
-        <FloatingCTA />
+        <HeroSection />
+        <PainAmplification />
+        <BenefitsSection />
+        <HowItWorks />
+        <SocialProof />
+        <SectorUseCases />
+        <DashboardPreview />
+        <IntegrationsSection />
+        <FAQSection />
+        <FinalCTA />
       </main>
+      <Footer />
+      <StickyMobileCTA />
     </>
   )
 }

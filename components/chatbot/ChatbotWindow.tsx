@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { Minimize2, RotateCcw, X } from 'lucide-react'
 import { useChatbotContext } from '@/contexts/ChatbotContext'
 import { chatbotConfig } from '@/lib/constants'
@@ -73,11 +73,11 @@ export default function ChatbotWindow() {
             'sablia-chatbot-header',
             'flex items-center justify-between',
             'p-4 border-b border-white/10',
-            'bg-gradient-to-r from-purple-500/10 to-blue-500/10',
+            'bg-linear-to-r from-purple-500/10 to-blue-500/10',
           )}
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-linear-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
               <span className="text-white text-sm font-semibold">V</span>
             </div>
             <div>

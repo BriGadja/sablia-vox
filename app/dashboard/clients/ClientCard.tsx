@@ -31,7 +31,7 @@ export function ClientCard({ client }: ClientCardProps) {
     <Link
       href={`/dashboard/clients/${client.client_id}`}
       className={cn(
-        'group relative overflow-hidden rounded-xl border bg-gradient-to-br backdrop-blur-sm transition-all hover:scale-[1.02]',
+        'group relative overflow-hidden rounded-xl border bg-linear-to-br backdrop-blur-sm transition-all hover:scale-[1.02]',
         'from-purple-500/20 to-purple-500/5 border-purple-500/30',
       )}
     >

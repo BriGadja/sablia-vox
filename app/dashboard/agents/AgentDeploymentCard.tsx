@@ -56,7 +56,7 @@ export function AgentDeploymentCard({ agent }: AgentDeploymentCardProps) {
     <Link
       href={`/dashboard/agents/${agent.deployment_id}`}
       className={cn(
-        'group relative overflow-hidden rounded-xl border bg-gradient-to-br backdrop-blur-sm transition-all hover:scale-[1.02]',
+        'group relative overflow-hidden rounded-xl border bg-linear-to-br backdrop-blur-sm transition-all hover:scale-[1.02]',
         config.color,
       )}
     >

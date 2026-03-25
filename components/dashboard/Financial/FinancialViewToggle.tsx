@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { DollarSign, TrendingUp } from 'lucide-react'
 import { FinancialViewMode, type FinancialViewToggleProps } from '@/lib/types/financial'
 
@@ -32,7 +32,7 @@ export default function FinancialViewToggle({ mode, onModeChange }: FinancialVie
         {isLeasing && (
           <motion.div
             layoutId="activeTab"
-            className="absolute inset-0 bg-gradient-to-r from-violet-500/20 to-purple-500/20 rounded-md border border-violet-500/50"
+            className="absolute inset-0 bg-linear-to-r from-violet-500/20 to-purple-500/20 rounded-md border border-violet-500/50"
             transition={{
               type: 'spring',
               stiffness: 500,
@@ -67,7 +67,7 @@ export default function FinancialViewToggle({ mode, onModeChange }: FinancialVie
         {!isLeasing && (
           <motion.div
             layoutId="activeTab"
-            className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-md border border-cyan-500/50"
+            className="absolute inset-0 bg-linear-to-r from-cyan-500/20 to-blue-500/20 rounded-md border border-cyan-500/50"
             transition={{
               type: 'spring',
               stiffness: 500,

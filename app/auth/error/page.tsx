@@ -1,12 +1,12 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { AlertCircle, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 export default function AuthErrorPage() {
   return (
-    <main className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20">
+    <main className="min-h-screen flex items-center justify-center p-6 bg-linear-to-br from-purple-900/20 via-black to-blue-900/20">
       {/* Background gradient effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl" />
@@ -26,7 +26,7 @@ export default function AuthErrorPage() {
             transition={{ delay: 0.2, type: 'spring' }}
             className="inline-block mb-4"
           >
-            <div className="w-16 h-16 bg-gradient-to-br from-red-600 to-orange-600 rounded-2xl flex items-center justify-center mx-auto">
+            <div className="w-16 h-16 bg-linear-to-br from-red-600 to-orange-600 rounded-2xl flex items-center justify-center mx-auto">
               <AlertCircle className="w-8 h-8 text-white" />
             </div>
           </motion.div>
@@ -40,7 +40,7 @@ export default function AuthErrorPage() {
           <div className="space-y-3">
             <Link
               href="/auth/reset-password"
-              className="block w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold rounded-lg transition-all duration-200"
+              className="block w-full px-6 py-3 bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold rounded-lg transition-all duration-200"
             >
               Demander un nouveau lien
             </Link>

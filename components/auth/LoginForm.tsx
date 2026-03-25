@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { Eye, EyeOff, Loader2, LogIn } from 'lucide-react'
+import { motion } from 'motion/react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
@@ -13,9 +13,9 @@ export function LoginForm() {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
 
   const handleLogin = async (e: React.FormEvent) => {
+    const supabase = createClient()
     e.preventDefault()
     setError('')
     setIsLoading(true)
@@ -90,7 +90,7 @@ export function LoginForm() {
             transition={{ duration: 0.3 }}
             className="inline-block mb-4"
           >
-            <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto">
+            <div className="w-16 h-16 bg-linear-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto">
               <LogIn className="w-8 h-8 text-white" />
             </div>
           </motion.div>
@@ -169,7 +169,7 @@ export function LoginForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-purple-600/50 disabled:to-blue-600/50 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+            className="w-full px-6 py-3 bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-purple-600/50 disabled:to-blue-600/50 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>

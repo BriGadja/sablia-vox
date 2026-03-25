@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { MessageCircle } from 'lucide-react'
 import { useChatbotContext } from '@/contexts/ChatbotContext'
 import { cn } from '@/lib/utils'
@@ -15,7 +15,7 @@ export default function ChatbotTrigger() {
         'sablia-chatbot-trigger',
         'fixed bottom-4 right-4 z-[9999]',
         'w-14 h-14 rounded-full',
-        'bg-gradient-to-br from-purple-500 to-purple-600',
+        'bg-linear-to-br from-purple-500 to-purple-600',
         'shadow-lg hover:shadow-xl hover:shadow-purple-500/25',
         'flex items-center justify-center',
         'transition-all duration-300 ease-out',

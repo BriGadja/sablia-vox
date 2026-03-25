@@ -1,7 +1,7 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
 import { Building, Globe, Loader2, Mail, Phone, X } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
 import type React from 'react'
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -284,8 +284,8 @@ const CTAPopupForm: React.FC<CTAPopupFormProps> = ({ isOpen, onClose, onSuccess 
                   <p className="flex items-start gap-2">
                     <span>👉</span>
                     <span>
-                      Vous pourrez ensuite réserver un créneau avec Rémi (Co-Fondateur VoIPIA) pour
-                      parler de son implémentation dans votre organisation.
+                      Vous pourrez ensuite réserver un créneau avec notre équipe pour parler de son
+                      implémentation dans votre organisation.
                     </span>
                   </p>
                 </div>
@@ -453,7 +453,7 @@ const CTAPopupForm: React.FC<CTAPopupFormProps> = ({ isOpen, onClose, onSuccess 
                   disabled={isSubmitting || !isFormValid}
                   className={cn(
                     'w-full py-3 px-6 rounded-xl font-semibold',
-                    'bg-gradient-to-r from-violet-600 to-purple-600',
+                    'bg-linear-to-r from-violet-600 to-purple-600',
                     'text-white text-lg',
                     'transition-all duration-300',
                     'flex items-center justify-center gap-2',

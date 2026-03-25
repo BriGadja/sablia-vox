@@ -121,17 +121,6 @@ export const COLUMN_DEFINITIONS: AdminCallsColumnDef[] = [
     group: 'outcome',
     defaultVisible: false,
   },
-  // Quality
-  {
-    key: 'call_quality_score',
-    label: 'Score',
-    sortable: true,
-    width: '70px',
-    align: 'center',
-    group: 'outcome',
-    defaultVisible: false,
-  },
-
   // Latencies - LLM
   {
     key: 'avg_llm_latency_ms',
@@ -350,7 +339,7 @@ export const COLUMN_GROUPS: AdminCallsColumnGroup[] = [
   {
     key: 'outcome',
     label: 'Résultats',
-    columns: ['outcome', 'emotion', 'answered', 'appointment_scheduled', 'call_quality_score'],
+    columns: ['outcome', 'emotion', 'answered', 'appointment_scheduled'],
     collapsible: false,
     defaultCollapsed: false,
   },

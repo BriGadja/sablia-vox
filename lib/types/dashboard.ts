@@ -61,8 +61,6 @@ export interface KPIPeriod {
   active_agents?: number
   agents_called_today?: number
 
-  // Overview-specific KPIs
-  avg_quality_score?: number // 0-100 (call_quality_score average)
 }
 
 /**
@@ -309,7 +307,6 @@ export interface CallExportRow {
   transcript: string | null
   summary: string | null
   recording_url: string | null
-  call_quality_score: number | null
   cost: number | null
   phone_number: string | null
   first_name: string | null

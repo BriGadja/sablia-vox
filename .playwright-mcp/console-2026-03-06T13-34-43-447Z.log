@@ -1,0 +1,9 @@
+[    3438ms] [WARNING] Failed to create WebGPU Context Provider @ https://fp.resend.com/web/v3/wSRVrijKeaGZIyZLVQ1w/loader_v3.12.3.js:4
+[    3468ms] [WARNING] Failed to create WebGPU Context Provider @ https://fp.resend.com/web/v3/wSRVrijKeaGZIyZLVQ1w/loader_v3.12.3.js:4
+[    3956ms] [WARNING] Failed to create WebGPU Context Provider @ https://static.reo.dev/d02eb40d2e47d18/177.reo.js:1
+[  127162ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://resend.com/docs/dashboard/emails/introduction?_rsc=pod2k:0
+[  127192ms] [WARNING] Failed to create WebGPU Context Provider @ https://fp.resend.com/web/v3/wSRVrijKeaGZIyZLVQ1w/loader_v3.12.3.js:4
+[  127220ms] [WARNING] Failed to create WebGPU Context Provider @ https://fp.resend.com/web/v3/wSRVrijKeaGZIyZLVQ1w/loader_v3.12.3.js:4
+[  145722ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://resend.com/docs/dashboard/domains/introduction?_rsc=1a5qi:0
+[  153243ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://resend.com/docs/dashboard/domains/introduction?_rsc=5sbq2:0
+[  153338ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://resend.com/docs/knowledge-base/why-are-my-open-rates-not-accurate?_rsc=5sbq2:0

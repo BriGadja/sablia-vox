@@ -97,7 +97,6 @@ export function exportCallsToCSV(data: AdminCallRow[], filename: string): void {
     { key: 'answered', label: 'Décroché' },
     { key: 'appointment_scheduled', label: 'RDV Pris' },
     { key: 'duration_seconds', label: 'Durée (s)' },
-    { key: 'call_quality_score', label: 'Score Qualité' },
     { key: 'total_cost', label: 'Coût Total (€)' },
     { key: 'stt_cost', label: 'Coût STT (€)' },
     { key: 'tts_cost', label: 'Coût TTS (€)' },

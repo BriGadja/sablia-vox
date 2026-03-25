@@ -2,7 +2,7 @@
 
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'motion/react'
 import { Bot, Building2, Clock, MessageSquare, Play, User, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'

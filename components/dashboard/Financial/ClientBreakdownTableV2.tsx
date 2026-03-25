@@ -22,9 +22,9 @@ export function ClientBreakdownTableV2({
   isLoading,
   onDetailClick,
 }: ClientBreakdownTableV2Props) {
-  // Filter out Voipia and compute additional fields
+  // Filter out Sablia Vox internal and compute additional fields
   const filteredData: ClientFinancialDataExtended[] = (
-    data?.filter((client) => client.client_name.toLowerCase() !== 'voipia') || []
+    data?.filter((client) => client.client_name.toLowerCase() !== 'sablia vox') || []
   ).map((client) => {
     const consumption_revenue = client.call_revenue + client.sms_revenue + client.email_revenue
     const consumption_margin = consumption_revenue - client.total_provider_cost
@@ -129,7 +129,7 @@ export function ClientBreakdownTableV2({
     },
   ]
 
-  // Calculate summary totals (excluding Voipia)
+  // Calculate summary totals (excluding Sablia Vox internal)
   const summary = filteredData.reduce(
     (acc, client) => ({
       totalRevenue: acc.totalRevenue + client.total_revenue,
@@ -170,7 +170,7 @@ export function ClientBreakdownTableV2({
       {/* Summary Stats */}
       {!isLoading && filteredData.length > 0 && (
         <div className="rounded-xl border border-gray-800/50 bg-black/20 backdrop-blur-sm p-6">
-          <h4 className="text-sm font-semibold text-gray-400 mb-4">Totaux (hors Voipia)</h4>
+          <h4 className="text-sm font-semibold text-gray-400 mb-4">Totaux (hors Sablia Vox)</h4>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 text-sm">
             <div>
               <p className="text-gray-400 mb-1">Revenu Total</p>

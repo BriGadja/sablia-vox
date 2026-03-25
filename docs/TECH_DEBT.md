@@ -1,7 +1,7 @@
 # Tech Debt Inventory — Sablia Vox
 
 > Complete inventory of tech debt, dead code, and inconsistencies. Last updated: 2026-03-02.
-> This document drives the refactoring plan at `.claude/plans/sablia-vox-refactor-master.md`.
+> This document drives the refactoring plan at `plans/sablia-vox-refactor-master.md`.
 
 ---
 

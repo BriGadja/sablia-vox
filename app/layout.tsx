@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { DM_Sans, Fraunces, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { Analytics } from '@vercel/analytics/next'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
@@ -8,9 +8,21 @@ import { AuthHashHandler } from '@/components/auth/AuthHashHandler'
 import ClientLemlistTracker from '@/components/tracking/ClientLemlistTracker'
 import { Providers } from './providers'
 
-const inter = Inter({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-fraunces',
+  display: 'swap',
+})
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
   display: 'swap',
 })
 
@@ -73,7 +85,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className="dark">
-      <body className={`${inter.variable} font-inter antialiased bg-black text-white min-h-screen`}>
+      <body
+        className={`${fraunces.variable} ${dmSans.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground min-h-screen`}
+      >
         <NuqsAdapter>
           <Providers>
             <AuthHashHandler />

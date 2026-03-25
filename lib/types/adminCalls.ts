@@ -29,7 +29,6 @@ export interface AdminCallRow {
   emotion: 'positive' | 'neutral' | 'negative' | null
   answered: boolean
   appointment_scheduled: boolean
-  call_quality_score: number | null
   sentiment_analysis: string | null
 
   // Duration

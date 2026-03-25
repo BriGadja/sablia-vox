@@ -57,7 +57,7 @@ export function AgentTypeCard({ agentType }: AgentTypeCardProps) {
     <Link
       href={`/dashboard/${agentType.agent_type_name}`}
       className={cn(
-        'group relative overflow-hidden rounded-xl border bg-gradient-to-br backdrop-blur-sm transition-all hover:scale-[1.02] block',
+        'group relative overflow-hidden rounded-xl border bg-linear-to-br backdrop-blur-sm transition-all hover:scale-[1.02] block',
         config.color,
       )}
     >

@@ -171,7 +171,7 @@ export function AppSidebar({ userEmail, isAdmin }: AppSidebarProps) {
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground text-white/70 hover:text-white hover:bg-white/10"
                 >
                   <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarFallback className="rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs">
+                    <AvatarFallback className="rounded-lg bg-linear-to-br from-blue-500 to-purple-600 text-white text-xs">
                       {userInitials}
                     </AvatarFallback>
                   </Avatar>

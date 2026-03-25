@@ -50,7 +50,7 @@ export function InvoiceSummaryTable({ data, isLoading, error }: InvoiceSummaryTa
   }
 
   return (
-    <Card className="bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 border-emerald-500/20">
+    <Card className="bg-linear-to-br from-emerald-500/5 to-cyan-500/5 border-emerald-500/20">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center justify-between">
           <span className="text-white text-lg flex items-center gap-2">
@@ -332,7 +332,7 @@ function InvoiceLineRow({ line }: InvoiceLineRowProps) {
 
 function InvoiceTableSkeleton() {
   return (
-    <Card className="bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 border-emerald-500/20 animate-pulse">
+    <Card className="bg-linear-to-br from-emerald-500/5 to-cyan-500/5 border-emerald-500/20 animate-pulse">
       <CardHeader className="pb-3">
         <div className="h-6 bg-white/10 rounded w-48" />
       </CardHeader>

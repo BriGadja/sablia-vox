@@ -193,7 +193,7 @@ const CTAStaticForm: React.FC<CTAStaticFormProps> = ({ onSuccess }) => {
   return (
     <div className="w-full max-w-2xl mx-auto bg-gray-900/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-violet-600/20 to-purple-600/20 border-b border-white/10 p-6">
+      <div className="bg-linear-to-r from-violet-600/20 to-purple-600/20 border-b border-white/10 p-6">
         <h2 className="text-2xl font-bold text-white flex items-center gap-3">
           <span className="text-3xl">🎙️</span>
           Testez votre futur Agent Vocal IA
@@ -220,8 +220,8 @@ const CTAStaticForm: React.FC<CTAStaticFormProps> = ({ onSuccess }) => {
             <p className="flex items-start gap-2">
               <span className="text-lg">👉</span>
               <span>
-                Vous pourrez ensuite réserver un créneau avec Rémi (Co-Fondateur VoIPIA) pour parler
-                de son implémentation dans votre organisation.
+                Vous pourrez ensuite réserver un créneau avec notre équipe pour parler de son
+                implémentation dans votre organisation.
               </span>
             </p>
           </div>
@@ -379,7 +379,7 @@ const CTAStaticForm: React.FC<CTAStaticFormProps> = ({ onSuccess }) => {
             disabled={!isFormValid || isSubmitting}
             className={cn(
               'w-full py-3 rounded-lg font-semibold text-base',
-              'bg-gradient-to-r from-violet-600 to-purple-600',
+              'bg-linear-to-r from-violet-600 to-purple-600',
               'hover:from-violet-700 hover:to-purple-700',
               'disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed disabled:opacity-50',
               'transition-all duration-200',

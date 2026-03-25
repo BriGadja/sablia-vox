@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { memo, useCallback, useMemo, useState } from 'react'
 import {
   CartesianGrid,

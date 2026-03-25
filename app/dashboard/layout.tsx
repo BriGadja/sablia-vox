@@ -67,7 +67,7 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar userEmail={user.email || ''} isAdmin={isAdmin} />
-      <SidebarInset className="bg-gradient-to-br from-black via-purple-950/20 to-black h-screen flex flex-col">
+      <SidebarInset className="bg-linear-to-br from-black via-purple-950/20 to-black h-screen flex flex-col">
         <header className="flex h-14 shrink-0 items-center gap-2 border-b border-white/10 px-4">
           <SidebarTrigger className="-ml-1 text-white/70 hover:text-white hover:bg-white/10" />
           <Separator orientation="vertical" className="mr-2 h-4 bg-white/20" />
