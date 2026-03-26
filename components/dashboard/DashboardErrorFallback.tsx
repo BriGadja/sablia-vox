@@ -22,14 +22,14 @@ export function DashboardErrorFallback({ error, resetErrorBoundary }: DashboardE
       <h2 className="text-xl font-bold text-white mb-2">Une erreur est survenue</h2>
 
       <p className="text-white/60 text-center max-w-md mb-4">
-        Nous n&apos;avons pas pu charger les donnees du dashboard. Veuillez reessayer ou retourner a
+        Nous n&apos;avons pas pu charger les données du dashboard. Veuillez réessayer ou retourner à
         l&apos;accueil.
       </p>
 
       {process.env.NODE_ENV === 'development' && (
         <details className="mb-6 max-w-lg w-full">
           <summary className="text-xs text-red-400 cursor-pointer hover:text-red-300 mb-2">
-            Details de l&apos;erreur (dev only)
+            Détails de l&apos;erreur (dev only)
           </summary>
           <pre className="text-xs text-red-400 bg-red-500/10 p-3 rounded-lg overflow-auto max-h-32">
             {error.message}

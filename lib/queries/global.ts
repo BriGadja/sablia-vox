@@ -5,6 +5,7 @@ import type {
   CallExportRow,
   CallVolumeData,
   DashboardFilters,
+  EmotionData,
   KPIMetrics,
   OutcomeData,
 } from '@/lib/types/dashboard'
@@ -107,7 +108,15 @@ export async function fetchCallVolumeByDay(filters: DashboardFilters): Promise<C
     throw error
   }
 
-  return (data || []) as CallVolumeData[]
+  // Map 'day' → 'date' to match CallVolumeData interface (RPC returns 'day')
+  return (data || []).map((item: Record<string, unknown>) => ({
+    date: item.day as string,
+    total_calls: item.total_calls as number,
+    answered_calls: item.answered_calls as number,
+    outbound_calls: item.outbound_calls as number,
+    inbound_calls: item.inbound_calls as number,
+    conversions: item.conversions as number,
+  })) as CallVolumeData[]
 }
 
 /**
@@ -151,6 +160,49 @@ export async function fetchAgentCardsData(
   }
 
   return (data || []) as AgentCardData[]
+}
+
+/**
+ * Fetch emotion distribution from v_dashboard_calls
+ * Groups by emotion and counts (client-side aggregation)
+ */
+export async function fetchEmotionDistribution(filters: DashboardFilters): Promise<EmotionData[]> {
+  const supabase = createClient()
+
+  let query = supabase
+    .from('v_dashboard_calls')
+    .select('emotion')
+    .gte('started_at', filters.startDate)
+    .lte('started_at', filters.endDate)
+    .not('emotion', 'is', null)
+    .not('emotion', 'eq', 'unknown')
+    .limit(10000)
+
+  if (filters.deploymentId) {
+    query = query.eq('deployment_id', filters.deploymentId)
+  }
+
+  if (filters.templateType) {
+    query = query.eq('template_type', filters.templateType)
+  }
+
+  const { data, error } = await query
+
+  if (error) {
+    console.error('fetchEmotionDistribution error:', error)
+    return []
+  }
+
+  const counts: Record<string, number> = {}
+  for (const row of data || []) {
+    counts[row.emotion] = (counts[row.emotion] || 0) + 1
+  }
+  const total = Object.values(counts).reduce((s, v) => s + v, 0)
+  return Object.entries(counts).map(([emotion, count]) => ({
+    emotion: emotion as EmotionData['emotion'],
+    count,
+    percentage: total > 0 ? (count / total) * 100 : 0,
+  }))
 }
 
 /**

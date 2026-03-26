@@ -59,20 +59,11 @@ export const metadata: Metadata = {
     title: 'Sablia Vox - Agents Vocaux IA 24/7',
     description:
       'Transformez vos appels en opportunités avec nos agents vocaux IA disponibles 24/7',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Sablia Vox - Agents Vocaux IA',
-      },
-    ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: 'Sablia Vox - Agents Vocaux IA 24/7',
     description: 'Transformez vos appels en opportunités avec nos agents vocaux IA',
-    images: ['/twitter-image.jpg'],
   },
   icons: {
     icon: '/favicon.svg',

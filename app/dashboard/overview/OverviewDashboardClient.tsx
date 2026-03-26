@@ -11,6 +11,7 @@ import { KPIGrid } from '@/components/dashboard/KPIGrid'
 import {
   useCallVolumeByDay,
   useDashboardKPIs,
+  useEmotionDistribution,
   useOutcomeDistribution,
 } from '@/lib/hooks/useDashboardData'
 import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
@@ -34,6 +35,7 @@ export function OverviewDashboardClient({ userEmail }: OverviewDashboardClientPr
   const { data: kpiData, isLoading: isLoadingKPIs } = useDashboardKPIs(filters)
   const { data: callVolumeData, isLoading: isLoadingCallVolume } = useCallVolumeByDay(filters)
   const { data: outcomeData, isLoading: isLoadingOutcomes } = useOutcomeDistribution(filters)
+  const { data: emotionData } = useEmotionDistribution(filters)
 
   // Fetch latency metrics (no agent type filter for overview)
   const { data: latencyData, isLoading: isLoadingLatencies } = useLatencyMetrics({
@@ -101,7 +103,7 @@ export function OverviewDashboardClient({ userEmail }: OverviewDashboardClientPr
             <CallVolumeChart data={callVolumeData || []} />
           </div>
           <div className="h-full min-h-[180px] overflow-hidden">
-            <EmotionDistribution data={[]} />
+            <EmotionDistribution data={emotionData || []} />
           </div>
           <div className="h-full min-h-[180px] overflow-hidden">
             <LatencyTimeSeriesChart data={latencyData || []} isLoading={isLoadingLatencies} />

@@ -39,6 +39,7 @@ export interface KPIPeriod {
 /**
  * Call volume data point (for line chart)
  * Returned by get_call_volume_by_day RPC
+ * Note: RPC returns 'day' — mapped to 'date' in fetchCallVolumeByDay query layer
  */
 export interface CallVolumeData {
   date: string // YYYY-MM-DD

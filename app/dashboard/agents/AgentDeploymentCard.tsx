@@ -108,7 +108,7 @@ export function AgentDeploymentCard({ agent }: AgentDeploymentCardProps) {
         {/* Last Activity */}
         <div className="flex items-center gap-2 text-xs text-white/50">
           <Activity className="w-3 h-3" />
-          <span>Derniere activite: {formatRelativeTime(agent.last_call_at)}</span>
+          <span>Dernière activité : {formatRelativeTime(agent.last_call_at)}</span>
         </div>
 
         {/* Stats */}
@@ -126,7 +126,7 @@ export function AgentDeploymentCard({ agent }: AgentDeploymentCardProps) {
               <div>
                 <div className="flex items-center gap-1 text-white/50 mb-0.5">
                   <TrendingUp className="w-3 h-3" />
-                  <p className="text-xs">Taux reponse</p>
+                  <p className="text-xs">Taux réponse</p>
                 </div>
                 <p className="text-lg font-bold text-white">{agent.answer_rate.toFixed(1)}%</p>
               </div>
@@ -140,7 +140,7 @@ export function AgentDeploymentCard({ agent }: AgentDeploymentCardProps) {
               <div>
                 <div className="flex items-center gap-1 text-white/50 mb-0.5">
                   <Clock className="w-3 h-3" />
-                  <p className="text-xs">Duree moy.</p>
+                  <p className="text-xs">Durée moy.</p>
                 </div>
                 <p className="text-lg font-bold text-white">
                   {Math.floor(agent.avg_duration / 60)}m{Math.round(agent.avg_duration % 60)}s
@@ -151,7 +151,7 @@ export function AgentDeploymentCard({ agent }: AgentDeploymentCardProps) {
         ) : (
           <div className="pt-3 border-t border-white/10">
             <p className="text-xs text-white/40 text-center py-2">
-              Aucune donnee pour cette periode
+              Aucune donnée pour cette période
             </p>
           </div>
         )}

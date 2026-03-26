@@ -52,7 +52,7 @@ const emotionBadges: Record<string, { label: string; className: string; icon: Re
     icon: <Smile className="w-4 h-4" />,
   },
   negative: {
-    label: 'Negatif',
+    label: 'Négatif',
     className: 'bg-red-500/20 text-red-400 border-red-500/30',
     icon: <Frown className="w-4 h-4" />,
   },
@@ -143,7 +143,7 @@ export function CallDetailModalContent({
           <div className="text-center space-y-2">
             <p className="text-lg font-semibold text-white">Erreur de chargement</p>
             <p className="text-sm text-white/60">
-              Impossible de charger les details de l&apos;appel
+              Impossible de charger les détails de l&apos;appel
             </p>
           </div>
         </div>
@@ -171,7 +171,7 @@ export function CallDetailModalContent({
       {/* Header */}
       <div className="flex items-start justify-between pr-12">
         <div>
-          <h2 className="text-xl font-bold text-white">Detail de l&apos;appel</h2>
+          <h2 className="text-xl font-bold text-white">Détail de l&apos;appel</h2>
           <p className="text-sm text-white/60 mt-1">
             {agentName} -{' '}
             {new Date(call.started_at).toLocaleDateString('fr-FR', {
@@ -218,7 +218,7 @@ export function CallDetailModalContent({
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-white/60 text-xs">
                 <Clock className="w-3 h-3" />
-                <span>Duree</span>
+                <span>Durée</span>
               </div>
               <p className="text-white text-sm font-medium">
                 {formatDuration(call.duration_seconds ?? 0)}
@@ -229,7 +229,7 @@ export function CallDetailModalContent({
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-white/60 text-xs">
                 <DollarSign className="w-3 h-3" />
-                <span>Cout</span>
+                <span>Coût</span>
               </div>
               <p className="text-white text-sm font-medium">
                 {call.billed_cost?.toFixed(2) || '0.00'} €
@@ -248,7 +248,7 @@ export function CallDetailModalContent({
                   call.is_answered ? 'text-green-400' : 'text-red-400',
                 )}
               >
-                {call.is_answered ? 'Repondu' : 'Non repondu'}
+                {call.is_answered ? 'Répondu' : 'Non répondu'}
               </p>
             </div>
           </div>
@@ -256,7 +256,7 @@ export function CallDetailModalContent({
           {/* Outcome & Emotion Badges */}
           <div className="flex flex-wrap gap-3">
             <div className="space-y-1">
-              <span className="text-xs text-white/60">Resultat</span>
+              <span className="text-xs text-white/60">Résultat</span>
               <div
                 className={cn(
                   'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium',
@@ -269,7 +269,7 @@ export function CallDetailModalContent({
 
             {emotionConfig && (
               <div className="space-y-1">
-                <span className="text-xs text-white/60">Emotion</span>
+                <span className="text-xs text-white/60">Émotion</span>
                 <div
                   className={cn(
                     'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium',
@@ -303,7 +303,7 @@ export function CallDetailModalContent({
               </h3>
               <div className="bg-black/20 rounded-lg p-4 max-h-48 overflow-y-auto">
                 <p className="text-white/80 text-sm whitespace-pre-wrap leading-relaxed">
-                  {call.transcript}
+                  {call.transcript.replace(/<[^>]*\/?>/g, '')}
                 </p>
               </div>
             </div>
@@ -334,7 +334,7 @@ export function CallDetailModalContent({
                   <Phone className="w-3 h-3 text-white/60" />
                 </div>
                 <div>
-                  <p className="text-xs text-white/60">Telephone</p>
+                  <p className="text-xs text-white/60">Téléphone</p>
                   <p className="text-white text-sm">{call.phone_number}</p>
                 </div>
               </div>

@@ -677,6 +677,38 @@ After applying templates, trigger a password reset to `brice.gachadoat@gmail.com
 
 ---
 
+## Bug: Invalid Date on Call Volume Chart
+
+**Status**: SOLVED
+
+**Date Discovered**: 2026-03-26
+
+**Severity**: MEDIUM - Cosmetic
+
+### Root Cause
+RPC `get_call_volume_by_day` returns `{ day: "2026-03-20", ... }` but `CallVolumeData` type expects `date`. The chart did `new Date(item.date)` -> `new Date(undefined)` -> "Invalid Date".
+
+### Solution
+Map `day` -> `date` in `lib/queries/global.ts:fetchCallVolumeByDay`.
+
+---
+
+## Bug: Empty Emotion Distribution Chart
+
+**Status**: SOLVED
+
+**Date Discovered**: 2026-03-26
+
+**Severity**: MEDIUM - Missing feature
+
+### Root Cause
+Both `OverviewDashboardClient` and `AgentDetailClient` passed `data={[]}` hardcoded to `EmotionDistribution`. No query existed.
+
+### Solution
+Created `fetchEmotionDistribution` (client-side aggregation from `v_dashboard_calls`) + `useEmotionDistribution` hook. Wired to both dashboard pages.
+
+---
+
 ## Related Documentation
 
 - **CLAUDE.md**: Main documentation with critical rules

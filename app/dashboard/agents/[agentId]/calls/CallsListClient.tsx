@@ -73,7 +73,7 @@ export function CallsListClient({ agentId, agentName }: CallsListClientProps) {
         className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        Retour a {agentName}
+        Retour à {agentName}
       </Link>
 
       {/* Header */}
@@ -101,9 +101,9 @@ export function CallsListClient({ agentId, agentName }: CallsListClientProps) {
               <tr className="text-left text-xs text-white/60">
                 <th className="px-4 py-3 font-medium">Date</th>
                 <th className="px-4 py-3 font-medium">Contact</th>
-                <th className="px-4 py-3 font-medium">Duree</th>
-                <th className="px-4 py-3 font-medium">Resultat</th>
-                <th className="px-4 py-3 font-medium">Cout</th>
+                <th className="px-4 py-3 font-medium">Durée</th>
+                <th className="px-4 py-3 font-medium">Résultat</th>
+                <th className="px-4 py-3 font-medium">Coût</th>
                 <th className="px-4 py-3 font-medium sr-only">Actions</th>
               </tr>
             </thead>
@@ -121,7 +121,7 @@ export function CallsListClient({ agentId, agentName }: CallsListClientProps) {
           </div>
           <div className="text-center space-y-2">
             <p className="text-lg font-semibold text-white">Aucun appel</p>
-            <p className="text-sm text-white/60">Aucun appel pour cette periode</p>
+            <p className="text-sm text-white/60">Aucun appel pour cette période</p>
           </div>
         </div>
       )}

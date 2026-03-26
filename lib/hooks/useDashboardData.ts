@@ -4,6 +4,7 @@ import {
   fetchAgentCardsData,
   fetchCallVolumeByDay,
   fetchDashboardKPIs,
+  fetchEmotionDistribution,
   fetchOutcomeDistribution,
 } from '@/lib/queries/global'
 import type {
@@ -11,6 +12,7 @@ import type {
   AgentCardData,
   CallVolumeData,
   DashboardFilters,
+  EmotionData,
   KPIMetrics,
   OutcomeData,
 } from '@/lib/types/dashboard'
@@ -77,6 +79,18 @@ export function useOutcomeDistribution(filters: DashboardFilters): UseQueryResul
   return useQuery({
     queryKey: ['outcome-distribution', serializeFilters(filters)],
     queryFn: () => fetchOutcomeDistribution(filters),
+    staleTime: STALE_TIME,
+    refetchInterval: REFETCH_INTERVAL,
+  })
+}
+
+/**
+ * Hook to fetch emotion distribution
+ */
+export function useEmotionDistribution(filters: DashboardFilters): UseQueryResult<EmotionData[]> {
+  return useQuery({
+    queryKey: ['emotion-distribution', serializeFilters(filters)],
+    queryFn: () => fetchEmotionDistribution(filters),
     staleTime: STALE_TIME,
     refetchInterval: REFETCH_INTERVAL,
   })

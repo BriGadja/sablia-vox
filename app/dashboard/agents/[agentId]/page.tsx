@@ -12,9 +12,16 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
   const { agentId } = await params
+  const supabase = await createClient()
+  const { data: agent } = await supabase
+    .from('v_user_accessible_agents')
+    .select('deployment_name')
+    .eq('deployment_id', agentId)
+    .single()
+  const name = agent?.deployment_name || agentId
   return {
-    title: `Agent ${agentId} | Sablia Vox Dashboard`,
-    description: 'Details et metriques de votre agent vocal IA',
+    title: `${name} | Sablia Vox Dashboard`,
+    description: 'Détails et métriques de votre agent vocal IA',
   }
 }
 

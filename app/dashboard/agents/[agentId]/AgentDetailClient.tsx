@@ -17,6 +17,7 @@ import { KPIGrid } from '@/components/dashboard/KPIGrid'
 import {
   useCallVolumeByDay,
   useDashboardKPIs,
+  useEmotionDistribution,
   useOutcomeDistribution,
 } from '@/lib/hooks/useDashboardData'
 import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
@@ -83,6 +84,7 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
   const { data: kpiData, isLoading: isLoadingKPIs } = useDashboardKPIs(deploymentFilters)
   const { data: callVolumeData } = useCallVolumeByDay(deploymentFilters)
   const { data: outcomeData } = useOutcomeDistribution(deploymentFilters)
+  const { data: emotionData } = useEmotionDistribution(deploymentFilters)
 
   // Fetch latency metrics
   const { data: latencyData, isLoading: isLoadingLatencies } = useLatencyMetrics({
@@ -131,9 +133,9 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
             <AlertCircle className="w-12 h-12 text-red-400" />
           </div>
           <div className="text-center space-y-2">
-            <p className="text-lg font-semibold text-white">Agent non trouve</p>
+            <p className="text-lg font-semibold text-white">Agent non trouvé</p>
             <p className="text-sm text-white/60">
-              Cet agent n&apos;existe pas ou vous n&apos;avez pas les permissions necessaires.
+              Cet agent n&apos;existe pas ou vous n&apos;avez pas les permissions nécessaires.
             </p>
           </div>
         </div>
@@ -164,7 +166,7 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
           <CallVolumeChart data={callVolumeData || []} />
         </div>
         <div className="h-[300px]">
-          <EmotionDistribution data={[]} />
+          <EmotionDistribution data={emotionData || []} />
         </div>
         <div className="h-[300px]">
           <OutcomeBreakdown data={outcomeData || []} />

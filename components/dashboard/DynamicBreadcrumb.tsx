@@ -36,8 +36,8 @@ function isUUID(str: string): boolean {
 function getRouteLabel(segment: string, prevSegment?: string): string {
   // If it's a UUID, show a more friendly label based on context
   if (isUUID(segment)) {
-    if (prevSegment === 'agents') return 'Details'
-    return 'Details'
+    if (prevSegment === 'agents') return 'Détails'
+    return 'Détails'
   }
   return routeLabels[segment.toLowerCase()] || segment.charAt(0).toUpperCase() + segment.slice(1)
 }

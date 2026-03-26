@@ -53,7 +53,7 @@ const emotionBadges: Record<string, { label: string; className: string; icon: Re
     icon: <Smile className="w-4 h-4" />,
   },
   negative: {
-    label: 'Negatif',
+    label: 'Négatif',
     className: 'bg-red-500/20 text-red-400 border-red-500/30',
     icon: <Frown className="w-4 h-4" />,
   },
@@ -140,14 +140,14 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
           <div className="text-center space-y-2">
             <p className="text-lg font-semibold text-white">Erreur de chargement</p>
             <p className="text-sm text-white/60">
-              Impossible de charger les details de l&apos;appel
+              Impossible de charger les détails de l&apos;appel
             </p>
           </div>
           <Link
             href={`/dashboard/agents/${agentId}/calls`}
             className="text-purple-400 hover:text-purple-300 transition-colors"
           >
-            Retour a l&apos;historique
+            Retour à l&apos;historique
           </Link>
         </div>
       </div>
@@ -177,12 +177,12 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
         className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        Retour a l&apos;historique
+        Retour à l&apos;historique
       </Link>
 
       {/* Header */}
       <PageHeader
-        title="Detail de l'appel"
+        title="Détail de l'appel"
         description={`${agentName} - ${new Date(call.started_at).toLocaleDateString('fr-FR', {
           weekday: 'long',
           year: 'numeric',
@@ -221,7 +221,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-white/60 text-sm">
                   <Clock className="w-4 h-4" />
-                  <span>Duree</span>
+                  <span>Durée</span>
                 </div>
                 <p className="text-white font-medium">{formatDuration(call.duration_seconds ?? 0)}</p>
               </div>
@@ -230,7 +230,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-white/60 text-sm">
                   <DollarSign className="w-4 h-4" />
-                  <span>Cout</span>
+                  <span>Coût</span>
                 </div>
                 <p className="text-white font-medium">{call.billed_cost?.toFixed(2) || '0.00'} €</p>
               </div>
@@ -242,7 +242,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
                   <span>Statut</span>
                 </div>
                 <p className={cn('font-medium', call.is_answered ? 'text-green-400' : 'text-red-400')}>
-                  {call.is_answered ? 'Repondu' : 'Non repondu'}
+                  {call.is_answered ? 'Répondu' : 'Non répondu'}
                 </p>
               </div>
             </div>
@@ -250,7 +250,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
             {/* Outcome & Emotion Badges */}
             <div className="flex flex-wrap gap-3 pt-2 border-t border-white/10">
               <div className="space-y-1">
-                <span className="text-xs text-white/60">Resultat</span>
+                <span className="text-xs text-white/60">Résultat</span>
                 <div
                   className={cn(
                     'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium',
@@ -263,7 +263,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
 
               {emotionConfig && (
                 <div className="space-y-1">
-                  <span className="text-xs text-white/60">Emotion</span>
+                  <span className="text-xs text-white/60">Émotion</span>
                   <div
                     className={cn(
                       'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium',
@@ -298,7 +298,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
               </h3>
               <div className="bg-black/20 rounded-lg p-4 max-h-96 overflow-y-auto">
                 <p className="text-white/80 text-sm whitespace-pre-wrap leading-relaxed">
-                  {call.transcript}
+                  {call.transcript.replace(/<[^>]*\/?>/g, '')}
                 </p>
               </div>
             </div>
@@ -329,7 +329,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
                   <Phone className="w-4 h-4 text-white/60" />
                 </div>
                 <div>
-                  <p className="text-xs text-white/60">Telephone</p>
+                  <p className="text-xs text-white/60">Téléphone</p>
                   <p className="text-white font-medium">{call.phone_number}</p>
                 </div>
               </div>

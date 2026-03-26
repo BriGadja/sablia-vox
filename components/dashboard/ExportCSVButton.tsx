@@ -52,13 +52,13 @@ export function ExportCSVButton({
 
       URL.revokeObjectURL(url)
 
-      toast.success('Export reussi', {
-        description: `Le fichier ${finalFilename} a ete telecharge.`,
+      toast.success('Export réussi', {
+        description: `Le fichier ${finalFilename} a été téléchargé.`,
       })
     } catch (error) {
       console.error('Error exporting CSV:', error)
       toast.error("Erreur lors de l'export", {
-        description: "Impossible d'exporter les donnees. Veuillez reessayer.",
+        description: "Impossible d'exporter les données. Veuillez réessayer.",
       })
     } finally {
       setIsExporting(false)
