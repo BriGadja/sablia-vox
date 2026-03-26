@@ -1,15 +1,11 @@
 'use client'
-
 // 'use client' needed: IntersectionObserver for KPI counter animation
 
 import { Clock, Globe, Shield } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
-import { cn } from '@/lib/utils'
+import { Reveal } from './Reveal'
 
-/* ------------------------------------------------------------------ */
-/* Animated counter (reusable within this module)                     */
-/* ------------------------------------------------------------------ */
 function KPICounter({
   target,
   prefix = '',
@@ -61,9 +57,6 @@ function KPICounter({
   )
 }
 
-/* ------------------------------------------------------------------ */
-/* Data                                                               */
-/* ------------------------------------------------------------------ */
 const KPIS = [
   { value: 50000, suffix: '+', label: 'appels traités', prefix: '' },
   { value: 99.7, suffix: '%', label: 'taux de réponse', prefix: '' },
@@ -112,87 +105,93 @@ const TRUST_BADGES = [
   { icon: Clock, label: 'Disponible 24/7' },
 ] as const
 
-/* ------------------------------------------------------------------ */
-/* Component                                                          */
-/* ------------------------------------------------------------------ */
 export function SocialProof() {
   return (
-    <section id="preuves" className="py-24 lg:py-32">
+    <section id="preuves" className="section-divider py-24 lg:py-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <h2 className="font-[family-name:var(--font-display)] text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Des résultats mesurables
-        </h2>
+        <Reveal>
+          <h2 className="font-[family-name:var(--font-display)] text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Des résultats <span className="text-gradient-blue">mesurables</span>
+          </h2>
+        </Reveal>
 
-        {/* KPI Counters */}
-        <div className="mt-12 grid grid-cols-2 gap-6 lg:grid-cols-4">
-          {KPIS.map((kpi) => (
-            <div key={kpi.label} className="text-center">
-              <div className="text-3xl font-bold text-primary sm:text-4xl">
-                <KPICounter
-                  target={typeof kpi.value === 'number' ? kpi.value : 0}
-                  prefix={kpi.prefix}
-                  suffix={kpi.suffix}
-                />
+        {/* KPI Counters — large and dramatic */}
+        <Reveal delay={0.1}>
+          <div className="mt-12 grid grid-cols-2 gap-8 lg:grid-cols-4">
+            {KPIS.map((kpi) => (
+              <div key={kpi.label} className="text-center">
+                <div className="text-gradient-blue text-4xl font-bold sm:text-5xl">
+                  <KPICounter
+                    target={typeof kpi.value === 'number' ? kpi.value : 0}
+                    prefix={kpi.prefix}
+                    suffix={kpi.suffix}
+                  />
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground">{kpi.label}</p>
               </div>
-              <p className="mt-1 text-sm text-muted-foreground">{kpi.label}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Reveal>
 
-        {/* Testimonials */}
+        {/* Testimonials with gradient accent bar */}
         <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {TESTIMONIALS.map((t) => (
-            <blockquote
-              key={t.author}
-              className="flex flex-col rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-md"
-            >
-              <p className="flex-1 text-sm italic leading-relaxed text-foreground">
-                &ldquo;{t.quote}&rdquo;
-              </p>
-              <footer className="mt-4 border-t border-white/10 pt-4">
-                <p className="text-sm font-semibold text-foreground">{t.author}</p>
-                <p className="text-xs text-muted-foreground">
-                  {t.role} — {t.company}
-                </p>
-              </footer>
-            </blockquote>
+          {TESTIMONIALS.map((t, i) => (
+            <Reveal key={t.author} delay={i * 0.1}>
+              <blockquote className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02]">
+                {/* Gradient accent bar at top */}
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="flex-1 text-sm italic leading-relaxed text-foreground/90">
+                    &ldquo;{t.quote}&rdquo;
+                  </p>
+                  <footer className="mt-4 border-t border-white/[0.06] pt-4">
+                    <p className="text-sm font-semibold text-foreground">{t.author}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {t.role} — {t.company}
+                    </p>
+                  </footer>
+                </div>
+              </blockquote>
+            </Reveal>
           ))}
         </div>
 
         {/* Logo band */}
-        <div className="relative mt-16 overflow-hidden">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent" />
-          <div className="motion-safe:animate-[logo-scroll_30s_linear_infinite] flex w-max gap-12 py-4">
-            {[...LOGOS, ...LOGOS].map((logo, i) => (
-              <span
-                key={`${logo}-copy-${String(i)}`}
-                className={cn(
-                  'inline-flex h-10 items-center whitespace-nowrap rounded-md border border-border bg-card px-4 text-sm font-medium text-muted-foreground',
-                )}
-              >
-                {logo}
-              </span>
-            ))}
+        <Reveal delay={0.2}>
+          <div className="relative mt-16 overflow-hidden">
+            <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-background to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-background to-transparent" />
+            <div className="motion-safe:animate-[logo-scroll_30s_linear_infinite] flex w-max gap-12 py-4">
+              {[...LOGOS, ...LOGOS].map((logo, i) => (
+                <span
+                  key={`${logo}-copy-${String(i)}`}
+                  className="inline-flex h-10 items-center whitespace-nowrap rounded-lg border border-white/[0.06] bg-white/[0.02] px-5 text-sm font-medium text-muted-foreground/70"
+                >
+                  {logo}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* Trust badges */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          {TRUST_BADGES.map((badge) => {
-            const Icon = badge.icon
-            return (
-              <Badge
-                key={badge.label}
-                variant="secondary"
-                className="gap-2 border-border bg-card/60 px-4 py-2 text-sm text-muted-foreground"
-              >
-                <Icon className="h-4 w-4 text-primary" />
-                {badge.label}
-              </Badge>
-            )
-          })}
-        </div>
+        <Reveal delay={0.3}>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            {TRUST_BADGES.map((badge) => {
+              const Icon = badge.icon
+              return (
+                <Badge
+                  key={badge.label}
+                  variant="secondary"
+                  className="gap-2 border-white/[0.06] bg-white/[0.02] px-4 py-2 text-sm text-muted-foreground"
+                >
+                  <Icon className="size-4 text-primary" />
+                  {badge.label}
+                </Badge>
+              )
+            })}
+          </div>
+        </Reveal>
       </div>
     </section>
   )

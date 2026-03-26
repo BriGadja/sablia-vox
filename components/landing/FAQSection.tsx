@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
+import { Reveal } from './Reveal'
 
 const FAQ_ITEMS = [
   {
@@ -50,27 +51,35 @@ const FAQ_ITEMS = [
 
 export function FAQSection() {
   return (
-    <section id="faq" className="bg-card/30 py-24 lg:py-32">
+    <section id="faq" className="relative bg-card/20 py-24 lg:py-32">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <h2 className="font-[family-name:var(--font-display)] text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Questions fréquentes
-        </h2>
-        <p className="mx-auto mt-4 max-w-xl text-center text-lg text-muted-foreground">
-          Tout ce que vous devez savoir avant de démarrer.
-        </p>
+        <Reveal>
+          <h2 className="font-[family-name:var(--font-display)] text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Questions fréquentes
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-center text-lg text-muted-foreground">
+            Tout ce que vous devez savoir avant de démarrer.
+          </p>
+        </Reveal>
 
-        <Accordion type="single" collapsible className="mt-12">
-          {FAQ_ITEMS.map((faq) => (
-            <AccordionItem key={faq.question} value={faq.question} className="border-border">
-              <AccordionTrigger className="text-left text-base font-medium text-foreground hover:text-primary [&[data-state=open]]:text-primary">
-                {faq.question}
-              </AccordionTrigger>
-              <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
-                {faq.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <Reveal delay={0.15}>
+          <Accordion type="single" collapsible className="mt-12">
+            {FAQ_ITEMS.map((faq) => (
+              <AccordionItem
+                key={faq.question}
+                value={faq.question}
+                className="border-white/[0.06]"
+              >
+                <AccordionTrigger className="text-left text-base font-medium text-foreground hover:text-primary [&[data-state=open]]:text-primary">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Reveal>
       </div>
     </section>
   )

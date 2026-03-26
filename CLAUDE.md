@@ -119,7 +119,8 @@ Cost per RDV     = total_cost / appointments
 - Run: `npm test` (unit) | `/e2e-test sablia-vox` (browser)
 
 ## Documentation
-- [`PRD.md`](PRD.md) — Full product reference document
+- [`PRD.md`](PRD.md) — Full product reference document (platform, dashboard, agents)
+- [`docs/LANDING-PRD.md`](docs/LANDING-PRD.md) — Landing page redesign spec (public homepage)
 - `docs/ARCHITECTURE.md` — Code architecture and data flow
 - `docs/DATABASE_REFERENCE.md` — Complete database schema
 - `docs/TECH_DEBT.md` — Tech debt inventory (drives refactoring)

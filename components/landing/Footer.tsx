@@ -4,7 +4,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-border bg-background py-12">
+    <footer className="border-t border-white/[0.06] bg-background py-12">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
           {/* Logo */}
@@ -29,7 +29,7 @@ export function Footer() {
             </a>
           </nav>
 
-          {/* Social placeholder */}
+          {/* Social */}
           <div className="flex items-center gap-3">
             <a
               href="https://www.linkedin.com/company/sablia"
@@ -43,9 +43,9 @@ export function Footer() {
           </div>
         </div>
 
-        <Separator className="my-6" />
+        <Separator className="my-6 bg-white/[0.06]" />
 
-        <p className="text-center text-xs text-muted-foreground">
+        <p className="text-center text-xs text-muted-foreground/60">
           &copy; {currentYear} Sablia. Tous droits réservés.
         </p>
       </div>
