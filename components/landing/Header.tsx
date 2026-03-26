@@ -3,8 +3,10 @@
 // 'use client' needed: scroll detection, mobile menu state, IntersectionObserver
 
 import { Menu, X } from 'lucide-react'
+import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
+import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 
 const NAV_LINKS = [
@@ -19,6 +21,19 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('')
+  const [authState, setAuthState] = useState<'loading' | 'authenticated' | 'unauthenticated'>(
+    'loading',
+  )
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth
+      .getSession()
+      .then(({ data: { session } }) => {
+        setAuthState(session ? 'authenticated' : 'unauthenticated')
+      })
+      .catch(() => setAuthState('unauthenticated'))
+  }, [])
 
   useEffect(() => {
     function onScroll() {
@@ -105,7 +120,18 @@ export function Header() {
         </nav>
 
         {/* Desktop CTA */}
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-3 md:flex">
+          {authState !== 'loading' && (
+            <Button
+              asChild
+              variant="ghost"
+              className="text-muted-foreground hover:bg-white/10 hover:text-foreground"
+            >
+              <Link href={authState === 'authenticated' ? '/dashboard/overview' : '/login'}>
+                {authState === 'authenticated' ? 'Dashboard' : 'Se connecter'}
+              </Link>
+            </Button>
+          )}
           <Button
             asChild
             className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-[0_0_15px_rgba(245,158,11,0.25)]"
@@ -151,6 +177,15 @@ export function Header() {
                 {link.label}
               </a>
             ))}
+            {authState !== 'loading' && (
+              <Link
+                href={authState === 'authenticated' ? '/dashboard/overview' : '/login'}
+                className="block rounded-md px-3 py-2 text-base font-medium text-muted-foreground transition-colors hover:bg-card hover:text-foreground"
+                onClick={() => setMobileOpen(false)}
+              >
+                {authState === 'authenticated' ? 'Dashboard' : 'Se connecter'}
+              </Link>
+            )}
             <div className="pt-2">
               <Button
                 asChild
