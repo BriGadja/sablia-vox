@@ -24,7 +24,7 @@ interface FilterState {
   startDate: string
   endDate: string
   clientIds: string[]
-  agentType: 'louis' | 'arthur' | 'alexandra' | null
+  agentType: string | null
   outcomes: string[]
   emotion: 'positive' | 'neutral' | 'negative' | null
   direction: 'inbound' | 'outbound' | null
@@ -133,7 +133,7 @@ export function AdminCallsFilters({ filters, clients, onFilterChange }: AdminCal
           value={filters.agentType || ''}
           onChange={(e) =>
             onFilterChange({
-              agentType: (e.target.value as 'louis' | 'arthur' | 'alexandra') || null,
+              agentType: e.target.value || null,
             })
           }
           className="px-3 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-sm text-gray-200 hover:border-gray-600 focus:outline-none focus:border-purple-500"

@@ -9,7 +9,7 @@ interface ClientAgentFilterProps {
   selectedClientIds: string[]
   selectedAgentIds: string[]
   onChange: (clientIds: string[], agentIds: string[]) => void
-  agentType?: 'louis' | 'arthur' | 'alexandra' // Optional filter by agent type
+  agentType?: string // Optional filter by agent type
 }
 
 export function ClientAgentFilter({

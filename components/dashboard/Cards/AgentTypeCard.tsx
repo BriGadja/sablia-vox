@@ -48,9 +48,22 @@ export function AgentTypeCard({ agentType }: AgentTypeCardProps) {
       iconColor: 'text-green-400',
       description: 'SAV & Support',
     },
+    charlie: {
+      icon: Phone,
+      color: 'from-violet-500/20 to-violet-500/5 border-violet-500/30',
+      iconColor: 'text-violet-400',
+      description: 'Appels entrants',
+    },
   }
 
-  const config = agentConfig[agentType.agent_type_name]
+  const defaultConfig = {
+    icon: Users,
+    color: 'from-gray-500/20 to-gray-500/5 border-gray-500/30',
+    iconColor: 'text-gray-400',
+    description: 'Agent',
+  }
+
+  const config = agentConfig[agentType.agent_type_name as keyof typeof agentConfig] ?? defaultConfig
   const Icon = config.icon
 
   return (

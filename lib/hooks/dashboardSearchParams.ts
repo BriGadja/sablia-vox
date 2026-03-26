@@ -10,13 +10,10 @@ import {
   createSerializer,
   parseAsArrayOf,
   parseAsString,
-  parseAsStringLiteral,
   type UrlKeys,
 } from 'nuqs/server'
 
-// Agent type literals
-const agentTypes = ['louis', 'arthur', 'alexandra'] as const
-export type AgentTypeName = (typeof agentTypes)[number]
+// Agent type name is a free-form string (new agent types can be added without code changes)
 
 // Default date range: last 30 days
 const getDefaultStartDate = () => format(subDays(new Date(), 30), 'yyyy-MM-dd')
@@ -35,7 +32,7 @@ export const dashboardParsers = {
   viewAsUser: parseAsString,
   clientIds: parseAsArrayOf(parseAsString, ','),
   deploymentId: parseAsString,
-  agentTypeName: parseAsStringLiteral(agentTypes),
+  agentTypeName: parseAsString,
   startDate: parseAsString.withDefault(getDefaultStartDate()),
   endDate: parseAsString.withDefault(getDefaultEndDate()),
 }

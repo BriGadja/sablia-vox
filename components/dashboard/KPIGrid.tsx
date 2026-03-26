@@ -6,7 +6,7 @@ import { KPICard } from './KPICard'
 interface KPIGridProps {
   data: KPIMetrics | undefined
   isLoading: boolean
-  agentType?: 'global' | 'louis' | 'louis-nestenn' | 'arthur' | 'alexandra' | 'overview'
+  agentType?: string
   avgLatency?: number // Average total latency in milliseconds (for Louis/Overview dashboard)
 }
 

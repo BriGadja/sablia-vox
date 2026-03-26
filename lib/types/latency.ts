@@ -9,7 +9,7 @@ export interface LatencyMetric {
   deployment_name: string
   client_id: string // UUID
   client_name: string
-  agent_type_name: 'louis' | 'arthur' | 'alexandra'
+  agent_type_name: string
   llm_model: string // e.g., "gemini-2.5-flash"
   // LLM Latencies (milliseconds)
   avg_llm_latency_ms: number
@@ -32,7 +32,7 @@ export interface LatencyFilters {
   endDate: string // YYYY-MM-DD
   deploymentId?: string | null
   clientId?: string | null
-  agentTypeName?: 'louis' | 'arthur' | 'alexandra' | null
+  agentTypeName?: string | null
 }
 
 export interface LatencyChartData {

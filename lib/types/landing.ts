@@ -1,5 +1,5 @@
 // Types pour les agents
-export type AgentType = 'louis' | 'arthur' | 'alexandra'
+export type AgentType = string
 
 export interface Agent {
   id: AgentType

@@ -14,8 +14,7 @@ import {
   type UrlKeys,
 } from 'nuqs/server'
 
-// Agent type literals
-const agentTypes = ['louis', 'arthur', 'alexandra'] as const
+// Agent type is a free-form string (new agent types can be added without code changes)
 
 // Emotion literals
 const emotions = ['positive', 'neutral', 'negative'] as const
@@ -40,7 +39,7 @@ export const adminCallsParsers = {
 
   // Filters
   clientIds: parseAsArrayOf(parseAsString).withDefault([]),
-  agentType: parseAsStringLiteral(agentTypes),
+  agentType: parseAsString,
   deploymentId: parseAsString,
   outcomes: parseAsArrayOf(parseAsString).withDefault([]),
   emotion: parseAsStringLiteral(emotions),

@@ -21,7 +21,7 @@ export interface AdminCallRow {
   // Joined data
   client_id: string
   client_name: string
-  agent_type_name: 'louis' | 'arthur' | 'alexandra'
+  agent_type_name: string
   deployment_name: string
 
   // Outcome
@@ -79,7 +79,7 @@ export interface AdminCallsFilters {
   startDate: string
   endDate: string
   clientIds: string[]
-  agentTypeName: 'louis' | 'arthur' | 'alexandra' | null
+  agentTypeName: string | null
   deploymentId: string | null
   outcomes: string[]
   emotion: 'positive' | 'neutral' | 'negative' | null

@@ -7,7 +7,7 @@
 export interface DashboardFilters {
   clientIds: string[] // Array of client UUIDs
   deploymentId?: string | null // Single agent deployment UUID (optional)
-  agentTypeName?: 'louis' | 'arthur' | 'alexandra' | null
+  agentTypeName?: string | null
   startDate: string // ISO 8601 date (YYYY-MM-DD)
   endDate: string // ISO 8601 date (YYYY-MM-DD)
 }
@@ -60,7 +60,6 @@ export interface KPIPeriod {
   // Global-specific KPIs
   active_agents?: number
   agents_called_today?: number
-
 }
 
 /**
@@ -158,7 +157,7 @@ export interface VoicemailByAgentData {
  * Agent type performance comparison (for bar chart)
  */
 export interface AgentTypePerformance {
-  agent_type: 'louis' | 'arthur' | 'alexandra'
+  agent_type: string
   display_name: string
   total_deployments: number
   total_clients: number
@@ -213,7 +212,7 @@ export interface AccessibleAgent {
   client_id: string
   client_name: string
   agent_type_id: string
-  agent_type_name: 'louis' | 'arthur' | 'alexandra'
+  agent_type_name: string
   agent_display_name: string
   deployment_status: 'active' | 'paused' | 'archived'
   user_id: string
@@ -374,7 +373,7 @@ export interface AgentCardData {
   deployment_id: string
   deployment_name: string
   slug: string
-  agent_type_name: 'louis' | 'arthur' | 'alexandra'
+  agent_type_name: string
   agent_display_name: string
   client_name: string
   total_calls: number
@@ -394,7 +393,7 @@ export interface AgentCardData {
  * (e.g., one card for all "Louis" agents, one for all "Arthur" agents)
  */
 export interface AgentTypeCardData {
-  agent_type_name: 'louis' | 'arthur' | 'alexandra'
+  agent_type_name: string
   agent_display_name: string
   total_deployments: number // Total number of deployments
   active_deployments: number // Number of active deployments

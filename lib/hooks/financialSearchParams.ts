@@ -16,9 +16,7 @@ import {
 const viewModes = ['leasing', 'consumption'] as const
 export type FinancialViewMode = (typeof viewModes)[number]
 
-// Agent type literals
-const agentTypes = ['louis', 'arthur', 'alexandra'] as const
-export type AgentTypeName = (typeof agentTypes)[number]
+// Agent type name is a free-form string (new agent types can be added without code changes)
 
 // Default date range: last 30 days
 const getDefaultStartDate = () => format(subDays(new Date(), 30), 'yyyy-MM-dd')
@@ -37,7 +35,7 @@ export const financialParsers = {
   startDate: parseAsString.withDefault(getDefaultStartDate()),
   endDate: parseAsString.withDefault(getDefaultEndDate()),
   clientId: parseAsString,
-  agentTypeName: parseAsStringLiteral(agentTypes),
+  agentTypeName: parseAsString,
   deploymentId: parseAsString,
   viewMode: parseAsStringLiteral(viewModes).withDefault('leasing'),
 }

@@ -25,7 +25,7 @@ export function getOrganizationSchema() {
   }
 }
 
-export function getProductSchema(agent: 'louis' | 'arthur' | 'alexandra') {
+export function getProductSchema(agent: string) {
   const products = {
     louis: {
       name: 'Louis - Agent IA de Rappel Automatique',
@@ -71,7 +71,7 @@ export function getProductSchema(agent: 'louis' | 'arthur' | 'alexandra') {
     },
   }
 
-  const product = products[agent]
+  const product = products[agent as keyof typeof products]
 
   return {
     '@context': 'https://schema.org',

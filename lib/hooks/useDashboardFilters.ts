@@ -7,7 +7,7 @@ import { useCallback, useMemo } from 'react'
 import { toast } from 'sonner'
 import { createClient } from '@/lib/supabase/client'
 import type { DashboardFilters } from '@/lib/types/dashboard'
-import { type AgentTypeName, dashboardParsers } from './dashboardSearchParams'
+import { dashboardParsers } from './dashboardSearchParams'
 
 /**
  * Fetch client IDs for a specific user (admin only)
@@ -172,7 +172,7 @@ export function useDashboardFilters() {
    * Set agent type name filter
    */
   const setAgentTypeName = useCallback(
-    (agentTypeName: AgentTypeName | null) => {
+    (agentTypeName: string | null) => {
       setSearchParams({ agentTypeName })
     },
     [setSearchParams],

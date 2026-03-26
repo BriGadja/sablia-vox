@@ -64,7 +64,7 @@ export function useAccessibleClients(): UseQueryResult<AccessibleClient[]> {
  */
 export function useAccessibleAgents(
   clientIds?: string[],
-  agentTypeName?: 'louis' | 'arthur' | 'alexandra' | null,
+  agentTypeName?: string | null,
 ): UseQueryResult<AccessibleAgent[]> {
   return useQuery({
     queryKey: ['accessible-agents', serializeQueryKey(clientIds), agentTypeName || ''],

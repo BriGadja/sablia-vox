@@ -69,7 +69,7 @@ export async function fetchAccessibleClients(): Promise<AccessibleClient[]> {
  */
 export async function fetchAccessibleAgents(
   clientIds?: string[],
-  agentTypeName?: 'louis' | 'arthur' | 'alexandra' | null,
+  agentTypeName?: string | null,
 ): Promise<AccessibleAgent[]> {
   const supabase = createClient()
 
@@ -278,7 +278,7 @@ export async function fetchAgentTypeCardsData(
  */
 export async function getDashboardDestination(): Promise<{
   shouldRedirect: boolean
-  agentType?: 'louis' | 'arthur' | 'alexandra'
+  agentType?: string
 }> {
   try {
     // Fetch accessible clients and agents
@@ -294,7 +294,7 @@ export async function getDashboardDestination(): Promise<{
       const agentType = agents[0].agent_type_name
       return {
         shouldRedirect: true,
-        agentType: agentType as 'louis' | 'arthur' | 'alexandra',
+        agentType,
       }
     }
 
