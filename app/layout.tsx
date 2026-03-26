@@ -27,9 +27,9 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Sablia Vox - Agents Vocaux IA 24/7 | Louis & Arthur',
+  title: 'Sablia Vox - Agents Vocaux IA 24/7',
   description:
-    'Transformez vos appels en opportunités avec nos agents vocaux IA. Louis pour les rappels de leads, Arthur pour la prospection. Performance garantie 24/7.',
+    'Transformez vos appels en opportunités avec nos agents vocaux IA. Prise de rendez-vous, accueil téléphonique, transfert d\'appels. Performance garantie 24/7.',
   keywords: [
     'agent vocal IA',
     'intelligence artificielle',
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     siteName: 'Sablia Vox',
     title: 'Sablia Vox - Agents Vocaux IA 24/7',
     description:
-      'Transformez vos appels en opportunités avec Louis & Arthur - vos agents vocaux IA disponibles 24/7',
+      'Transformez vos appels en opportunités avec nos agents vocaux IA disponibles 24/7',
     images: [
       {
         url: '/og-image.jpg',
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Sablia Vox - Agents Vocaux IA 24/7',
-    description: 'Transformez vos appels en opportunités avec Louis & Arthur',
+    description: 'Transformez vos appels en opportunités avec nos agents vocaux IA',
     images: ['/twitter-image.jpg'],
   },
   icons: {

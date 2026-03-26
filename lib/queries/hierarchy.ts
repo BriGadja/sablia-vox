@@ -1,29 +1,53 @@
-// Hierarchy Queries - Dashboard Restructure V2
-// Queries pour recuperer la hierarchie entreprise/agent
-
 import { createClient } from '@/lib/supabase/client'
-import type { CompanyAgentHierarchy } from '@/lib/types/navigation'
+import type { AccessibleAgent } from '@/lib/types/dashboard'
+import type { AgentHierarchy } from '@/lib/types/navigation'
 
 /**
- * Recupere la hierarchie entreprise -> agents pour la navigation sidebar
- * Admin: voit TOUTES les entreprises (sauf si viewAsUserId est specifie)
- * Utilisateur: voit uniquement ses entreprises
- *
- * @param viewAsUserId - Pour les admins: voir la hierarchie d'un autre utilisateur
+ * Fetch agent hierarchy grouped by template type
+ * Replaces v1's get_company_agent_hierarchy RPC
+ * Queries v_user_accessible_agents view, groups client-side by template_type
  */
-export async function fetchCompanyAgentHierarchy(
-  viewAsUserId?: string | null,
-): Promise<CompanyAgentHierarchy> {
+export async function fetchAgentHierarchy(): Promise<AgentHierarchy> {
   const supabase = createClient()
 
-  const { data, error } = await supabase.rpc('get_company_agent_hierarchy', {
-    p_view_as_user_id: viewAsUserId || null,
-  })
+  const { data, error } = await supabase
+    .from('v_user_accessible_agents')
+    .select('*')
+    .order('template_type')
+    .order('deployment_name')
 
   if (error) {
-    console.error('Error fetching company-agent hierarchy:', error)
+    console.error('Error fetching agent hierarchy:', error)
     throw new Error(`Failed to fetch hierarchy: ${error.message}`)
   }
 
-  return (data || []) as CompanyAgentHierarchy
+  const agents = (data || []) as AccessibleAgent[]
+
+  // Group by template_type
+  const groupMap = new Map<string, { display_name: string; agents: AgentHierarchy[0]['agents'] }>()
+
+  for (const agent of agents) {
+    const key = agent.template_type
+    if (!groupMap.has(key)) {
+      groupMap.set(key, {
+        display_name: agent.template_display_name,
+        agents: [],
+      })
+    }
+    groupMap.get(key)!.agents.push({
+      deployment_id: agent.deployment_id,
+      deployment_name: agent.deployment_name,
+      slug: agent.slug,
+      template_type: agent.template_type,
+      template_display_name: agent.template_display_name,
+      status: agent.deployment_status,
+      last_call_at: agent.last_call_at,
+    })
+  }
+
+  return Array.from(groupMap.entries()).map(([template_type, group]) => ({
+    template_type,
+    template_display_name: group.display_name,
+    agents: group.agents,
+  }))
 }

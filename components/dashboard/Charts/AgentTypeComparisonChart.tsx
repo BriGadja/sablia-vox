@@ -11,25 +11,31 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import type { AgentTypePerformance } from '@/lib/types/dashboard'
+
+interface AgentTypePerformance {
+  agent_type: string
+  display_name: string
+  total_calls: number
+  answer_rate: number
+  conversion_rate: number
+  total_deployments: number
+}
 
 interface AgentTypeComparisonChartProps {
   data: AgentTypePerformance[]
   isLoading?: boolean
 }
 
-// Agent type colors matching the brand
-const agentTypeColors: Record<string, string> = {
-  louis: '#3b82f6', // blue
-  arthur: '#f97316', // orange
-  alexandra: '#10b981', // green/emerald
+const templateTypeColors: Record<string, string> = {
+  setter: '#8B5CF6', // violet
+  secretary: '#3B82F6', // blue
+  transfer: '#FB923C', // orange
 }
 
-// Display names
-const agentTypeLabels: Record<string, string> = {
-  louis: 'Louis',
-  arthur: 'Arthur',
-  alexandra: 'Alexandra',
+const templateTypeLabels: Record<string, string> = {
+  setter: 'Setter',
+  secretary: 'Secrétaire',
+  transfer: 'Transfert',
 }
 
 function AgentTypeComparisonChartInner({ data, isLoading }: AgentTypeComparisonChartProps) {
@@ -37,13 +43,13 @@ function AgentTypeComparisonChartInner({ data, isLoading }: AgentTypeComparisonC
     if (!data || data.length === 0) return []
 
     return data.map((item) => ({
-      name: agentTypeLabels[item.agent_type] || item.display_name,
+      name: templateTypeLabels[item.agent_type] || item.display_name,
       type: item.agent_type,
       total_calls: item.total_calls,
       answer_rate: item.answer_rate,
       conversion_rate: item.conversion_rate,
       deployments: item.total_deployments,
-      color: agentTypeColors[item.agent_type] || '#6366f1',
+      color: templateTypeColors[item.agent_type] || '#6366f1',
     }))
   }, [data])
 
@@ -131,7 +137,6 @@ function AgentTypeComparisonChartInner({ data, isLoading }: AgentTypeComparisonC
           </Bar>
         </BarChart>
       </ResponsiveContainer>
-      {/* Legend */}
       <div className="flex justify-center gap-4 mt-1 flex-shrink-0">
         {chartData.map((item) => (
           <div key={item.type} className="flex items-center gap-1.5">
@@ -146,8 +151,4 @@ function AgentTypeComparisonChartInner({ data, isLoading }: AgentTypeComparisonC
   )
 }
 
-/**
- * Memoized AgentTypeComparisonChart to prevent unnecessary re-renders
- * Only re-renders when data prop changes
- */
 export const AgentTypeComparisonChart = memo(AgentTypeComparisonChartInner)

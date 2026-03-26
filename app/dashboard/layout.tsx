@@ -17,16 +17,14 @@ export const metadata = {
 }
 
 /**
- * Check if user has admin permissions
+ * Check if user has admin permissions via user_org_memberships
  */
 async function checkIsAdminServer(
   supabase: Awaited<ReturnType<typeof createClient>>,
-  userId: string,
 ): Promise<boolean> {
   const { data, error } = await supabase
-    .from('user_client_permissions')
+    .from('user_org_memberships')
     .select('permission_level')
-    .eq('user_id', userId)
     .eq('permission_level', 'admin')
     .limit(1)
 
@@ -62,7 +60,7 @@ export default async function DashboardLayout({
   }
 
   // Check admin status
-  const isAdmin = await checkIsAdminServer(supabase, user.id)
+  const isAdmin = await checkIsAdminServer(supabase)
 
   return (
     <SidebarProvider>

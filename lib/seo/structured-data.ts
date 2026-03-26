@@ -25,14 +25,21 @@ export function getOrganizationSchema() {
   }
 }
 
-export function getProductSchema(agent: string) {
-  const products = {
-    louis: {
-      name: 'Louis - Agent IA de Rappel Automatique',
+export function getProductSchema(templateType: string) {
+  const products: Record<string, {
+    name: string
+    description: string
+    url: string
+    image: string
+    price: string
+    features: string[]
+  }> = {
+    setter: {
+      name: 'Setter - Agent IA de Prise de Rendez-vous',
       description:
         'Agent IA vocal qui rappelle vos leads en moins de 60 secondes, 24/7. Qualification automatique et prise de rendez-vous.',
-      url: 'https://vox.sablia.io/louis',
-      image: 'https://vox.sablia.io/og-louis.png',
+      url: 'https://vox.sablia.io/tester-nos-agents',
+      image: 'https://vox.sablia.io/og-image.jpg',
       price: '190',
       features: [
         'Rappel en moins de 60 secondes',
@@ -41,26 +48,12 @@ export function getProductSchema(agent: string) {
         'Déploiement en 5 jours',
       ],
     },
-    arthur: {
-      name: 'Arthur - Agent IA de Réactivation de Bases Dormantes',
-      description:
-        'Agent IA vocal qui réactive vos bases de prospects dormants et génère +40k€ CA/mois en moyenne.',
-      url: 'https://vox.sablia.io/arthur',
-      image: 'https://vox.sablia.io/og-arthur.png',
-      price: '490',
-      features: [
-        '+65% taux de réactivation',
-        '+40k€ CA/mois en moyenne',
-        'Relance automatique 24/7',
-        'Multi-canaux (appel, SMS, email)',
-      ],
-    },
-    alexandra: {
-      name: "Alexandra - Agent IA de Réception d'Appels 24/7",
+    secretary: {
+      name: 'Secrétaire - Agent IA d\'Accueil Téléphonique 24/7',
       description:
         'Agent IA vocal qui répond à tous vos appels entrants en moins de 3 sonneries, 24/7.',
-      url: 'https://vox.sablia.io/alexandra',
-      image: 'https://vox.sablia.io/og-alexandra.png',
+      url: 'https://vox.sablia.io/tester-nos-agents',
+      image: 'https://vox.sablia.io/og-image.jpg',
       price: '290',
       features: [
         '100% taux de réponse',
@@ -69,9 +62,24 @@ export function getProductSchema(agent: string) {
         '+45% satisfaction client',
       ],
     },
+    transfer: {
+      name: 'Transfert - Agent IA de Qualification et Transfert',
+      description:
+        'Agent IA vocal qui qualifie et transfère vos prospects vers le bon interlocuteur.',
+      url: 'https://vox.sablia.io/tester-nos-agents',
+      image: 'https://vox.sablia.io/og-image.jpg',
+      price: '490',
+      features: [
+        'Qualification automatique',
+        'Transfert intelligent',
+        'Multi-canaux (appel, SMS, email)',
+        'Disponibilité 24/7',
+      ],
+    },
   }
 
-  const product = products[agent as keyof typeof products]
+  const product = products[templateType]
+  if (!product) return null
 
   return {
     '@context': 'https://schema.org',

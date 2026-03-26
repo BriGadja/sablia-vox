@@ -17,7 +17,7 @@ interface CallVolumeChartProps {
     date: string
     total_calls: number
     answered_calls: number
-    appointments: number
+    conversions: number
   }>
 }
 
@@ -31,7 +31,7 @@ function CallVolumeChartInner({ data }: CallVolumeChartProps) {
         }),
         'Total appels': item.total_calls,
         'Appels répondus': item.answered_calls,
-        'RDV pris': item.appointments,
+        Conversions: item.conversions,
       })),
     [data],
   )
@@ -93,7 +93,7 @@ function CallVolumeChartInner({ data }: CallVolumeChartProps) {
           />
           <Area
             type="monotone"
-            dataKey="RDV pris"
+            dataKey="Conversions"
             stroke="#d946ef"
             strokeWidth={2}
             fill="url(#colorRDV)"

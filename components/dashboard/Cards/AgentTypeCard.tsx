@@ -7,68 +7,69 @@ import {
   Clock,
   Layers,
   Phone,
-  Sparkles,
   Target,
   TrendingUp,
   Users,
 } from 'lucide-react'
 import Link from 'next/link'
-import type { AgentTypeCardData } from '@/lib/types/dashboard'
+import type { AgentCardData } from '@/lib/types/dashboard'
 import { cn, formatRelativeTime } from '@/lib/utils'
+
+interface AgentTypeCardData extends AgentCardData {
+  agent_type_name: string
+  agent_display_name: string
+  active_deployments: number
+  total_deployments: number
+  last_call_at: string | null
+}
 
 interface AgentTypeCardProps {
   agentType: AgentTypeCardData
 }
 
-/**
- * Agent Type Card Component
- * Displays aggregated metrics for ALL deployments of a specific agent type
- * (e.g., one card for all "Louis" agents, one for all "Arthur" agents)
- */
+// Template type configuration (v2)
+const templateConfig: Record<string, {
+  icon: typeof Users
+  color: string
+  iconColor: string
+  description: string
+}> = {
+  setter: {
+    icon: Users,
+    color: 'from-violet-500/20 to-violet-500/5 border-violet-500/30',
+    iconColor: 'text-violet-400',
+    description: 'Prise de rendez-vous',
+  },
+  secretary: {
+    icon: Phone,
+    color: 'from-blue-500/20 to-blue-500/5 border-blue-500/30',
+    iconColor: 'text-blue-400',
+    description: 'Accueil téléphonique',
+  },
+  transfer: {
+    icon: Target,
+    color: 'from-orange-500/20 to-orange-500/5 border-orange-500/30',
+    iconColor: 'text-orange-400',
+    description: 'Transfert d\'appels',
+  },
+}
+
+const defaultConfig = {
+  icon: Users,
+  color: 'from-gray-500/20 to-gray-500/5 border-gray-500/30',
+  iconColor: 'text-gray-400',
+  description: 'Agent',
+}
+
 export function AgentTypeCard({ agentType }: AgentTypeCardProps) {
   const hasData = agentType.total_calls > 0
 
-  // Agent type configuration
-  const agentConfig = {
-    louis: {
-      icon: Users,
-      color: 'from-blue-500/20 to-blue-500/5 border-blue-500/30',
-      iconColor: 'text-blue-400',
-      description: 'Rappel de leads',
-    },
-    arthur: {
-      icon: Target,
-      color: 'from-orange-500/20 to-orange-500/5 border-orange-500/30',
-      iconColor: 'text-orange-400',
-      description: 'Prospection active',
-    },
-    alexandra: {
-      icon: Sparkles,
-      color: 'from-green-500/20 to-green-500/5 border-green-500/30',
-      iconColor: 'text-green-400',
-      description: 'SAV & Support',
-    },
-    charlie: {
-      icon: Phone,
-      color: 'from-violet-500/20 to-violet-500/5 border-violet-500/30',
-      iconColor: 'text-violet-400',
-      description: 'Appels entrants',
-    },
-  }
-
-  const defaultConfig = {
-    icon: Users,
-    color: 'from-gray-500/20 to-gray-500/5 border-gray-500/30',
-    iconColor: 'text-gray-400',
-    description: 'Agent',
-  }
-
-  const config = agentConfig[agentType.agent_type_name as keyof typeof agentConfig] ?? defaultConfig
+  const config = templateConfig[agentType.agent_type_name] ?? defaultConfig
   const Icon = config.icon
 
   return (
     <Link
-      href={`/dashboard/${agentType.agent_type_name}`}
+      href={`/dashboard/agents?templateType=${agentType.agent_type_name}`}
       className={cn(
         'group relative overflow-hidden rounded-xl border bg-linear-to-br backdrop-blur-sm transition-all hover:scale-[1.02] block',
         config.color,
@@ -111,7 +112,6 @@ export function AgentTypeCard({ agentType }: AgentTypeCardProps) {
         {/* Stats */}
         {hasData ? (
           <div className="space-y-3 pt-3 border-t border-white/10">
-            {/* Main Metrics Grid */}
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <div className="flex items-center gap-1 text-white/60 mb-0.5">
@@ -144,7 +144,7 @@ export function AgentTypeCard({ agentType }: AgentTypeCardProps) {
                   <p className="text-xs">Durée moy.</p>
                 </div>
                 <p className="text-lg font-bold text-white">
-                  {Math.floor(agentType.avg_duration / 60)}m{agentType.avg_duration % 60}s
+                  {Math.floor(agentType.avg_duration / 60)}m{Math.round(agentType.avg_duration % 60)}s
                 </p>
               </div>
             </div>

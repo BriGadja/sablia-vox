@@ -1,7 +1,0 @@
-[-240816398ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://resend.com/docs/dashboard/emails/introduction?_rsc=pod2k:0
-[-240816368ms] [WARNING] Failed to create WebGPU Context Provider @ https://fp.resend.com/web/v3/wSRVrijKeaGZIyZLVQ1w/loader_v3.12.3.js:4
-[-240816340ms] [WARNING] Failed to create WebGPU Context Provider @ https://fp.resend.com/web/v3/wSRVrijKeaGZIyZLVQ1w/loader_v3.12.3.js:4
-[-240797838ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://resend.com/docs/dashboard/domains/introduction?_rsc=1a5qi:0
-[-240790317ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://resend.com/docs/dashboard/domains/introduction?_rsc=5sbq2:0
-[-240790222ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://resend.com/docs/knowledge-base/why-are-my-open-rates-not-accurate?_rsc=5sbq2:0
-[  154344ms] [ERROR] Failed to load resource: net::ERR_NETWORK_CHANGED @ https://resend.com/api/domains/8ace2d47-ddbf-420c-9b5c-89f57eb1a902:0

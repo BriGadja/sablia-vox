@@ -12,7 +12,7 @@ export const metadata = {
 /**
  * Overview Dashboard Page - Server Component
  * Displays aggregated metrics across all agents
- * Uses the standard Louis dashboard layout (6 KPIs, 4 charts 2x2)
+ * Layout: 5 KPIs + 4 charts in 2x2 grid
  */
 export default async function OverviewDashboardPage() {
   const supabase = await createClient()

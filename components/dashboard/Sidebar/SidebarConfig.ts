@@ -1,11 +1,8 @@
 import {
   LayoutDashboard,
   type LucideIcon,
-  Phone,
-  Receipt,
   Settings,
   Users,
-  Wallet,
 } from 'lucide-react'
 
 export interface NavItem {
@@ -40,38 +37,9 @@ export const sidebarConfig: NavGroup[] = [
         href: '/dashboard/agents',
         icon: Users,
       },
-      {
-        title: 'Ma Conso',
-        href: '/dashboard/consumption',
-        icon: Wallet,
-      },
     ],
   },
   // "Mes Agents" est insere dynamiquement via AgentTree dans AppSidebar
-  {
-    label: 'Financier',
-    adminOnly: true, // Section visible uniquement pour les admins
-    items: [
-      {
-        title: 'Dashboard Financier',
-        href: '/dashboard/financial',
-        icon: Receipt,
-        adminOnly: true,
-      },
-    ],
-  },
-  {
-    label: 'Administration',
-    adminOnly: true,
-    items: [
-      {
-        title: 'Historique Appels',
-        href: '/dashboard/admin/calls',
-        icon: Phone,
-        adminOnly: true,
-      },
-    ],
-  },
 ]
 
 export const settingsNavItem: NavItem = {

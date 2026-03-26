@@ -17,14 +17,10 @@ import {
  */
 const routeLabels: Record<string, string> = {
   dashboard: 'Dashboard',
-  louis: 'Louis',
-  performance: 'Performance',
   agents: 'Agents',
-  billing: 'Facturation',
-  costs: 'Coûts',
-  clients: 'Clients',
+  overview: 'Vue d\'ensemble',
+  calls: 'Appels',
   settings: 'Paramètres',
-  financial: 'Financier',
 }
 
 /**
@@ -41,7 +37,6 @@ function getRouteLabel(segment: string, prevSegment?: string): string {
   // If it's a UUID, show a more friendly label based on context
   if (isUUID(segment)) {
     if (prevSegment === 'agents') return 'Details'
-    if (prevSegment === 'clients') return 'Details'
     return 'Details'
   }
   return routeLabels[segment.toLowerCase()] || segment.charAt(0).toUpperCase() + segment.slice(1)

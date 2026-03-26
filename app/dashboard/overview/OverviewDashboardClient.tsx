@@ -1,21 +1,21 @@
 'use client'
 
-import { AgentTypeComparisonChart } from '@/components/dashboard/Charts/AgentTypeComparisonChart'
 import { CallVolumeChart } from '@/components/dashboard/Charts/CallVolumeChart'
 import { EmotionDistribution } from '@/components/dashboard/Charts/EmotionDistribution'
 import { LatencyTimeSeriesChart } from '@/components/dashboard/Charts/LatencyTimeSeriesChart'
+import { OutcomeBreakdown } from '@/components/dashboard/Charts/OutcomeBreakdown'
 import { ExportCSVButton } from '@/components/dashboard/ExportCSVButton'
-import { ClientAgentFilter } from '@/components/dashboard/Filters/ClientAgentFilter'
+import { AgentFilter } from '@/components/dashboard/Filters/AgentFilter'
 import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import { KPIGrid } from '@/components/dashboard/KPIGrid'
 import {
-  useAgentTypePerformance,
-  useGlobalChartData,
-  useGlobalKPIs,
+  useCallVolumeByDay,
+  useDashboardKPIs,
+  useOutcomeDistribution,
 } from '@/lib/hooks/useDashboardData'
 import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
 import { useLatencyMetrics } from '@/lib/hooks/useLatencyData'
-import { exportGlobalCallsToCSV } from '@/lib/queries/global'
+import { exportCallsToCSV } from '@/lib/queries/global'
 
 interface OverviewDashboardClientProps {
   userEmail?: string
@@ -24,38 +24,23 @@ interface OverviewDashboardClientProps {
 /**
  * Overview Dashboard Client Component
  * Aggregated dashboard showing metrics across ALL agents accessible by the user
- * Uses the standard Louis dashboard layout (6 KPIs compact, 4 charts 2x2)
- *
- * KPIs (order: funnel chronologique):
- * 1. Total Appels
- * 2. Taux Décroché
- * 3. Durée Moyenne
- * 4. Sentiment Positif
- * 5. Latence Moyenne
- * 6. Coût Total
- *
- * Charts (2x2 grid):
- * - Top-left: Volume par jour (Area chart, breakdown par agent type)
- * - Top-right: Distribution émotions (Donut chart)
- * - Bottom-left: Performance par type (Bar chart, comparatif Louis vs Arthur vs Alexandra)
- * - Bottom-right: Latence infrastructure (Line chart)
+ * 5 KPIs compact + 4 charts in 2x2 grid
  */
 export function OverviewDashboardClient({ userEmail }: OverviewDashboardClientProps) {
   // URL-based filters
-  const { filters, setClientIds, setDeploymentId, setDateRange } = useDashboardFilters()
+  const { filters, setDeploymentId, setTemplateType, setDateRange } = useDashboardFilters()
 
   // Fetch global metrics
-  const { data: kpiData, isLoading: isLoadingKPIs } = useGlobalKPIs(filters)
-  const { data: chartData, isLoading: isLoadingCharts } = useGlobalChartData(filters)
-  const { data: agentTypeData, isLoading: isLoadingAgentTypes } = useAgentTypePerformance(filters)
+  const { data: kpiData, isLoading: isLoadingKPIs } = useDashboardKPIs(filters)
+  const { data: callVolumeData, isLoading: isLoadingCallVolume } = useCallVolumeByDay(filters)
+  const { data: outcomeData, isLoading: isLoadingOutcomes } = useOutcomeDistribution(filters)
 
   // Fetch latency metrics (no agent type filter for overview)
   const { data: latencyData, isLoading: isLoadingLatencies } = useLatencyMetrics({
     startDate: filters.startDate,
     endDate: filters.endDate,
     deploymentId: filters.deploymentId,
-    clientId: filters.clientIds.length === 1 ? filters.clientIds[0] : null,
-    agentTypeName: null, // All agent types for overview
+    templateType: filters.templateType,
   })
 
   // Calculate average total latency for KPI
@@ -72,8 +57,8 @@ export function OverviewDashboardClient({ userEmail }: OverviewDashboardClientPr
     setDateRange(start.toISOString().split('T')[0], end.toISOString().split('T')[0])
   }
 
-  const handleFilterChange = (clientIds: string[], agentIds: string[]) => {
-    setClientIds(clientIds)
+  const handleFilterChange = (templateType: string | null, agentIds: string[]) => {
+    setTemplateType(templateType)
     setDeploymentId(agentIds.length === 1 ? agentIds[0] : null)
   }
 
@@ -88,15 +73,14 @@ export function OverviewDashboardClient({ userEmail }: OverviewDashboardClientPr
               endDate={new Date(filters.endDate)}
               onChange={handleDateChange}
             />
-            <ClientAgentFilter
-              selectedClientIds={filters.clientIds}
+            <AgentFilter
               selectedAgentIds={filters.deploymentId ? [filters.deploymentId] : []}
-              onChange={handleFilterChange}
+              onChange={(agentIds) => handleFilterChange(filters.templateType || null, agentIds)}
             />
           </div>
           <ExportCSVButton
             filters={filters}
-            exportFn={exportGlobalCallsToCSV}
+            exportFn={exportCallsToCSV}
             filename="overview-dashboard-export.csv"
           />
         </div>
@@ -114,16 +98,16 @@ export function OverviewDashboardClient({ userEmail }: OverviewDashboardClientPr
         {/* Charts Grid - 2x2 balanced layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-1.5 flex-1 min-h-0 overflow-hidden">
           <div className="h-full min-h-[180px] overflow-hidden">
-            <CallVolumeChart data={chartData?.call_volume_by_day || []} />
+            <CallVolumeChart data={callVolumeData || []} />
           </div>
           <div className="h-full min-h-[180px] overflow-hidden">
-            <EmotionDistribution data={chartData?.emotion_distribution || []} />
+            <EmotionDistribution data={[]} />
           </div>
           <div className="h-full min-h-[180px] overflow-hidden">
             <LatencyTimeSeriesChart data={latencyData || []} isLoading={isLoadingLatencies} />
           </div>
           <div className="h-full min-h-[180px] overflow-hidden">
-            <AgentTypeComparisonChart data={agentTypeData || []} isLoading={isLoadingAgentTypes} />
+            <OutcomeBreakdown data={outcomeData || []} />
           </div>
         </div>
       </div>

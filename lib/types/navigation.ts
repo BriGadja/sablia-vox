@@ -1,62 +1,43 @@
-// Navigation Types - Dashboard Restructure V2
-// Types pour la hierarchie entreprise/agent dans la sidebar
+// Navigation Types — v2 schema
+// Types for template-type-based agent tree in sidebar
 
 /**
- * Agent dans la hierarchie de navigation
+ * Agent in the sidebar navigation tree
  */
 export interface HierarchyAgent {
   deployment_id: string
-  deployment_name: string // ex: "Louis (setter)"
+  deployment_name: string
   slug: string
-  agent_type_name: string // 'louis' | 'arthur' | 'alexandra'
-  agent_type_display_name: string
-  status: 'active' | 'paused' | 'archived'
+  template_type: string // 'setter' | 'secretary' | 'transfer'
+  template_display_name: string
+  status: 'active' | 'inactive' | 'deploying' | 'error'
   last_call_at: string | null
 }
 
 /**
- * Entreprise avec ses agents pour la navigation sidebar
+ * Template type group with its agents for sidebar navigation
  */
-export interface HierarchyCompany {
-  client_id: string
-  client_name: string
-  industry: string | null
+export interface HierarchyTemplateGroup {
+  template_type: string
+  template_display_name: string
   agents: HierarchyAgent[]
 }
 
 /**
- * Response de get_company_agent_hierarchy()
+ * Response shape: array of template groups
  */
-export type CompanyAgentHierarchy = HierarchyCompany[]
+export type AgentHierarchy = HierarchyTemplateGroup[]
 
 /**
- * Etat de la navigation sidebar (expand/collapse)
+ * Sidebar navigation state (expand/collapse)
  */
 export interface SidebarNavState {
-  expandedClients: string[]
+  expandedGroups: string[]
 }
 
 /**
- * Props pour le composant AgentTree
+ * Props for the AgentTree component
  */
 export interface AgentTreeProps {
-  isAdmin: boolean
-  viewAsUserId?: string | null
-}
-
-/**
- * Props pour un noeud entreprise dans l'arbre
- */
-export interface CompanyNodeProps {
-  company: HierarchyCompany
-  isExpanded: boolean
-  onToggle: () => void
-}
-
-/**
- * Props pour un noeud agent dans l'arbre
- */
-export interface AgentNodeProps {
-  agent: HierarchyAgent
-  clientName: string
+  // no viewAsUserId needed in v2 — org scoped by JWT
 }

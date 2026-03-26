@@ -23,8 +23,18 @@ export function AgentsListClient() {
     setDateRange(start.toISOString().split('T')[0], end.toISOString().split('T')[0])
   }
 
-  // Count by agent type
-  const louisCount = agents?.filter((a) => a.agent_type_name === 'louis').length || 0
+  // Count by template type
+  const templateCounts = {
+    setter: agents?.filter((a) => a.template_type === 'setter').length || 0,
+    secretary: agents?.filter((a) => a.template_type === 'secretary').length || 0,
+    transfer: agents?.filter((a) => a.template_type === 'transfer').length || 0,
+  }
+
+  const templateBadges = [
+    { type: 'setter', label: 'Setter', count: templateCounts.setter, wrapCls: 'bg-violet-500/20 border-violet-500/30', textCls: 'text-violet-400' },
+    { type: 'secretary', label: 'Secrétaire', count: templateCounts.secretary, wrapCls: 'bg-blue-500/20 border-blue-500/30', textCls: 'text-blue-400' },
+    { type: 'transfer', label: 'Transfert', count: templateCounts.transfer, wrapCls: 'bg-orange-500/20 border-orange-500/30', textCls: 'text-orange-400' },
+  ]
 
   return (
     <div className="p-6 space-y-6">
@@ -41,15 +51,22 @@ export function AgentsListClient() {
         onChange={handleDateChange}
       />
 
-      {/* Agent Type Summary */}
+      {/* Template Type Summary */}
       {agents && agents.length > 0 && (
         <div className="flex items-center gap-4">
-          {louisCount > 0 && (
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30">
-              <Bot className="w-4 h-4 text-blue-400" />
-              <span className="text-sm text-blue-400 font-medium">{louisCount} Louis</span>
-            </div>
-          )}
+          {templateBadges
+            .filter((b) => b.count > 0)
+            .map((b) => (
+              <div
+                key={b.type}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-full border ${b.wrapCls}`}
+              >
+                <Bot className={`w-4 h-4 ${b.textCls}`} />
+                <span className={`text-sm font-medium ${b.textCls}`}>
+                  {b.count} {b.label}
+                </span>
+              </div>
+            ))}
         </div>
       )}
 

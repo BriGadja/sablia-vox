@@ -7,13 +7,15 @@ interface KPIGridProps {
   data: KPIMetrics | undefined
   isLoading: boolean
   agentType?: string
-  avgLatency?: number // Average total latency in milliseconds (for Louis/Overview dashboard)
+  avgLatency?: number // Average total latency in milliseconds
 }
 
 /**
- * KPI Grid Component
+ * KPI Grid Component — v2
  * Displays a responsive grid of KPI cards with period comparison
- * Adapts KPI display based on agent type (global, louis, arthur)
+ * Uses v2 KPIPeriod fields: total_calls, answered_calls, conversions,
+ * answer_rate, conversion_rate, avg_duration, total_billed_cost, avg_billed_cost,
+ * voicemail_count, no_answer_count
  */
 export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 }: KPIGridProps) {
   if (isLoading) {
@@ -39,101 +41,7 @@ export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 
 
   const { current_period, previous_period } = data
 
-  // Louis Original Dashboard - 6 KPIs specifiques
-  const louisOriginalKPIs = [
-    {
-      label: 'Total Appels',
-      value: current_period.total_calls,
-      previousValue: previous_period.total_calls,
-      format: 'number' as const,
-      decorationColor: 'blue' as const, // cyan #06b6d4
-    },
-    {
-      label: 'Taux de Décroché',
-      value: current_period.answer_rate,
-      previousValue: previous_period.answer_rate,
-      format: 'percentage' as const,
-      decorationColor: 'teal' as const, // teal #14b8a6
-    },
-    {
-      label: 'Durée Moyenne',
-      value: current_period.avg_duration,
-      previousValue: previous_period.avg_duration,
-      format: 'duration' as const,
-      decorationColor: 'amber' as const, // amber #f59e0b
-    },
-    {
-      label: 'RDV Pris',
-      value: current_period.appointments_scheduled,
-      previousValue: previous_period.appointments_scheduled,
-      format: 'number' as const,
-      decorationColor: 'violet' as const, // violet #8b5cf6
-    },
-    {
-      label: 'Conversion',
-      value: current_period.conversion_rate,
-      previousValue: previous_period.conversion_rate,
-      format: 'percentage' as const,
-      decorationColor: 'blue' as const, // cyan #06b6d4
-    },
-    {
-      label: 'Latence totale moyenne',
-      value: avgLatency,
-      previousValue: 0, // No comparison for latency
-      format: 'latency' as const,
-      decorationColor: 'emerald' as const, // emerald for performance metric
-    },
-  ]
-
-  // Louis-Nestenn Dashboard - 6 KPIs qualification (pas de RDV)
-  // Focus: Transferts vers négociateur, qualification de leads
-  const louisNestennKPIs = [
-    {
-      label: 'Total Appels',
-      value: current_period.total_calls,
-      previousValue: previous_period.total_calls,
-      format: 'number' as const,
-      decorationColor: 'blue' as const,
-    },
-    {
-      label: 'Taux de Contact',
-      value: current_period.contact_rate || 0,
-      previousValue: previous_period.contact_rate || 0,
-      format: 'percentage' as const,
-      decorationColor: 'teal' as const,
-    },
-    {
-      label: 'Transferts Demandés',
-      value: current_period.transfers_requested || 0,
-      previousValue: previous_period.transfers_requested || 0,
-      format: 'number' as const,
-      decorationColor: 'emerald' as const, // Green = success
-    },
-    {
-      label: 'Taux Qualification',
-      value: current_period.qualification_rate || 0,
-      previousValue: previous_period.qualification_rate || 0,
-      format: 'percentage' as const,
-      decorationColor: 'violet' as const,
-    },
-    {
-      label: 'Rappels Planifiés',
-      value: current_period.callbacks_requested || 0,
-      previousValue: previous_period.callbacks_requested || 0,
-      format: 'number' as const,
-      decorationColor: 'amber' as const,
-    },
-    {
-      label: 'SMS Envoyés',
-      value: current_period.sms_sent || 0,
-      previousValue: previous_period.sms_sent || 0,
-      format: 'number' as const,
-      decorationColor: 'blue' as const,
-    },
-  ]
-
-  // Overview Dashboard - 6 KPIs opérationnels agrégés (tous agents)
-  // Order: funnel chronologique (Total → Décroché → Répondus → Durée → Latence)
+  // Overview Dashboard - 5 KPIs (funnel chronologique)
   const overviewKPIs = [
     {
       label: 'Total Appels',
@@ -172,8 +80,54 @@ export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 
     },
   ]
 
-  // Core KPIs (all dashboards)
-  const coreKPIs = [
+  // Agent-specific dashboard - 6 KPIs
+  const agentKPIs = [
+    {
+      label: 'Total Appels',
+      value: current_period.total_calls,
+      previousValue: previous_period.total_calls,
+      format: 'number' as const,
+      decorationColor: 'blue' as const,
+    },
+    {
+      label: 'Taux de Décroché',
+      value: current_period.answer_rate,
+      previousValue: previous_period.answer_rate,
+      format: 'percentage' as const,
+      decorationColor: 'teal' as const,
+    },
+    {
+      label: 'Durée Moyenne',
+      value: current_period.avg_duration,
+      previousValue: previous_period.avg_duration,
+      format: 'duration' as const,
+      decorationColor: 'amber' as const,
+    },
+    {
+      label: 'Conversions',
+      value: current_period.conversions,
+      previousValue: previous_period.conversions,
+      format: 'number' as const,
+      decorationColor: 'violet' as const,
+    },
+    {
+      label: 'Taux de Conversion',
+      value: current_period.conversion_rate,
+      previousValue: previous_period.conversion_rate,
+      format: 'percentage' as const,
+      decorationColor: 'emerald' as const,
+    },
+    {
+      label: 'Latence Moyenne',
+      value: avgLatency,
+      previousValue: 0,
+      format: 'latency' as const,
+      decorationColor: 'blue' as const,
+    },
+  ]
+
+  // Default / global KPIs - full set
+  const globalKPIs = [
     {
       label: 'Appels totaux',
       value: current_period.total_calls,
@@ -196,9 +150,9 @@ export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 
       decorationColor: 'violet' as const,
     },
     {
-      label: 'RDV planifiés',
-      value: current_period.appointments_scheduled,
-      previousValue: previous_period.appointments_scheduled,
+      label: 'Conversions',
+      value: current_period.conversions,
+      previousValue: previous_period.conversions,
       format: 'number' as const,
       decorationColor: 'amber' as const,
     },
@@ -218,149 +172,44 @@ export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 
     },
     {
       label: 'Coût total',
-      value: current_period.total_cost,
-      previousValue: previous_period.total_cost,
+      value: current_period.total_billed_cost,
+      previousValue: previous_period.total_billed_cost,
       format: 'currency' as const,
       decorationColor: 'red' as const,
     },
     {
-      label: 'Coût par RDV',
-      value: current_period.cost_per_appointment,
-      previousValue: previous_period.cost_per_appointment,
+      label: 'Coût moyen / appel',
+      value: current_period.avg_billed_cost,
+      previousValue: previous_period.avg_billed_cost,
       format: 'currency' as const,
       decorationColor: 'amber' as const,
     },
   ]
 
-  // Louis-specific KPIs
-  const louisKPIs =
-    current_period.refused_appointments !== undefined
-      ? [
-          {
-            label: 'RDV refusés',
-            value: current_period.refused_appointments,
-            previousValue: previous_period.refused_appointments,
-            format: 'number' as const,
-            decorationColor: 'red' as const,
-          },
-          {
-            label: "Taux d'acceptation",
-            value: current_period.acceptance_rate || 0,
-            previousValue: previous_period.acceptance_rate,
-            format: 'percentage' as const,
-            decorationColor: 'emerald' as const,
-          },
-          {
-            label: 'Rappels demandés',
-            value: current_period.callbacks_requested || 0,
-            previousValue: previous_period.callbacks_requested,
-            format: 'number' as const,
-            decorationColor: 'blue' as const,
-          },
-          {
-            label: 'Leads qualifiés',
-            value: current_period.qualified_leads || 0,
-            previousValue: previous_period.qualified_leads,
-            format: 'number' as const,
-            decorationColor: 'violet' as const,
-          },
-        ]
-      : []
-
-  // Arthur-specific KPIs
-  const arthurKPIs =
-    current_period.total_prospects !== undefined
-      ? [
-          {
-            label: 'Prospects totaux',
-            value: current_period.total_prospects,
-            previousValue: previous_period.total_prospects,
-            format: 'number' as const,
-            decorationColor: 'blue' as const,
-          },
-          {
-            label: 'Séquences actives',
-            value: current_period.active_sequences || 0,
-            previousValue: previous_period.active_sequences,
-            format: 'number' as const,
-            decorationColor: 'violet' as const,
-          },
-          {
-            label: 'Taux de réactivation',
-            value: current_period.reactivation_rate || 0,
-            previousValue: previous_period.reactivation_rate,
-            format: 'percentage' as const,
-            decorationColor: 'emerald' as const,
-          },
-          {
-            label: 'Tentatives moyennes',
-            value: current_period.avg_attempts || 0,
-            previousValue: previous_period.avg_attempts,
-            format: 'number' as const,
-            decorationColor: 'amber' as const,
-          },
-          {
-            label: 'Coût par conversion',
-            value: current_period.cost_per_conversion || 0,
-            previousValue: previous_period.cost_per_conversion,
-            format: 'currency' as const,
-            decorationColor: 'red' as const,
-          },
-        ]
-      : []
-
-  // Global-specific KPIs
-  const globalKPIs =
-    current_period.active_agents !== undefined
-      ? [
-          {
-            label: 'Agents actifs',
-            value: current_period.active_agents,
-            previousValue: previous_period.active_agents,
-            format: 'number' as const,
-            decorationColor: 'violet' as const,
-          },
-          {
-            label: "Agents appelés aujourd'hui",
-            value: current_period.agents_called_today || 0,
-            previousValue: previous_period.agents_called_today,
-            format: 'number' as const,
-            decorationColor: 'blue' as const,
-          },
-        ]
-      : []
-
   // Combine KPIs based on agent type
   const allKPIs =
-    agentType === 'louis'
-      ? louisOriginalKPIs // Use simplified 6 KPIs for Louis
-      : agentType === 'louis-nestenn'
-        ? louisNestennKPIs // Use qualification-focused 6 KPIs for Nestenn
-        : agentType === 'overview'
-          ? overviewKPIs // Use 5 KPIs for Overview (aggregated)
-          : [
-              ...coreKPIs,
-              ...(agentType === 'arthur' ? arthurKPIs : []),
-              ...(agentType === 'global' ? globalKPIs : []),
-            ]
+    agentType === 'overview'
+      ? overviewKPIs
+      : agentType === 'global'
+        ? globalKPIs
+        : agentKPIs
 
-  // Grid columns: 6 for Louis/Louis-Nestenn, 5 for Overview, 4 for others
+  // Grid columns: 5 for Overview, 6 for agent-specific, 4 for global
   const gridCols =
-    agentType === 'louis' || agentType === 'louis-nestenn'
-      ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-6'
-      : agentType === 'overview'
-        ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5'
-        : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
+    agentType === 'overview'
+      ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5'
+      : agentType === 'global'
+        ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
+        : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-6'
 
-  // Gap: smaller for Louis/Louis-Nestenn/Overview to fit better
+  // Gap: smaller for compact layouts
   const gridGap =
-    agentType === 'louis' || agentType === 'louis-nestenn' || agentType === 'overview'
+    agentType === 'overview' || (agentType !== 'global')
       ? 'gap-2'
       : 'gap-6'
 
-  // Use compact mode for Louis/Louis-Nestenn/Overview dashboard
-  const isCompact =
-    agentType === 'louis' || agentType === 'louis-nestenn' || agentType === 'overview'
+  // Use compact mode for non-global dashboards
+  const isCompact = agentType !== 'global'
 
   return (
     <div className={`grid ${gridCols} ${gridGap}`}>

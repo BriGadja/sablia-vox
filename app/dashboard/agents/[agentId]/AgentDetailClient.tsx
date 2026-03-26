@@ -14,7 +14,11 @@ import { LatencyTimeSeriesChart } from '@/components/dashboard/Charts/LatencyTim
 import { OutcomeBreakdown } from '@/components/dashboard/Charts/OutcomeBreakdown'
 import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import { KPIGrid } from '@/components/dashboard/KPIGrid'
-import { useLouisChartData, useLouisKPIs } from '@/lib/hooks/useDashboardData'
+import {
+  useCallVolumeByDay,
+  useDashboardKPIs,
+  useOutcomeDistribution,
+} from '@/lib/hooks/useDashboardData'
 import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
 import { useLatencyMetrics } from '@/lib/hooks/useLatencyData'
 import { createClient } from '@/lib/supabase/client'
@@ -66,27 +70,26 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
   // URL-based filters with deploymentId pre-set
   const { filters, setDateRange } = useDashboardFilters()
 
-  // Create filters with this specific deployment
+  // Create filters scoped to this deployment
   const deploymentFilters = useMemo(
     () => ({
       ...filters,
       deploymentId: agentId,
-      clientIds: agent?.client_id ? [agent.client_id] : [],
     }),
-    [filters, agentId, agent?.client_id],
+    [filters, agentId],
   )
 
-  // Fetch metrics (only Louis for now - can be extended)
-  const { data: kpiData, isLoading: isLoadingKPIs } = useLouisKPIs(deploymentFilters)
-  const { data: chartData } = useLouisChartData(deploymentFilters)
+  // v2 KPIs + charts for this deployment
+  const { data: kpiData, isLoading: isLoadingKPIs } = useDashboardKPIs(deploymentFilters)
+  const { data: callVolumeData } = useCallVolumeByDay(deploymentFilters)
+  const { data: outcomeData } = useOutcomeDistribution(deploymentFilters)
 
   // Fetch latency metrics
   const { data: latencyData, isLoading: isLoadingLatencies } = useLatencyMetrics({
     startDate: filters.startDate,
     endDate: filters.endDate,
     deploymentId: agentId,
-    clientId: agent?.client_id || null,
-    agentTypeName: agent?.agent_type_name || 'louis',
+    templateType: agent?.template_type || null,
   })
 
   // Calculate average total latency for KPI
@@ -151,20 +154,20 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
       <KPIGrid
         data={kpiData}
         isLoading={isLoadingKPIs}
-        agentType={agent.agent_type_name}
+        agentType={agent.template_type}
         avgLatency={avgTotalLatency}
       />
 
       {/* Charts Grid - 2x2 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="h-[300px]">
-          <CallVolumeChart data={chartData?.call_volume_by_day || []} />
+          <CallVolumeChart data={callVolumeData || []} />
         </div>
         <div className="h-[300px]">
-          <EmotionDistribution data={chartData?.emotion_distribution || []} />
+          <EmotionDistribution data={[]} />
         </div>
         <div className="h-[300px]">
-          <OutcomeBreakdown data={chartData?.outcome_distribution || []} />
+          <OutcomeBreakdown data={outcomeData || []} />
         </div>
         <div className="h-[300px]">
           <LatencyTimeSeriesChart data={latencyData || []} isLoading={isLoadingLatencies} />

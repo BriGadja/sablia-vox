@@ -1,16 +1,13 @@
 /**
- * Latency-related TypeScript types
- * Matches data returned by get_latency_metrics() RPC function
+ * Latency-related TypeScript types — v2 schema
+ * Latency data comes from v_dashboard_calls view (avg_llm_ms, avg_tts_ms, avg_total_ms)
  */
 
 export interface LatencyMetric {
   date: string // ISO date string (YYYY-MM-DD)
-  deployment_id: string // UUID
+  deployment_id: string
   deployment_name: string
-  client_id: string // UUID
-  client_name: string
-  agent_type_name: string
-  llm_model: string // e.g., "gemini-2.5-flash"
+  template_type: string
   // LLM Latencies (milliseconds)
   avg_llm_latency_ms: number
   min_llm_latency_ms: number
@@ -31,8 +28,7 @@ export interface LatencyFilters {
   startDate: string // YYYY-MM-DD
   endDate: string // YYYY-MM-DD
   deploymentId?: string | null
-  clientId?: string | null
-  agentTypeName?: string | null
+  templateType?: string | null
 }
 
 export interface LatencyChartData {

@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query'
 import {
   ArrowLeft,
   Calendar,
-  CheckCircle2,
   Clock,
   DollarSign,
   FileText,
@@ -12,18 +11,17 @@ import {
   Loader2,
   Mail,
   Meh,
-  MessageSquare,
   Pause,
   Phone,
   Play,
   Smile,
   User,
-  Voicemail,
   Volume2,
   XCircle,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
+import { OUTCOME_CONFIG } from '@/lib/constants'
 import { PageHeader } from '@/components/dashboard/PageHeader'
 import { fetchCallById } from '@/lib/queries/calls'
 import { cn } from '@/lib/utils'
@@ -35,34 +33,14 @@ interface CallDetailClientProps {
 }
 
 /**
- * Outcome badge configuration
+ * Get outcome display from shared config
  */
-const outcomeBadges: Record<string, { label: string; className: string; icon: React.ReactNode }> = {
-  appointment_scheduled: {
-    label: 'RDV pris',
-    className: 'bg-green-500/20 text-green-400 border-green-500/30',
-    icon: <CheckCircle2 className="w-4 h-4" />,
-  },
-  appointment_refused: {
-    label: 'RDV refuse',
-    className: 'bg-red-500/20 text-red-400 border-red-500/30',
-    icon: <XCircle className="w-4 h-4" />,
-  },
-  voicemail: {
-    label: 'Messagerie',
-    className: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
-    icon: <Voicemail className="w-4 h-4" />,
-  },
-  callback_requested: {
-    label: 'Rappel demande',
-    className: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-    icon: <Phone className="w-4 h-4" />,
-  },
-  not_interested: {
-    label: 'Pas interesse',
-    className: 'bg-gray-500/20 text-gray-400 border-gray-500/30',
-    icon: <MessageSquare className="w-4 h-4" />,
-  },
+function getOutcomeDisplay(outcome: string | null) {
+  const entry = OUTCOME_CONFIG[outcome || '']
+  return {
+    label: entry?.label || outcome || 'Inconnu',
+    className: `${entry?.className || 'bg-gray-500/20 text-gray-400'} border-white/10`,
+  }
 }
 
 /**
@@ -176,11 +154,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
     )
   }
 
-  const outcomeConfig = outcomeBadges[call.outcome] || {
-    label: call.outcome,
-    className: 'bg-gray-500/20 text-gray-400 border-gray-500/30',
-    icon: null,
-  }
+  const outcomeDisplay = getOutcomeDisplay(call.outcome)
 
   const emotionConfig = call.emotion
     ? emotionBadges[call.emotion] || {
@@ -249,7 +223,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
                   <Clock className="w-4 h-4" />
                   <span>Duree</span>
                 </div>
-                <p className="text-white font-medium">{formatDuration(call.duration_seconds)}</p>
+                <p className="text-white font-medium">{formatDuration(call.duration_seconds ?? 0)}</p>
               </div>
 
               {/* Cost */}
@@ -258,7 +232,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
                   <DollarSign className="w-4 h-4" />
                   <span>Cout</span>
                 </div>
-                <p className="text-white font-medium">{call.cost?.toFixed(2) || '0.00'} EUR</p>
+                <p className="text-white font-medium">{call.billed_cost?.toFixed(2) || '0.00'} €</p>
               </div>
 
               {/* Status */}
@@ -267,8 +241,8 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
                   <Phone className="w-4 h-4" />
                   <span>Statut</span>
                 </div>
-                <p className={cn('font-medium', call.answered ? 'text-green-400' : 'text-red-400')}>
-                  {call.answered ? 'Repondu' : 'Non repondu'}
+                <p className={cn('font-medium', call.is_answered ? 'text-green-400' : 'text-red-400')}>
+                  {call.is_answered ? 'Repondu' : 'Non repondu'}
                 </p>
               </div>
             </div>
@@ -280,11 +254,10 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
                 <div
                   className={cn(
                     'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium',
-                    outcomeConfig.className,
+                    outcomeDisplay.className,
                   )}
                 >
-                  {outcomeConfig.icon}
-                  {outcomeConfig.label}
+                  {outcomeDisplay.label}
                 </div>
               </div>
 
@@ -362,14 +335,14 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
               </div>
 
               {/* Email */}
-              {call.email && (
+              {call.contact_email && (
                 <div className="flex items-start gap-3">
                   <div className="p-2 rounded-lg bg-white/5">
                     <Mail className="w-4 h-4 text-white/60" />
                   </div>
                   <div>
                     <p className="text-xs text-white/60">Email</p>
-                    <p className="text-white font-medium break-all">{call.email}</p>
+                    <p className="text-white font-medium break-all">{call.contact_email}</p>
                   </div>
                 </div>
               )}
@@ -383,30 +356,23 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
             <div className="space-y-3">
               <div>
                 <p className="text-xs text-white/60">Nom</p>
-                <p className="text-white font-medium">{call.agent_deployments.name}</p>
-              </div>
-
-              <div>
-                <p className="text-xs text-white/60">Client</p>
-                <p className="text-white font-medium">{call.agent_deployments.clients.name}</p>
+                <p className="text-white font-medium">{call.deployment_name}</p>
               </div>
 
               <div>
                 <p className="text-xs text-white/60">Type</p>
-                <p className="text-white font-medium capitalize">
-                  {call.agent_deployments.agent_types.name}
-                </p>
+                <p className="text-white font-medium capitalize">{call.template_display_name}</p>
               </div>
             </div>
           </div>
 
-          {/* Metadata Card (if present) */}
-          {call.metadata && Object.keys(call.metadata).length > 0 && (
+          {/* Extracted Data Card (if present) */}
+          {call.extracted_data && Object.keys(call.extracted_data).length > 0 && (
             <div className="rounded-xl border border-white/10 bg-white/5 p-6 space-y-4">
-              <h3 className="text-lg font-semibold text-white">Metadata</h3>
+              <h3 className="text-lg font-semibold text-white">Données extraites</h3>
               <div className="bg-black/20 rounded-lg p-4 max-h-48 overflow-y-auto">
                 <pre className="text-white/60 text-xs overflow-x-auto">
-                  {JSON.stringify(call.metadata, null, 2)}
+                  {JSON.stringify(call.extracted_data, null, 2)}
                 </pre>
               </div>
             </div>

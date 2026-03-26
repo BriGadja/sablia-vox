@@ -1,8 +1,8 @@
 'use client'
 
-import { Bot, Building2, ChevronRight, Loader2 } from 'lucide-react'
+import { Bot, ChevronRight, Loader2, Users } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
@@ -17,71 +17,62 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar'
 import { useAgentHierarchy } from '@/lib/hooks/useAgentHierarchy'
-import type { HierarchyAgent, HierarchyCompany } from '@/lib/types/navigation'
+import type { HierarchyAgent, HierarchyTemplateGroup } from '@/lib/types/navigation'
 
-const STORAGE_KEY = 'sablia-sidebar-expanded-clients'
+const STORAGE_KEY = 'sablia-sidebar-expanded-groups'
 
-interface AgentTreeProps {
-  viewAsUserId?: string | null
+/**
+ * Template type color mapping
+ */
+const templateColors: Record<string, string> = {
+  setter: 'text-violet-400',
+  secretary: 'text-blue-400',
+  transfer: 'text-orange-400',
 }
 
-export function AgentTree({ viewAsUserId }: AgentTreeProps) {
+export function AgentTree() {
   const pathname = usePathname()
-  const searchParams = useSearchParams()
-  // Pass viewAsUserId to the hook to filter hierarchy for "view as user" mode
-  const { data: hierarchy, isLoading, error } = useAgentHierarchy(viewAsUserId)
+  const { data: hierarchy, isLoading, error } = useAgentHierarchy()
 
-  // State for expanded companies
-  const [expandedClients, setExpandedClients] = useState<Set<string>>(new Set())
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set())
 
-  // Load expanded state from localStorage on mount
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY)
       if (stored) {
-        setExpandedClients(new Set(JSON.parse(stored)))
+        setExpandedGroups(new Set(JSON.parse(stored)))
       }
     } catch {
       // Ignore localStorage errors
     }
   }, [])
 
-  // Save expanded state to localStorage
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...expandedClients]))
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...expandedGroups]))
     } catch {
       // Ignore localStorage errors
     }
-  }, [expandedClients])
+  }, [expandedGroups])
 
-  // Helper to build href with preserved viewAsUser param
-  const buildHref = (baseHref: string) => {
-    if (!viewAsUserId) return baseHref
-    const separator = baseHref.includes('?') ? '&' : '?'
-    return `${baseHref}${separator}viewAsUser=${viewAsUserId}`
-  }
-
-  const toggleClient = (clientId: string) => {
-    setExpandedClients((prev) => {
+  const toggleGroup = (templateType: string) => {
+    setExpandedGroups((prev) => {
       const next = new Set(prev)
-      if (next.has(clientId)) {
-        next.delete(clientId)
+      if (next.has(templateType)) {
+        next.delete(templateType)
       } else {
-        next.add(clientId)
+        next.add(templateType)
       }
       return next
     })
   }
 
-  // Check if an agent is currently active
   const isAgentActive = (deploymentId: string) => {
-    return pathname === `/dashboard/agents/${deploymentId}`
+    return pathname.startsWith(`/dashboard/agents/${deploymentId}`)
   }
 
-  // Check if any agent in a company is active
-  const hasActiveAgent = (company: HierarchyCompany) => {
-    return company.agents.some((agent) => isAgentActive(agent.deployment_id))
+  const hasActiveAgent = (group: HierarchyTemplateGroup) => {
+    return group.agents.some((agent) => isAgentActive(agent.deployment_id))
   }
 
   if (isLoading) {
@@ -132,15 +123,14 @@ export function AgentTree({ viewAsUserId }: AgentTreeProps) {
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
-          {hierarchy.map((company) => (
-            <CompanyNode
-              key={company.client_id}
-              company={company}
-              isExpanded={expandedClients.has(company.client_id)}
-              onToggle={() => toggleClient(company.client_id)}
-              buildHref={buildHref}
+          {hierarchy.map((group) => (
+            <TemplateGroupNode
+              key={group.template_type}
+              group={group}
+              isExpanded={expandedGroups.has(group.template_type)}
+              onToggle={() => toggleGroup(group.template_type)}
               isAgentActive={isAgentActive}
-              hasActiveAgent={hasActiveAgent(company)}
+              hasActiveAgent={hasActiveAgent(group)}
             />
           ))}
         </SidebarMenu>
@@ -149,37 +139,38 @@ export function AgentTree({ viewAsUserId }: AgentTreeProps) {
   )
 }
 
-interface CompanyNodeProps {
-  company: HierarchyCompany
+interface TemplateGroupNodeProps {
+  group: HierarchyTemplateGroup
   isExpanded: boolean
   onToggle: () => void
-  buildHref: (href: string) => string
   isAgentActive: (deploymentId: string) => boolean
   hasActiveAgent: boolean
 }
 
-function CompanyNode({
-  company,
+function TemplateGroupNode({
+  group,
   isExpanded,
   onToggle,
-  buildHref,
   isAgentActive,
   hasActiveAgent,
-}: CompanyNodeProps) {
+}: TemplateGroupNodeProps) {
+  const colorClass = templateColors[group.template_type] || 'text-white/60'
+
   return (
     <Collapsible open={isExpanded} onOpenChange={onToggle} className="group/collapsible">
       <SidebarMenuItem>
         <CollapsibleTrigger asChild>
           <SidebarMenuButton
-            tooltip={company.client_name}
+            tooltip={group.template_display_name}
             className={`text-white/70 hover:text-white hover:bg-white/10 ${
               hasActiveAgent ? 'text-white' : ''
             }`}
           >
-            <Building2 className="size-4" />
-            <span className="truncate">{company.client_name}</span>
+            <Users className={`size-4 ${colorClass}`} />
+            <span className="truncate">{group.template_display_name}</span>
+            <span className="ml-auto mr-1 text-xs text-white/40">{group.agents.length}</span>
             <ChevronRight
-              className={`ml-auto size-4 transition-transform duration-200 ${
+              className={`size-4 transition-transform duration-200 ${
                 isExpanded ? 'rotate-90' : ''
               }`}
             />
@@ -188,11 +179,10 @@ function CompanyNode({
 
         <CollapsibleContent>
           <SidebarMenuSub>
-            {company.agents.map((agent) => (
+            {group.agents.map((agent) => (
               <AgentNode
                 key={agent.deployment_id}
                 agent={agent}
-                buildHref={buildHref}
                 isActive={isAgentActive(agent.deployment_id)}
               />
             ))}
@@ -205,13 +195,10 @@ function CompanyNode({
 
 interface AgentNodeProps {
   agent: HierarchyAgent
-  buildHref: (href: string) => string
   isActive: boolean
 }
 
-function AgentNode({ agent, buildHref, isActive }: AgentNodeProps) {
-  const href = buildHref(`/dashboard/agents/${agent.deployment_id}`)
-
+function AgentNode({ agent, isActive }: AgentNodeProps) {
   return (
     <SidebarMenuSubItem>
       <SidebarMenuSubButton
@@ -219,7 +206,7 @@ function AgentNode({ agent, buildHref, isActive }: AgentNodeProps) {
         isActive={isActive}
         className="text-white/60 hover:text-white hover:bg-white/10 data-[active=true]:bg-white/10 data-[active=true]:text-white"
       >
-        <Link href={href}>
+        <Link href={`/dashboard/agents/${agent.deployment_id}`}>
           <Bot className="size-3" />
           <span className="truncate">{agent.deployment_name}</span>
         </Link>

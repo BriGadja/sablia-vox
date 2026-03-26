@@ -2,7 +2,7 @@
 
 import { ChevronsUpDown, LogOut, User } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -28,7 +28,6 @@ import {
 import { createClient } from '@/lib/supabase/client'
 import { AgentTree } from './AgentTree'
 import { settingsNavItem, sidebarConfig } from './SidebarConfig'
-import { UserSwitcher } from './UserSwitcher'
 
 interface AppSidebarProps {
   userEmail: string
@@ -38,19 +37,7 @@ interface AppSidebarProps {
 export function AppSidebar({ userEmail, isAdmin }: AppSidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
-  const searchParams = useSearchParams()
   const { state } = useSidebar()
-
-  // Check if viewing as a specific user (view-as-user mode)
-  const viewAsUserId = searchParams.get('viewAsUser')
-  const isInUserView = !!viewAsUserId
-
-  // Helper to build href with preserved viewAsUser param
-  const buildHref = (baseHref: string) => {
-    if (!viewAsUserId) return baseHref
-    const separator = baseHref.includes('?') ? '&' : '?'
-    return `${baseHref}${separator}viewAsUser=${viewAsUserId}`
-  }
 
   const handleLogout = async () => {
     const supabase = createClient()
@@ -58,34 +45,27 @@ export function AppSidebar({ userEmail, isAdmin }: AppSidebarProps) {
     router.push('/login')
   }
 
-  // Filter navigation based on admin status and userOnly flag
-  // Hide admin-only sections when viewing as a specific user
-  const showAdminSections = isAdmin && !isInUserView
+  // Filter navigation based on admin status
   const filteredConfig = sidebarConfig
-    .filter((group) => !group.adminOnly || showAdminSections)
+    .filter((group) => !group.adminOnly || isAdmin)
     .map((group) => ({
       ...group,
       items: group.items.filter((item) => {
-        // Hide admin-only items for non-admins or when in user view
-        if (item.adminOnly && !showAdminSections) return false
-        // Hide user-only items for admins (unless in user view)
-        if (item.userOnly && isAdmin && !isInUserView) return false
+        if (item.adminOnly && !isAdmin) return false
+        if (item.userOnly && isAdmin) return false
         return true
       }),
     }))
-    // Filter out groups with no items after filtering
     .filter((group) => group.items.length > 0)
 
   const userInitials = userEmail.split('@')[0].slice(0, 2).toUpperCase()
 
   return (
     <Sidebar collapsible="icon" className="border-r border-white/10">
-      <SidebarHeader className="border-b border-white/10 h-14 flex items-center">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <UserSwitcher isAdmin={isAdmin} />
-          </SidebarMenuItem>
-        </SidebarMenu>
+      <SidebarHeader className="border-b border-white/10 h-14 flex items-center justify-center">
+        <span className="text-sm font-semibold text-white/80 group-data-[collapsible=icon]:hidden">
+          Sablia Vox
+        </span>
       </SidebarHeader>
 
       <SidebarContent>
@@ -110,7 +90,7 @@ export function AppSidebar({ userEmail, isAdmin }: AppSidebarProps) {
                         tooltip={item.title}
                         className="text-white/70 hover:text-white hover:bg-white/10 data-[active=true]:bg-white/10 data-[active=true]:text-white"
                       >
-                        <Link href={buildHref(item.href)}>
+                        <Link href={item.href}>
                           <item.icon className="size-4" />
                           <span>{item.title}</span>
                         </Link>
@@ -124,9 +104,9 @@ export function AppSidebar({ userEmail, isAdmin }: AppSidebarProps) {
         ))}
 
         {/* Mes Agents - Dynamic tree */}
-        <AgentTree viewAsUserId={viewAsUserId} />
+        <AgentTree />
 
-        {/* Remaining sections (Financier, Administration) */}
+        {/* Remaining sections */}
         {filteredConfig.slice(1).map((group) => (
           <SidebarGroup key={group.label}>
             <SidebarGroupLabel className="text-white/50 uppercase text-xs tracking-wider">
@@ -147,7 +127,7 @@ export function AppSidebar({ userEmail, isAdmin }: AppSidebarProps) {
                         tooltip={item.title}
                         className="text-white/70 hover:text-white hover:bg-white/10 data-[active=true]:bg-white/10 data-[active=true]:text-white"
                       >
-                        <Link href={buildHref(item.href)}>
+                        <Link href={item.href}>
                           <item.icon className="size-4" />
                           <span>{item.title}</span>
                         </Link>
@@ -205,7 +185,7 @@ export function AppSidebar({ userEmail, isAdmin }: AppSidebarProps) {
                   className="text-red-400 hover:text-red-300 hover:bg-red-500/10 focus:bg-red-500/10 focus:text-red-300 cursor-pointer"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
-                  Deconnexion
+                  Déconnexion
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

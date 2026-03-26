@@ -2,6 +2,7 @@
 
 import { memo, useCallback, useMemo } from 'react'
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
+import { OUTCOME_CONFIG, OUTCOME_GROUP_COLORS } from '@/lib/constants'
 
 interface OutcomeBreakdownProps {
   data: Array<{
@@ -10,73 +11,34 @@ interface OutcomeBreakdownProps {
   }>
 }
 
-const outcomeLabels: Record<string, string> = {
-  appointment_scheduled: 'RDV PRIS',
-  appointment_refused: 'RDV refusé',
-  not_interested: 'Pas intéressé',
-  callback_requested: 'Rappel demandé',
-  voicemail: 'Messagerie',
-  too_short: 'Non significatifs',
-  no_answer: 'Pas de réponse',
-  busy: 'Occupé',
-  invalid_number: 'Numéro invalide',
-  call_failed: 'Appel échoué',
-  do_not_call: 'Ne pas appeler',
-}
-
-// Couleurs spécifiques pour chaque résultat (Louis Dashboard)
-const outcomeColors: Record<string, string> = {
-  Messagerie: '#06b6d4', // cyan
-  'RDV refusé': '#8b5cf6', // violet
-  'Non significatifs': '#10b981', // emerald
-  'RDV PRIS': '#f59e0b', // amber/orange
-}
-
-// Fallback colors for other outcomes
-const colors = [
-  '#06b6d4', // cyan
-  '#8b5cf6', // violet
-  '#10b981', // emerald
-  '#f59e0b', // amber
-  '#ef4444', // red
-  '#ec4899', // pink
-  '#14b8a6', // teal
-  '#f97316', // orange
-  '#6366f1', // indigo
-  '#84cc16', // lime
-  '#a855f7', // purple
-]
-
-// Filter to show only 4 specific outcomes for Louis dashboard
-const SPECIFIC_OUTCOMES = ['voicemail', 'appointment_refused', 'too_short', 'appointment_scheduled']
-
 function OutcomeBreakdownInner({ data }: OutcomeBreakdownProps) {
-  const chartData = useMemo(
-    () =>
-      data
-        .filter((item) => SPECIFIC_OUTCOMES.includes(item.outcome))
-        .map((item) => ({
-          name: outcomeLabels[item.outcome] || item.outcome,
-          value: item.count,
-          color: outcomeColors[outcomeLabels[item.outcome]] || colors[0],
-        }))
-        .sort((a, b) => b.value - a.value),
-    [data],
-  )
+  const chartData = useMemo(() => {
+    if (!data || data.length === 0) return []
 
-  // Calculate total for percentages
+    return data
+      .filter((item) => item.count > 0)
+      .map((item) => {
+        const config = OUTCOME_CONFIG[item.outcome]
+        const group = config?.group || 'error'
+        return {
+          name: config?.label || item.outcome,
+          value: item.count,
+          color: OUTCOME_GROUP_COLORS[group] || OUTCOME_GROUP_COLORS.error,
+        }
+      })
+      .sort((a, b) => b.value - a.value)
+  }, [data])
+
   const total = useMemo(() => chartData.reduce((sum, item) => sum + item.value, 0), [chartData])
 
-  // Custom label renderer with external labels and connecting lines
   const renderCustomLabel = useCallback(
     (props: any) => {
       const { cx, cy, midAngle, outerRadius, name, value, percent } = props
       const RADIAN = Math.PI / 180
-      const radius = outerRadius + 20 // Reduced distance from pie to label
+      const radius = outerRadius + 20
       const x = cx + radius * Math.cos(-midAngle * RADIAN)
       const y = cy + radius * Math.sin(-midAngle * RADIAN)
 
-      // Skip small segments to avoid clutter
       if (percent < 0.05) return null
 
       const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0
@@ -97,7 +59,6 @@ function OutcomeBreakdownInner({ data }: OutcomeBreakdownProps) {
     [total],
   )
 
-  // Custom legend formatter with percentages
   const renderLegend = useCallback(
     (props: any) => {
       const { payload } = props
@@ -182,8 +143,4 @@ function OutcomeBreakdownInner({ data }: OutcomeBreakdownProps) {
   )
 }
 
-/**
- * Memoized OutcomeBreakdown to prevent unnecessary re-renders
- * Only re-renders when data prop changes
- */
 export const OutcomeBreakdown = memo(OutcomeBreakdownInner)

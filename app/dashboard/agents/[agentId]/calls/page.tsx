@@ -13,15 +13,10 @@ export const metadata = {
   description: 'Liste des appels pour cet agent',
 }
 
-/**
- * Calls History Page - Server Component
- * Displays paginated list of calls for a specific agent deployment
- */
 export default async function CallsPage({ params }: CallsPageProps) {
   const { agentId } = await params
   const supabase = await createClient()
 
-  // Server-side authentication check
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -30,24 +25,16 @@ export default async function CallsPage({ params }: CallsPageProps) {
     redirect('/login')
   }
 
-  // Verify agent deployment exists and user has access
+  // v2: query v_user_accessible_agents view (RLS-scoped)
   const { data: deployment, error } = await supabase
-    .from('agent_deployments')
-    .select(`
-      id,
-      name,
-      slug,
-      clients(name)
-    `)
-    .eq('id', agentId)
+    .from('v_user_accessible_agents')
+    .select('deployment_id, deployment_name')
+    .eq('deployment_id', agentId)
     .single()
 
   if (error || !deployment) {
     notFound()
   }
-
-  // Extract client name from the joined data
-  const client = deployment.clients as unknown as { name: string } | null
 
   return (
     <Suspense
@@ -59,8 +46,7 @@ export default async function CallsPage({ params }: CallsPageProps) {
     >
       <CallsListClient
         agentId={agentId}
-        agentName={deployment.name}
-        clientName={client?.name || ''}
+        agentName={deployment.deployment_name}
       />
     </Suspense>
   )

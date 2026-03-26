@@ -4,62 +4,28 @@ import { useQuery } from '@tanstack/react-query'
 import {
   ArrowLeft,
   Calendar,
-  CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Clock,
   Loader2,
-  MessageSquare,
   Phone,
-  Voicemail,
-  XCircle,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
+import { OUTCOME_CONFIG } from '@/lib/constants'
 import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import { PageHeader } from '@/components/dashboard/PageHeader'
 import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
-import { type CallData, fetchAgentCalls } from '@/lib/queries/calls'
+import { fetchCallsPage } from '@/lib/queries/calls'
+import type { DashboardCall } from '@/lib/types/dashboard'
 import { cn } from '@/lib/utils'
 
 interface CallsListClientProps {
   agentId: string
   agentName: string
-  clientName: string
 }
 
 const ITEMS_PER_PAGE = 20
-
-/**
- * Outcome badge configuration
- */
-const outcomeBadges: Record<string, { label: string; className: string; icon: React.ReactNode }> = {
-  appointment_scheduled: {
-    label: 'RDV pris',
-    className: 'bg-green-500/20 text-green-400',
-    icon: <CheckCircle2 className="w-3 h-3" />,
-  },
-  appointment_refused: {
-    label: 'RDV refuse',
-    className: 'bg-red-500/20 text-red-400',
-    icon: <XCircle className="w-3 h-3" />,
-  },
-  voicemail: {
-    label: 'Messagerie',
-    className: 'bg-yellow-500/20 text-yellow-400',
-    icon: <Voicemail className="w-3 h-3" />,
-  },
-  callback_requested: {
-    label: 'Rappel demande',
-    className: 'bg-blue-500/20 text-blue-400',
-    icon: <Phone className="w-3 h-3" />,
-  },
-  not_interested: {
-    label: 'Pas interesse',
-    className: 'bg-gray-500/20 text-gray-400',
-    icon: <MessageSquare className="w-3 h-3" />,
-  },
-}
 
 /**
  * Format duration from seconds to mm:ss
@@ -74,7 +40,7 @@ function formatDuration(seconds: number): string {
  * Calls List Client Component
  * Displays paginated list of calls with filters
  */
-export function CallsListClient({ agentId, agentName, clientName }: CallsListClientProps) {
+export function CallsListClient({ agentId, agentName }: CallsListClientProps) {
   const { filters, setDateRange } = useDashboardFilters()
   const [page, setPage] = useState(0)
 
@@ -82,16 +48,14 @@ export function CallsListClient({ agentId, agentName, clientName }: CallsListCli
   const { data, isLoading } = useQuery({
     queryKey: ['agent-calls', agentId, filters.startDate, filters.endDate, page],
     queryFn: () =>
-      fetchAgentCalls(
-        agentId,
-        filters.startDate,
-        filters.endDate,
+      fetchCallsPage(
+        { startDate: filters.startDate, endDate: filters.endDate, deploymentId: agentId },
         ITEMS_PER_PAGE,
         page * ITEMS_PER_PAGE,
       ),
   })
 
-  const calls = data?.calls || []
+  const calls = data?.data || []
   const totalCalls = data?.total || 0
   const totalPages = Math.ceil(totalCalls / ITEMS_PER_PAGE)
 
@@ -115,7 +79,7 @@ export function CallsListClient({ agentId, agentName, clientName }: CallsListCli
       {/* Header */}
       <PageHeader
         title="Historique des appels"
-        description={`${agentName} - ${clientName} - ${totalCalls} appel${totalCalls > 1 ? 's' : ''}`}
+        description={`${agentName} — ${totalCalls} appel${totalCalls > 1 ? 's' : ''}`}
       />
 
       {/* Filters */}
@@ -145,7 +109,7 @@ export function CallsListClient({ agentId, agentName, clientName }: CallsListCli
             </thead>
             <tbody className="divide-y divide-white/5">
               {calls.map((call) => (
-                <CallRow key={call.id} call={call} agentId={agentId} />
+                <CallRow key={call.call_id} call={call} agentId={agentId} />
               ))}
             </tbody>
           </table>
@@ -193,12 +157,10 @@ export function CallsListClient({ agentId, agentName, clientName }: CallsListCli
 /**
  * Individual call row component
  */
-function CallRow({ call, agentId }: { call: CallData; agentId: string }) {
-  const outcomeConfig = outcomeBadges[call.outcome] || {
-    label: call.outcome,
-    className: 'bg-gray-500/20 text-gray-400',
-    icon: null,
-  }
+function CallRow({ call, agentId }: { call: DashboardCall; agentId: string }) {
+  const outcomeEntry = OUTCOME_CONFIG[call.outcome || '']
+  const outcomeLabel = outcomeEntry?.label || call.outcome || 'Inconnu'
+  const outcomeCls = outcomeEntry?.className || 'bg-gray-500/20 text-gray-400'
 
   const contactName =
     call.first_name || call.last_name
@@ -230,26 +192,25 @@ function CallRow({ call, agentId }: { call: CallData; agentId: string }) {
       <td className="px-4 py-3">
         <div className="flex items-center gap-2">
           <Clock className="w-4 h-4 text-white/40" />
-          <span className="text-sm text-white">{formatDuration(call.duration_seconds)}</span>
+          <span className="text-sm text-white">{formatDuration(call.duration_seconds || 0)}</span>
         </div>
       </td>
       <td className="px-4 py-3">
         <span
           className={cn(
             'inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium',
-            outcomeConfig.className,
+            outcomeCls,
           )}
         >
-          {outcomeConfig.icon}
-          {outcomeConfig.label}
+          {outcomeLabel}
         </span>
       </td>
       <td className="px-4 py-3">
-        <span className="text-sm text-white">{call.cost?.toFixed(2) || '0.00'} EUR</span>
+        <span className="text-sm text-white">{call.billed_cost?.toFixed(2) || '0.00'} EUR</span>
       </td>
       <td className="px-4 py-3">
         <Link
-          href={`/dashboard/agents/${agentId}/calls/${call.id}`}
+          href={`/dashboard/agents/${agentId}/calls/${call.call_id}`}
           className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
         >
           Details

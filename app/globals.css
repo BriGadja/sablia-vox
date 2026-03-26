@@ -4,17 +4,17 @@
 @source "../lib";
 @source "../hooks";
 
-/* Safelist — dynamic agent classes + chatbot widget classes */
-@source inline("from-louis to-louis from-arthur to-arthur from-alexandra to-alexandra bg-louis bg-arthur bg-alexandra text-louis text-arthur text-alexandra lg:grid-cols-5 sablia-chatbot-trigger sablia-chatbot-window sablia-chatbot-header sablia-chatbot-messages sablia-chatbot-input sablia-chatbot-message sablia-chatbot-widget from-blue-500 to-blue-600 to-orange-600 to-green-600");
+/* Safelist — dynamic classes + chatbot widget classes */
+@source inline("lg:grid-cols-5 sablia-chatbot-trigger sablia-chatbot-window sablia-chatbot-header sablia-chatbot-messages sablia-chatbot-input sablia-chatbot-message sablia-chatbot-widget from-blue-500 to-blue-600 to-orange-600 to-green-600");
 
 @import "tw-animate-css";
 
 /* Theme — OKLCh tokens from design spec (dark-first) */
 @theme {
-  /* Agent colors */
-  --color-louis: #3B82F6;
-  --color-arthur: #FB923C;
-  --color-alexandra: #10B981;
+  /* Template type colors */
+  --color-setter: #8B5CF6;
+  --color-secretary: #3B82F6;
+  --color-transfer: #FB923C;
 
   /* Semantic colors — OKLCh via CSS vars (Tailwind v4 native) */
   --color-primary: var(--primary);

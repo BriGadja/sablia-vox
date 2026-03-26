@@ -70,26 +70,49 @@ export async function createClient() {
 ```
 
 ## Database
-| Environment | MCP Tools | Access |
-|-------------|-----------|--------|
-| Production | `mcp__supabase-vox__*` | Read-only |
-| Staging | `mcp__supabase-staging__*` | Full access |
+
+**Supabase project**: sablia-voice (v2) — `mgsfrhirsvqbyjagrswt`
+| Resource | MCP Tools |
+|----------|-----------|
+| Production DB | `mcp__supabase-vox__*` |
+
+### Data Access Pattern
+All data fetching via 5 RPCs (org-scoped via JWT `app_metadata.org_id`):
+- `get_dashboard_kpis(start, end, deployment?, template?)` → JSONB
+- `get_call_volume_by_day(start, end, deployment?, template?)` → TABLE
+- `get_outcome_distribution(start, end, deployment?, template?)` → TABLE
+- `get_agent_cards_data(start?, end?, template?)` → TABLE
+- `get_calls_page(start, end, deployment?, template?, outcome?, direction?, phone?, limit?, offset?)` → JSONB
+
+3 views: `v_dashboard_calls`, `v_user_accessible_agents`, `v_agent_30d_stats`
 
 ### KPI Formulas (DO NOT GET WRONG)
 ```sql
 Answer Rate      = answered_calls / total_calls × 100
-Conversion Rate  = appointments / ANSWERED_calls × 100  -- NOT total_calls!
-Cost per RDV     = total_cost / appointments
+Conversion Rate  = conversions / total_calls × 100
+-- Conversions are template-type-aware:
+--   setter: outcome = 'appointment_scheduled'
+--   secretary: outcome IN ('info_provided', 'question_answered')
+--   transfer: outcome = 'transferred'
 ```
 
-### Pitfalls
-- `metadata ? 'key'` checks key **existence**, not value → use `outcome = 'appointment_scheduled'`
-- Conversion rate denominator is **answered_calls**, not total_calls
-- Voicemail is NOT answered
+### Auth
+- Custom access token hook injects `org_id` into JWT from `user_org_memberships`
+- `lib/auth.ts` → `getOrgId()` extracts org_id from session JWT
+- RLS on all tables scopes data to user's org automatically
 
 ## Domain Reference
-### Outcomes (lowercase)
-`appointment_scheduled`, `appointment_refused`, `voicemail`, `not_interested`, `callback_requested`, `too_short`, `call_failed`, `no_answer`, `busy`, `not_available`, `invalid_number`, `do_not_call`, `error`, `canceled`, `rejected`
+### Outcomes (20-value enum)
+**Success**: `appointment_scheduled`, `transferred`, `info_provided`, `question_answered`
+**Pending**: `callback_requested`
+**Not reached**: `voicemail`, `no_answer`, `busy`, `too_short`, `not_available`
+**Negative**: `not_interested`, `do_not_call`, `appointment_refused`, `rejected`
+**Error**: `call_failed`, `invalid_number`, `error`, `canceled`, `spam`, `wrong_number`
+
+### Template Types
+- `setter` (Violet `#8B5CF6`) — appointment scheduling
+- `secretary` (Blue `#3B82F6`) — reception/inquiry handling
+- `transfer` (Orange `#FB923C`) — call transfer/redirection
 
 ### Emotions
 `positive`, `neutral`, `negative`, `unknown`
@@ -98,9 +121,6 @@ Cost per RDV     = total_cost / appointments
 - Background: Dark gradient (black → purple-950/20 → black)
 - Cards: Glassmorphism (`bg-white/5`, `border-white/10`)
 - Accent: Violet/Purple (`#8B5CF6`)
-- Agent Louis: `#3B82F6` (Blue)
-- Agent Arthur: `#FB923C` (Orange)
-- Agent Alexandra: `#10B981` (Green)
 
 ## Routes
 ### Public
@@ -110,7 +130,7 @@ Cost per RDV     = total_cost / appointments
 `/auth/callback`, `/auth/confirm`, `/auth/error`, `/auth/reset-password`, `/auth/update-password`
 
 ### Dashboard
-`/dashboard` (→ redirects to overview), `/dashboard/overview`, `/dashboard/agents`, `/dashboard/agents/[agentId]`, `/dashboard/agents/[agentId]/calls`, `/dashboard/agents/[agentId]/calls/[callId]`, `/dashboard/clients` (admin), `/dashboard/clients/[clientId]` (admin), `/dashboard/financial` (admin), `/dashboard/consumption`, `/dashboard/admin/calls` (admin), `/dashboard/performance`, `/dashboard/settings` (placeholder)
+`/dashboard` (→ redirects to overview), `/dashboard/overview`, `/dashboard/agents`, `/dashboard/agents/[agentId]`, `/dashboard/agents/[agentId]/calls`, `/dashboard/agents/[agentId]/calls/[callId]`, `/dashboard/settings`
 
 ## Testing
 - Framework: Vitest + React Testing Library

@@ -6,7 +6,6 @@ import {
   Calendar,
   Clock,
   Phone,
-  Sparkles,
   Target,
   TrendingUp,
   Users,
@@ -19,6 +18,22 @@ interface AgentDeploymentCardProps {
   agent: AgentCardData
 }
 
+const STATUS_BADGES: Record<string, { label: string; className: string }> = {
+  active: { label: 'Actif', className: 'bg-green-500/20 text-green-400' },
+  inactive: { label: 'Inactif', className: 'bg-gray-500/20 text-gray-400' },
+  deploying: { label: 'Déploiement', className: 'bg-yellow-500/20 text-yellow-400' },
+  error: { label: 'Erreur', className: 'bg-red-500/20 text-red-400' },
+}
+
+function StatusBadge({ status }: { status: string }) {
+  const badge = STATUS_BADGES[status] || { label: status, className: 'bg-gray-500/20 text-gray-400' }
+  return (
+    <span className={cn('px-2 py-1 rounded-md text-xs font-medium', badge.className)}>
+      {badge.label}
+    </span>
+  )
+}
+
 /**
  * Agent Deployment Card Component
  * Displays individual agent deployment with metrics
@@ -27,31 +42,25 @@ interface AgentDeploymentCardProps {
 export function AgentDeploymentCard({ agent }: AgentDeploymentCardProps) {
   const hasData = agent.total_calls > 0
 
-  // Agent type configuration
-  const agentConfig = {
-    louis: {
+  // Template type configuration (v2: setter/secretary/transfer)
+  const templateConfig = {
+    setter: {
       icon: Users,
+      color: 'from-violet-500/20 to-violet-500/5 border-violet-500/30',
+      iconColor: 'text-violet-400',
+      badgeColor: 'bg-violet-500/20 text-violet-400',
+    },
+    secretary: {
+      icon: Phone,
       color: 'from-blue-500/20 to-blue-500/5 border-blue-500/30',
       iconColor: 'text-blue-400',
       badgeColor: 'bg-blue-500/20 text-blue-400',
     },
-    arthur: {
+    transfer: {
       icon: Target,
       color: 'from-orange-500/20 to-orange-500/5 border-orange-500/30',
       iconColor: 'text-orange-400',
       badgeColor: 'bg-orange-500/20 text-orange-400',
-    },
-    alexandra: {
-      icon: Sparkles,
-      color: 'from-green-500/20 to-green-500/5 border-green-500/30',
-      iconColor: 'text-green-400',
-      badgeColor: 'bg-green-500/20 text-green-400',
-    },
-    charlie: {
-      icon: Phone,
-      color: 'from-violet-500/20 to-violet-500/5 border-violet-500/30',
-      iconColor: 'text-violet-400',
-      badgeColor: 'bg-violet-500/20 text-violet-400',
     },
   }
 
@@ -62,7 +71,7 @@ export function AgentDeploymentCard({ agent }: AgentDeploymentCardProps) {
     badgeColor: 'bg-gray-500/20 text-gray-400',
   }
 
-  const config = agentConfig[agent.agent_type_name as keyof typeof agentConfig] ?? defaultConfig
+  const config = templateConfig[agent.template_type as keyof typeof templateConfig] ?? defaultConfig
   const Icon = config.icon
 
   return (
@@ -82,7 +91,7 @@ export function AgentDeploymentCard({ agent }: AgentDeploymentCardProps) {
             </div>
             <div className="min-w-0 flex-1">
               <h3 className="text-base font-bold text-white truncate">{agent.deployment_name}</h3>
-              <p className="text-xs text-white/60 truncate">{agent.client_name}</p>
+              <p className="text-xs text-white/60 truncate">{agent.template_display_name}</p>
             </div>
           </div>
           <ArrowRight className="w-4 h-4 text-white/40 group-hover:text-white/80 transition-colors flex-shrink-0" />
@@ -91,21 +100,9 @@ export function AgentDeploymentCard({ agent }: AgentDeploymentCardProps) {
         {/* Type Badge & Status */}
         <div className="flex items-center justify-between gap-2">
           <span className={cn('px-2 py-1 rounded-md text-xs font-medium', config.badgeColor)}>
-            {agent.agent_display_name}
+            {agent.template_display_name}
           </span>
-          {agent.deployment_status === 'active' ? (
-            <span className="px-2 py-1 rounded-md text-xs font-medium bg-green-500/20 text-green-400">
-              Actif
-            </span>
-          ) : agent.deployment_status === 'paused' ? (
-            <span className="px-2 py-1 rounded-md text-xs font-medium bg-yellow-500/20 text-yellow-400">
-              Pause
-            </span>
-          ) : (
-            <span className="px-2 py-1 rounded-md text-xs font-medium bg-gray-500/20 text-gray-400">
-              Archive
-            </span>
-          )}
+          <StatusBadge status={agent.deployment_status} />
         </div>
 
         {/* Last Activity */}

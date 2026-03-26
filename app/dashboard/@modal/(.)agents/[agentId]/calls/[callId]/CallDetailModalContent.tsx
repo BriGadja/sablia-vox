@@ -3,7 +3,6 @@
 import { useQuery } from '@tanstack/react-query'
 import {
   Calendar,
-  CheckCircle2,
   Clock,
   DollarSign,
   ExternalLink,
@@ -12,18 +11,17 @@ import {
   Loader2,
   Mail,
   Meh,
-  MessageSquare,
   Pause,
   Phone,
   Play,
   Smile,
   User,
-  Voicemail,
   Volume2,
   XCircle,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
+import { OUTCOME_CONFIG } from '@/lib/constants'
 import { fetchCallById } from '@/lib/queries/calls'
 import { cn } from '@/lib/utils'
 
@@ -34,34 +32,14 @@ interface CallDetailModalContentProps {
 }
 
 /**
- * Outcome badge configuration
+ * Get outcome display from shared config
  */
-const outcomeBadges: Record<string, { label: string; className: string; icon: React.ReactNode }> = {
-  appointment_scheduled: {
-    label: 'RDV pris',
-    className: 'bg-green-500/20 text-green-400 border-green-500/30',
-    icon: <CheckCircle2 className="w-4 h-4" />,
-  },
-  appointment_refused: {
-    label: 'RDV refuse',
-    className: 'bg-red-500/20 text-red-400 border-red-500/30',
-    icon: <XCircle className="w-4 h-4" />,
-  },
-  voicemail: {
-    label: 'Messagerie',
-    className: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
-    icon: <Voicemail className="w-4 h-4" />,
-  },
-  callback_requested: {
-    label: 'Rappel demande',
-    className: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-    icon: <Phone className="w-4 h-4" />,
-  },
-  not_interested: {
-    label: 'Pas interesse',
-    className: 'bg-gray-500/20 text-gray-400 border-gray-500/30',
-    icon: <MessageSquare className="w-4 h-4" />,
-  },
+function getOutcomeDisplay(outcome: string | null) {
+  const entry = OUTCOME_CONFIG[outcome || '']
+  return {
+    label: entry?.label || outcome || 'Inconnu',
+    className: `${entry?.className || 'bg-gray-500/20 text-gray-400'} border-white/10`,
+  }
 }
 
 /**
@@ -173,11 +151,7 @@ export function CallDetailModalContent({
     )
   }
 
-  const outcomeConfig = outcomeBadges[call.outcome] || {
-    label: call.outcome,
-    className: 'bg-gray-500/20 text-gray-400 border-gray-500/30',
-    icon: null,
-  }
+  const outcomeDisplay = getOutcomeDisplay(call.outcome)
 
   const emotionConfig = call.emotion
     ? emotionBadges[call.emotion] || {
@@ -247,7 +221,7 @@ export function CallDetailModalContent({
                 <span>Duree</span>
               </div>
               <p className="text-white text-sm font-medium">
-                {formatDuration(call.duration_seconds)}
+                {formatDuration(call.duration_seconds ?? 0)}
               </p>
             </div>
 
@@ -258,7 +232,7 @@ export function CallDetailModalContent({
                 <span>Cout</span>
               </div>
               <p className="text-white text-sm font-medium">
-                {call.cost?.toFixed(2) || '0.00'} EUR
+                {call.billed_cost?.toFixed(2) || '0.00'} €
               </p>
             </div>
 
@@ -271,10 +245,10 @@ export function CallDetailModalContent({
               <p
                 className={cn(
                   'text-sm font-medium',
-                  call.answered ? 'text-green-400' : 'text-red-400',
+                  call.is_answered ? 'text-green-400' : 'text-red-400',
                 )}
               >
-                {call.answered ? 'Repondu' : 'Non repondu'}
+                {call.is_answered ? 'Repondu' : 'Non repondu'}
               </p>
             </div>
           </div>
@@ -286,11 +260,10 @@ export function CallDetailModalContent({
               <div
                 className={cn(
                   'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium',
-                  outcomeConfig.className,
+                  outcomeDisplay.className,
                 )}
               >
-                {outcomeConfig.icon}
-                {outcomeConfig.label}
+                {outcomeDisplay.label}
               </div>
             </div>
 
@@ -367,14 +340,14 @@ export function CallDetailModalContent({
               </div>
 
               {/* Email */}
-              {call.email && (
+              {call.contact_email && (
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-white/5">
                     <Mail className="w-3 h-3 text-white/60" />
                   </div>
                   <div>
                     <p className="text-xs text-white/60">Email</p>
-                    <p className="text-white text-sm break-all">{call.email}</p>
+                    <p className="text-white text-sm break-all">{call.contact_email}</p>
                   </div>
                 </div>
               )}
@@ -387,11 +360,11 @@ export function CallDetailModalContent({
             <div className="space-y-2">
               <div>
                 <p className="text-xs text-white/60">Nom</p>
-                <p className="text-white text-sm">{call.agent_deployments.name}</p>
+                <p className="text-white text-sm">{call.deployment_name}</p>
               </div>
               <div>
-                <p className="text-xs text-white/60">Client</p>
-                <p className="text-white text-sm">{call.agent_deployments.clients.name}</p>
+                <p className="text-xs text-white/60">Type</p>
+                <p className="text-white text-sm capitalize">{call.template_display_name}</p>
               </div>
             </div>
           </div>

@@ -25,15 +25,11 @@ export default async function CallDetailModal({ params }: CallDetailModalProps) 
     redirect('/login')
   }
 
-  // Verify call exists and belongs to the agent
+  // Verify call exists via v_dashboard_calls view (RLS scoped)
   const { data: call, error } = await supabase
-    .from('agent_calls')
-    .select(`
-      id,
-      deployment_id,
-      agent_deployments!inner(name, slug)
-    `)
-    .eq('id', callId)
+    .from('v_dashboard_calls')
+    .select('call_id, deployment_id, deployment_name')
+    .eq('call_id', callId)
     .eq('deployment_id', agentId)
     .single()
 
@@ -41,12 +37,9 @@ export default async function CallDetailModal({ params }: CallDetailModalProps) 
     notFound()
   }
 
-  // Extract agent name from the joined data
-  const agentDeployment = call.agent_deployments as unknown as { name: string; slug: string }
-
   return (
     <Modal>
-      <CallDetailModalContent callId={callId} agentId={agentId} agentName={agentDeployment.name} />
+      <CallDetailModalContent callId={callId} agentId={agentId} agentName={call.deployment_name} />
     </Modal>
   )
 }

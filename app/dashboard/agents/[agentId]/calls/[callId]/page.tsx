@@ -9,8 +9,8 @@ interface CallDetailPageProps {
 }
 
 export const metadata = {
-  title: "Detail de l'appel | Sablia Vox Dashboard",
-  description: "Details complets de l'appel",
+  title: "Détail de l'appel | Sablia Vox Dashboard",
+  description: "Détails complets de l'appel",
 }
 
 /**
@@ -31,24 +31,17 @@ export default async function CallDetailPage({ params }: CallDetailPageProps) {
     redirect('/login')
   }
 
-  // Verify call exists and belongs to the agent
+  // Verify call exists via v_dashboard_calls view (RLS scoped)
   const { data: call, error } = await supabase
-    .from('agent_calls')
-    .select(`
-      id,
-      deployment_id,
-      agent_deployments!inner(name, slug)
-    `)
-    .eq('id', callId)
+    .from('v_dashboard_calls')
+    .select('call_id, deployment_id, deployment_name')
+    .eq('call_id', callId)
     .eq('deployment_id', agentId)
     .single()
 
   if (error || !call) {
     notFound()
   }
-
-  // Extract agent name from the joined data
-  const agentDeployment = call.agent_deployments as unknown as { name: string; slug: string }
 
   return (
     <Suspense
@@ -58,7 +51,7 @@ export default async function CallDetailPage({ params }: CallDetailPageProps) {
         </div>
       }
     >
-      <CallDetailClient callId={callId} agentId={agentId} agentName={agentDeployment.name} />
+      <CallDetailClient callId={callId} agentId={agentId} agentName={call.deployment_name} />
     </Suspense>
   )
 }
