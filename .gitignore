@@ -55,3 +55,4 @@ supabase/.temp/
 # Workspace symlinks (inherited skills & rules)
 .claude/skills
 .claude/rules
+.playwright-mcp/
