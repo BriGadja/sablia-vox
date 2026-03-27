@@ -709,6 +709,25 @@ Created `fetchEmotionDistribution` (client-side aggregation from `v_dashboard_ca
 
 ---
 
+## Bug: Dashboard Content Behind Sidebar
+
+**Status**: SOLVED
+
+**Date Discovered**: 2026-03-26
+
+**Severity**: MEDIUM - Layout overlap
+
+### Root Cause
+In `app/dashboard/layout.tsx`, `SidebarInset` (flex child) lacked `min-w-0`. Default `min-width: auto` prevents flex items from shrinking below their content's intrinsic minimum width. When Recharts SVGs had large intrinsic widths, `SidebarInset` couldn't shrink, the sidebar's gap div collapsed, and content rendered behind the fixed sidebar overlay.
+
+### Solution
+Added `min-w-0` to both `SidebarInset` and the inner `<main>` element in `app/dashboard/layout.tsx`. Added `overflow-hidden` to the four chart wrapper divs in `AgentDetailClient.tsx` for parity with `OverviewDashboardClient`.
+
+### Pattern: `min-w-0` for flex containers with dynamic content
+When a flex child contains content with large intrinsic width (SVG charts, tables, images), always add `min-w-0` to allow the flex item to shrink below content minimum. This is the canonical CSS flexbox fix for overflow in constrained layouts.
+
+---
+
 ## Related Documentation
 
 - **CLAUDE.md**: Main documentation with critical rules

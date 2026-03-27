@@ -162,16 +162,16 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
 
       {/* Charts Grid - 2x2 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="h-[300px]">
+        <div className="h-[300px] overflow-hidden">
           <CallVolumeChart data={callVolumeData || []} />
         </div>
-        <div className="h-[300px]">
+        <div className="h-[300px] overflow-hidden">
           <EmotionDistribution data={emotionData || []} />
         </div>
-        <div className="h-[300px]">
+        <div className="h-[300px] overflow-hidden">
           <OutcomeBreakdown data={outcomeData || []} />
         </div>
-        <div className="h-[300px]">
+        <div className="h-[300px] overflow-hidden">
           <LatencyTimeSeriesChart data={latencyData || []} isLoading={isLoadingLatencies} />
         </div>
       </div>
