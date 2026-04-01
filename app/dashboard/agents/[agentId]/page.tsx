@@ -1,5 +1,5 @@
 import { Loader2 } from 'lucide-react'
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { AgentDetailClient } from './AgentDetailClient'
@@ -41,6 +41,15 @@ export default async function AgentDetailPage({ params }: PageProps) {
   if (!user) {
     redirect('/login')
   }
+
+  // Check agent exists and is accessible
+  const { data: agent } = await supabase
+    .from('v_user_accessible_agents')
+    .select('deployment_id')
+    .eq('deployment_id', agentId)
+    .single()
+
+  if (!agent) notFound()
 
   return (
     <Suspense

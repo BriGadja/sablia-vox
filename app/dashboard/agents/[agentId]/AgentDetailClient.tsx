@@ -1,11 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import {
-  AlertCircle,
-  ArrowLeft,
-  Loader2,
-} from 'lucide-react'
+import { AlertCircle, ArrowLeft, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { CallVolumeChart } from '@/components/dashboard/Charts/CallVolumeChart'
@@ -24,6 +20,7 @@ import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
 import { useLatencyMetrics } from '@/lib/hooks/useLatencyData'
 import { createClient } from '@/lib/supabase/client'
 import type { AccessibleAgent } from '@/lib/types/dashboard'
+import { cn } from '@/lib/utils'
 
 interface AgentDetailClientProps {
   agentId: string
@@ -143,8 +140,52 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
     )
   }
 
+  const templateBadges: Record<string, { color: string; label: string }> = {
+    setter: { color: 'bg-violet-500/20 text-violet-400', label: 'Setter' },
+    secretary: { color: 'bg-blue-500/20 text-blue-400', label: 'Secrétaire' },
+    transfer: { color: 'bg-orange-500/20 text-orange-400', label: 'Transfert' },
+  }
+  const badge = templateBadges[agent.template_type] ?? {
+    color: 'bg-gray-500/20 text-gray-400',
+    label: agent.template_type,
+  }
+
   return (
     <div className="p-6 space-y-4">
+      {/* Agent Header */}
+      <div className="flex items-center justify-between rounded-xl bg-white/5 border border-white/10 p-4">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/dashboard/agents"
+            className="p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
+          <div>
+            <h1 className="text-lg font-bold text-white">{agent.deployment_name}</h1>
+            <div className="flex items-center gap-2 mt-0.5">
+              <span
+                className={cn(
+                  'inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium',
+                  badge.color,
+                )}
+              >
+                {badge.label}
+              </span>
+              {agent.template_display_name && (
+                <span className="text-xs text-white/50">{agent.template_display_name}</span>
+              )}
+            </div>
+          </div>
+        </div>
+        <Link
+          href={`/dashboard/agents/${agentId}/calls`}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 text-sm font-medium transition-colors"
+        >
+          Voir les appels
+        </Link>
+      </div>
+
       {/* Filters */}
       <DateRangeFilter
         startDate={new Date(filters.startDate)}

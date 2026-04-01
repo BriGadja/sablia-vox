@@ -59,6 +59,12 @@
 | L5 | **French docs** — `DATABASE_BACKUP_GUIDE.md` and `MIGRATION_BEST_PRACTICES.md` are in French (internal docs should be English per policy). | `docs/` | Language inconsistency |
 | ~~L6~~ | ~~**Dead `.claude/commands`**~~ — Resolved: deleted generate-prp.md and execute-prp.md. | | |
 | ~~L7~~ | ~~**Stale types in `lib/types/database.ts`**~~ — Resolved: file deleted. | | |
+| L8 | **Overview page padding inconsistency** — `p-1.5` vs `p-6` used elsewhere in dashboard pages. | `app/dashboard/overview/OverviewDashboardClient.tsx` | Visual inconsistency |
+| L9 | **Chart height approach differences** — Some charts use dynamic `h-full`, others use fixed `h-[300px]`. | `AgentDetailClient.tsx`, `OverviewDashboardClient.tsx` | Inconsistent sizing behavior |
+| L10 | **Loading fallback heights** — `h-screen` vs `calc(100vh-3.5rem)` in Suspense fallbacks. | `app/dashboard/agents/[agentId]/page.tsx` | Spinner position inconsistency |
+| L11 | **`formatRelativeTime` null handling** — Missing null guard in `AgentDeploymentCard`. | `app/dashboard/agents/AgentDeploymentCard.tsx` | Potential runtime error |
+| L12 | **Radix CSS var syntax (animation origins)** — `origin-[--radix-*]` uses v3 bracket syntax in dropdown-menu/tooltip. Low impact (animation origins). | `components/ui/dropdown-menu.tsx`, `tooltip.tsx` | Tailwind v4 compat |
+| L13 | **Custom 404 page for dashboard** — `notFound()` renders default white 404 page, doesn't match dark theme. | `app/dashboard/not-found.tsx` (missing) | Visual jarring on 404 |
 
 ---
 

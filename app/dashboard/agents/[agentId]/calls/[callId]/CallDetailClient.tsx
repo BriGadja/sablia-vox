@@ -20,7 +20,7 @@ import {
   XCircle,
 } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { OUTCOME_CONFIG } from '@/lib/constants'
 import { PageHeader } from '@/components/dashboard/PageHeader'
 import { fetchCallById } from '@/lib/queries/calls'
@@ -78,9 +78,34 @@ function formatDuration(seconds: number): string {
  */
 function AudioPlayer({ url }: { url: string }) {
   const [isPlaying, setIsPlaying] = useState(false)
-  const [audio] = useState(() => new Audio(url))
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  useEffect(() => {
+    const audio = new Audio(url)
+    audioRef.current = audio
+
+    const onTimeUpdate = () => setCurrentTime(audio.currentTime)
+    const onLoadedMetadata = () => setDuration(audio.duration)
+    const onEnded = () => setIsPlaying(false)
+
+    audio.addEventListener('timeupdate', onTimeUpdate)
+    audio.addEventListener('loadedmetadata', onLoadedMetadata)
+    audio.addEventListener('ended', onEnded)
+
+    return () => {
+      audio.removeEventListener('timeupdate', onTimeUpdate)
+      audio.removeEventListener('loadedmetadata', onLoadedMetadata)
+      audio.removeEventListener('ended', onEnded)
+      audio.pause()
+      audio.src = ''
+    }
+  }, [url])
 
   const togglePlay = () => {
+    const audio = audioRef.current
+    if (!audio) return
     if (isPlaying) {
       audio.pause()
     } else {
@@ -89,9 +114,17 @@ function AudioPlayer({ url }: { url: string }) {
     setIsPlaying(!isPlaying)
   }
 
+  const progress = duration > 0 ? (currentTime / duration) * 100 : 0
+  const formatTime = (s: number) => {
+    const m = Math.floor(s / 60)
+    const sec = Math.floor(s % 60)
+    return `${m}:${sec.toString().padStart(2, '0')}`
+  }
+
   return (
     <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
       <button
+        type="button"
         onClick={togglePlay}
         className="p-3 rounded-full bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-colors"
       >
@@ -99,9 +132,15 @@ function AudioPlayer({ url }: { url: string }) {
       </button>
       <div className="flex-1">
         <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-          <div className="h-full bg-purple-500 w-0 transition-all" />
+          <div
+            style={{ width: `${progress}%` }}
+            className="h-full bg-purple-500 rounded-full transition-all"
+          />
         </div>
       </div>
+      <span className="text-xs text-white/50 tabular-nums">
+        {formatTime(currentTime)} / {formatTime(duration)}
+      </span>
       <Volume2 className="w-5 h-5 text-white/40" />
     </div>
   )
@@ -223,7 +262,9 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
                   <Clock className="w-4 h-4" />
                   <span>Durée</span>
                 </div>
-                <p className="text-white font-medium">{formatDuration(call.duration_seconds ?? 0)}</p>
+                <p className="text-white font-medium">
+                  {formatDuration(call.duration_seconds ?? 0)}
+                </p>
               </div>
 
               {/* Cost */}
@@ -241,7 +282,12 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
                   <Phone className="w-4 h-4" />
                   <span>Statut</span>
                 </div>
-                <p className={cn('font-medium', call.is_answered ? 'text-green-400' : 'text-red-400')}>
+                <p
+                  className={cn(
+                    'font-medium',
+                    call.is_answered ? 'text-green-400' : 'text-red-400',
+                  )}
+                >
                   {call.is_answered ? 'Répondu' : 'Non répondu'}
                 </p>
               </div>

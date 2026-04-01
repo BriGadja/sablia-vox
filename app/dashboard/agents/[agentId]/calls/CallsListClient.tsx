@@ -206,7 +206,7 @@ function CallRow({ call, agentId }: { call: DashboardCall; agentId: string }) {
         </span>
       </td>
       <td className="px-4 py-3">
-        <span className="text-sm text-white">{call.billed_cost?.toFixed(2) || '0.00'} EUR</span>
+        <span className="text-sm text-white">{call.billed_cost?.toFixed(2) || '0.00'} €</span>
       </td>
       <td className="px-4 py-3">
         <Link

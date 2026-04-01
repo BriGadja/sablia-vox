@@ -711,20 +711,30 @@ Created `fetchEmotionDistribution` (client-side aggregation from `v_dashboard_ca
 
 ## Bug: Dashboard Content Behind Sidebar
 
-**Status**: SOLVED
+**Status**: SOLVED (root cause fix 2026-04-01)
 
 **Date Discovered**: 2026-03-26
 
 **Severity**: MEDIUM - Layout overlap
 
-### Root Cause
-In `app/dashboard/layout.tsx`, `SidebarInset` (flex child) lacked `min-w-0`. Default `min-width: auto` prevents flex items from shrinking below their content's intrinsic minimum width. When Recharts SVGs had large intrinsic widths, `SidebarInset` couldn't shrink, the sidebar's gap div collapsed, and content rendered behind the fixed sidebar overlay.
+### Root Cause (updated 2026-04-01)
+The actual root cause was **Tailwind v4 CSS variable syntax incompatibility** in `components/ui/sidebar.tsx`. Tailwind v4 changed how CSS variables work in utility classes:
+- **v3**: `w-[--sidebar-width]` compiled to `width: var(--sidebar-width)` (auto-wrapped)
+- **v4**: `w-[--sidebar-width]` produces `width: --sidebar-width` (invalid CSS, no auto-wrap)
+- **v4 correct**: `w-(--sidebar-width)` compiles to `width: var(--sidebar-width)`
+
+The gap div spacer (invisible flex element that pushes SidebarInset rightward) had 0 computed width because the v3 syntax silently failed in v4. SidebarInset then started at x=0, overlapping the `position:fixed` sidebar overlay.
+
+Three prior fix attempts (min-w-0, shrink-0, w-0 on SidebarInset) targeted the wrong element — they mitigated symptoms but didn't fix the gap div's broken width.
 
 ### Solution
-Added `min-w-0` to both `SidebarInset` and the inner `<main>` element in `app/dashboard/layout.tsx`. Added `overflow-hidden` to the four chart wrapper divs in `AgentDetailClient.tsx` for parity with `OverviewDashboardClient`.
+1. Updated all `w-[--sidebar-width]` and `w-[--sidebar-width-icon]` to v4 parenthesis syntax `w-(--sidebar-width)` in sidebar.tsx (6 width + 1 max-width instances)
+2. Fixed `max-h-[--radix-select-content-available-height]` to `max-h-(--radix-...)` in select.tsx
+3. Cleaned up dashboard layout: removed redundant `h-screen`, `min-w-0`, `flex`, `flex-col` from SidebarInset (all built-in), changed nested `<main>` to `<div>` (SidebarInset already renders as `<main>`)
+4. Left `w-[calc(var(...))]` untouched — calc() with var() inside brackets is still valid in v4
 
-### Pattern: `min-w-0` for flex containers with dynamic content
-When a flex child contains content with large intrinsic width (SVG charts, tables, images), always add `min-w-0` to allow the flex item to shrink below content minimum. This is the canonical CSS flexbox fix for overflow in constrained layouts.
+### Pattern: Tailwind v4 CSS variable syntax
+When using CSS custom properties in Tailwind v4 utility classes, use parenthesis syntax `w-(--var-name)` instead of bracket syntax `w-[--var-name]`. Brackets no longer auto-wrap in `var()`. Exception: `calc(var(...))` inside brackets still works.
 
 ---
 
