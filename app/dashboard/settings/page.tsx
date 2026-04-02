@@ -9,9 +9,12 @@ function useOrgInfo() {
     queryKey: ['org-info'],
     queryFn: async () => {
       const supabase = createClient()
+      const { data: { session } } = await supabase.auth.getSession()
+      const orgId = session?.user?.app_metadata?.org_id
       const { data, error } = await supabase
         .from('organizations')
         .select('*')
+        .eq('id', orgId)
         .single()
       if (error) throw error
       return data
@@ -25,9 +28,12 @@ function useOrgMembers() {
     queryKey: ['org-members'],
     queryFn: async () => {
       const supabase = createClient()
+      const { data: { session } } = await supabase.auth.getSession()
+      const orgId = session?.user?.app_metadata?.org_id
       const { data, error } = await supabase
         .from('user_org_memberships')
         .select('*, users(email, full_name, role)')
+        .eq('org_id', orgId)
         .order('created_at')
       if (error) throw error
       return data
