@@ -138,10 +138,27 @@ Conversion Rate  = conversions / total_calls × 100
 - Mock Supabase: `vi.mock('@/lib/supabase/server')` + `test/mocks/supabase.ts`
 - Run: `npm test` (unit) | `/e2e-test sablia-vox` (browser)
 
+## Active Project: Client-Ready SaaS (vox-saas-master)
+
+Master plan: `plans/vox-saas-master.md` (challenged GO, 2026-04-12)
+PRD: `PRD-saas.md` (Phase 1+2 scope)
+
+**6 units**: Tech Debt → Design System → Auth & Settings → Landing & Onboarding → Customer Success → Polish
+**Next**: `/plan vox-saas-tech-debt` (Unit 1)
+
+Key challenge fixes baked into plan:
+- `inviteUserByEmail()` requires service_role API route (not anon key)
+- `token_hash` email template for invite links (corporate scanner protection)
+- Resend custom SMTP mandatory (Supabase built-in: 2 emails/hour)
+- `user_metadata.onboarded_at` via `updateUser()` (cannot modify auth.users schema)
+- INP < 200ms (FID deprecated), CSS-based page transitions (AnimatePresence exit broken in App Router)
+- `improvement_suggestions` table must be created (doesn't exist in v2)
+
 ## Documentation
 - [`PRD.md`](PRD.md) — Full product reference document (platform, dashboard, agents)
+- [`PRD-saas.md`](PRD-saas.md) — Client-ready SaaS PRD (Phase 1+2: client readiness + customer success)
 - [`docs/LANDING-PRD.md`](docs/LANDING-PRD.md) — Landing page redesign spec (public homepage)
 - `docs/ARCHITECTURE.md` — Code architecture and data flow
-- `docs/DATABASE_REFERENCE.md` — Complete database schema
+- `docs/DATABASE_REFERENCE.md` — Complete database schema (NOTE: documents v1 — v2 schema differs, verify against live DB)
 - `docs/TECH_DEBT.md` — Tech debt inventory (drives refactoring)
 - `docs/KNOWN_ISSUES.md` — Bug history and solutions
