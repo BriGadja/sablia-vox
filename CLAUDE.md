@@ -30,9 +30,15 @@
 - App Router: `app/` (layouts, pages, route handlers)
 - Components: `components/` (shared) | `components/ui/` (shadcn)
 - Lib: `lib/` (supabase clients, queries, hooks, utilities, types)
+  - `lib/supabase/server.ts` — Server Supabase client (anon key, cookies)
+  - `lib/supabase/client.ts` — Browser Supabase client
+  - `lib/supabase/admin.ts` — Admin Supabase client (service_role, bypasses RLS, server-only)
+  - `lib/api-auth.ts` — `requireAdmin()` auth guard + `handleApiError()` for API routes
   - `lib/queries/` — Supabase data fetching functions
   - `lib/hooks/` — TanStack Query hooks + URL state parsers (main hooks directory)
-  - `lib/types/` — TypeScript type definitions (dashboard, financial, consumption, etc.)
+  - `lib/types/` — TypeScript type definitions (dashboard, financial, settings, etc.)
+  - `lib/motion-tokens.ts` — JS mirror of CSS animation tokens (DESIGN-SPEC §2.5)
+- API Routes: `app/api/org/` — org mutations (admin-only, service_role). See `API-client-ready.md`
 - Types: `types/` (root — only chatbot types and gtag declarations)
 - Hooks: `hooks/` (root — only `useIsMobile` from shadcn)
 
@@ -161,8 +167,8 @@ Master plan: `plans/vox-saas-master.md` (challenged GO, 2026-04-12)
 PRD: `PRD-saas.md` (Phase 1+2 scope)
 
 **6 units**: Tech Debt → Design System → Auth & Settings → Landing & Onboarding → Customer Success → Polish
-**Completed**: Unit 1 (Tech Debt), Unit 2 (Design System — `DESIGN-SPEC.md`)
-**Next**: `/plan vox-saas-auth-settings` (Unit 3)
+**Completed**: Unit 1 (Tech Debt), Unit 2 (Design System — `DESIGN-SPEC.md`), Unit 3 (Auth & Settings — `API-client-ready.md`)
+**Next**: `/plan vox-saas-landing-onboarding` (Unit 4)
 
 Key challenge fixes baked into plan:
 - `inviteUserByEmail()` requires service_role API route (not anon key)

@@ -40,10 +40,20 @@ export const sidebarConfig: NavGroup[] = [
     ],
   },
   // "Mes Agents" est insere dynamiquement via AgentTree dans AppSidebar
+  {
+    label: 'Gestion',
+    items: [
+      {
+        title: 'Paramètres',
+        href: '/dashboard/settings',
+        icon: Settings,
+      },
+    ],
+  },
 ]
 
 export const settingsNavItem: NavItem = {
-  title: 'Parametres',
+  title: 'Paramètres',
   href: '/dashboard/settings',
   icon: Settings,
 }
