@@ -170,7 +170,8 @@ Key challenge fixes baked into plan:
 - Resend custom SMTP mandatory (Supabase built-in: 2 emails/hour)
 - `user_metadata.onboarded_at` via `updateUser()` (cannot modify auth.users schema)
 - INP < 200ms (FID deprecated), CSS-based page transitions (AnimatePresence exit broken in App Router)
-- `improvement_suggestions` table must be created (doesn't exist in v2)
+- `improvement_suggestions` table exists in v2 (verified 2026-04-12 — previous note was stale)
+- `organizations` + `user_org_memberships`: NO UPDATE/INSERT/DELETE RLS for authenticated users — all mutations require service_role API routes
 
 ## Documentation
 - [`PRD.md`](PRD.md) — Full product reference document (platform, dashboard, agents)
