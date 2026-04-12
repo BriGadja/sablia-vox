@@ -28,8 +28,8 @@ Unit 2 of vox-saas-master. Establish the enterprise-grade design system that all
 Skill: `/execute` (direct — run Lighthouse CLI against live site)
 
 ### Tasks
-- [ ] A1: Run Lighthouse on landing page (`vox.sablia.io`) — capture performance, accessibility, SEO, best practices scores
-- [ ] A2: Run Lighthouse on dashboard page (`vox.sablia.io/dashboard/overview`) — requires authenticated session via Playwright MCP. If auth blocks automated capture, document manual baseline from Chrome DevTools
+- [x] A1: Run Lighthouse on landing page (`vox.sablia.io`) — capture performance, accessibility, SEO, best practices scores
+- [x] A2: Run Lighthouse on dashboard page (`vox.sablia.io/dashboard/overview`) — requires authenticated session via Playwright MCP. If auth blocks automated capture, document manual baseline from Chrome DevTools
 
 ### Technical Details
 
@@ -67,9 +67,9 @@ If automated auth fails, capture manually: Brice opens Chrome DevTools → Light
 Skill: `/execute` (direct — spec writing)
 
 ### Tasks
-- [ ] B1: Specify color system — surface elevation tokens (`--surface-1` through `--surface-4`), interactive state overlays (`--hover-overlay`, `--active-overlay`, `--focus-ring`), semantic data visualization colors (`--color-success/warning/danger/info`). Document as CSS custom properties in OKLCh format, compatible with existing `@theme` block in `globals.css`
-- [ ] B2: Specify typography scale — font sizes (Minor Third 1.2 ratio, 10px–36px), font weights (400/500/600/700), line heights (1.2–1.625), letter spacing (tight/normal/wide). Document usage rules: KPI numbers use `--tracking-tight` + bold, table data uses `--font-size-sm`, badges use uppercase + `--tracking-wide`. All as `@theme` vars
-- [ ] B3: Specify glassmorphism tier system — 3 tiers (subtle: `bg-white/4 blur-8px`, standard: `75% opacity blur-16px`, strong: `90% blur-24px`). Include "light edge" trick (`inset 0 1px 0 oklch(1 0 0 / 0.1)`). Document which tier applies where (subtle = inline cards, standard = modals/panels, strong = tooltips/command palette). Performance rule: max 3 `backdrop-filter` elements in viewport. Replace existing unused `.glass`/`.glass-dark` utilities
+- [x] B1: Specify color system — surface elevation tokens (`--surface-1` through `--surface-4`), interactive state overlays (`--hover-overlay`, `--active-overlay`, `--focus-ring`), semantic data visualization colors (`--color-success/warning/danger/info`). Document as CSS custom properties in OKLCh format, compatible with existing `@theme` block in `globals.css`
+- [x] B2: Specify typography scale — font sizes (Minor Third 1.2 ratio, 10px–36px), font weights (400/500/600/700), line heights (1.2–1.625), letter spacing (tight/normal/wide). Document usage rules: KPI numbers use `--tracking-tight` + bold, table data uses `--font-size-sm`, badges use uppercase + `--tracking-wide`. All as `@theme` vars
+- [x] B3: Specify glassmorphism tier system — 3 tiers (subtle: `bg-white/4 blur-8px`, standard: `75% opacity blur-16px`, strong: `90% blur-24px`). Include "light edge" trick (`inset 0 1px 0 oklch(1 0 0 / 0.1)`). Document which tier applies where (subtle = inline cards, standard = modals/panels, strong = tooltips/command palette). Performance rule: max 3 `backdrop-filter` elements in viewport. Replace existing unused `.glass`/`.glass-dark` utilities
 
 ### Technical Details
 
@@ -146,9 +146,9 @@ Migration: document which existing components map to which tier. Units 3-6 apply
 Skill: `/execute` (direct — spec writing)
 
 ### Tasks
-- [ ] C1: Specify motion library setup — `motion` v12 with LazyMotion (`domAnimation` feature set, ~20kb vs 34kb direct), MotionProvider wrapper in `app/layout.tsx` with `<MotionConfig reducedMotion="user">`. Document migration path: existing 16 files import from `motion/react` → update to `motion/react-m` for tree-shaking. No package change needed (`motion` ^12.38.0 already installed)
-- [ ] C2: Specify motion primitives catalog + page transition approach — 6 primitives (`FadeIn`, `SlideUp`, `SlideIn`, `StaggerChildren`, `ScaleIn`, `FadeInWhenVisible`) in `components/motion/`. Page transitions via React `<ViewTransition>` (experimental in Next.js 16, `next.config.ts` flag). Document existing `Reveal.tsx` → deprecate in favor of `FadeInWhenVisible`. Animation easing/duration tokens as CSS vars in `@theme`
-- [ ] C3: Specify skeleton/shimmer pattern + reduced motion strategy + performance budget — CSS-only shimmer keyframe (no Motion dependency), paired `*Skeleton` components co-located with real components. Reduced motion: MotionConfig layer (auto-disables transform/layout) + CSS `@media` for View Transitions. Performance: GPU-only properties (transform, opacity), max 30 simultaneous whileInView, INP < 200ms, 60fps target
+- [x] C1: Specify motion library setup — `motion` v12 with LazyMotion (`domAnimation` feature set, ~20kb vs 34kb direct), MotionProvider wrapper in `app/layout.tsx` with `<MotionConfig reducedMotion="user">`. Document migration path: existing 16 files import from `motion/react` → update to `motion/react-m` for tree-shaking. No package change needed (`motion` ^12.38.0 already installed)
+- [x] C2: Specify motion primitives catalog + page transition approach — 6 primitives (`FadeIn`, `SlideUp`, `SlideIn`, `StaggerChildren`, `ScaleIn`, `FadeInWhenVisible`) in `components/motion/`. Page transitions via React `<ViewTransition>` (experimental in Next.js 16, `next.config.ts` flag). Document existing `Reveal.tsx` → deprecate in favor of `FadeInWhenVisible`. Animation easing/duration tokens as CSS vars in `@theme`
+- [x] C3: Specify skeleton/shimmer pattern + reduced motion strategy + performance budget — CSS-only shimmer keyframe (no Motion dependency), paired `*Skeleton` components co-located with real components. Reduced motion: MotionConfig layer (auto-disables transform/layout) + CSS `@media` for View Transitions. Performance: GPU-only properties (transform, opacity), max 30 simultaneous whileInView, INP < 200ms, 60fps target
 
 ### Technical Details
 
@@ -317,8 +317,8 @@ Performance budget:
 Skill: `/execute` (direct — spec writing)
 
 ### Tasks
-- [ ] D1: Document information architecture — complete route map (public, auth, dashboard routes with permission level), sidebar navigation structure (admin vs client view), page hierarchy. Consolidate from PRD wireframes + current codebase
-- [ ] D2: Document user flows for new pages — (1) Client invite flow: admin sends invite → email → magic link → auth/callback → dashboard. (2) Settings flow: tab navigation, org edit, team management, invite form. (3) Onboarding flow: first login detection → welcome modal → dismiss → set `user_metadata.onboarded_at`. (4) Consumption flow: date range selection → per-agent breakdown → overage calculation. Include wireframe references from PRD
+- [x] D1: Document information architecture — complete route map (public, auth, dashboard routes with permission level), sidebar navigation structure (admin vs client view), page hierarchy. Consolidate from PRD wireframes + current codebase
+- [x] D2: Document user flows for new pages — (1) Client invite flow: admin sends invite → email → magic link → auth/callback → dashboard. (2) Settings flow: tab navigation, org edit, team management, invite form. (3) Onboarding flow: first login detection → welcome modal → dismiss → set `user_metadata.onboarded_at`. (4) Consumption flow: date range selection → per-agent breakdown → overage calculation. Include wireframe references from PRD
 
 ### Technical Details
 
@@ -368,9 +368,9 @@ Each flow documented as: trigger → steps → end state → error states. Wiref
 Skill: `/execute` (direct — compile + validate)
 
 ### Tasks
-- [ ] E1: Compile all Phase A-D outputs into `DESIGN-SPEC.md` in the project root (`projects/internal/websites/sablia-vox/DESIGN-SPEC.md`). Structure: Part 0 (Lighthouse Baseline), Part 1 (UX Structure: IA, flows, wireframe references), Part 2 (UI Identity: color tokens, typography, spacing, glassmorphism, animation architecture, motion primitives, skeleton pattern, performance budget). Ensure CSS token blocks are copy-pasteable into `globals.css` `@theme` / `:root`
-- [ ] E2: Validate spec completeness against master plan Unit 2 exit criteria — check every criterion marked in master plan section
-- [ ] E3: Update project `CLAUDE.md` with design system reference — add `DESIGN-SPEC.md` to Documentation section, note design token location, add motion primitive import pattern
+- [x] E1: Compile all Phase A-D outputs into `DESIGN-SPEC.md` in the project root (`projects/internal/websites/sablia-vox/DESIGN-SPEC.md`). Structure: Part 0 (Lighthouse Baseline), Part 1 (UX Structure: IA, flows, wireframe references), Part 2 (UI Identity: color tokens, typography, spacing, glassmorphism, animation architecture, motion primitives, skeleton pattern, performance budget). Ensure CSS token blocks are copy-pasteable into `globals.css` `@theme` / `:root`
+- [x] E2: Validate spec completeness against master plan Unit 2 exit criteria — check every criterion marked in master plan section
+- [x] E3: Update project `CLAUDE.md` with design system reference — add `DESIGN-SPEC.md` to Documentation section, note design token location, add motion primitive import pattern
 
 ### Technical Details
 

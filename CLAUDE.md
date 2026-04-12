@@ -161,7 +161,8 @@ Master plan: `plans/vox-saas-master.md` (challenged GO, 2026-04-12)
 PRD: `PRD-saas.md` (Phase 1+2 scope)
 
 **6 units**: Tech Debt → Design System → Auth & Settings → Landing & Onboarding → Customer Success → Polish
-**Next**: `/plan vox-saas-tech-debt` (Unit 1)
+**Completed**: Unit 1 (Tech Debt), Unit 2 (Design System — `DESIGN-SPEC.md`)
+**Next**: `/plan vox-saas-auth-settings` (Unit 3)
 
 Key challenge fixes baked into plan:
 - `inviteUserByEmail()` requires service_role API route (not anon key)
@@ -174,6 +175,7 @@ Key challenge fixes baked into plan:
 ## Documentation
 - [`PRD.md`](PRD.md) — Full product reference document (platform, dashboard, agents)
 - [`PRD-saas.md`](PRD-saas.md) — Client-ready SaaS PRD (Phase 1+2: client readiness + customer success)
+- [`DESIGN-SPEC.md`](DESIGN-SPEC.md) — Design system specification (Unit 2: tokens, animation, UX flows, Lighthouse baseline). Design tokens in Part 2 (2.1-2.8), motion primitives in `components/motion/`, JS tokens in `lib/motion-tokens.ts`
 - [`docs/LANDING-PRD.md`](docs/LANDING-PRD.md) — Landing page redesign spec (public homepage)
 - `docs/ARCHITECTURE.md` — Code architecture and data flow
 - `docs/DATABASE_REFERENCE.md` — Complete database schema (NOTE: documents v1 — v2 schema differs, verify against live DB)
