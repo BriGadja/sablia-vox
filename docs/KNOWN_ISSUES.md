@@ -738,6 +738,43 @@ When using CSS custom properties in Tailwind v4 utility classes, use parenthesis
 
 ---
 
+## Tech Debt Cleanup — vox-saas-tech-debt (2026-04-12)
+
+**Status**: SOLVED
+
+**Severity**: LOW-MEDIUM — UI consistency + code quality
+
+### Fixes Applied
+
+| Item | What | Fix |
+|------|------|-----|
+| H6 | 3 versions of checkIsAdmin | Consolidated to 2: `checkIsAdminServer()` in `lib/auth.ts` (server), `checkIsAdmin()` in `lib/queries/global.ts` (browser) |
+| M8 | `?redirect=` param ignored | LoginForm now reads redirect via `useSearchParams()` with URL-constructor open-redirect validation |
+| L3 | ESLint disable in AgentFilter | Replaced with `useRef` pattern for stable callback reference |
+| L8 | Overview padding `p-1.5` | Standardized to `p-6` and `gap-4` |
+| L9 | Inconsistent chart heights | Standardized to `h-[300px]` across all dashboard charts |
+| L10 | `h-screen` in Suspense fallbacks | Changed to `h-full` in all 6 dashboard files |
+| L12 | Radix CSS var bracket syntax | `origin-[--radix-*]` → `origin-(--radix-*)` in 3 files (Tailwind v4 compat) |
+| L13 | No dashboard 404 page | Created `not-found.tsx` (dark theme) + `[...not-found]/page.tsx` catch-all |
+
+### Pattern: Open Redirect Prevention
+
+```typescript
+function getSafeRedirect(value: string | null): string {
+  if (!value) return '/dashboard'
+  try {
+    const url = new URL(value, window.location.origin)
+    return url.origin === window.location.origin ? url.pathname + url.search : '/dashboard'
+  } catch {
+    return '/dashboard'
+  }
+}
+```
+
+Uses `URL` constructor instead of `startsWith('/')` — prevents `/\attacker.com` bypass.
+
+---
+
 ## Related Documentation
 
 - **CLAUDE.md**: Main documentation with critical rules

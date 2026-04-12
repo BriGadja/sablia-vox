@@ -18,8 +18,9 @@ import {
 } from '@/lib/utils'
 
 /**
- * Check if the current user has admin permissions
- * Queries user_org_memberships for 'admin' permission level
+ * Check if the current user has admin permissions (browser-side)
+ * Queries user_org_memberships for 'admin' permission level, scoped by RLS
+ * Server-side variant: checkIsAdminServer() in lib/auth.ts
  */
 export async function checkIsAdmin(): Promise<boolean> {
   const supabase = createClient()
@@ -35,7 +36,7 @@ export async function checkIsAdmin(): Promise<boolean> {
     return false
   }
 
-  return data && data.length > 0
+  return (data?.length ?? 0) > 0
 }
 
 /**

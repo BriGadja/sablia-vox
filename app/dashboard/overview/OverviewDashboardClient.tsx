@@ -65,11 +65,11 @@ export function OverviewDashboardClient({ userEmail }: OverviewDashboardClientPr
   }
 
   return (
-    <div className="h-full p-1.5 overflow-hidden">
-      <div className="flex flex-col gap-1.5 h-full">
+    <div className="h-full p-6 overflow-hidden">
+      <div className="flex flex-col gap-4 h-full">
         {/* Filters Row with Export */}
-        <div className="flex flex-col lg:flex-row gap-1.5 items-start lg:items-center justify-between flex-shrink-0">
-          <div className="flex flex-col lg:flex-row gap-1.5 items-start lg:items-center">
+        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between flex-shrink-0">
+          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
             <DateRangeFilter
               startDate={new Date(filters.startDate)}
               endDate={new Date(filters.endDate)}
@@ -98,17 +98,17 @@ export function OverviewDashboardClient({ userEmail }: OverviewDashboardClientPr
         </div>
 
         {/* Charts Grid - 2x2 balanced layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-1.5 flex-1 min-h-0 overflow-hidden">
-          <div className="h-full min-h-[180px] overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1 min-h-0 overflow-auto">
+          <div className="h-[300px] overflow-hidden">
             <CallVolumeChart data={callVolumeData || []} />
           </div>
-          <div className="h-full min-h-[180px] overflow-hidden">
+          <div className="h-[300px] overflow-hidden">
             <EmotionDistribution data={emotionData || []} />
           </div>
-          <div className="h-full min-h-[180px] overflow-hidden">
+          <div className="h-[300px] overflow-hidden">
             <LatencyTimeSeriesChart data={latencyData || []} isLoading={isLoadingLatencies} />
           </div>
-          <div className="h-full min-h-[180px] overflow-hidden">
+          <div className="h-[300px] overflow-hidden">
             <OutcomeBreakdown data={outcomeData || []} />
           </div>
         </div>

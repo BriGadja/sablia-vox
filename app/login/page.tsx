@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { LoginForm } from '@/components/auth/LoginForm'
 
 export const metadata: Metadata = {
@@ -15,9 +16,11 @@ export default function LoginPage() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl" />
       </div>
 
-      {/* Login Form */}
+      {/* Login Form — Suspense required for useSearchParams() in LoginForm */}
       <div className="relative z-10">
-        <LoginForm />
+        <Suspense>
+          <LoginForm />
+        </Suspense>
       </div>
     </main>
   )

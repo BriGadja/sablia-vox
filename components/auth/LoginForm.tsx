@@ -2,9 +2,19 @@
 
 import { Eye, EyeOff, Loader2, LogIn } from 'lucide-react'
 import { motion } from 'motion/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+
+function getSafeRedirect(value: string | null): string {
+  if (!value) return '/dashboard'
+  try {
+    const url = new URL(value, window.location.origin)
+    return url.origin === window.location.origin ? url.pathname + url.search : '/dashboard'
+  } catch {
+    return '/dashboard'
+  }
+}
 
 export function LoginForm() {
   const [email, setEmail] = useState('')
@@ -13,6 +23,8 @@ export function LoginForm() {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get('redirect')
 
   const handleLogin = async (e: React.FormEvent) => {
     const supabase = createClient()
@@ -51,8 +63,8 @@ export function LoginForm() {
         return
       }
 
-      // Success - redirect to dashboard
-      router.push('/dashboard')
+      // Success - redirect to target or dashboard
+      router.push(getSafeRedirect(redirect))
       router.refresh()
     } catch (err) {
       setError('Une erreur est survenue. Veuillez réessayer.')

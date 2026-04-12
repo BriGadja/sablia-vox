@@ -61,6 +61,23 @@ export async function createClient() {
 }
 ```
 
+### Admin Check Pattern
+```typescript
+// Server-side (lib/auth.ts) — self-contained, creates own client
+import { checkIsAdminServer } from '@/lib/auth'
+const isAdmin = await checkIsAdminServer()
+
+// Browser-side (lib/queries/global.ts) — uses browser Supabase client
+import { checkIsAdmin } from '@/lib/queries/global'
+const isAdmin = await checkIsAdmin()
+
+// IMPORTANT: These are independent implementations with the same query pattern.
+// Do NOT import checkIsAdminServer in browser code — lib/auth.ts imports next/headers (server-only).
+```
+
+### Redirect Param (LoginForm)
+LoginForm reads `?redirect=` via `useSearchParams()` and validates with URL constructor (prevents open-redirect bypass via `/\attacker.com`).
+
 ### Dashboard Page Pattern
 ```typescript
 // page.tsx (Server) — auth guard + Suspense wrapper

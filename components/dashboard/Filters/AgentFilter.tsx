@@ -1,7 +1,7 @@
 'use client'
 
 import { ChevronDown } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useAccessibleAgents } from '@/lib/hooks/useDashboardData'
 import { deduplicateBy } from '@/lib/utils'
 
@@ -17,6 +17,8 @@ export function AgentFilter({
   templateType,
 }: AgentFilterProps) {
   const [isMounted, setIsMounted] = useState(false)
+  const onChangeRef = useRef(onChange)
+  onChangeRef.current = onChange
 
   useEffect(() => {
     setIsMounted(true)
@@ -33,11 +35,10 @@ export function AgentFilter({
       const validAgentIds = agents.map((a) => a.deployment_id)
       const newAgentIds = selectedAgentIds.filter((id) => validAgentIds.includes(id))
       if (newAgentIds.length !== selectedAgentIds.length) {
-        onChange(newAgentIds)
+        onChangeRef.current(newAgentIds)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [agents])
+  }, [agents, selectedAgentIds])
 
   const handleAgentChange = (agentId: string) => {
     if (agentId === 'all') {

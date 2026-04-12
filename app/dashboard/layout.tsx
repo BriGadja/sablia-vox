@@ -5,6 +5,7 @@ import { DynamicBreadcrumb } from '@/components/dashboard/DynamicBreadcrumb'
 import { AppSidebar } from '@/components/dashboard/Sidebar'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { checkIsAdminServer } from '@/lib/auth'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata = {
@@ -14,26 +15,6 @@ export const metadata = {
     index: false,
     follow: false,
   },
-}
-
-/**
- * Check if user has admin permissions via user_org_memberships
- */
-async function checkIsAdminServer(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-): Promise<boolean> {
-  const { data, error } = await supabase
-    .from('user_org_memberships')
-    .select('permission_level')
-    .eq('permission_level', 'admin')
-    .limit(1)
-
-  if (error) {
-    console.error('Error checking admin status:', error)
-    return false
-  }
-
-  return data && data.length > 0
 }
 
 /**
@@ -60,7 +41,7 @@ export default async function DashboardLayout({
   }
 
   // Check admin status
-  const isAdmin = await checkIsAdminServer(supabase)
+  const isAdmin = await checkIsAdminServer()
 
   return (
     <SidebarProvider>
