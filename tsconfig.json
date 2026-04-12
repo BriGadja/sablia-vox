@@ -7,6 +7,8 @@
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
+    "noUncheckedSideEffectImports": true,
+    "allowUnusedLabels": false,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
