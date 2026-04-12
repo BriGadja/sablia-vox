@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
 
+import { MotionProvider } from '@/components/providers/motion-provider'
+
 const ReactQueryDevtools = dynamic(
   () =>
     import('@tanstack/react-query-devtools').then((mod) => ({
@@ -30,7 +32,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <MotionProvider>
+        {children}
+      </MotionProvider>
       {process.env.NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   )

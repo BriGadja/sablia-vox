@@ -45,6 +45,10 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-surface: var(--surface);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-surface-4: var(--surface-4);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -119,12 +123,24 @@
   }
 }
 
-@utility glass {
-  @apply bg-white/10 backdrop-blur-md border border-white/20;
+@utility glass-subtle {
+  background: oklch(1 0 0 / 0.04);
+  backdrop-filter: blur(8px);
+  border: 1px solid oklch(1 0 0 / 0.08);
 }
 
-@utility glass-dark {
-  @apply bg-black/10 backdrop-blur-md border border-white/10;
+@utility glass-standard {
+  background: oklch(0.18 0.02 260 / 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid oklch(1 0 0 / 0.12);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.1), 0 4px 24px oklch(0 0 0 / 0.2);
+}
+
+@utility glass-strong {
+  background: oklch(0.15 0.02 260 / 0.9);
+  backdrop-filter: blur(24px);
+  border: 1px solid oklch(1 0 0 / 0.15);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.1), 0 8px 32px oklch(0 0 0 / 0.3);
 }
 
 @utility gradient-primary {
@@ -237,15 +253,44 @@
     --sidebar-border: oklch(0.22 0.015 260);
     --sidebar-ring: oklch(0.65 0.16 230);
 
+    /* Surface elevation scale (DESIGN-SPEC §2.1) */
+    --surface-1: oklch(0.16 0.018 260);
+    --surface-2: oklch(0.22 0.018 260);
+    --surface-3: oklch(0.26 0.016 260);
+    --surface-4: oklch(0.30 0.014 260);
+
+    /* Interactive state overlays (DESIGN-SPEC §2.1) */
+    --hover-overlay: oklch(1 0 0 / 0.04);
+    --active-overlay: oklch(1 0 0 / 0.08);
+    --focus-ring: oklch(0.75 0.14 230 / 0.5);
+
+    /* Semantic data colors (DESIGN-SPEC §2.1) */
+    --color-success: oklch(0.72 0.17 160);
+    --color-warning: oklch(0.82 0.18 80);
+    --color-danger: oklch(0.62 0.22 27);
+    --color-info: oklch(0.72 0.16 230);
+
     /* Typography */
     --font-size-base: 16px;
     --font-scale-ratio: 1.25;
 
-    /* Animation */
-    --duration-fast: 75ms;
-    --duration-normal: 150ms;
-    --duration-slow: 300ms;
+    /* Animation — durations (DESIGN-SPEC §2.5) */
+    --duration-instant: 50ms;
+    --duration-fast: 100ms;
+    --duration-normal: 200ms;
+    --duration-moderate: 300ms;
+    --duration-slow: 400ms;
+    --duration-xslow: 600ms;
     --duration-waveform: 3000ms;
+
+    /* Animation — easing curves (DESIGN-SPEC §2.5) */
+    --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Animation — stagger */
+    --stagger-delay: 50ms;
 
     /* Layout */
     --container-max: 1152px;
