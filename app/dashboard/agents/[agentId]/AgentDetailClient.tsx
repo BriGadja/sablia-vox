@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { AlertCircle, ArrowLeft, Loader2 } from 'lucide-react'
+import { AlertCircle, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { CallVolumeChart } from '@/components/dashboard/Charts/CallVolumeChart'
@@ -13,6 +13,7 @@ import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import { KPIGrid } from '@/components/dashboard/KPIGrid'
 import { SuggestionsSection } from '@/components/dashboard/SuggestionsSection'
 import { FadeIn } from '@/components/motion'
+import { AgentDetailSkeleton } from '@/components/skeletons'
 import { useQualitySnapshots, useSuggestions } from '@/lib/hooks/useAgentInsights'
 import {
   useCallVolumeByDay,
@@ -115,11 +116,7 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
 
   // Loading state
   if (isLoadingAgent) {
-    return (
-      <div className="flex h-[60vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
-      </div>
-    )
+    return <AgentDetailSkeleton />
   }
 
   // Error or not found state
@@ -159,7 +156,7 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
   }
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="p-6 space-y-4 page-fade-in">
       {/* Agent Header */}
       <div className="flex items-center justify-between rounded-xl bg-white/5 border border-white/10 p-4">
         <div className="flex items-center gap-3">

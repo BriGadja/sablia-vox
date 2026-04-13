@@ -1,6 +1,6 @@
-import { Loader2 } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
+import { ConsumptionSkeleton } from '@/components/skeletons'
 import { createClient } from '@/lib/supabase/server'
 import { ConsumptionClient } from './ConsumptionClient'
 
@@ -21,13 +21,7 @@ export default async function ConsumptionPage() {
   }
 
   return (
-    <Suspense
-      fallback={
-        <div className="flex h-full items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
-        </div>
-      }
-    >
+    <Suspense fallback={<ConsumptionSkeleton />}>
       <ConsumptionClient />
     </Suspense>
   )

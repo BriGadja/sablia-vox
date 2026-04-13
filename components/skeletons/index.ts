@@ -1,0 +1,7 @@
+export { AgentDetailSkeleton } from './AgentDetailSkeleton'
+export { AgentsGridSkeleton } from './AgentsGridSkeleton'
+export { CallDetailSkeleton } from './CallDetailSkeleton'
+export { ConsumptionSkeleton } from './ConsumptionSkeleton'
+export { DashboardSkeleton } from './DashboardSkeleton'
+export { SettingsSkeleton } from './SettingsSkeleton'
+export { TableSkeleton } from './TableSkeleton'

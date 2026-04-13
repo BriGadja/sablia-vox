@@ -1,8 +1,9 @@
 'use client'
 
-import { Bot, Loader2 } from 'lucide-react'
+import { Bot } from 'lucide-react'
 import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import { PageHeader } from '@/components/dashboard/PageHeader'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useAgentCardsData } from '@/lib/hooks/useDashboardData'
 import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
 import { AgentDeploymentCard } from './AgentDeploymentCard'
@@ -55,7 +56,7 @@ export function AgentsListClient() {
   ]
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 page-fade-in">
       {/* Header */}
       <PageHeader
         title="Agents"
@@ -90,8 +91,10 @@ export function AgentsListClient() {
 
       {/* Agents Grid */}
       {isLoading ? (
-        <div className="flex items-center justify-center py-16">
-          <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {['s1', 's2', 's3', 's4', 's5', 's6'].map((key) => (
+            <Skeleton key={key} className="h-48 rounded-xl" />
+          ))}
         </div>
       ) : agents && agents.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">

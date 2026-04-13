@@ -1,9 +1,9 @@
-import { Loader2 } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { DynamicBreadcrumb } from '@/components/dashboard/DynamicBreadcrumb'
 import { AppSidebar } from '@/components/dashboard/Sidebar'
 import { WelcomeModal } from '@/components/dashboard/WelcomeModal'
+import { DashboardSkeleton } from '@/components/skeletons'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { checkIsAdminServer } from '@/lib/auth'
@@ -54,15 +54,7 @@ export default async function DashboardLayout({
           <DynamicBreadcrumb />
         </header>
         <div className="flex-1 overflow-hidden min-h-0 min-w-0">
-          <Suspense
-            fallback={
-              <div className="flex h-[calc(100vh-3.5rem)] items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
-              </div>
-            }
-          >
-            {children}
-          </Suspense>
+          <Suspense fallback={<DashboardSkeleton />}>{children}</Suspense>
         </div>
         {/* Modal slot for intercepting routes */}
         {modal}

@@ -8,7 +8,6 @@ import {
   DollarSign,
   FileText,
   Frown,
-  Loader2,
   Mail,
   Meh,
   Phone,
@@ -21,6 +20,7 @@ import Link from 'next/link'
 import { AudioPlayer } from '@/components/audio/AudioPlayer'
 import { PageHeader } from '@/components/dashboard/PageHeader'
 import { FadeIn } from '@/components/motion'
+import { CallDetailSkeleton } from '@/components/skeletons'
 import { TranscriptDisplay } from '@/components/transcript/TranscriptDisplay'
 import { OUTCOME_CONFIG } from '@/lib/constants'
 import { fetchCallById } from '@/lib/queries/calls'
@@ -89,11 +89,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
   })
 
   if (isLoading) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
-      </div>
-    )
+    return <CallDetailSkeleton />
   }
 
   if (error || !call) {
@@ -136,7 +132,7 @@ export function CallDetailClient({ callId, agentId, agentName }: CallDetailClien
       : 'Inconnu'
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 page-fade-in">
       {/* Back Link */}
       <Link
         href={`/dashboard/agents/${agentId}/calls`}

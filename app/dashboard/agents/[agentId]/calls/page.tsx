@@ -1,6 +1,7 @@
-import { Loader2 } from 'lucide-react'
 import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
+import { TableSkeleton } from '@/components/skeletons'
+import { Skeleton } from '@/components/ui/skeleton'
 import { createClient } from '@/lib/supabase/server'
 import { CallsListClient } from './CallsListClient'
 
@@ -39,8 +40,14 @@ export default async function CallsPage({ params }: CallsPageProps) {
   return (
     <Suspense
       fallback={
-        <div className="flex h-full items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
+        <div className="p-6 space-y-6">
+          <Skeleton className="h-5 w-24" />
+          <div>
+            <Skeleton className="h-8 w-48 mb-2" />
+            <Skeleton className="h-5 w-64" />
+          </div>
+          <Skeleton className="h-10 w-48" />
+          <TableSkeleton />
         </div>
       }
     >

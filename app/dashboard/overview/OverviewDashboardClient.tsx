@@ -65,7 +65,7 @@ export function OverviewDashboardClient({ userEmail: _userEmail }: OverviewDashb
   }
 
   return (
-    <div className="h-full p-6 overflow-hidden">
+    <div className="h-full p-6 overflow-hidden page-fade-in">
       <div className="flex flex-col gap-4 h-full">
         {/* Filters Row with Export */}
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between flex-shrink-0">

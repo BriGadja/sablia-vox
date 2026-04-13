@@ -1,11 +1,12 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { ArrowLeft, Calendar, ChevronLeft, ChevronRight, Clock, Loader2, Phone } from 'lucide-react'
+import { ArrowLeft, Calendar, ChevronLeft, ChevronRight, Clock, Phone } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import { PageHeader } from '@/components/dashboard/PageHeader'
+import { TableSkeleton } from '@/components/skeletons'
 import { OUTCOME_CONFIG } from '@/lib/constants'
 import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
 import { fetchCallsPage } from '@/lib/queries/calls'
@@ -58,7 +59,7 @@ export function CallsListClient({ agentId, agentName }: CallsListClientProps) {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 page-fade-in">
       {/* Back Link */}
       <Link
         href={`/dashboard/agents/${agentId}`}
@@ -83,9 +84,7 @@ export function CallsListClient({ agentId, agentName }: CallsListClientProps) {
 
       {/* Calls Table */}
       {isLoading ? (
-        <div className="flex items-center justify-center py-16">
-          <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
-        </div>
+        <TableSkeleton />
       ) : calls.length > 0 ? (
         <div className="rounded-xl border border-white/10 overflow-hidden">
           <table className="w-full">

@@ -1,6 +1,6 @@
-import { Loader2 } from 'lucide-react'
 import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
+import { AgentDetailSkeleton } from '@/components/skeletons'
 import { createClient } from '@/lib/supabase/server'
 import { AgentDetailClient } from './AgentDetailClient'
 
@@ -52,13 +52,7 @@ export default async function AgentDetailPage({ params }: PageProps) {
   if (!agent) notFound()
 
   return (
-    <Suspense
-      fallback={
-        <div className="flex h-full items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
-        </div>
-      }
-    >
+    <Suspense fallback={<AgentDetailSkeleton />}>
       <AgentDetailClient agentId={agentId} />
     </Suspense>
   )

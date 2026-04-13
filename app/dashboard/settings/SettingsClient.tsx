@@ -33,6 +33,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useOrgMembers } from '@/lib/hooks/useOrgMembers'
 import type { OrgMember, OrgProfile, PermissionLevel } from '@/lib/types/settings'
@@ -67,7 +68,7 @@ interface SettingsClientProps {
 
 export default function SettingsClient({ org, isAdmin }: SettingsClientProps) {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 page-fade-in">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <Settings className="w-8 h-8 text-violet-400" />
@@ -277,8 +278,10 @@ function TeamTab({ isAdmin }: { isAdmin: boolean }) {
         </div>
 
         {isLoading ? (
-          <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-6 w-6 animate-spin text-purple-500" />
+          <div className="space-y-3">
+            {['m1', 'm2', 'm3'].map((key) => (
+              <Skeleton key={key} className="h-16 rounded-lg" />
+            ))}
           </div>
         ) : members && members.length > 0 ? (
           <div className="space-y-3">

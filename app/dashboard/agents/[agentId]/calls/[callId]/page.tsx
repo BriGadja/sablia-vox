@@ -1,6 +1,6 @@
-import { Loader2 } from 'lucide-react'
 import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
+import { CallDetailSkeleton } from '@/components/skeletons'
 import { createClient } from '@/lib/supabase/server'
 import { CallDetailClient } from './CallDetailClient'
 
@@ -44,13 +44,7 @@ export default async function CallDetailPage({ params }: CallDetailPageProps) {
   }
 
   return (
-    <Suspense
-      fallback={
-        <div className="flex h-full items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
-        </div>
-      }
-    >
+    <Suspense fallback={<CallDetailSkeleton />}>
       <CallDetailClient callId={callId} agentId={agentId} agentName={call.deployment_name} />
     </Suspense>
   )

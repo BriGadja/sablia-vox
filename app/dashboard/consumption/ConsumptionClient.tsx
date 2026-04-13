@@ -2,10 +2,11 @@
 
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { BarChart3, Calendar, Loader2, MessageSquare, Phone, TrendingUp } from 'lucide-react'
+import { BarChart3, Calendar, MessageSquare, Phone, TrendingUp } from 'lucide-react'
 import { parseAsString, useQueryStates } from 'nuqs'
 import { PageHeader } from '@/components/dashboard/PageHeader'
 import { FadeIn, StaggerChildren, StaggerItem } from '@/components/motion'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useConsumptionData } from '@/lib/hooks/useConsumptionData'
 import type { DeploymentConsumption } from '@/lib/types/consumption'
 import { BILLING } from '@/lib/types/consumption'
@@ -131,7 +132,7 @@ export function ConsumptionClient() {
   })()
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 page-fade-in">
       <PageHeader
         title="Consommation"
         description={`Suivi de l'utilisation de vos agents — ${periodLabel}`}
@@ -156,8 +157,13 @@ export function ConsumptionClient() {
       </div>
 
       {isLoading && (
-        <div className="flex items-center justify-center py-24">
-          <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {['s1', 's2', 's3', 's4'].map((key) => (
+              <Skeleton key={key} className="h-40 rounded-xl" />
+            ))}
+          </div>
+          <Skeleton className="h-32 rounded-xl" />
         </div>
       )}
 

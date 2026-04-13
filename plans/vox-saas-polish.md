@@ -88,7 +88,7 @@ Skill: `/execute` (direct implementation) + `/frontend-design` (skeleton design)
 Replace all 16 page-level spinners with content-shaped skeletons. Add CSS fade transitions between dashboard routes.
 
 ### Tasks
-- [ ] B1: Create reusable skeleton components in `components/skeletons/`:
+- [x] B1: Create reusable skeleton components in `components/skeletons/`:
   - `DashboardSkeleton.tsx` — 5 KPI card placeholders + 2 chart placeholders (overview pattern)
   - `AgentsGridSkeleton.tsx` — 3-6 card placeholders in responsive grid
   - `AgentDetailSkeleton.tsx` — header + KPI row + 2×2 chart grid placeholders
@@ -97,9 +97,9 @@ Replace all 16 page-level spinners with content-shaped skeletons. Add CSS fade t
   - `ConsumptionSkeleton.tsx` — date picker row + 2-4 agent card placeholders + totals
   - `SettingsSkeleton.tsx` — tab bar + form fields / member list placeholders
   All use `Skeleton` from `components/ui/skeleton.tsx` (existing). All use `animate-pulse`. Shape matches actual content layout to prevent CLS
-- [ ] B2: Replace 10 Suspense fallback spinners in `page.tsx` server components (S1-S9, S12) with the appropriate skeleton from B1. These are `<Suspense fallback={<Loader2 />}>` wrappers in page files. For S1 (layout.tsx), use `DashboardSkeleton` as the general fallback — no separate LayoutSkeleton needed. Auth pages (S15, S16) keep spinners — they're processing states, not data loading. **Note**: some routes have spinners in BOTH their page.tsx (Suspense, handled here) AND their client component (isLoading, handled in B3) — these are distinct spinners and both must be replaced
-- [ ] B3: Replace 7 TanStack Query `isLoading` spinners in client components (S4, S6, S8, S10, S11, S13, S14) with inline skeletons. Pattern: `if (isLoading) return <AgentDetailSkeleton />` instead of `if (isLoading) return <div className="flex ..."><Loader2 /></div>`. These are the `isLoading` checks inside `AgentsListClient` (S4), `AgentDetailClient` (S6), `CallsListClient` (S8), `CallDetailClient` (S10), `CallDetailModalContent` (S11), `ConsumptionClient` (S13), `SettingsClient` (S14)
-- [ ] B4: Add CSS page fade-in animation to `globals.css` and apply to all dashboard pages:
+- [x] B2: Replace 10 Suspense fallback spinners in `page.tsx` server components (S1-S9, S12) with the appropriate skeleton from B1. These are `<Suspense fallback={<Loader2 />}>` wrappers in page files. For S1 (layout.tsx), use `DashboardSkeleton` as the general fallback — no separate LayoutSkeleton needed. Auth pages (S15, S16) keep spinners — they're processing states, not data loading. **Note**: some routes have spinners in BOTH their page.tsx (Suspense, handled here) AND their client component (isLoading, handled in B3) — these are distinct spinners and both must be replaced
+- [x] B3: Replace 7 TanStack Query `isLoading` spinners in client components (S4, S6, S8, S10, S11, S13, S14) with inline skeletons. Pattern: `if (isLoading) return <AgentDetailSkeleton />` instead of `if (isLoading) return <div className="flex ..."><Loader2 /></div>`. These are the `isLoading` checks inside `AgentsListClient` (S4), `AgentDetailClient` (S6), `CallsListClient` (S8), `CallDetailClient` (S10), `CallDetailModalContent` (S11), `ConsumptionClient` (S13), `SettingsClient` (S14)
+- [x] B4: Add CSS page fade-in animation to `globals.css` and apply to all dashboard pages:
   ```css
   @keyframes page-fade-in {
     from { opacity: 0; transform: translateY(3px); }
@@ -113,7 +113,7 @@ Replace all 16 page-level spinners with content-shaped skeletons. Add CSS fade t
   }
   ```
   Apply `page-fade-in` class to the outermost wrapper `<div>` in each dashboard page's client component (OverviewDashboardClient, AgentsListClient, AgentDetailClient, CallsListClient, CallDetailClient, ConsumptionClient, SettingsClient). NOT on layout wrapper (persists across routes — animation won't re-trigger)
-- [ ] B5: Verify skeletons match content shape — compare skeleton layout vs loaded layout for each page. Ensure no CLS introduced (skeleton → content transition should be same dimensions). Run `npm run type-check` and `npm run lint` to confirm no regressions
+- [x] B5: Verify skeletons match content shape — compare skeleton layout vs loaded layout for each page. Ensure no CLS introduced (skeleton → content transition should be same dimensions). Run `npm run type-check` and `npm run lint` to confirm no regressions
 
 ### Technical Details
 
