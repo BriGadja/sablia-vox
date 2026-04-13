@@ -11,6 +11,12 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+import {
+  CHART_GRID_STROKE,
+  CHART_TOOLTIP_CONTENT_STYLE,
+  CHART_TOOLTIP_ITEM_STYLE,
+  CHART_TOOLTIP_LABEL_STYLE,
+} from '@/lib/chart-config'
 
 interface AgentTypePerformance {
   agent_type: string
@@ -93,7 +99,7 @@ function AgentTypeComparisonChartInner({ data, isLoading }: AgentTypeComparisonC
           margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
           barCategoryGap="20%"
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} vertical={false} />
           <XAxis
             dataKey="name"
             tick={{ fill: 'rgba(255,255,255,0.7)', fontSize: 11 }}
@@ -108,18 +114,9 @@ function AgentTypeComparisonChartInner({ data, isLoading }: AgentTypeComparisonC
             domain={[0, 100]}
           />
           <Tooltip
-            contentStyle={{
-              backgroundColor: 'rgba(0,0,0,0.95)',
-              border: '1px solid rgba(255,255,255,0.3)',
-              borderRadius: '8px',
-              padding: '8px 12px',
-            }}
-            labelStyle={{
-              color: '#fff',
-              fontWeight: 'bold',
-              marginBottom: '4px',
-            }}
-            itemStyle={{ color: '#fff' }}
+            contentStyle={CHART_TOOLTIP_CONTENT_STYLE}
+            labelStyle={CHART_TOOLTIP_LABEL_STYLE}
+            itemStyle={CHART_TOOLTIP_ITEM_STYLE}
             formatter={(value: number, name: string) => {
               if (name === 'conversion_rate') return [`${value.toFixed(1)}%`, 'Taux conversion']
               if (name === 'answer_rate') return [`${value.toFixed(1)}%`, 'Taux décroché']

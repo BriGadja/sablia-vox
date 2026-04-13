@@ -1,39 +1,39 @@
-# 🚀 Guide des Bonnes Pratiques - Migrations Supabase
+# Migration Best Practices - Supabase
 
-**Date** : 2025-11-20
-**Pour** : Garder le tableau de migrations synchronisé avec le schéma réel
-
----
-
-## 🎯 Le Problème
-
-Quand vous exécutez des migrations SQL manuellement via le Dashboard Supabase (SQL Editor), le schéma est modifié **MAIS** la migration n'est pas enregistrée dans `supabase_migrations.schema_migrations`.
-
-**Conséquence** :
-- ❌ Le tableau de migrations ne reflète pas la réalité
-- ❌ Confusion pour l'équipe sur ce qui a été appliqué
-- ❌ Impossible de savoir quelles migrations manquent
+**Date**: 2025-11-20
+**Purpose**: Keep the migration table synchronized with the actual schema
 
 ---
 
-## ✅ Solution 1 : Utiliser `supabase db push` (RECOMMANDÉ)
+## The Problem
 
-### Pourquoi c'est la meilleure méthode ?
+When you run SQL migrations manually via the Supabase Dashboard (SQL Editor), the schema is modified **BUT** the migration is not recorded in `supabase_migrations.schema_migrations`.
 
-- ✅ **Automatique** : Enregistre les migrations automatiquement
-- ✅ **Sûr** : Transactionnel, rollback en cas d'erreur
-- ✅ **Historique** : Garde une trace complète
-- ✅ **Standard** : Méthode officielle Supabase
+**Consequences**:
+- The migration table does not reflect reality
+- Team confusion about what has been applied
+- Impossible to tell which migrations are missing
 
-### Comment ça marche ?
+---
 
-#### Étape 1 : Créer votre fichier de migration
+## Solution 1: Use `supabase db push` (RECOMMENDED)
 
-Créez un nouveau fichier dans `supabase/migrations/` :
+### Why is this the best method?
 
-**Format du nom** : `YYYYMMDDHHMMSS_description.sql`
+- **Automatic**: Records migrations automatically
+- **Safe**: Transactional, rollback on error
+- **Auditable**: Keeps a complete history
+- **Standard**: Official Supabase method
 
-Exemple : `20251120180000_add_user_preferences.sql`
+### How it works
+
+#### Step 1: Create your migration file
+
+Create a new file in `supabase/migrations/`:
+
+**Name format**: `YYYYMMDDHHMMSS_description.sql`
+
+Example: `20251120180000_add_user_preferences.sql`
 
 ```sql
 -- Migration: Add user preferences table
@@ -66,70 +66,70 @@ CREATE POLICY "Users can update their own preferences"
   USING (auth.uid() = user_id);
 ```
 
-#### Étape 2 : Lier votre projet (si pas déjà fait)
+#### Step 2: Link your project (if not already done)
 
 ```powershell
-# Pour staging
+# For staging
 supabase link --project-ref vmmohjvwtbrotygzjias
 
-# Pour production
+# For production
 supabase link --project-ref tcpecjoeelbnnvdkvgvg
 ```
 
-#### Étape 3 : Appliquer la migration
+#### Step 3: Apply the migration
 
 ```powershell
-# Voir les migrations en attente
+# View pending migrations
 supabase db diff
 
-# Appliquer toutes les migrations en attente
+# Apply all pending migrations
 supabase db push
 ```
 
-**C'est tout !** La migration est exécutée ET enregistrée automatiquement.
+**That's it!** The migration is executed AND recorded automatically.
 
-#### Étape 4 : Vérifier
+#### Step 4: Verify
 
 ```powershell
-# Voir les migrations appliquées
+# View applied migrations
 supabase migration list
 ```
 
 ---
 
-## 🔧 Solution 2 : Script SQL Auto-Enregistrant (FALLBACK)
+## Solution 2: Self-Registering SQL Script (FALLBACK)
 
-Si vous devez absolument utiliser le SQL Editor (urgence, pas d'accès CLI, etc.), utilisez le template qui s'auto-enregistre.
+If you absolutely must use the SQL Editor (emergency, no CLI access, etc.), use the template that self-registers.
 
-### Comment utiliser le template ?
+### How to use the template
 
-#### Étape 1 : Copier le template
+#### Step 1: Copy the template
 
-Le fichier `supabase/migrations/TEMPLATE_MIGRATION.sql` contient un template complet.
+The file `supabase/migrations/TEMPLATE_MIGRATION.sql` contains a complete template.
 
-#### Étape 2 : Modifier les variables
+#### Step 2: Modify the variables
 
-En haut du fichier, modifiez :
+At the top of the file, modify:
 
 ```sql
-\set migration_version '20251120180000'  -- ⬅️ Timestamp unique
-\set migration_name 'add_user_preferences'  -- ⬅️ Description
+\set migration_version '20251120180000'  -- Unique timestamp
+\set migration_name 'add_user_preferences'  -- Description
 ```
 
-**Comment générer le timestamp** :
+**How to generate the timestamp**:
 ```powershell
 # PowerShell
 Get-Date -Format "yyyyMMddHHmmss"
-# Retourne : 20251120180530
+# Returns: 20251120180530
 ```
 
-#### Étape 3 : Ajouter vos modifications SQL
+#### Step 3: Add your SQL changes
 
-Entre les lignes de séparation, ajoutez votre SQL :
+Between the separator lines, add your SQL:
 
 ```sql
 -- =====================================================
--- VOS MODIFICATIONS ICI
+-- YOUR CHANGES HERE
 -- =====================================================
 
 CREATE TABLE IF NOT EXISTS user_preferences (
@@ -140,25 +140,25 @@ CREATE TABLE IF NOT EXISTS user_preferences (
 );
 
 -- =====================================================
--- FIN DE VOS MODIFICATIONS
+-- END OF YOUR CHANGES
 -- =====================================================
 ```
 
-#### Étape 4 : Copier TOUT le fichier dans SQL Editor
+#### Step 4: Copy the ENTIRE file to SQL Editor
 
-1. Ouvrir Dashboard Supabase → SQL Editor
-2. Copier **TOUT** le contenu du fichier (y compris la section d'auto-enregistrement)
-3. Coller dans SQL Editor
-4. Cliquer sur **Run**
+1. Open Supabase Dashboard > SQL Editor
+2. Copy **ALL** the file contents (including the self-registration section)
+3. Paste in SQL Editor
+4. Click **Run**
 
-**Résultat** :
-- ✅ Vos modifications sont appliquées
-- ✅ La migration est enregistrée automatiquement dans le tableau
-- ✅ Un message de confirmation s'affiche : `✅ Migration 20251120180000 (add_user_preferences) enregistrée avec succès`
+**Result**:
+- Your changes are applied
+- The migration is automatically recorded in the table
+- A confirmation message appears: `Migration 20251120180000 (add_user_preferences) registered successfully`
 
-#### Étape 5 : Vérifier
+#### Step 5: Verify
 
-Dans SQL Editor :
+In SQL Editor:
 
 ```sql
 SELECT version, name, inserted_at
@@ -167,32 +167,32 @@ ORDER BY version DESC
 LIMIT 5;
 ```
 
-Vous devriez voir votre migration dans la liste.
+You should see your migration in the list.
 
 ---
 
-## 📊 Comparaison des Deux Méthodes
+## Comparison of Both Methods
 
-| Aspect | `supabase db push` | Script Auto-Enregistrant |
+| Aspect | `supabase db push` | Self-Registering Script |
 |--------|-------------------|-------------------------|
-| **Facilité** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
-| **Sécurité** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **Rollback** | ✅ Automatique | ❌ Manuel |
-| **Historique** | ✅ Complet | ✅ Version seulement |
-| **Erreurs** | ✅ Rollback auto | ⚠️ Peut être partiel |
-| **CI/CD** | ✅ Intégrable | ❌ Difficile |
-| **Équipe** | ✅ Standard | ⚠️ Nécessite template |
+| **Ease** | 5/5 | 3/5 |
+| **Safety** | 5/5 | 4/5 |
+| **Rollback** | Automatic | Manual |
+| **History** | Complete | Version only |
+| **Errors** | Auto-rollback | May be partial |
+| **CI/CD** | Integrable | Difficult |
+| **Team** | Standard | Requires template |
 
-**Recommandation** : Utilisez `supabase db push` sauf si impossible.
+**Recommendation**: Use `supabase db push` unless impossible.
 
 ---
 
-## 🚨 Synchroniser les Migrations Existantes
+## Synchronizing Existing Migrations
 
-Si vous avez déjà des migrations non enregistrées (comme actuellement), vous pouvez les enregistrer rétroactivement :
+If you already have unregistered migrations (as is currently the case), you can register them retroactively:
 
 ```sql
--- Enregistrer les migrations déjà appliquées manuellement
+-- Register already-applied manual migrations
 INSERT INTO supabase_migrations.schema_migrations (version, name)
 VALUES
   ('20251113092934', 'import_from_prod'),
@@ -206,177 +206,177 @@ VALUES
 ON CONFLICT (version) DO NOTHING;
 ```
 
-**⚠️ IMPORTANT** : Cette requête **N'EXÉCUTE PAS** les migrations, elle les **ENREGISTRE** seulement. À utiliser uniquement si les migrations sont déjà appliquées.
+**IMPORTANT**: This query does **NOT EXECUTE** the migrations, it only **REGISTERS** them. Use only if the migrations are already applied.
 
 ---
 
-## 📝 Checklist Migration
+## Migration Checklist
 
-Avant chaque migration :
+Before each migration:
 
-- [ ] **Backup créé** (`supabase db dump`)
-- [ ] **Migration testée sur staging**
-- [ ] **Nom de fichier correct** (`YYYYMMDDHHMMSS_description.sql`)
-- [ ] **Utilisation de IF NOT EXISTS / IF EXISTS** (idempotence)
-- [ ] **Transaction BEGIN/COMMIT** (atomicité)
-- [ ] **Commentaires clairs** (description, risque)
-- [ ] **Vérifications post-migration** incluses
+- [ ] **Backup created** (`supabase db dump`)
+- [ ] **Migration tested on staging**
+- [ ] **Correct file name** (`YYYYMMDDHHMMSS_description.sql`)
+- [ ] **Using IF NOT EXISTS / IF EXISTS** (idempotence)
+- [ ] **Transaction BEGIN/COMMIT** (atomicity)
+- [ ] **Clear comments** (description, risk)
+- [ ] **Post-migration verifications** included
 
-Pendant la migration :
+During the migration:
 
-- [ ] **Méthode choisie** (`supabase db push` ou template)
-- [ ] **Environnement vérifié** (staging ou production)
-- [ ] **Exécution sans erreur**
-- [ ] **Migration enregistrée** (vérifier le tableau)
+- [ ] **Method chosen** (`supabase db push` or template)
+- [ ] **Environment verified** (staging or production)
+- [ ] **Execution without error**
+- [ ] **Migration registered** (check the table)
 
-Après la migration :
+After the migration:
 
-- [ ] **Tests fonctionnels** (dashboard, API)
-- [ ] **Vérification données** (pas de perte)
-- [ ] **Monitoring** (logs, performances)
-- [ ] **Documentation** (mettre à jour README si nécessaire)
+- [ ] **Functional tests** (dashboard, API)
+- [ ] **Data verification** (no loss)
+- [ ] **Monitoring** (logs, performance)
+- [ ] **Documentation** (update README if necessary)
 
 ---
 
-## 🔄 Workflow Complet Recommandé
+## Recommended Full Workflow
 
-### En Développement (Staging)
+### In Development (Staging)
 
 ```powershell
-# 1. Créer la migration
-# Créer le fichier : supabase/migrations/20251120180000_ma_feature.sql
+# 1. Create the migration
+# Create the file: supabase/migrations/20251120180000_my_feature.sql
 
-# 2. Lier staging
+# 2. Link staging
 supabase link --project-ref vmmohjvwtbrotygzjias
 
-# 3. Appliquer
+# 3. Apply
 supabase db push
 
-# 4. Tester
-# Vérifier le dashboard, les fonctions, etc.
+# 4. Test
+# Verify the dashboard, functions, etc.
 
 # 5. Commit
-git add supabase/migrations/20251120180000_ma_feature.sql
-git commit -m "feat: add ma_feature migration"
+git add supabase/migrations/20251120180000_my_feature.sql
+git commit -m "feat: add my_feature migration"
 ```
 
-### En Production
+### In Production
 
 ```powershell
 # 1. Backup
 supabase db dump -f dbDump/backup_prod_$(Get-Date -Format "yyyyMMdd_HHmmss").sql
 
-# 2. Lier production
+# 2. Link production
 supabase link --project-ref tcpecjoeelbnnvdkvgvg
 
-# 3. Appliquer
+# 3. Apply
 supabase db push
 
-# 4. Vérifier
-# Tester le dashboard en production
-# Vérifier les logs
+# 4. Verify
+# Test the dashboard in production
+# Check the logs
 
-# 5. Monitorer
-# Surveiller pendant 24-48h
+# 5. Monitor
+# Watch for 24-48h
 ```
 
 ---
 
-## 💡 Conseils Additionnels
+## Additional Tips
 
-### 1. Nommage des Migrations
+### 1. Migration Naming
 
-**Bon** :
+**Good**:
 - `20251120180000_add_user_preferences_table.sql`
 - `20251120180100_add_latency_columns_to_calls.sql`
 - `20251120180200_fix_financial_metrics_view.sql`
 
-**Mauvais** :
+**Bad**:
 - `migration.sql`
 - `fix.sql`
 - `update_2025.sql`
 
-### 2. Taille des Migrations
+### 2. Migration Size
 
-**Une migration = Une fonctionnalité**
+**One migration = One feature**
 
-✅ **Bon** :
-- Migration 1 : Créer table user_preferences
-- Migration 2 : Ajouter colonne theme
-- Migration 3 : Créer vue enriched_preferences
+**Good**:
+- Migration 1: Create user_preferences table
+- Migration 2: Add theme column
+- Migration 3: Create enriched_preferences view
 
-❌ **Mauvais** :
-- Migration 1 : Créer 10 tables + 5 vues + 3 fonctions
+**Bad**:
+- Migration 1: Create 10 tables + 5 views + 3 functions
 
 ### 3. Idempotence
 
-Toujours utiliser :
+Always use:
 - `CREATE TABLE IF NOT EXISTS`
 - `ALTER TABLE ... ADD COLUMN IF NOT EXISTS`
 - `CREATE INDEX IF NOT EXISTS`
-- `DROP ... IF EXISTS` avant `CREATE OR REPLACE`
+- `DROP ... IF EXISTS` before `CREATE OR REPLACE`
 
 ### 4. Documentation
 
-Chaque migration doit avoir :
+Each migration should have:
 ```sql
--- Migration: [Description courte]
+-- Migration: [Short description]
 -- Date: YYYY-MM-DD
--- Author: [Nom]
+-- Author: [Name]
 -- Risk: LOW | MEDIUM | HIGH
--- Dependencies: [Migrations dont celle-ci dépend]
+-- Dependencies: [Migrations this one depends on]
 --
--- Description détaillée de ce que fait la migration
--- et pourquoi elle est nécessaire.
+-- Detailed description of what the migration does
+-- and why it is necessary.
 ```
 
 ---
 
-## 🆘 Résolution de Problèmes
+## Troubleshooting
 
-### Problème : Migration échoue avec "already exists"
+### Problem: Migration fails with "already exists"
 
-**Cause** : Migration déjà appliquée manuellement
+**Cause**: Migration already applied manually
 
-**Solution** :
+**Solution**:
 ```sql
--- Enregistrer sans exécuter
+-- Register without executing
 INSERT INTO supabase_migrations.schema_migrations (version, name)
-VALUES ('20251120180000', 'ma_migration')
+VALUES ('20251120180000', 'my_migration')
 ON CONFLICT (version) DO NOTHING;
 ```
 
-### Problème : "Permission denied"
+### Problem: "Permission denied"
 
-**Cause** : Permissions RLS ou rôle incorrect
+**Cause**: RLS permissions or incorrect role
 
-**Solution** : Vérifier que vous êtes connecté avec le bon utilisateur :
+**Solution**: Verify you are connected with the correct user:
 ```sql
 SELECT current_user;
--- Devrait retourner 'postgres' ou un compte admin
+-- Should return 'postgres' or an admin account
 ```
 
-### Problème : Migration partiellement appliquée
+### Problem: Partially applied migration
 
-**Cause** : Pas de transaction BEGIN/COMMIT
+**Cause**: No BEGIN/COMMIT transaction
 
-**Solution** : Toujours wrapper dans une transaction :
+**Solution**: Always wrap in a transaction:
 ```sql
 BEGIN;
-  -- Vos modifications
+  -- Your changes
 COMMIT;
 ```
 
 ---
 
-## 📚 Ressources
+## Resources
 
-- **Documentation Supabase** : https://supabase.com/docs/guides/cli/local-development#database-migrations
-- **Template de migration** : `supabase/migrations/TEMPLATE_MIGRATION.sql`
-- **Guide de backup** : `docs/DATABASE_BACKUP_GUIDE.md`
+- **Supabase Documentation**: https://supabase.com/docs/guides/cli/local-development#database-migrations
+- **Migration template**: `supabase/migrations/TEMPLATE_MIGRATION.sql`
+- **Backup guide**: `docs/DATABASE_BACKUP_GUIDE.md`
 
 ---
 
-**Créé par** : Claude Code
-**Date** : 2025-11-20
-**Version** : 1.0
+**Created by**: Claude Code
+**Date**: 2025-11-20
+**Version**: 1.0

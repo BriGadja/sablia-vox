@@ -2,6 +2,11 @@
 
 import { memo, useCallback, useMemo } from 'react'
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
+import {
+  CHART_TOOLTIP_CONTENT_STYLE,
+  CHART_TOOLTIP_ITEM_STYLE,
+  CHART_TOOLTIP_LABEL_STYLE,
+} from '@/lib/chart-config'
 
 interface EmotionDistributionProps {
   data: Array<{
@@ -131,20 +136,9 @@ function EmotionDistributionInner({ data }: EmotionDistributionProps) {
             ))}
           </Pie>
           <Tooltip
-            contentStyle={{
-              backgroundColor: 'rgba(0,0,0,0.95)',
-              border: '1px solid rgba(255,255,255,0.3)',
-              borderRadius: '8px',
-              padding: '8px 12px',
-            }}
-            labelStyle={{
-              color: '#fff',
-              fontWeight: 'bold',
-              marginBottom: '4px',
-            }}
-            itemStyle={{
-              color: '#fff',
-            }}
+            contentStyle={CHART_TOOLTIP_CONTENT_STYLE}
+            labelStyle={CHART_TOOLTIP_LABEL_STYLE}
+            itemStyle={CHART_TOOLTIP_ITEM_STYLE}
             separator=" : "
             formatter={(value: number) => {
               const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0

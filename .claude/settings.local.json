@@ -114,7 +114,8 @@
       "Bash(cd:*)",
       "Bash(find:*)",
       "mcp__claude_ai_Vercel__list_deployments",
-      "mcp__claude_ai_Vercel__get_runtime_logs"
+      "mcp__claude_ai_Vercel__get_runtime_logs",
+      "mcp__chrome-devtools__*"
     ],
     "deny": []
   },

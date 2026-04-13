@@ -11,6 +11,14 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+import {
+  CHART_AXIS_STROKE,
+  CHART_AXIS_STYLE_LG,
+  CHART_GRID_STROKE,
+  CHART_TOOLTIP_CONTENT_STYLE,
+  CHART_TOOLTIP_ITEM_STYLE,
+  CHART_TOOLTIP_LABEL_STYLE,
+} from '@/lib/chart-config'
 
 interface CallVolumeChartProps {
   data: Array<{
@@ -57,24 +65,13 @@ function CallVolumeChartInner({ data }: CallVolumeChartProps) {
               <stop offset="95%" stopColor="#d946ef" stopOpacity={0.1} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-          <XAxis dataKey="date" stroke="rgba(255,255,255,0.6)" style={{ fontSize: '12px' }} />
-          <YAxis stroke="rgba(255,255,255,0.6)" style={{ fontSize: '12px' }} />
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} />
+          <XAxis dataKey="date" stroke={CHART_AXIS_STROKE} style={CHART_AXIS_STYLE_LG} />
+          <YAxis stroke={CHART_AXIS_STROKE} style={CHART_AXIS_STYLE_LG} />
           <Tooltip
-            contentStyle={{
-              backgroundColor: 'rgba(0,0,0,0.95)',
-              border: '1px solid rgba(255,255,255,0.3)',
-              borderRadius: '8px',
-              padding: '8px 12px',
-            }}
-            labelStyle={{
-              color: '#fff',
-              fontWeight: 'bold',
-              marginBottom: '4px',
-            }}
-            itemStyle={{
-              color: '#fff',
-            }}
+            contentStyle={CHART_TOOLTIP_CONTENT_STYLE}
+            labelStyle={CHART_TOOLTIP_LABEL_STYLE}
+            itemStyle={CHART_TOOLTIP_ITEM_STYLE}
           />
           <Legend wrapperStyle={{ color: '#fff' }} />
           <Area

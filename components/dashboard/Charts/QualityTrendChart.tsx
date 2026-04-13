@@ -12,6 +12,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+import { CHART_AXIS_STROKE_SUBTLE } from '@/lib/chart-config'
 import type { QualitySnapshot } from '@/lib/queries/agent-insights'
 import { cn } from '@/lib/utils'
 
@@ -89,13 +90,13 @@ function QualityTrendChartInner({ data }: QualityTrendChartProps) {
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
           <XAxis
             dataKey="date"
-            stroke="rgba(255,255,255,0.3)"
+            stroke={CHART_AXIS_STROKE_SUBTLE}
             tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 11 }}
             tickLine={false}
           />
           <YAxis
             domain={[1, 5]}
-            stroke="rgba(255,255,255,0.3)"
+            stroke={CHART_AXIS_STROKE_SUBTLE}
             tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 11 }}
             tickLine={false}
             ticks={[1, 2, 3, 4, 5]}

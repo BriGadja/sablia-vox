@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { TableSkeleton } from '@/components/skeletons'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -14,17 +14,13 @@ export const metadata = {
   description: 'Liste des appels pour cet agent',
 }
 
+/**
+ * Calls List Page - Server Component
+ * Auth is handled by the dashboard layout
+ */
 export default async function CallsPage({ params }: CallsPageProps) {
   const { agentId } = await params
   const supabase = await createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/login')
-  }
 
   // v2: query v_user_accessible_agents view (RLS-scoped)
   const { data: deployment, error } = await supabase

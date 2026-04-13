@@ -11,6 +11,13 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+import {
+  CHART_AXIS_STROKE,
+  CHART_AXIS_STYLE,
+  CHART_GRID_STROKE,
+  CHART_TOOLTIP_CONTENT_STYLE,
+  CHART_TOOLTIP_LABEL_STYLE,
+} from '@/lib/chart-config'
 import { groupMetricsByDate } from '@/lib/hooks/useLatencyData'
 import type { LatencyMetric } from '@/lib/types/latency'
 
@@ -82,35 +89,23 @@ function LatencyTimeSeriesChartInner({ data, isLoading }: LatencyTimeSeriesChart
               <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.3} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-          <XAxis dataKey="date" stroke="rgba(255,255,255,0.6)" style={{ fontSize: '11px' }} />
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} />
+          <XAxis dataKey="date" stroke={CHART_AXIS_STROKE} style={CHART_AXIS_STYLE} />
           <YAxis
-            stroke="rgba(255,255,255,0.6)"
-            style={{ fontSize: '11px' }}
+            stroke={CHART_AXIS_STROKE}
+            style={CHART_AXIS_STYLE}
             label={{
               value: 'Latence (ms)',
               angle: -90,
               position: 'insideLeft',
-              fill: 'rgba(255,255,255,0.6)',
-              style: { fontSize: '11px' },
+              fill: CHART_AXIS_STROKE,
+              style: CHART_AXIS_STYLE,
             }}
           />
           <Tooltip
-            contentStyle={{
-              backgroundColor: 'rgba(0,0,0,0.95)',
-              border: '1px solid rgba(255,255,255,0.3)',
-              borderRadius: '8px',
-              padding: '8px 12px',
-            }}
-            labelStyle={{
-              color: '#fff',
-              fontWeight: 'bold',
-              marginBottom: '6px',
-            }}
-            itemStyle={{
-              color: '#fff',
-              fontSize: '12px',
-            }}
+            contentStyle={CHART_TOOLTIP_CONTENT_STYLE}
+            labelStyle={{ ...CHART_TOOLTIP_LABEL_STYLE, marginBottom: '6px' }}
+            itemStyle={{ color: '#fff', fontSize: '12px' }}
           />
           <Legend
             wrapperStyle={{

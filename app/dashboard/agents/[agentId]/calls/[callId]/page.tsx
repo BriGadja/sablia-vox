@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { CallDetailSkeleton } from '@/components/skeletons'
 import { createClient } from '@/lib/supabase/server'
@@ -9,27 +9,17 @@ interface CallDetailPageProps {
 }
 
 export const metadata = {
-  title: "Détail de l'appel | Sablia Vox Dashboard",
-  description: "Détails complets de l'appel",
+  title: "D\u00E9tail de l'appel | Sablia Vox Dashboard",
+  description: "D\u00E9tails complets de l'appel",
 }
 
 /**
  * Call Detail Page - Server Component
- * Displays full details of a specific call
- * Can be rendered as a full page or in a modal via intercepting route
+ * Auth is handled by the dashboard layout
  */
 export default async function CallDetailPage({ params }: CallDetailPageProps) {
   const { agentId, callId } = await params
   const supabase = await createClient()
-
-  // Server-side authentication check
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/login')
-  }
 
   // Verify call exists via v_dashboard_calls view (RLS scoped)
   const { data: call, error } = await supabase
