@@ -46,9 +46,7 @@ export async function fetchQualitySnapshots(
  * Fetch improvement suggestions for a deployment
  * RLS org-scoped
  */
-export async function fetchSuggestions(
-  deploymentId: string,
-): Promise<ImprovementSuggestion[]> {
+export async function fetchSuggestions(deploymentId: string): Promise<ImprovementSuggestion[]> {
   const supabase = createClient()
 
   const { data, error } = await supabase

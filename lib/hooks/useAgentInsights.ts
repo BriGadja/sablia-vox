@@ -1,9 +1,9 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import {
-  type ImprovementSuggestion,
-  type QualitySnapshot,
   fetchQualitySnapshots,
   fetchSuggestions,
+  type ImprovementSuggestion,
+  type QualitySnapshot,
 } from '@/lib/queries/agent-insights'
 
 const STALE_TIME = 3600000 // 1 hour
@@ -27,9 +27,7 @@ export function useQualitySnapshots(
 /**
  * Hook to fetch improvement suggestions for a deployment
  */
-export function useSuggestions(
-  deploymentId: string,
-): UseQueryResult<ImprovementSuggestion[]> {
+export function useSuggestions(deploymentId: string): UseQueryResult<ImprovementSuggestion[]> {
   return useQuery({
     queryKey: ['suggestions', deploymentId],
     queryFn: () => fetchSuggestions(deploymentId),

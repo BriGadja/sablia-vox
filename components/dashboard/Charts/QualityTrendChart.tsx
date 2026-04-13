@@ -1,6 +1,6 @@
 'use client'
 
-import { TrendingDown, TrendingUp, Minus } from 'lucide-react'
+import { Minus, TrendingDown, TrendingUp } from 'lucide-react'
 import { memo, useMemo } from 'react'
 import {
   CartesianGrid,
@@ -40,8 +40,7 @@ function QualityTrendChartInner({ data }: QualityTrendChartProps) {
     const previous = data.slice(-14, -7)
     if (previous.length === 0) return null
 
-    const recentAvg =
-      recent.reduce((s, d) => s + Number(d.avg_quality_score), 0) / recent.length
+    const recentAvg = recent.reduce((s, d) => s + Number(d.avg_quality_score), 0) / recent.length
     const previousAvg =
       previous.reduce((s, d) => s + Number(d.avg_quality_score), 0) / previous.length
     const diff = recentAvg - previousAvg

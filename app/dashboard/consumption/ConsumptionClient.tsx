@@ -2,14 +2,7 @@
 
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import {
-  BarChart3,
-  Calendar,
-  Loader2,
-  MessageSquare,
-  Phone,
-  TrendingUp,
-} from 'lucide-react'
+import { BarChart3, Calendar, Loader2, MessageSquare, Phone, TrendingUp } from 'lucide-react'
 import { parseAsString, useQueryStates } from 'nuqs'
 import { PageHeader } from '@/components/dashboard/PageHeader'
 import { FadeIn, StaggerChildren, StaggerItem } from '@/components/motion'
@@ -41,7 +34,8 @@ function AgentConsumptionCard({ agent }: { agent: DeploymentConsumption }) {
   const overage = Math.max(minutesUsed - included, 0)
   const overageCost = overage * BILLING.OVERAGE_RATE
   const smsCost = agent.sms_count * (agent.cost_per_sms ?? BILLING.SMS_RATE)
-  const templateColor = TEMPLATE_COLORS[agent.template_type] || 'bg-gray-500/20 text-gray-400 border-gray-500/30'
+  const templateColor =
+    TEMPLATE_COLORS[agent.template_type] || 'bg-gray-500/20 text-gray-400 border-gray-500/30'
 
   return (
     <div className="rounded-xl border border-white/10 bg-white/5 p-5 space-y-4">
@@ -211,7 +205,8 @@ export function ConsumptionClient() {
                       {totalBase.toFixed(2)} €
                     </p>
                     <p className="text-xs text-white/40">
-                      {agents.length} agent{agents.length > 1 ? 's' : ''} × {BILLING.MONTHLY_BASE_PER_AGENT} €
+                      {agents.length} agent{agents.length > 1 ? 's' : ''} ×{' '}
+                      {BILLING.MONTHLY_BASE_PER_AGENT} €
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -231,9 +226,7 @@ export function ConsumptionClient() {
                       <MessageSquare className="w-3 h-3" />
                       SMS
                     </span>
-                    <p className="text-white font-semibold tabular-nums">
-                      {totalSms.toFixed(2)} €
-                    </p>
+                    <p className="text-white font-semibold tabular-nums">{totalSms.toFixed(2)} €</p>
                     <p className="text-xs text-white/40">
                       {agents.reduce((s, a) => s + a.sms_count, 0)} SMS
                     </p>

@@ -68,9 +68,7 @@ export function SuggestionsSection({ suggestions }: SuggestionsSectionProps) {
                   </span>
                 </div>
               </div>
-              <p className="text-sm text-white/80 leading-relaxed">
-                {suggestion.suggestion_text}
-              </p>
+              <p className="text-sm text-white/80 leading-relaxed">{suggestion.suggestion_text}</p>
             </div>
           </StaggerItem>
         )
