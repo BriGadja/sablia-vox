@@ -2,6 +2,7 @@ import { Loader2 } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { DynamicBreadcrumb } from '@/components/dashboard/DynamicBreadcrumb'
+import { WelcomeModal } from '@/components/dashboard/WelcomeModal'
 import { AppSidebar } from '@/components/dashboard/Sidebar'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
@@ -65,6 +66,10 @@ export default async function DashboardLayout({
         </div>
         {/* Modal slot for intercepting routes */}
         {modal}
+        {/* Welcome modal for first-time users */}
+        {!user.user_metadata?.onboarded_at && (
+          <WelcomeModal showWelcome />
+        )}
       </SidebarInset>
     </SidebarProvider>
   )

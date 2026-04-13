@@ -112,6 +112,31 @@ export function getProductSchema(templateType: string) {
   }
 }
 
+export function getPricingSectionSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Sablia Vox — Agent Vocal IA',
+    applicationCategory: 'BusinessApplication',
+    browserRequirements: 'HTTPS',
+    url: 'https://vox.sablia.io',
+    offers: {
+      '@type': 'Offer',
+      price: '300',
+      priceCurrency: 'EUR',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '300',
+        priceCurrency: 'EUR',
+        billingDuration: 'P1M',
+        unitText: 'par agent',
+      },
+      availability: 'https://schema.org/InStock',
+      url: 'https://vox.sablia.io/tester-nos-agents',
+    },
+  }
+}
+
 export function getFAQSchema(faqs: { question: string; answer: string }[]) {
   return {
     '@context': 'https://schema.org',

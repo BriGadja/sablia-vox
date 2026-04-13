@@ -8,11 +8,12 @@ import { Header } from '@/components/landing/Header'
 import { HeroSection } from '@/components/landing/HeroSection'
 import { HowItWorks } from '@/components/landing/HowItWorks'
 import { IntegrationsSection } from '@/components/landing/IntegrationsSection'
+import { PricingSection } from '@/components/landing/PricingSection'
 import { PainAmplification } from '@/components/landing/PainAmplification'
 import { SectorUseCases } from '@/components/landing/SectorUseCases'
 import { SocialProof } from '@/components/landing/SocialProof'
 import { StickyMobileCTA } from '@/components/landing/StickyMobileCTA'
-import { getOrganizationSchema } from '@/lib/seo/structured-data'
+import { getOrganizationSchema, getPricingSectionSchema } from '@/lib/seo/structured-data'
 
 export const metadata: Metadata = {
   title: 'Sablia Vox — Agent Vocal IA pour Entreprises | Disponible 24/7',
@@ -55,6 +56,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   const organizationSchema = getOrganizationSchema()
+  const pricingSchema = getPricingSectionSchema()
 
   return (
     <>
@@ -66,6 +68,11 @@ export default function Home() {
           // biome-ignore lint/security/noDangerouslySetInnerHtml: standard JSON-LD pattern for schema.org structured data
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD pricing structured data
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingSchema) }}
+        />
 
         <HeroSection />
         <PainAmplification />
@@ -74,6 +81,7 @@ export default function Home() {
         <SocialProof />
         <SectorUseCases />
         <DashboardPreview />
+        <PricingSection />
         <IntegrationsSection />
         <FAQSection />
         <FinalCTA />
