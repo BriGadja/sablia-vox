@@ -139,7 +139,7 @@ export function ConsumptionClient() {
       />
 
       {/* Date picker */}
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <Calendar className="w-4 h-4 text-white/40" />
         <input
           type="date"

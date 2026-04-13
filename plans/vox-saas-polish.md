@@ -156,20 +156,20 @@ Skill: `/execute` (direct implementation) + browser verification via Playwright 
 Fix 4 identified responsive gaps. Verify all dashboard pages at 375px, 768px, 1280px.
 
 ### Tasks
-- [ ] C1: Fix critical responsive issues:
+- [x] C1: Fix critical responsive issues:
   - **R1** (`CallsListClient.tsx`): Wrap the calls `<table>` in `<div className="overflow-x-auto">`. On mobile (< 640px), consider converting to a stacked card layout using `hidden sm:table` / `sm:hidden` pattern for table vs cards
   - **R2** (`AgentDetailClient.tsx`): Add `flex-wrap gap-3` to the agent header flex container. Stack back button + name above the "Voir les appels" link on mobile
   - **R3** (`DashboardPreview.tsx`): Add `grid-cols-1 sm:grid-cols-3` to the mockup grid. This is decorative — `sm:` breakpoint is sufficient
   - **R4** (`OverviewDashboardClient.tsx`): Change `overflow-hidden` to `overflow-x-hidden overflow-y-auto` on the outer container to prevent vertical chart clipping
-- [ ] C2: Fix minor responsive issues:
+- [x] C2: Fix minor responsive issues:
   - **R5** (`ConsumptionClient.tsx`): Add `flex-wrap` to date picker row for safety on very narrow screens
   - **R6** (`AgentDetailClient.tsx`): Add `h-[250px] lg:h-[300px]` to charts for shorter mobile heights
-- [ ] C3: Visual consistency pass — verify padding/spacing across all dashboard pages:
+- [x] C3: Visual consistency pass — verify padding/spacing across all dashboard pages:
   - All page wrappers use consistent padding (`p-4 sm:p-6`)
   - Card gaps use `gap-4` consistently
   - Section spacing uses `space-y-6` consistently
   - No hard-coded pixel widths that break responsive grid
-- [ ] C4: Browser verification at 3 breakpoints (375px, 768px, 1280px) using Playwright MCP. Take screenshots of: overview, agents list, agent detail, calls list, consumption, settings. Flag any remaining layout issues. Verify page transitions are visible on navigation
+- [x] C4: Browser verification at 3 breakpoints (375px, 768px, 1280px) using Playwright MCP. Take screenshots of: overview, agents list, agent detail, calls list, consumption, settings. Flag any remaining layout issues. Verify page transitions are visible on navigation
 
 ### Technical Details
 

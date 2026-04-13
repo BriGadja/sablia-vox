@@ -158,7 +158,7 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
   return (
     <div className="p-6 space-y-4 page-fade-in">
       {/* Agent Header */}
-      <div className="flex items-center justify-between rounded-xl bg-white/5 border border-white/10 p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-white/5 border border-white/10 p-4">
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/agents"
@@ -208,16 +208,16 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
 
       {/* Charts Grid - 2x2 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="h-[300px] overflow-hidden">
+        <div className="h-[250px] lg:h-[300px] overflow-hidden">
           <CallVolumeChart data={callVolumeData || []} />
         </div>
-        <div className="h-[300px] overflow-hidden">
+        <div className="h-[250px] lg:h-[300px] overflow-hidden">
           <EmotionDistribution data={emotionData || []} />
         </div>
-        <div className="h-[300px] overflow-hidden">
+        <div className="h-[250px] lg:h-[300px] overflow-hidden">
           <OutcomeBreakdown data={outcomeData || []} />
         </div>
-        <div className="h-[300px] overflow-hidden">
+        <div className="h-[250px] lg:h-[300px] overflow-hidden">
           <LatencyTimeSeriesChart data={latencyData || []} isLoading={isLoadingLatencies} />
         </div>
       </div>
@@ -225,7 +225,7 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
       {/* Quality Trend Chart */}
       {qualityData && qualityData.length > 0 && (
         <FadeIn>
-          <div className="h-[300px]">
+          <div className="h-[250px] lg:h-[300px]">
             <QualityTrendChart data={qualityData} />
           </div>
         </FadeIn>

@@ -86,25 +86,36 @@ export function CallsListClient({ agentId, agentName }: CallsListClientProps) {
       {isLoading ? (
         <TableSkeleton />
       ) : calls.length > 0 ? (
-        <div className="rounded-xl border border-white/10 overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-white/5">
-              <tr className="text-left text-xs text-white/60">
-                <th className="px-4 py-3 font-medium">Date</th>
-                <th className="px-4 py-3 font-medium">Contact</th>
-                <th className="px-4 py-3 font-medium">Durée</th>
-                <th className="px-4 py-3 font-medium">Résultat</th>
-                <th className="px-4 py-3 font-medium">Coût</th>
-                <th className="px-4 py-3 font-medium sr-only">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/5">
-              {calls.map((call) => (
-                <CallRow key={call.call_id} call={call} agentId={agentId} />
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <>
+          {/* Desktop: table */}
+          <div className="hidden sm:block rounded-xl border border-white/10 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-white/5">
+                  <tr className="text-left text-xs text-white/60">
+                    <th className="px-4 py-3 font-medium">Date</th>
+                    <th className="px-4 py-3 font-medium">Contact</th>
+                    <th className="px-4 py-3 font-medium">Durée</th>
+                    <th className="px-4 py-3 font-medium">Résultat</th>
+                    <th className="px-4 py-3 font-medium">Coût</th>
+                    <th className="px-4 py-3 font-medium sr-only">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {calls.map((call) => (
+                    <CallRow key={call.call_id} call={call} agentId={agentId} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {/* Mobile: cards */}
+          <div className="sm:hidden space-y-3">
+            {calls.map((call) => (
+              <CallCard key={call.call_id} call={call} agentId={agentId} />
+            ))}
+          </div>
+        </>
       ) : (
         <div className="flex flex-col items-center justify-center py-16 space-y-4">
           <div className="p-4 rounded-full bg-white/5">
@@ -150,6 +161,40 @@ export function CallsListClient({ agentId, agentName }: CallsListClientProps) {
 /**
  * Individual call row component
  */
+function CallCard({ call, agentId }: { call: DashboardCall; agentId: string }) {
+  const outcomeEntry = OUTCOME_CONFIG[call.outcome || '']
+  const outcomeLabel = outcomeEntry?.label || call.outcome || 'Inconnu'
+  const outcomeCls = outcomeEntry?.className || 'bg-gray-500/20 text-gray-400'
+  const contactName =
+    call.first_name || call.last_name
+      ? `${call.first_name || ''} ${call.last_name || ''}`.trim()
+      : 'Inconnu'
+
+  return (
+    <Link
+      href={`/dashboard/agents/${agentId}/calls/${call.call_id}`}
+      className="block rounded-xl border border-white/10 bg-white/5 p-4 space-y-2 hover:bg-white/10 transition-colors"
+    >
+      <div className="flex items-center justify-between">
+        <span className="text-sm text-white">{contactName}</span>
+        <span
+          className={cn(
+            'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-medium',
+            outcomeCls,
+          )}
+        >
+          {outcomeLabel}
+        </span>
+      </div>
+      <div className="flex items-center gap-3 text-xs text-white/50">
+        <span>{new Date(call.started_at).toLocaleDateString('fr-FR')}</span>
+        <span>{formatDuration(call.duration_seconds || 0)}</span>
+        <span>{call.billed_cost?.toFixed(2) || '0.00'} €</span>
+      </div>
+    </Link>
+  )
+}
+
 function CallRow({ call, agentId }: { call: DashboardCall; agentId: string }) {
   const outcomeEntry = OUTCOME_CONFIG[call.outcome || '']
   const outcomeLabel = outcomeEntry?.label || call.outcome || 'Inconnu'

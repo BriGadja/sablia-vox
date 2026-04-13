@@ -46,7 +46,7 @@ export function DashboardPreview() {
             {/* Gradient background simulating a dashboard */}
             <div className="aspect-[16/9] w-full bg-gradient-to-br from-card via-card to-primary/5 p-6 sm:p-10">
               {/* Fake dashboard grid */}
-              <div className="grid h-full grid-cols-3 gap-4 opacity-40">
+              <div className="grid h-full grid-cols-1 sm:grid-cols-3 gap-4 opacity-40">
                 {/* Top row: 3 metric cards */}
                 <div className="rounded-lg border border-white/10 bg-white/5 p-4">
                   <div className="h-3 w-16 rounded bg-primary/30" />
