@@ -21,9 +21,9 @@ export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {Array.from({ length: 8 }).map((_, i) => (
+        {['k1', 'k2', 'k3', 'k4', 'k5', 'k6', 'k7', 'k8'].map((key) => (
           <div
-            key={i}
+            key={key}
             className="h-32 rounded-xl bg-white/5 border border-white/10 animate-pulse"
           />
         ))}
@@ -188,11 +188,7 @@ export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 
 
   // Combine KPIs based on agent type
   const allKPIs =
-    agentType === 'overview'
-      ? overviewKPIs
-      : agentType === 'global'
-        ? globalKPIs
-        : agentKPIs
+    agentType === 'overview' ? overviewKPIs : agentType === 'global' ? globalKPIs : agentKPIs
 
   // Grid columns: 5 for Overview, 6 for agent-specific, 4 for global
   const gridCols =
@@ -203,10 +199,7 @@ export function KPIGrid({ data, isLoading, agentType = 'global', avgLatency = 0 
         : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-6'
 
   // Gap: smaller for compact layouts
-  const gridGap =
-    agentType === 'overview' || (agentType !== 'global')
-      ? 'gap-2'
-      : 'gap-6'
+  const gridGap = agentType === 'overview' || agentType !== 'global' ? 'gap-2' : 'gap-6'
 
   // Use compact mode for non-global dashboards
   const isCompact = agentType !== 'global'

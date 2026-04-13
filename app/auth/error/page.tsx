@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { AlertCircle, ArrowLeft } from 'lucide-react'
+import { motion } from 'motion/react'
 import Link from 'next/link'
 
 export default function AuthErrorPage() {

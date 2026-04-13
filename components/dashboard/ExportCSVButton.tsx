@@ -67,6 +67,7 @@ export function ExportCSVButton({
 
   return (
     <button
+      type="button"
       onClick={handleExport}
       disabled={isExporting || disabled}
       className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-600/50 disabled:cursor-not-allowed rounded-lg text-white font-medium transition-colors"

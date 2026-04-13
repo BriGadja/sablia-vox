@@ -34,7 +34,7 @@ export async function fetchAgentHierarchy(): Promise<AgentHierarchy> {
         agents: [],
       })
     }
-    groupMap.get(key)!.agents.push({
+    groupMap.get(key)?.agents.push({
       deployment_id: agent.deployment_id,
       deployment_name: agent.deployment_name,
       slug: agent.slug,

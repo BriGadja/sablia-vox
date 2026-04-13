@@ -38,6 +38,4 @@ export interface SidebarNavState {
 /**
  * Props for the AgentTree component
  */
-export interface AgentTreeProps {
-  // no viewAsUserId needed in v2 — org scoped by JWT
-}
+export type AgentTreeProps = Record<string, never>

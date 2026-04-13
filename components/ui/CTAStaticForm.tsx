@@ -29,6 +29,7 @@ interface FormFieldProps {
 
 const FormField: React.FC<FormFieldProps> = ({ label, required, icon, helperText, children }) => (
   <div className="space-y-2">
+    {/* biome-ignore lint/a11y/noLabelWithoutControl: children contain the form control */}
     <label className="flex items-center gap-2 text-sm font-medium text-white/90">
       {icon && <span className="text-white/60">{icon}</span>}
       {label}
@@ -76,17 +77,17 @@ const normalizeFrenchPhone = (phone: string): string => {
 
   // Cas 1: +33 6 XX XX XX XX → 06XXXXXXXX
   if (cleaned.startsWith('+33')) {
-    cleaned = '0' + cleaned.substring(3)
+    cleaned = `0${cleaned.substring(3)}`
   }
 
   // Cas 2: 0033 6 XX XX XX XX → 06XXXXXXXX
   if (cleaned.startsWith('0033')) {
-    cleaned = '0' + cleaned.substring(4)
+    cleaned = `0${cleaned.substring(4)}`
   }
 
   // Cas 3: 336XXXXXXXX → 06XXXXXXXX (11 chiffres commençant par 33)
   if (cleaned.startsWith('33') && cleaned.length === 11) {
-    cleaned = '0' + cleaned.substring(2)
+    cleaned = `0${cleaned.substring(2)}`
   }
 
   return cleaned
@@ -158,7 +159,7 @@ const CTAStaticForm: React.FC<CTAStaticFormProps> = ({ onSuccess }) => {
         source: 'landing_page_tester_nos_agents',
       }
 
-      const response = await fetch(process.env.NEXT_PUBLIC_CTA_WEBHOOK_URL!, {
+      const response = await fetch(process.env.NEXT_PUBLIC_CTA_WEBHOOK_URL?.toString() ?? '', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

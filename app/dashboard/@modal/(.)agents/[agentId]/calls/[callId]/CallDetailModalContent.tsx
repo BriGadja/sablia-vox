@@ -18,10 +18,10 @@ import {
   XCircle,
 } from 'lucide-react'
 import Link from 'next/link'
-import { OUTCOME_CONFIG } from '@/lib/constants'
 import { AudioPlayer } from '@/components/audio/AudioPlayer'
-import { TranscriptDisplay } from '@/components/transcript/TranscriptDisplay'
 import { FadeIn } from '@/components/motion'
+import { TranscriptDisplay } from '@/components/transcript/TranscriptDisplay'
+import { OUTCOME_CONFIG } from '@/lib/constants'
 import { fetchCallById } from '@/lib/queries/calls'
 import { cn } from '@/lib/utils'
 

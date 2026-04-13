@@ -26,14 +26,17 @@ export function getOrganizationSchema() {
 }
 
 export function getProductSchema(templateType: string) {
-  const products: Record<string, {
-    name: string
-    description: string
-    url: string
-    image: string
-    price: string
-    features: string[]
-  }> = {
+  const products: Record<
+    string,
+    {
+      name: string
+      description: string
+      url: string
+      image: string
+      price: string
+      features: string[]
+    }
+  > = {
     setter: {
       name: 'Setter - Agent IA de Prise de Rendez-vous',
       description:
@@ -49,7 +52,7 @@ export function getProductSchema(templateType: string) {
       ],
     },
     secretary: {
-      name: 'Secrétaire - Agent IA d\'Accueil Téléphonique 24/7',
+      name: "Secrétaire - Agent IA d'Accueil Téléphonique 24/7",
       description:
         'Agent IA vocal qui répond à tous vos appels entrants en moins de 3 sonneries, 24/7.',
       url: 'https://vox.sablia.io/tester-nos-agents',

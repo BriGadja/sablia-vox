@@ -1,10 +1,4 @@
-import {
-  BarChart3,
-  LayoutDashboard,
-  type LucideIcon,
-  Settings,
-  Users,
-} from 'lucide-react'
+import { BarChart3, LayoutDashboard, type LucideIcon, Settings, Users } from 'lucide-react'
 
 export interface NavItem {
   title: string

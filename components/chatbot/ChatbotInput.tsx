@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { Loader2, Send } from 'lucide-react'
+import { motion } from 'motion/react'
 import { useCallback, useRef, useState } from 'react'
 import { useChatbotContext } from '@/contexts/ChatbotContext'
 import { chatbotConfig } from '@/lib/constants'
@@ -39,7 +39,7 @@ export default function ChatbotInput() {
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault()
-        handleSubmit(e as any)
+        handleSubmit(e as unknown as React.FormEvent)
       }
     },
     [handleSubmit],
@@ -52,7 +52,7 @@ export default function ChatbotInput() {
     // Auto-resize
     const textarea = e.target
     textarea.style.height = 'auto'
-    textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px'
+    textarea.style.height = `${Math.min(textarea.scrollHeight, 100)}px`
   }, [])
 
   const canSend = message.trim().length > 0 && !state.isLoading

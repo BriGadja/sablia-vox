@@ -30,9 +30,11 @@ vi.mock('next/headers', () => ({
 
 // Mock next/image
 vi.mock('next/image', () => ({
+  // biome-ignore lint/suspicious/noExplicitAny: mock implementation
   default: (props: any) => {
     const { fill, priority, ...rest } = props
-    return <img {...rest} />
+    // biome-ignore lint/performance/noImgElement: mock implementation
+    return <img alt="" {...rest} />
   },
 }))
 
@@ -48,6 +50,7 @@ class MockPointerEvent extends Event {
     this.pointerType = props.pointerType || 'mouse'
   }
 }
+// biome-ignore lint/suspicious/noExplicitAny: mock implementation
 window.PointerEvent = MockPointerEvent as any
 window.HTMLElement.prototype.scrollIntoView = vi.fn()
 window.HTMLElement.prototype.releasePointerCapture = vi.fn()

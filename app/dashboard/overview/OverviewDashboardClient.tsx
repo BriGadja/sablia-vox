@@ -27,14 +27,14 @@ interface OverviewDashboardClientProps {
  * Aggregated dashboard showing metrics across ALL agents accessible by the user
  * 5 KPIs compact + 4 charts in 2x2 grid
  */
-export function OverviewDashboardClient({ userEmail }: OverviewDashboardClientProps) {
+export function OverviewDashboardClient({ userEmail: _userEmail }: OverviewDashboardClientProps) {
   // URL-based filters
   const { filters, setDeploymentId, setTemplateType, setDateRange } = useDashboardFilters()
 
   // Fetch global metrics
   const { data: kpiData, isLoading: isLoadingKPIs } = useDashboardKPIs(filters)
-  const { data: callVolumeData, isLoading: isLoadingCallVolume } = useCallVolumeByDay(filters)
-  const { data: outcomeData, isLoading: isLoadingOutcomes } = useOutcomeDistribution(filters)
+  const { data: callVolumeData } = useCallVolumeByDay(filters)
+  const { data: outcomeData } = useOutcomeDistribution(filters)
   const { data: emotionData } = useEmotionDistribution(filters)
 
   // Fetch latency metrics (no agent type filter for overview)

@@ -13,13 +13,13 @@ import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import { KPIGrid } from '@/components/dashboard/KPIGrid'
 import { SuggestionsSection } from '@/components/dashboard/SuggestionsSection'
 import { FadeIn } from '@/components/motion'
+import { useQualitySnapshots, useSuggestions } from '@/lib/hooks/useAgentInsights'
 import {
   useCallVolumeByDay,
   useDashboardKPIs,
   useEmotionDistribution,
   useOutcomeDistribution,
 } from '@/lib/hooks/useDashboardData'
-import { useQualitySnapshots, useSuggestions } from '@/lib/hooks/useAgentInsights'
 import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
 import { useLatencyMetrics } from '@/lib/hooks/useLatencyData'
 import { createClient } from '@/lib/supabase/client'

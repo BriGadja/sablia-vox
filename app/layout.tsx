@@ -29,7 +29,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Sablia Vox - Agents Vocaux IA 24/7',
   description:
-    'Transformez vos appels en opportunités avec nos agents vocaux IA. Prise de rendez-vous, accueil téléphonique, transfert d\'appels. Performance garantie 24/7.',
+    "Transformez vos appels en opportunités avec nos agents vocaux IA. Prise de rendez-vous, accueil téléphonique, transfert d'appels. Performance garantie 24/7.",
   keywords: [
     'agent vocal IA',
     'intelligence artificielle',

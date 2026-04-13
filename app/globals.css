@@ -1,4 +1,6 @@
-@import 'tailwindcss' source(none);
+@import "tailwindcss" source(none);
+@import "tw-animate-css";
+
 @source "../app";
 @source "../components";
 @source "../lib";
@@ -7,14 +9,12 @@
 /* Safelist — dynamic classes + chatbot widget classes */
 @source inline("lg:grid-cols-5 sablia-chatbot-trigger sablia-chatbot-window sablia-chatbot-header sablia-chatbot-messages sablia-chatbot-input sablia-chatbot-message sablia-chatbot-widget from-blue-500 to-blue-600 to-orange-600 to-green-600");
 
-@import "tw-animate-css";
-
 /* Theme — OKLCh tokens from design spec (dark-first) */
 @theme {
   /* Template type colors */
-  --color-setter: #8B5CF6;
-  --color-secretary: #3B82F6;
-  --color-transfer: #FB923C;
+  --color-setter: #8b5cf6;
+  --color-secretary: #3b82f6;
+  --color-transfer: #fb923c;
 
   /* Semantic colors — OKLCh via CSS vars (Tailwind v4 native) */
   --color-primary: var(--primary);
@@ -133,14 +133,18 @@
   background: oklch(0.18 0.02 260 / 0.75);
   backdrop-filter: blur(16px);
   border: 1px solid oklch(1 0 0 / 0.12);
-  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.1), 0 4px 24px oklch(0 0 0 / 0.2);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.1),
+    0 4px 24px oklch(0 0 0 / 0.2);
 }
 
 @utility glass-strong {
   background: oklch(0.15 0.02 260 / 0.9);
   backdrop-filter: blur(24px);
   border: 1px solid oklch(1 0 0 / 0.15);
-  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.1), 0 8px 32px oklch(0 0 0 / 0.3);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.1),
+    0 8px 32px oklch(0 0 0 / 0.3);
 }
 
 @utility gradient-primary {
@@ -161,14 +165,14 @@
 }
 
 @utility text-gradient-blue {
-  background-image: linear-gradient(135deg, oklch(0.75 0.14 230), oklch(0.70 0.16 260));
+  background-image: linear-gradient(135deg, oklch(0.75 0.14 230), oklch(0.7 0.16 260));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 @utility text-gradient-warm {
-  background-image: linear-gradient(135deg, oklch(0.80 0.16 80), oklch(0.75 0.18 50));
+  background-image: linear-gradient(135deg, oklch(0.8 0.16 80), oklch(0.75 0.18 50));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -178,7 +182,7 @@
   position: relative;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
@@ -193,13 +197,19 @@
   position: relative;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 10%;
     right: 10%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, oklch(0.75 0.14 230 / 0.2), oklch(0.80 0.16 80 / 0.15), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      oklch(0.75 0.14 230 / 0.2),
+      oklch(0.8 0.16 80 / 0.15),
+      transparent
+    );
   }
 }
 
@@ -220,9 +230,9 @@
   :root {
     --background: oklch(0.13 0.025 260);
     --foreground: oklch(0.96 0.005 260);
-    --card: oklch(0.19 0.020 260);
+    --card: oklch(0.19 0.02 260);
     --card-foreground: oklch(0.96 0.005 260);
-    --popover: oklch(0.19 0.020 260);
+    --popover: oklch(0.19 0.02 260);
     --popover-foreground: oklch(0.96 0.005 260);
     --primary: oklch(0.75 0.14 230);
     --primary-foreground: oklch(0.13 0.025 260);
@@ -230,21 +240,21 @@
     --secondary-foreground: oklch(0.96 0.005 260);
     --muted: oklch(0.22 0.015 260);
     --muted-foreground: oklch(0.65 0.02 255);
-    --accent: oklch(0.80 0.16 80);
+    --accent: oklch(0.8 0.16 80);
     --accent-foreground: oklch(0.13 0.025 260);
     --destructive: oklch(0.55 0.22 27);
     --destructive-foreground: oklch(0.96 0.005 260);
     --border: oklch(0.28 0.015 260);
     --input: oklch(0.28 0.015 260);
     --ring: oklch(0.75 0.14 230);
-    --surface: oklch(0.19 0.020 260);
+    --surface: oklch(0.19 0.02 260);
     --chart-1: oklch(0.65 0.18 230);
     --chart-2: oklch(0.65 0.15 165);
     --chart-3: oklch(0.75 0.16 80);
-    --chart-4: oklch(0.60 0.18 300);
-    --chart-5: oklch(0.60 0.18 350);
+    --chart-4: oklch(0.6 0.18 300);
+    --chart-5: oklch(0.6 0.18 350);
     --radius: 0.5rem;
-    --sidebar-background: oklch(0.15 0.020 260);
+    --sidebar-background: oklch(0.15 0.02 260);
     --sidebar-foreground: oklch(0.93 0.005 260);
     --sidebar-primary: oklch(0.65 0.16 230);
     --sidebar-primary-foreground: oklch(0.98 0.005 260);
@@ -257,7 +267,7 @@
     --surface-1: oklch(0.16 0.018 260);
     --surface-2: oklch(0.22 0.018 260);
     --surface-3: oklch(0.26 0.016 260);
-    --surface-4: oklch(0.30 0.014 260);
+    --surface-4: oklch(0.3 0.014 260);
 
     /* Interactive state overlays (DESIGN-SPEC §2.1) */
     --hover-overlay: oklch(1 0 0 / 0.04);
@@ -302,16 +312,16 @@
   .light {
     --background: oklch(0.98 0.005 260);
     --foreground: oklch(0.15 0.02 260);
-    --card: oklch(1.0 0 0);
+    --card: oklch(1 0 0);
     --card-foreground: oklch(0.15 0.02 260);
-    --popover: oklch(1.0 0 0);
+    --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.15 0.02 260);
     --primary: oklch(0.55 0.18 230);
     --primary-foreground: oklch(0.98 0.005 260);
     --secondary: oklch(0.93 0.005 260);
     --secondary-foreground: oklch(0.15 0.02 260);
     --muted: oklch(0.93 0.005 260);
-    --muted-foreground: oklch(0.40 0.02 255);
+    --muted-foreground: oklch(0.4 0.02 255);
     --accent: oklch(0.65 0.18 80);
     --accent-foreground: oklch(0.15 0.02 260);
     --destructive: oklch(0.55 0.22 27);
@@ -339,47 +349,93 @@
 
 /* Landing page keyframe animations */
 @keyframes waveform-bar {
-  0%, 100% { transform: scaleY(1); }
-  50% { transform: scaleY(1.8); }
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.8);
+  }
 }
 
 @keyframes waveform-bar-calling {
-  0%, 100% { transform: scaleY(1); }
-  50% { transform: scaleY(2.5); }
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(2.5);
+  }
 }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); }
-  50% { box-shadow: 0 0 35px rgba(245, 158, 11, 0.5); }
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(245, 158, 11, 0.5);
+  }
 }
 
 @keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes logo-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* Aurora — drifting gradient orbs for hero background */
 @keyframes aurora-1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.05); }
-  66% { transform: translate(-20px, 20px) scale(0.95); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.05);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
 }
 
 @keyframes aurora-2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(-40px, 30px) scale(1.08); }
-  66% { transform: translate(20px, -30px) scale(0.92); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-40px, 30px) scale(1.08);
+  }
+  66% {
+    transform: translate(20px, -30px) scale(0.92);
+  }
 }
 
 @keyframes aurora-3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(20px, 40px) scale(1.03); }
-  66% { transform: translate(-30px, -20px) scale(0.97); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(20px, 40px) scale(1.03);
+  }
+  66% {
+    transform: translate(-30px, -20px) scale(0.97);
+  }
 }
 
 /* Gradient border rotation */
@@ -390,32 +446,53 @@
 }
 
 @keyframes rotate-border {
-  to { --border-angle: 360deg; }
+  to {
+    --border-angle: 360deg;
+  }
 }
 
 /* Shine sweep for dashboard preview */
 @keyframes shine-sweep {
-  0% { transform: translateX(-100%) skewX(-15deg); }
-  100% { transform: translateX(200%) skewX(-15deg); }
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
 }
 
 /* Pulse ring for step numbers */
 @keyframes pulse-ring {
-  0% { transform: scale(1); opacity: 0.4; }
-  100% { transform: scale(1.8); opacity: 0; }
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
 }
 
 /* Scroll indicator bounce */
 @keyframes scroll-bounce {
-  0%, 100% { transform: translateY(0); opacity: 0.5; }
-  50% { transform: translateY(6px); opacity: 1; }
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
 }
 
 /* Respect prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
   }
 }

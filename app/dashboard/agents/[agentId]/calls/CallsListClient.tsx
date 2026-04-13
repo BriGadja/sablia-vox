@@ -1,20 +1,12 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import {
-  ArrowLeft,
-  Calendar,
-  ChevronLeft,
-  ChevronRight,
-  Clock,
-  Loader2,
-  Phone,
-} from 'lucide-react'
+import { ArrowLeft, Calendar, ChevronLeft, ChevronRight, Clock, Loader2, Phone } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
-import { OUTCOME_CONFIG } from '@/lib/constants'
 import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import { PageHeader } from '@/components/dashboard/PageHeader'
+import { OUTCOME_CONFIG } from '@/lib/constants'
 import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
 import { fetchCallsPage } from '@/lib/queries/calls'
 import type { DashboardCall } from '@/lib/types/dashboard'
@@ -134,6 +126,7 @@ export function CallsListClient({ agentId, agentName }: CallsListClientProps) {
           </p>
           <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={() => setPage((p) => Math.max(0, p - 1))}
               disabled={page === 0}
               className="p-2 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -141,6 +134,7 @@ export function CallsListClient({ agentId, agentName }: CallsListClientProps) {
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
+              type="button"
               onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
               disabled={page >= totalPages - 1}
               className="p-2 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"

@@ -54,11 +54,15 @@ export function Modal({ children, className }: ModalProps) {
   )
 
   return (
+    // biome-ignore lint/a11y/noStaticElementInteractions: modal backdrop click-to-dismiss pattern
+    // biome-ignore lint/a11y/useKeyWithClickEvents: keyboard Escape handled via document event listener in useEffect
     <div
       ref={overlayRef}
       className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
       onClick={onClick}
     >
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: modal wrapper click-to-dismiss pattern */}
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: keyboard Escape handled via document event listener in useEffect */}
       <div
         ref={wrapperRef}
         className="fixed inset-4 sm:inset-8 md:inset-12 lg:inset-16 flex items-start justify-center overflow-y-auto"
@@ -72,6 +76,7 @@ export function Modal({ children, className }: ModalProps) {
         >
           {/* Close Button */}
           <button
+            type="button"
             onClick={onDismiss}
             className="absolute right-4 top-4 z-10 p-2 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-colors"
             aria-label="Fermer"

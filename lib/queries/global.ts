@@ -144,9 +144,7 @@ export async function fetchOutcomeDistribution(filters: DashboardFilters): Promi
 /**
  * Fetch agent cards data using v2 RPC
  */
-export async function fetchAgentCardsData(
-  filters: DashboardFilters,
-): Promise<AgentCardData[]> {
+export async function fetchAgentCardsData(filters: DashboardFilters): Promise<AgentCardData[]> {
   const supabase = createClient()
 
   const { data, error } = await supabase.rpc('get_agent_cards_data', {
@@ -214,7 +212,9 @@ export async function exportCallsToCSV(filters: DashboardFilters): Promise<strin
 
   let query = supabase
     .from('v_dashboard_calls')
-    .select('call_id, started_at, ended_at, duration_seconds, outcome, is_answered, direction, call_reason, phone_number, first_name, last_name, contact_email, billed_cost, quality_score, emotion, deployment_name, template_type, is_conversion')
+    .select(
+      'call_id, started_at, ended_at, duration_seconds, outcome, is_answered, direction, call_reason, phone_number, first_name, last_name, contact_email, billed_cost, quality_score, emotion, deployment_name, template_type, is_conversion',
+    )
     .gte('started_at', filters.startDate)
     .lte('started_at', filters.endDate)
     .order('started_at', { ascending: false })

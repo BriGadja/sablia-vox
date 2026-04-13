@@ -26,7 +26,10 @@ const STATUS_BADGES: Record<string, { label: string; className: string }> = {
 }
 
 function StatusBadge({ status }: { status: string }) {
-  const badge = STATUS_BADGES[status] || { label: status, className: 'bg-gray-500/20 text-gray-400' }
+  const badge = STATUS_BADGES[status] || {
+    label: status,
+    className: 'bg-gray-500/20 text-gray-400',
+  }
   return (
     <span className={cn('px-2 py-1 rounded-md text-xs font-medium', badge.className)}>
       {badge.label}

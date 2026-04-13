@@ -24,7 +24,7 @@ export default function ChatbotMessages({ messages, isTyping }: ChatbotMessagesP
         block: 'end',
       })
     }
-  }, [messages.length, isTyping])
+  }, [])
 
   // Handle scroll to bottom on container resize
   useEffect(() => {

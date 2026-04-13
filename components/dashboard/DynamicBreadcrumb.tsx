@@ -18,7 +18,7 @@ import {
 const routeLabels: Record<string, string> = {
   dashboard: 'Dashboard',
   agents: 'Agents',
-  overview: 'Vue d\'ensemble',
+  overview: "Vue d'ensemble",
   calls: 'Appels',
   settings: 'Paramètres',
 }
@@ -59,7 +59,7 @@ export function DynamicBreadcrumb() {
 
   // Build breadcrumb items
   const breadcrumbs = segments.map((segment, index) => {
-    const href = '/' + segments.slice(0, index + 1).join('/')
+    const href = `/${segments.slice(0, index + 1).join('/')}`
     const isLast = index === segments.length - 1
     const prevSegment = index > 0 ? segments[index - 1] : undefined
     const label = getRouteLabel(segment, prevSegment)

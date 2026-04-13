@@ -32,6 +32,7 @@ function OutcomeBreakdownInner({ data }: OutcomeBreakdownProps) {
   const total = useMemo(() => chartData.reduce((sum, item) => sum + item.value, 0), [chartData])
 
   const renderCustomLabel = useCallback(
+    // biome-ignore lint/suspicious/noExplicitAny: Recharts PieLabelRenderProps type is incompatible with custom label signature
     (props: any) => {
       const { cx, cy, midAngle, outerRadius, name, value, percent } = props
       const RADIAN = Math.PI / 180
@@ -60,14 +61,16 @@ function OutcomeBreakdownInner({ data }: OutcomeBreakdownProps) {
   )
 
   const renderLegend = useCallback(
+    // biome-ignore lint/suspicious/noExplicitAny: Recharts Legend content prop types are complex and readonly
     (props: any) => {
       const { payload } = props
       return (
         <ul className="flex flex-col gap-2 text-sm text-white">
-          {payload?.map((entry: any, index: number) => {
+          {/* biome-ignore lint/suspicious/noExplicitAny: Recharts LegendPayload entries have dynamic shape */}
+          {payload?.map((entry: any) => {
             const percentage = total > 0 ? ((entry.payload.value / total) * 100).toFixed(1) : 0
             return (
-              <li key={`legend-${index}`} className="flex items-center gap-2">
+              <li key={entry.value} className="flex items-center gap-2">
                 <span
                   className="w-3 h-3 rounded-full flex-shrink-0"
                   style={{ backgroundColor: entry.color }}
@@ -105,8 +108,8 @@ function OutcomeBreakdownInner({ data }: OutcomeBreakdownProps) {
               strokeWidth: 1,
             }}
           >
-            {chartData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
+            {chartData.map((entry) => (
+              <Cell key={entry.name} fill={entry.color} />
             ))}
           </Pie>
           <Tooltip

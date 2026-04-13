@@ -131,8 +131,8 @@ function AgentTypeComparisonChartInner({ data, isLoading }: AgentTypeComparisonC
             }}
           />
           <Bar dataKey="conversion_rate" name="conversion_rate" radius={[4, 4, 0, 0]}>
-            {chartData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
+            {chartData.map((entry) => (
+              <Cell key={entry.name} fill={entry.color} />
             ))}
           </Bar>
         </BarChart>

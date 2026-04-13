@@ -106,7 +106,7 @@ export default function UpdatePasswordPage() {
 
       // Succès - rediriger vers le dashboard
       router.push('/dashboard')
-    } catch (err) {
+    } catch (_err) {
       setError('Une erreur est survenue. Veuillez réessayer.')
       setIsLoading(false)
     }

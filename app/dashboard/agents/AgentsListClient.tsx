@@ -31,9 +31,27 @@ export function AgentsListClient() {
   }
 
   const templateBadges = [
-    { type: 'setter', label: 'Setter', count: templateCounts.setter, wrapCls: 'bg-violet-500/20 border-violet-500/30', textCls: 'text-violet-400' },
-    { type: 'secretary', label: 'Secrétaire', count: templateCounts.secretary, wrapCls: 'bg-blue-500/20 border-blue-500/30', textCls: 'text-blue-400' },
-    { type: 'transfer', label: 'Transfert', count: templateCounts.transfer, wrapCls: 'bg-orange-500/20 border-orange-500/30', textCls: 'text-orange-400' },
+    {
+      type: 'setter',
+      label: 'Setter',
+      count: templateCounts.setter,
+      wrapCls: 'bg-violet-500/20 border-violet-500/30',
+      textCls: 'text-violet-400',
+    },
+    {
+      type: 'secretary',
+      label: 'Secrétaire',
+      count: templateCounts.secretary,
+      wrapCls: 'bg-blue-500/20 border-blue-500/30',
+      textCls: 'text-blue-400',
+    },
+    {
+      type: 'transfer',
+      label: 'Transfert',
+      count: templateCounts.transfer,
+      wrapCls: 'bg-orange-500/20 border-orange-500/30',
+      textCls: 'text-orange-400',
+    },
   ]
 
   return (

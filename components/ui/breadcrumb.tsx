@@ -53,6 +53,8 @@ BreadcrumbLink.displayName = 'BreadcrumbLink'
 
 const BreadcrumbPage = React.forwardRef<HTMLSpanElement, React.ComponentPropsWithoutRef<'span'>>(
   ({ className, ...props }, ref) => (
+    // biome-ignore lint/a11y/useFocusableInteractive: breadcrumb current page is non-interactive, role="link" with aria-disabled is standard pattern
+    // biome-ignore lint/a11y/useSemanticElements: span with role="link" is the established shadcn breadcrumb pattern
     <span
       ref={ref}
       role="link"
@@ -92,10 +94,10 @@ BreadcrumbEllipsis.displayName = 'BreadcrumbElipssis'
 
 export {
   Breadcrumb,
-  BreadcrumbList,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
+  BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-  BreadcrumbEllipsis,
 }

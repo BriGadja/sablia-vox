@@ -13,7 +13,9 @@ export function useOrgMembers() {
       const orgId = session?.user?.app_metadata?.org_id
       const { data, error } = await supabase
         .from('user_org_memberships')
-        .select('id, user_id, org_id, permission_level, is_default, created_at, users(email, full_name, role, avatar_url)')
+        .select(
+          'id, user_id, org_id, permission_level, is_default, created_at, users(email, full_name, role, avatar_url)',
+        )
         .eq('org_id', orgId)
         .order('created_at')
       if (error) throw error

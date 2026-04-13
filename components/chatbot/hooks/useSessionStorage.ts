@@ -14,7 +14,7 @@ export function useSessionStorage() {
         const parsedSession = JSON.parse(stored)
         // Convert timestamp strings back to Date objects
         parsedSession.startedAt = new Date(parsedSession.startedAt)
-        parsedSession.messages = parsedSession.messages.map((msg: any) => ({
+        parsedSession.messages = parsedSession.messages.map((msg: { timestamp: string }) => ({
           ...msg,
           timestamp: new Date(msg.timestamp),
         }))

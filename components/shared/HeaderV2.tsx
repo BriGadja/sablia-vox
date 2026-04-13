@@ -46,6 +46,7 @@ export function HeaderV2() {
                 Connexion
               </Link>
               <button
+                type="button"
                 onClick={() => setIsPopupOpen(true)}
                 className="px-4 py-2 bg-linear-to-r from-violet-600 to-purple-600 rounded-lg text-sm font-semibold hover:from-violet-700 hover:to-purple-700 transition-all hover:shadow-lg hover:shadow-violet-500/20"
               >

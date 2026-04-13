@@ -11,11 +11,7 @@ interface AgentFilterProps {
   templateType?: string
 }
 
-export function AgentFilter({
-  selectedAgentIds,
-  onChange,
-  templateType,
-}: AgentFilterProps) {
+export function AgentFilter({ selectedAgentIds, onChange, templateType }: AgentFilterProps) {
   const [isMounted, setIsMounted] = useState(false)
   const onChangeRef = useRef(onChange)
   onChangeRef.current = onChange
@@ -53,9 +49,15 @@ export function AgentFilter({
   return (
     <div className="flex flex-col sm:flex-row gap-3">
       <div className="w-full sm:w-64">
-        <label className="block text-xs font-medium text-white/80 mb-1.5">Agent</label>
+        <label
+          htmlFor="agent-filter-select"
+          className="block text-xs font-medium text-white/80 mb-1.5"
+        >
+          Agent
+        </label>
         <div className="relative">
           <select
+            id="agent-filter-select"
             value={selectedAgentIds[0] || 'all'}
             onChange={(e) => handleAgentChange(e.target.value)}
             disabled={showAgentsLoading}

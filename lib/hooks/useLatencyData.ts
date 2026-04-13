@@ -14,7 +14,9 @@ export function useLatencyMetrics(filters: LatencyFilters) {
 
       let query = supabase
         .from('v_dashboard_calls')
-        .select('started_at, deployment_id, deployment_name, template_type, avg_llm_ms, avg_tts_ms, avg_total_ms')
+        .select(
+          'started_at, deployment_id, deployment_name, template_type, avg_llm_ms, avg_tts_ms, avg_total_ms',
+        )
         .gte('started_at', filters.startDate)
         .lte('started_at', filters.endDate)
         .not('avg_llm_ms', 'is', null)
@@ -42,17 +44,36 @@ export function useLatencyMetrics(filters: LatencyFilters) {
         const key = `${date}_${row.deployment_id}`
 
         if (grouped.has(key)) {
-          const existing = grouped.get(key)!
+          const existing = grouped.get(key)
+          if (!existing) continue
           existing.call_count += 1
-          existing.avg_llm_latency_ms = (existing.avg_llm_latency_ms * (existing.call_count - 1) + (row.avg_llm_ms ?? 0)) / existing.call_count
-          existing.avg_tts_latency_ms = (existing.avg_tts_latency_ms * (existing.call_count - 1) + (row.avg_tts_ms ?? 0)) / existing.call_count
-          existing.avg_total_latency_ms = (existing.avg_total_latency_ms * (existing.call_count - 1) + (row.avg_total_ms ?? 0)) / existing.call_count
-          existing.min_llm_latency_ms = Math.min(existing.min_llm_latency_ms, row.avg_llm_ms ?? Infinity)
+          existing.avg_llm_latency_ms =
+            (existing.avg_llm_latency_ms * (existing.call_count - 1) + (row.avg_llm_ms ?? 0)) /
+            existing.call_count
+          existing.avg_tts_latency_ms =
+            (existing.avg_tts_latency_ms * (existing.call_count - 1) + (row.avg_tts_ms ?? 0)) /
+            existing.call_count
+          existing.avg_total_latency_ms =
+            (existing.avg_total_latency_ms * (existing.call_count - 1) + (row.avg_total_ms ?? 0)) /
+            existing.call_count
+          existing.min_llm_latency_ms = Math.min(
+            existing.min_llm_latency_ms,
+            row.avg_llm_ms ?? Infinity,
+          )
           existing.max_llm_latency_ms = Math.max(existing.max_llm_latency_ms, row.avg_llm_ms ?? 0)
-          existing.min_tts_latency_ms = Math.min(existing.min_tts_latency_ms, row.avg_tts_ms ?? Infinity)
+          existing.min_tts_latency_ms = Math.min(
+            existing.min_tts_latency_ms,
+            row.avg_tts_ms ?? Infinity,
+          )
           existing.max_tts_latency_ms = Math.max(existing.max_tts_latency_ms, row.avg_tts_ms ?? 0)
-          existing.min_total_latency_ms = Math.min(existing.min_total_latency_ms, row.avg_total_ms ?? Infinity)
-          existing.max_total_latency_ms = Math.max(existing.max_total_latency_ms, row.avg_total_ms ?? 0)
+          existing.min_total_latency_ms = Math.min(
+            existing.min_total_latency_ms,
+            row.avg_total_ms ?? Infinity,
+          )
+          existing.max_total_latency_ms = Math.max(
+            existing.max_total_latency_ms,
+            row.avg_total_ms ?? 0,
+          )
         } else {
           grouped.set(key, {
             date,
@@ -129,7 +150,10 @@ export function calculateLatencyKPIs(metrics: LatencyMetric[]): LatencyKPIs {
  * Group metrics by date for time-series chart
  */
 export function groupMetricsByDate(metrics: LatencyMetric[]) {
-  const grouped = new Map<string, { avgLlmLatency: number; avgTtsLatency: number; avgTotalLatency: number; callCount: number }>()
+  const grouped = new Map<
+    string,
+    { avgLlmLatency: number; avgTtsLatency: number; avgTotalLatency: number; callCount: number }
+  >()
 
   for (const metric of metrics) {
     const existing = grouped.get(metric.date)
@@ -137,11 +161,17 @@ export function groupMetricsByDate(metrics: LatencyMetric[]) {
     if (existing) {
       const totalCalls = existing.callCount + metric.call_count
       existing.avgLlmLatency =
-        (existing.avgLlmLatency * existing.callCount + metric.avg_llm_latency_ms * metric.call_count) / totalCalls
+        (existing.avgLlmLatency * existing.callCount +
+          metric.avg_llm_latency_ms * metric.call_count) /
+        totalCalls
       existing.avgTtsLatency =
-        (existing.avgTtsLatency * existing.callCount + metric.avg_tts_latency_ms * metric.call_count) / totalCalls
+        (existing.avgTtsLatency * existing.callCount +
+          metric.avg_tts_latency_ms * metric.call_count) /
+        totalCalls
       existing.avgTotalLatency =
-        (existing.avgTotalLatency * existing.callCount + metric.avg_total_latency_ms * metric.call_count) / totalCalls
+        (existing.avgTotalLatency * existing.callCount +
+          metric.avg_total_latency_ms * metric.call_count) /
+        totalCalls
       existing.callCount = totalCalls
     } else {
       grouped.set(metric.date, {
@@ -162,7 +192,10 @@ export function groupMetricsByDate(metrics: LatencyMetric[]) {
  * Group metrics by deployment for bar chart
  */
 export function groupMetricsByDeployment(metrics: LatencyMetric[]) {
-  const grouped = new Map<string, { avgLlmLatency: number; avgTtsLatency: number; callCount: number }>()
+  const grouped = new Map<
+    string,
+    { avgLlmLatency: number; avgTtsLatency: number; callCount: number }
+  >()
 
   for (const metric of metrics) {
     const existing = grouped.get(metric.deployment_name)
@@ -170,9 +203,13 @@ export function groupMetricsByDeployment(metrics: LatencyMetric[]) {
     if (existing) {
       const totalCalls = existing.callCount + metric.call_count
       existing.avgLlmLatency =
-        (existing.avgLlmLatency * existing.callCount + metric.avg_llm_latency_ms * metric.call_count) / totalCalls
+        (existing.avgLlmLatency * existing.callCount +
+          metric.avg_llm_latency_ms * metric.call_count) /
+        totalCalls
       existing.avgTtsLatency =
-        (existing.avgTtsLatency * existing.callCount + metric.avg_tts_latency_ms * metric.call_count) / totalCalls
+        (existing.avgTtsLatency * existing.callCount +
+          metric.avg_tts_latency_ms * metric.call_count) /
+        totalCalls
       existing.callCount = totalCalls
     } else {
       grouped.set(metric.deployment_name, {

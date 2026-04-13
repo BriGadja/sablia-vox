@@ -123,36 +123,42 @@ export function DateRangeFilter({ startDate, endDate, onChange }: DateRangeFilte
 
       <div className="flex flex-wrap gap-1.5">
         <button
+          type="button"
           onClick={() => handlePreset('today')}
           className="px-2 py-1 text-xs border border-white/20 rounded-lg hover:bg-white/10 text-white transition-colors"
         >
           Aujourd&apos;hui
         </button>
         <button
+          type="button"
           onClick={() => handlePreset('last7Days')}
           className="px-2 py-1 text-xs border border-white/20 rounded-lg hover:bg-white/10 text-white transition-colors"
         >
           7 derniers jours
         </button>
         <button
+          type="button"
           onClick={() => handlePreset('last30Days')}
           className="px-2 py-1 text-xs border border-white/20 rounded-lg hover:bg-white/10 text-white transition-colors"
         >
           30 derniers jours
         </button>
         <button
+          type="button"
           onClick={() => handlePreset('thisMonth')}
           className="px-2 py-1 text-xs border border-white/20 rounded-lg hover:bg-white/10 text-white transition-colors"
         >
           Ce mois
         </button>
         <button
+          type="button"
           onClick={() => handlePreset('lastMonth')}
           className="px-2 py-1 text-xs border border-white/20 rounded-lg hover:bg-white/10 text-white transition-colors"
         >
           Mois dernier
         </button>
         <button
+          type="button"
           onClick={() => handlePreset('thisYear')}
           className="px-2 py-1 text-xs border border-white/20 rounded-lg hover:bg-white/10 text-white transition-colors"
         >

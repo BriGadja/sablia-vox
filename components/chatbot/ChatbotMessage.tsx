@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { AlertCircle, Bot, User } from 'lucide-react'
+import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
 import type { ChatMessage } from '@/types/chatbot'
 

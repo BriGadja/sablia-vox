@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { Minus, TrendingDown, TrendingUp } from 'lucide-react'
+import { motion } from 'motion/react'
 
 interface KPICardProps {
   label: string
@@ -62,7 +62,13 @@ export function KPICard({
   }
 
   const calculateDelta = (): { value: number; trend: 'up' | 'down' | 'neutral' } | null => {
-    if (previousValue === undefined || previousValue === null || typeof value === 'string' || value === undefined) return null
+    if (
+      previousValue === undefined ||
+      previousValue === null ||
+      typeof value === 'string' ||
+      value === undefined
+    )
+      return null
 
     const numValue = typeof value === 'number' ? value : parseFloat(value)
 

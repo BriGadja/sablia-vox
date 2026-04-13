@@ -9,7 +9,9 @@ export async function middleware(request: NextRequest) {
   })
 
   const supabase = createServerClient(
+    // biome-ignore lint/style/noNonNullAssertion: required env var — build fails without it
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    // biome-ignore lint/style/noNonNullAssertion: required env var — build fails without it
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
@@ -17,9 +19,9 @@ export async function middleware(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options),
-          )
+          for (const { name, value, options } of cookiesToSet) {
+            response.cookies.set(name, value, options)
+          }
         },
       },
     },

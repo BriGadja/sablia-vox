@@ -1,7 +1,7 @@
 'use client'
 
-import { AnimatePresence, motion } from 'motion/react'
 import { CheckCircle, X } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
 import type React from 'react'
 import { useEffect } from 'react'
 
@@ -32,6 +32,7 @@ const SuccessToast: React.FC<SuccessToastProps> = ({ show, message, onClose }) =
           <CheckCircle className="w-6 h-6 flex-shrink-0" />
           <p className="font-medium flex-1">{message}</p>
           <button
+            type="button"
             onClick={onClose}
             className="text-white/80 hover:text-white transition-colors"
             aria-label="Fermer"

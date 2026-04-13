@@ -142,7 +142,7 @@ export function buildCSV<T>(
   const csv = [headerRow, ...dataRows].join('\n')
 
   // Add BOM for Excel compatibility (handles UTF-8 characters properly)
-  return includeBOM ? '\ufeff' + csv : csv
+  return includeBOM ? `\ufeff${csv}` : csv
 }
 
 /**

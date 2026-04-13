@@ -40,7 +40,7 @@ export default function ResetPasswordPage() {
       }
 
       setSuccess(true)
-    } catch (err) {
+    } catch (_err) {
       setError('Une erreur est survenue. Veuillez réessayer.')
     } finally {
       setIsLoading(false)

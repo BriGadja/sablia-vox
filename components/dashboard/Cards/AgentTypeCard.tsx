@@ -28,12 +28,15 @@ interface AgentTypeCardProps {
 }
 
 // Template type configuration (v2)
-const templateConfig: Record<string, {
-  icon: typeof Users
-  color: string
-  iconColor: string
-  description: string
-}> = {
+const templateConfig: Record<
+  string,
+  {
+    icon: typeof Users
+    color: string
+    iconColor: string
+    description: string
+  }
+> = {
   setter: {
     icon: Users,
     color: 'from-violet-500/20 to-violet-500/5 border-violet-500/30',
@@ -50,7 +53,7 @@ const templateConfig: Record<string, {
     icon: Target,
     color: 'from-orange-500/20 to-orange-500/5 border-orange-500/30',
     iconColor: 'text-orange-400',
-    description: 'Transfert d\'appels',
+    description: "Transfert d'appels",
   },
 }
 
@@ -144,7 +147,8 @@ export function AgentTypeCard({ agentType }: AgentTypeCardProps) {
                   <p className="text-xs">Durée moy.</p>
                 </div>
                 <p className="text-lg font-bold text-white">
-                  {Math.floor(agentType.avg_duration / 60)}m{Math.round(agentType.avg_duration % 60)}s
+                  {Math.floor(agentType.avg_duration / 60)}m
+                  {Math.round(agentType.avg_duration % 60)}s
                 </p>
               </div>
             </div>

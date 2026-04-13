@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { Minimize2, RotateCcw, X } from 'lucide-react'
+import { motion } from 'motion/react'
 import { useChatbotContext } from '@/contexts/ChatbotContext'
 import { chatbotConfig } from '@/lib/constants'
 import { cn } from '@/lib/utils'

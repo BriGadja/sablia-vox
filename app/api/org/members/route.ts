@@ -53,14 +53,15 @@ async function handleInvite(
   if (existingUser) {
     const alreadyMember = existingMembers?.some((m) => m.user_id === existingUser.id)
     if (alreadyMember) {
-      throw new ApiError('Cet utilisateur est déjà membre de l\'organisation', 409)
+      throw new ApiError("Cet utilisateur est déjà membre de l'organisation", 409)
     }
   }
 
   // Build redirect URL
-  const origin = request.headers.get('origin') || request.headers.get('x-forwarded-host')
-    ? `https://${request.headers.get('x-forwarded-host')}`
-    : new URL(request.url).origin
+  const origin =
+    request.headers.get('origin') || request.headers.get('x-forwarded-host')
+      ? `https://${request.headers.get('x-forwarded-host')}`
+      : new URL(request.url).origin
   const redirectTo = `${origin}/auth/callback?next=/dashboard`
 
   // Invite user via Supabase Auth admin API
@@ -70,7 +71,7 @@ async function handleInvite(
 
   if (inviteError) {
     console.error('Invite error:', inviteError)
-    throw new ApiError('Erreur lors de l\'invitation', 500)
+    throw new ApiError("Erreur lors de l'invitation", 500)
   }
 
   // Create membership for the invited user

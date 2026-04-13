@@ -44,10 +44,7 @@ export default async function CallsPage({ params }: CallsPageProps) {
         </div>
       }
     >
-      <CallsListClient
-        agentId={agentId}
-        agentName={deployment.deployment_name}
-      />
+      <CallsListClient agentId={agentId} agentName={deployment.deployment_name} />
     </Suspense>
   )
 }

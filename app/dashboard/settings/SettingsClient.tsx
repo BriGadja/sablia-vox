@@ -38,7 +38,15 @@ import { useOrgMembers } from '@/lib/hooks/useOrgMembers'
 import type { OrgMember, OrgProfile, PermissionLevel } from '@/lib/types/settings'
 import { cn } from '@/lib/utils'
 
-const INDUSTRIES = ['Immobilier', 'Automobile', 'Assurance', 'Santé', 'Services', 'Commerce', 'Autre'] as const
+const INDUSTRIES = [
+  'Immobilier',
+  'Automobile',
+  'Assurance',
+  'Santé',
+  'Services',
+  'Commerce',
+  'Autre',
+] as const
 
 const ROLE_STYLES: Record<PermissionLevel, string> = {
   admin: 'bg-violet-500/20 text-violet-400',
@@ -66,28 +74,32 @@ export default function SettingsClient({ org, isAdmin }: SettingsClientProps) {
           <h1 className="text-3xl font-bold text-white">Paramètres</h1>
         </div>
         <p className="text-white/60">
-          {isAdmin ? 'Gérez votre organisation et votre équipe' : 'Informations de votre organisation'}
+          {isAdmin
+            ? 'Gérez votre organisation et votre équipe'
+            : 'Informations de votre organisation'}
         </p>
       </div>
 
       <Tabs defaultValue="organisation" className="space-y-6">
         <TabsList className="bg-white/5 border border-white/10">
-          <TabsTrigger value="organisation" className="data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-400">
+          <TabsTrigger
+            value="organisation"
+            className="data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-400"
+          >
             <Building2 className="w-4 h-4 mr-2" />
             Organisation
           </TabsTrigger>
-          <TabsTrigger value="equipe" className="data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-400">
+          <TabsTrigger
+            value="equipe"
+            className="data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-400"
+          >
             <Users className="w-4 h-4 mr-2" />
             Équipe
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="organisation">
-          {isAdmin ? (
-            <OrgEditForm org={org} />
-          ) : (
-            <OrgReadOnly org={org} />
-          )}
+          {isAdmin ? <OrgEditForm org={org} /> : <OrgReadOnly org={org} />}
         </TabsContent>
 
         <TabsContent value="equipe">
@@ -212,7 +224,9 @@ function OrgEditForm({ org }: { org: OrgProfile | null }) {
               disabled={isSaving}
               className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all disabled:opacity-50"
             >
-              <option value="" className="bg-gray-900">Sélectionner...</option>
+              <option value="" className="bg-gray-900">
+                Sélectionner...
+              </option>
               {INDUSTRIES.map((ind) => (
                 <option key={ind} value={ind} className="bg-gray-900">
                   {ind}
@@ -259,9 +273,7 @@ function TeamTab({ isAdmin }: { isAdmin: boolean }) {
         <div className="flex items-center gap-3 mb-6">
           <Users className="w-5 h-5 text-blue-400" />
           <h2 className="text-lg font-semibold text-white">Membres</h2>
-          {members && (
-            <span className="text-sm text-white/40">({members.length})</span>
-          )}
+          {members && <span className="text-sm text-white/40">({members.length})</span>}
         </div>
 
         {isLoading ? (
@@ -299,14 +311,17 @@ function MemberCard({ member, isAdmin }: { member: OrgMember; isAdmin: boolean }
         </Avatar>
         <div>
           <p className="text-sm text-white font-medium">{displayName}</p>
-          {user?.email && user.full_name && (
-            <p className="text-xs text-white/50">{user.email}</p>
-          )}
+          {user?.email && user.full_name && <p className="text-xs text-white/50">{user.email}</p>}
         </div>
       </div>
 
       <div className="flex items-center gap-2">
-        <span className={cn('px-2.5 py-1 rounded-md text-xs font-medium', ROLE_STYLES[member.permission_level])}>
+        <span
+          className={cn(
+            'px-2.5 py-1 rounded-md text-xs font-medium',
+            ROLE_STYLES[member.permission_level],
+          )}
+        >
           {ROLE_LABELS[member.permission_level]}
         </span>
         {isAdmin && <MemberActions member={member} />}
@@ -418,7 +433,8 @@ function MemberActions({ member }: { member: OrgMember }) {
         <DialogHeader>
           <DialogTitle className="text-white">Retirer {displayName} ?</DialogTitle>
           <DialogDescription className="text-white/60">
-            Êtes-vous sûr de vouloir retirer {displayName} de l&apos;organisation ? Cette action est irréversible.
+            Êtes-vous sûr de vouloir retirer {displayName} de l&apos;organisation ? Cette action est
+            irréversible.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="gap-2">
@@ -503,9 +519,15 @@ function InviteMemberForm() {
           disabled={isInviting}
           className="px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all disabled:opacity-50"
         >
-          <option value="read" className="bg-gray-900">Lecteur</option>
-          <option value="write" className="bg-gray-900">Éditeur</option>
-          <option value="admin" className="bg-gray-900">Administrateur</option>
+          <option value="read" className="bg-gray-900">
+            Lecteur
+          </option>
+          <option value="write" className="bg-gray-900">
+            Éditeur
+          </option>
+          <option value="admin" className="bg-gray-900">
+            Administrateur
+          </option>
         </select>
         <button
           type="submit"

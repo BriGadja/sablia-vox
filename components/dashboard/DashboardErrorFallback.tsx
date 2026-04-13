@@ -47,6 +47,7 @@ export function DashboardErrorFallback({ error, resetErrorBoundary }: DashboardE
           Accueil Dashboard
         </Link>
         <button
+          type="button"
           onClick={resetErrorBoundary}
           className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors"
         >

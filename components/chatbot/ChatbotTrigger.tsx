@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { MessageCircle } from 'lucide-react'
+import { motion } from 'motion/react'
 import { useChatbotContext } from '@/contexts/ChatbotContext'
 import { cn } from '@/lib/utils'
 
