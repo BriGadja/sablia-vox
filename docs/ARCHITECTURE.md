@@ -1,6 +1,6 @@
 # Architecture Reference — Sablia Vox
 
-> Technical architecture, file structure, data flow, and code patterns. Last updated: 2026-03-02.
+> Technical architecture, file structure, data flow, and code patterns. Last updated: 2026-04-13.
 
 ---
 
@@ -12,9 +12,10 @@ sablia-vox/
 │   ├── layout.tsx               # Root layout (Inter font, providers, AuthHashHandler, Toaster)
 │   ├── page.tsx                 # Landing page (/)
 │   ├── providers.tsx            # TanStack QueryClient (1h stale time)
-│   ├── globals.css              # Tailwind base + CSS variables
+│   ├── globals.css              # Tailwind base + CSS variables + page-fade-in animation
 │   ├── robots.ts                # Robots.txt config
 │   ├── sitemap.ts               # Sitemap config
+│   ├── api/org/                 # API routes — org mutations (admin-only, service_role)
 │   ├── auth/                    # Auth routes (callback, confirm, error, reset, update)
 │   ├── login/                   # Login page
 │   ├── tester-nos-agents/       # Demo request page
@@ -23,37 +24,40 @@ sablia-vox/
 │       ├── page.tsx             # Redirects to /overview
 │       ├── overview/            # Global dashboard
 │       ├── agents/              # Agent list + [agentId] detail + calls
-│       ├── clients/             # Client list + [clientId] detail (admin)
-│       ├── financial/           # Financial dashboard (admin)
 │       ├── consumption/         # User consumption view
-│       ├── performance/         # Performance analytics
-│       ├── admin/calls/         # Admin call explorer
-│       ├── settings/            # Settings placeholder
+│       ├── settings/            # Org profile, member management, suggestions
 │       └── @modal/              # Intercepting route for call detail modal
 ├── components/                  # React components
 │   ├── landing/                 # Landing sections (server components)
 │   ├── dashboard/               # Dashboard components (client components)
 │   │   ├── Charts/              # Recharts visualizations
-│   │   ├── Cards/               # Entity cards
-│   │   ├── Filters/             # Date/client/agent filters
-│   │   ├── Financial/           # Financial dashboard
-│   │   ├── AdminCalls/          # Admin calls table
-│   │   ├── Consumption/         # Consumption KPIs
+│   │   ├── Cards/               # Agent deployment cards
+│   │   ├── CallDetail/          # Shared call detail content + hook (page + modal)
+│   │   ├── Filters/             # DateRangeFilter, AgentFilter
 │   │   └── Sidebar/             # AppSidebar, AgentTree, UserSwitcher
-│   ├── shared/                  # HeaderV2, AudioPlayer, Button, Card
-│   ├── ui/                      # shadcn/ui + CTAForms, ContactModal
+│   ├── skeletons/               # 7 skeleton loading components (per-route Suspense fallbacks)
+│   ├── motion/                  # 6 animation primitives (FadeIn, SlideUp, SlideIn, ScaleIn, etc.)
+│   ├── audio/                   # AudioPlayer — seek, speed control, track selector
+│   ├── transcript/              # TranscriptDisplay — speaker labels, Agent/Client bubbles
+│   ├── shared/                  # HeaderV2, Button, Card
+│   ├── ui/                      # shadcn/ui + cta-form/ (CTAFormCore shared extraction)
 │   ├── chatbot/                 # Chatbot widget + hooks
 │   ├── auth/                    # LoginForm, LogoutButton, AuthHashHandler
-│   ├── animations/              # FadeIn, RippleBackground, WaveBackground
+│   ├── animations/              # RippleBackground, WaveBackground
+│   ├── providers/               # TanStack QueryClientProvider
 │   └── tracking/                # Lemlist tracker
 ├── lib/                         # Business logic layer
-│   ├── supabase/                # Supabase clients (server.ts, client.ts)
+│   ├── supabase/                # Supabase clients (server.ts, client.ts, admin.ts)
 │   ├── queries/                 # Data fetching functions (Supabase RPCs + table queries)
 │   ├── hooks/                   # TanStack Query hooks + URL state parsers
 │   ├── types/                   # TypeScript type definitions
 │   ├── data/                    # Static data (FAQs, integrations)
 │   ├── analytics/               # GA4 event helpers
 │   ├── seo/                     # JSON-LD structured data
+│   ├── api-auth.ts              # requireAdmin() auth guard + handleApiError()
+│   ├── auth.ts                  # Server-side auth helpers (checkIsAdminServer, getOrgId)
+│   ├── chart-config.ts          # Shared Recharts axis/tooltip/grid styling
+│   ├── motion-tokens.ts         # JS mirror of CSS animation tokens (DESIGN-SPEC §2.5)
 │   ├── utils.ts                 # General utilities (cn, CSV, formatting)
 │   └── constants.ts             # App-wide constants
 ├── hooks/                       # Root-level hooks (useIsMobile — shadcn)
@@ -61,7 +65,7 @@ sablia-vox/
 ├── types/                       # Root-level type declarations (chatbot, gtag)
 ├── test/                        # Test infrastructure (mocks, custom render)
 ├── public/                      # Static assets (logos, audio demos, favicons)
-├── supabase/migrations/         # 64 SQL migration files
+├── supabase/migrations/         # SQL migration files
 ├── docs/                        # Documentation
 └── scripts/                     # Backup scripts
 ```
@@ -118,16 +122,12 @@ Every dashboard page follows this pattern:
 
 | Query File | Hook File | Pages |
 |------------|-----------|-------|
-| `queries/global.ts` | `hooks/useDashboardData.ts` | Overview, Agents, Agent Detail, Client Detail, Performance |
+| `queries/global.ts` | `hooks/useDashboardData.ts` | Overview, Agents, Agent Detail |
 | `queries/louis.ts` | `hooks/useDashboardData.ts` | Agent Detail (Louis-specific) |
-| `queries/adminCalls.ts` | `hooks/useAdminCalls.ts` | Admin Calls |
-| `queries/financial.ts` | `hooks/useFinancialData.ts` | Financial |
 | `queries/consumption.ts` | `hooks/useUserConsumption.ts`, `hooks/useConsumptionCharts.ts` | Consumption |
 | `queries/hierarchy.ts` | `hooks/useAgentHierarchy.ts` | Sidebar (AgentTree) |
 | `queries/calls.ts` | (direct import) | Calls List, Call Detail |
-| `queries/invoice.ts` | `hooks/useMonthlyInvoice.ts` | Financial (invoice tab) |
 | (inline RPC) | `hooks/useLatencyData.ts` | Overview, Agent Detail |
-| (RPC in hook) | `hooks/useViewAsUser.ts` | Sidebar (UserSwitcher) |
 
 ---
 
@@ -139,9 +139,7 @@ All dashboard filters are persisted in URL query params. Three parser sets:
 
 | Parser Set | File | Params | Used By |
 |------------|------|--------|---------|
-| `dashboardParsers` | `hooks/dashboardSearchParams.ts` | `startDate`, `endDate`, `clientIds`, `deploymentId`, `agentTypeName`, `viewAsUser` | Overview, Agents, Agent Detail, Clients, Performance, Consumption |
-| `adminCallsParsers` | `hooks/adminCallsSearchParams.ts` | `startDate`, `endDate`, `clientIds`, `agentType`, `outcomes`, `emotion`, `direction`, `search`, `sortColumn`, `sortDirection`, `page`, `pageSize` | Admin Calls |
-| `financialParsers` | `hooks/financialSearchParams.ts` | `startDate`, `endDate`, `clientId`, `agentTypeName`, `deploymentId`, `viewMode` | Financial |
+| `dashboardParsers` | `hooks/dashboardSearchParams.ts` | `startDate`, `endDate`, `deploymentId`, `agentTypeName` | Overview, Agents, Agent Detail, Consumption |
 
 ### TanStack Query
 
@@ -187,15 +185,25 @@ Match: ALL routes except static assets
 4. If /login AND user exists → redirect /dashboard
 ```
 
-**Note**: The `redirect` query param is set but never consumed by `LoginForm` — always redirects to `/dashboard`.
+**Redirect param**: LoginForm reads `?redirect=` via `useSearchParams()` and validates with URL constructor to prevent open-redirect attacks.
 
-### Admin Check Implementations (3 versions — inconsistency)
+### Auth Flows
 
-| Location | Method | Uses userId | Uses RLS |
-|----------|--------|------------|----------|
-| `dashboard/layout.tsx` | Server client | Yes | No |
-| `admin/calls/page.tsx` | Server client | Yes | No |
-| `lib/queries/global.ts` | Browser client | No | Yes |
+| Flow | Entry Point | Mechanism | Destination |
+|------|-------------|-----------|-------------|
+| Password login | `/login` | `signInWithPassword()` | `/dashboard` (or `?redirect=` URL) |
+| Magic link (invite) | Email link | `token_hash` → `/auth/confirm` → `verifyOtp()` | `/auth/update-password` → `/dashboard` |
+| Password reset | Email link | `token_hash` → `/auth/confirm` → `verifyOtp()` | `/auth/update-password` → `/dashboard` |
+| PKCE callback | Email link | `?code=` → `/auth/callback` → `exchangeCodeForSession()` | `/dashboard` |
+
+**Key design decision**: Email templates use `{{ .TokenHash }}` (not `{{ .ConfirmationURL }}`) to route through the app directly, avoiding the `supabase.co` intermediate URL (better deliverability, corporate scanner protection).
+
+### Admin Check (2 canonical implementations)
+
+| Location | Method | Context |
+|----------|--------|---------|
+| `lib/auth.ts` → `checkIsAdminServer()` | Server client, creates own Supabase instance | Server Components, API routes |
+| `lib/queries/global.ts` → `checkIsAdmin()` | Browser client, RLS-scoped | Client Components |
 
 ---
 
@@ -207,24 +215,31 @@ Every dashboard page follows:
 
 ```typescript
 // page.tsx (Server Component)
+import { DashboardSkeleton } from '@/components/skeletons'
+
 export default async function Page() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
   return (
-    <Suspense fallback={<Loading />}>
-      <PageClient userId={user.id} />
+    <Suspense fallback={<DashboardSkeleton />}>
+      <PageClient />
     </Suspense>
   )
 }
 
 // PageClient.tsx (Client Component)
 'use client'
-export function PageClient({ userId }) {
+export function PageClient() {
   const { filters } = useDashboardFilters()
-  const { data: kpis } = useGlobalKPIs(filters)
-  return <KPIGrid data={kpis} />
+  const { data: kpis, isLoading } = useGlobalKPIs(filters)
+  if (isLoading) return <DashboardSkeleton />
+  return (
+    <div className="animate-[page-fade-in_0.3s_ease-out]">
+      <KPIGrid data={kpis} />
+    </div>
+  )
 }
 ```
 
@@ -248,8 +263,6 @@ export function PageClient({ userId }) {
 SidebarConfig.ts defines nav items:
   Platform section (everyone):     Overview, Agents, Ma Conso
   Mes Agents section (AgentTree):  Dynamic company → agent tree
-  Financier section (admin only):  Dashboard Financier
-  Administration section (admin):  Historique Appels
   Footer:                          Settings, Logout
 ```
 
@@ -275,7 +288,7 @@ app/dashboard/
 **Behavior**:
 - Client-side navigation: Opens call detail as a modal overlay
 - Direct URL / refresh: Shows full-page call detail
-- Both render the same data, but `CallDetailModalContent` is near-duplicated from `CallDetailClient`
+- Both render the same data via shared `CallDetailContent` component in `components/dashboard/CallDetail/`
 
 ---
 
@@ -285,15 +298,56 @@ app/dashboard/
 |-------|-----------------|-----|
 | Middleware | All `/dashboard/*` routes | `getUser()` → redirect to `/login` |
 | Dashboard layout | Dashboard subtree | `getUser()` + admin flag |
-| Clients layout | `/dashboard/clients/*` | Admin check → `notFound()` |
-| Admin calls page | `/dashboard/admin/calls` | Admin check → redirect |
-| Financial RPCs | Financial data | `is_admin()` SQL function |
-| RLS policies | All table data | `auth.uid()` → `user_client_permissions` |
+| API routes | `/api/org/*` mutations | `requireAdmin()` → service_role client |
+| RLS policies | All table data | `auth.uid()` → `user_org_memberships` (org-scoped via JWT `app_metadata.org_id`) |
 | Consumption RPCs | Margin data | Explicitly excludes `provider_cost`, `margin` for non-admins |
 
 ---
 
-## 8. Supabase Client Setup
+## 8. Design System
+
+> Full specification: `DESIGN-SPEC.md`
+
+### Motion Primitives (`components/motion/`)
+
+6 animation components using `motion/react-m` (tree-shakeable, ~3KB):
+
+| Component | Purpose |
+|-----------|---------|
+| `FadeIn` | Simple opacity entrance |
+| `SlideUp` | Translate-Y + fade |
+| `SlideIn` | Translate-X + fade (configurable direction) |
+| `ScaleIn` | Scale + fade (for modals, cards) |
+| `StaggerChildren` | Orchestrated child animations |
+| `FadeInWhenVisible` | Viewport-triggered fade (intersection observer) |
+
+JS tokens in `lib/motion-tokens.ts` mirror CSS animation tokens from `DESIGN-SPEC.md` §2.5.
+
+### Glassmorphism Tiers
+
+| Tier | Class | Usage |
+|------|-------|-------|
+| Surface | `bg-white/5 border-white/10` | Cards, containers |
+| Elevated | `bg-white/8 border-white/15 backdrop-blur-xl` | Modals, popovers |
+| Interactive | `hover:bg-white/10 transition-colors` | Clickable cards |
+
+### Skeleton Loading (`components/skeletons/`)
+
+7 dedicated skeleton components — one per dashboard route:
+`DashboardSkeleton`, `AgentDetailSkeleton`, `AgentsGridSkeleton`, `CallDetailSkeleton`, `ConsumptionSkeleton`, `SettingsSkeleton`, `TableSkeleton`
+
+Used as `<Suspense>` fallbacks and `isLoading` states. All use Tailwind `animate-pulse` with glassmorphism backgrounds.
+
+### Page Transitions
+
+CSS `page-fade-in` keyframe animation (defined in `globals.css`) applied to all dashboard route content wrappers:
+```css
+@keyframes page-fade-in { from { opacity: 0; translate: 0 4px; } to { opacity: 1; translate: 0 0; } }
+```
+
+---
+
+## 9. Supabase Client Setup
 
 ### Server Client (`lib/supabase/server.ts`)
 
@@ -329,18 +383,22 @@ export function createClient() {
 }
 ```
 
-**Important**: All data fetching (queries, RPCs) uses the **browser client**, not the server client. Server components only use the server client for `getUser()` auth checks.
+### Admin Client (`lib/supabase/admin.ts`)
+
+Used in API routes (`app/api/org/`) for mutations that bypass RLS (invite users, update org, manage members). Uses `SUPABASE_SERVICE_ROLE_KEY`.
+
+**Important**: All data fetching (queries, RPCs) uses the **browser client**, not the server client. Server components only use the server client for `getUser()` auth checks. Admin client is used only in API routes for org mutations.
 
 ---
 
-## 9. Config Files
+## 10. Config Files
 
 | File | Purpose | Key Settings |
 |------|---------|-------------|
 | `next.config.ts` | Framework config | WebP/AVIF images, no powered-by header, compress: true |
-| `tailwind.config.ts` | CSS framework | Dark mode (class), agent colors, custom animations, CSS variables |
+| `tailwind.config.ts` | CSS framework (v4) | Agent colors, custom animations, CSS variables |
 | `tsconfig.json` | TypeScript | Strict, `@/*` path alias, ES2017 target, bundler resolution |
 | `biome.json` | Linter/formatter | 2-space indent, single quotes, no semicolons, 100 char width |
 | `vitest.config.mts` | Test runner | jsdom environment, vite-tsconfig-paths |
 | `components.json` | shadcn/ui | New York style, CSS variables |
-| `.eslintrc.json` | Legacy linter | `next/core-web-vitals` — **should be removed (Biome is primary)** |
+| `DESIGN-SPEC.md` | Design system | Tokens, animation, UX flows, Lighthouse baseline |

@@ -276,24 +276,24 @@ Skill: `/execute` (documentation) + `/e2e-test` (browser) + Playwright MCP (Ligh
 Update all project docs to reflect Units 1-5 changes. Run Lighthouse audits. Establish autoresearch baseline.
 
 ### Tasks
-- [ ] E1: **Update PRD.md** — currently dated 2026-03-02 with stale info:
+- [x] E1: **Update PRD.md** — currently dated 2026-03-02 with stale info:
   - Update Tech Stack table: Tailwind 3.4 → v4, Framer Motion 11.x → `motion/react` (Motion One), add nuqs version
   - Update Route Map: remove deleted routes (`/dashboard/clients`, `/dashboard/financial`, `/dashboard/admin/calls`, `/dashboard/performance`), add `/dashboard/consumption` (new), add `/dashboard/settings` (rebuilt)
   - Update Component references: remove deleted components (Financial, AdminCalls, Clients), add new ones (motion primitives, audio player, transcript, consumption, skeletons)
   - Update User section: add client user role description (non-admin, read-only dashboard access via magic link)
   - Add section about design system (`DESIGN-SPEC.md` reference)
-- [ ] E2: **Update project CLAUDE.md** — add/update:
+- [x] E2: **Update project CLAUDE.md** — add/update:
   - Architecture section: add `components/skeletons/`, `components/dashboard/CallDetail/`, `components/ui/cta-form/`, `lib/chart-config.ts`
   - Code Patterns section: add page fade-in animation pattern, skeleton loading pattern, CTA form composition pattern
   - Routes section: update to match current state (remove deleted routes, add new ones)
   - Design tokens reference: link to `DESIGN-SPEC.md` for full token spec
-- [ ] E3: **Update docs/ARCHITECTURE.md** — currently dated 2026-03-02:
+- [x] E3: **Update docs/ARCHITECTURE.md** — currently dated 2026-03-02:
   - Update file structure tree (many directories deleted, new ones added)
   - Add auth flow diagram (magic link + password, invite flow, token_hash pattern)
   - Add design system section (motion primitives, glassmorphism tiers, skeleton patterns)
   - Update data flow section (TanStack Query hooks, Supabase RPC pattern, org-scoped JWT)
   - Remove references to deleted components/routes
-- [ ] E4: **Update docs/TECH_DEBT.md** — mark newly resolved items from this unit:
+- [x] E4: **Update docs/TECH_DEBT.md** — mark newly resolved items from this unit:
   - ~~H3~~ (CTA form duplication — resolved)
   - ~~H7~~ (CallDetail duplication — resolved)
   - ~~M1~~ (any types — resolved to 0)
@@ -302,7 +302,7 @@ Update all project docs to reflect Units 1-5 changes. Run Lighthouse audits. Est
   - ~~L5~~ (French docs — resolved)
   - Update "Large Files" section with current state
   - Note remaining items: C3 (unapplied migration), M4 (no test coverage), M5 (large files — acceptable), M10 (SQL definition discrepancy)
-- [ ] E5: **Lighthouse audit + autoresearch baseline**:
+- [x] E5: **Lighthouse audit + autoresearch baseline**:
   - Run Lighthouse on landing page (`vox.sablia.io`) — target: performance >= 90, a11y >= 90, SEO >= 90
   - Run Lighthouse on dashboard (`vox.sablia.io/dashboard/overview`) — target: performance >= 85, a11y >= 90
   - Measure CLS and INP on both pages

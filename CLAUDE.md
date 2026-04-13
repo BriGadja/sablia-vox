@@ -41,6 +41,10 @@
   - `components/motion/` — 6 animation primitives (FadeIn, SlideUp, SlideIn, ScaleIn, StaggerChildren, FadeInWhenVisible) using `motion/react-m`
   - `components/audio/AudioPlayer.tsx` — Shared audio player with seek, speed control, track selector
   - `components/transcript/TranscriptDisplay.tsx` — Transcript parser with speaker labels (User:/Model: → Agent/Client bubbles)
+- `components/skeletons/` — 7 skeleton loading components (Dashboard, AgentDetail, Agents, CallDetail, Consumption, Settings, Table)
+- `components/dashboard/CallDetail/` — Shared call detail content + hook (used by full page + modal)
+- `components/ui/cta-form/` — CTAFormCore shared extraction (form fields + submit logic)
+- `lib/chart-config.ts` — Shared Recharts axis/tooltip/grid styling constants
 - API Routes: `app/api/org/` — org mutations (admin-only, service_role). See `API-client-ready.md`
 - Types: `types/` (root — only chatbot types and gtag declarations)
 - Hooks: `hooks/` (root — only `useIsMobile` from shadcn)
@@ -89,11 +93,31 @@ LoginForm reads `?redirect=` via `useSearchParams()` and validates with URL cons
 
 ### Dashboard Page Pattern
 ```typescript
-// page.tsx (Server) — auth guard + Suspense wrapper
+// page.tsx (Server) — auth guard + Suspense wrapper with skeleton fallback
 // *Client.tsx (Client) — useDashboardFilters() + useGlobalKPIs(filters) + render
 // All data fetching via TanStack Query hooks in lib/hooks/
 // All Supabase calls via browser client in lib/queries/
 ```
+
+### Page Fade-In Animation
+All dashboard route pages use a CSS `page-fade-in` animation (defined in `globals.css`) for smooth route transitions:
+```tsx
+<div className="animate-[page-fade-in_0.3s_ease-out]">
+  {/* page content */}
+</div>
+```
+
+### Skeleton Loading Pattern
+Each dashboard route has a dedicated skeleton in `components/skeletons/`. Used as Suspense fallbacks:
+```tsx
+import { DashboardSkeleton } from '@/components/skeletons'
+<Suspense fallback={<DashboardSkeleton />}>
+  <PageClient />
+</Suspense>
+```
+
+### CTA Form Composition
+CTA forms use a shared core (`components/ui/cta-form/CTAFormCore`) for form fields and submission logic. Layout variants (popup, static) compose around it.
 
 ## Database
 
@@ -148,6 +172,7 @@ Conversion Rate  = conversions / total_calls × 100
 - Background: Dark gradient (black → purple-950/20 → black)
 - Cards: Glassmorphism (`bg-white/5`, `border-white/10`)
 - Accent: Violet/Purple (`#8B5CF6`)
+- Full specification: [`DESIGN-SPEC.md`](DESIGN-SPEC.md) — tokens (2.1-2.8), motion primitives, glassmorphism tiers, Lighthouse baseline
 
 ## Routes
 ### Public
@@ -171,8 +196,7 @@ Master plan: `/home/sablia/workspace/plans/vox-saas-master.md` (challenged GO, 2
 PRD: `PRD-saas.md` (Phase 1+2 scope)
 
 **6 units**: Tech Debt → Design System → Auth & Settings → Landing & Onboarding → Customer Success → Polish
-**Completed**: Unit 1 (Tech Debt), Unit 2 (Design System — `DESIGN-SPEC.md`), Unit 3 (Auth & Settings — `API-client-ready.md`), Unit 4 (Landing & Onboarding), Unit 5 (Customer Success)
-**Next**: `/plan vox-saas-polish` (Unit 6)
+**Completed**: Unit 1 (Tech Debt), Unit 2 (Design System — `DESIGN-SPEC.md`), Unit 3 (Auth & Settings — `API-client-ready.md`), Unit 4 (Landing & Onboarding), Unit 5 (Customer Success), Unit 6 (Polish — lint zero, skeletons, responsive, tech debt, docs)
 
 Key challenge fixes baked into plan:
 - `inviteUserByEmail()` requires service_role API route (not anon key)

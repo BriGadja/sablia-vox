@@ -1,6 +1,6 @@
 # PRD — Sablia Vox
 
-> Single source of truth for the Sablia Vox platform. Last updated: 2026-03-02.
+> Single source of truth for the Sablia Vox platform. Last updated: 2026-04-13.
 
 ---
 
@@ -20,8 +20,8 @@
 **Domain**: `vox.sablia.io`
 
 **Users**:
-- **Sablia team** (admin) — Full dashboard access, financial data, client management
-- **Clients** (read-only) — View their own agent performance and consumption data
+- **Sablia team** (admin) — Full dashboard access, org settings, user management
+- **Client users** (non-admin) — Read-only view of their org's agent performance, call history, and consumption data. Invited via magic link (token_hash flow)
 
 ---
 
@@ -32,8 +32,8 @@
 | Framework | Next.js (App Router) | 16.x |
 | Language | TypeScript | 5.x |
 | Runtime | React | 19.x |
-| Styling | Tailwind CSS | 3.4.x |
-| Animations | Framer Motion | 11.x |
+| Styling | Tailwind CSS | v4 (4.2.x) |
+| Animations | Motion (`motion/react`) | 12.x |
 | UI Components | shadcn/ui (Radix) + custom | — |
 | Database | Supabase (PostgreSQL) | — |
 | Auth | Supabase Auth | — |
@@ -82,13 +82,8 @@ All dashboard routes follow the pattern: Server Component (auth guard) → Clien
 | `/dashboard/agents/[agentId]` | Agent Detail | Per-agent KPIs, charts, call list link | No |
 | `/dashboard/agents/[agentId]/calls` | Historique des appels | Paginated call history for an agent | No |
 | `/dashboard/agents/[agentId]/calls/[callId]` | Detail de l'appel | Full call detail with transcript, audio, metadata | No |
-| `/dashboard/clients` | Clients | Client company cards with metrics | Yes (layout gate) |
-| `/dashboard/clients/[clientId]` | Detail Client | Per-client KPIs, charts, agent cards | Yes |
-| `/dashboard/financial` | Dashboard Financier | Leasing/consumption toggle, revenue/cost/margin, invoices, client breakdown | Yes (RPC-enforced) |
-| `/dashboard/consumption` | Ma Consommation | User's consumption KPIs, charts, monthly comparison (no margin data) | No |
-| `/dashboard/performance` | Performance | Advanced analytics, top clients, agent type comparison | No |
-| `/dashboard/admin/calls` | Historique Appels (Admin) | Full call browser with filters, pagination, CSV export, transcript modal | Yes (explicit gate) |
-| `/dashboard/settings` | Parametres | Placeholder — no functionality implemented | No |
+| `/dashboard/consumption` | Ma Consommation | Per-deployment consumption KPIs, charts, monthly comparison | No |
+| `/dashboard/settings` | Parametres | Org profile, member management (invite/remove), improvement suggestions | Admin (edit) / All (view) |
 
 ### Special Routes
 
@@ -102,14 +97,14 @@ All dashboard routes follow the pattern: Server Component (auth guard) → Clien
 
 ### Role Model
 
-Roles are stored in `user_client_permissions` table. A user can have permissions for multiple clients.
+Users belong to organizations via `user_org_memberships`. Roles are `admin` or `member`. All data is org-scoped via JWT `app_metadata.org_id`.
 
-| Permission Level | Dashboard | Client Data | Financial | Admin Features |
-|-----------------|-----------|-------------|-----------|---------------|
-| `read` | Own clients' data | Read-only | No | No |
-| `admin` | All data | All clients | Yes | Yes (calls, view-as-user) |
+| Role | Dashboard | Agents/Calls | Consumption | Settings | Invite Users |
+|------|-----------|-------------|-------------|----------|-------------|
+| `member` | Own org data | Read-only | Read-only | View only | No |
+| `admin` | Own org data | Read-only | Read-only | Edit org + members | Yes |
 
-**Admin detection**: Any `user_client_permissions` row with `permission_level = 'admin'` for the user.
+**Admin detection**: `user_org_memberships.role = 'admin'` checked via `is_org_admin()` SQL function or `checkIsAdmin()` in code.
 
 ### Route Protection Layers
 
@@ -205,23 +200,13 @@ Cost per RDV     = total_cost / appointments
 | Agent management | `/dashboard/agents`, `[agentId]` | Agent deployment cards, per-agent detail with KPIs/charts |
 | Call history | `agents/[agentId]/calls`, `calls/[callId]` | Paginated call list, call detail with transcript + audio |
 | Call detail modal | `@modal/(.)agents/...` | Intercepting route — modal overlay on client-side navigation |
-| Client management | `/dashboard/clients`, `[clientId]` | Admin-only client list and detail with drill-down |
-| Financial dashboard | `/dashboard/financial` | Leasing/consumption toggle, revenue/cost/margin, invoices, client breakdown, drill-down modals |
-| Consumption view | `/dashboard/consumption` | User-facing consumption KPIs and charts (no margin data) |
-| Performance analytics | `/dashboard/performance` | Top clients, agent type comparison, advanced KPIs |
-| Admin calls explorer | `/dashboard/admin/calls` | Full call browser with filters, sort, pagination, CSV export, transcript modal |
-| CSV export | Overview, Performance, Admin Calls | Export filtered call data to CSV |
+| Consumption view | `/dashboard/consumption` | Per-deployment consumption KPIs, charts, monthly comparison |
+| Settings | `/dashboard/settings` | Org profile, member management (invite/remove), improvement suggestions |
 | Chatbot widget | Global (landing) | n8n webhook-powered chatbot with session persistence |
 | URL-based filters | All dashboard pages | Date range, client, agent, agent type filters persisted in URL via nuqs |
 | Admin view-as-user | Sidebar | Admins can impersonate any user to see their view |
 | Agent tree sidebar | Dashboard sidebar | Collapsible company → agent hierarchy navigation |
 | Lemlist tracking | Global | Visitor tracking pixel |
-
-### Not Implemented
-
-| Feature | Route | Status |
-|---------|-------|--------|
-| Settings | `/dashboard/settings` | Placeholder UI only — no functionality |
 
 ---
 
@@ -236,19 +221,22 @@ components/
 │   ├── IntegrationsTriple, DashboardShowcase, CustomDevelopment
 │   └── FAQAccordion, FloatingCTA
 ├── dashboard/         # Dashboard components (all client components)
-│   ├── Charts/        # Recharts visualizations (16 files)
-│   ├── Cards/         # Agent, client, agent type cards
-│   ├── Filters/       # DateRangeFilter, ClientAgentFilter
-│   ├── Financial/     # Financial dashboard (KPI grids, charts, tables, modals)
-│   ├── AdminCalls/    # Admin calls table, filters, transcript modal
-│   ├── Consumption/   # Consumption KPI grid
+│   ├── Charts/        # Recharts visualizations
+│   ├── Cards/         # Agent deployment cards
+│   ├── CallDetail/    # Shared call detail content + hook (used by page + modal)
+│   ├── Filters/       # DateRangeFilter, AgentFilter
 │   ├── Sidebar/       # AppSidebar, AgentTree, UserSwitcher
 │   └── (shared)       # KPICard, KPIGrid, Modal, PageHeader, ExportCSVButton
-├── shared/            # HeaderV2, AudioPlayer, Button, Card
-├── ui/                # shadcn/ui primitives + CTAPopupForm, CTAStaticForm, ContactModal
+├── skeletons/         # 7 skeleton loading components (Dashboard, AgentDetail, Agents, etc.)
+├── motion/            # 6 animation primitives (FadeIn, SlideUp, SlideIn, ScaleIn, StaggerChildren, FadeInWhenVisible)
+├── audio/             # AudioPlayer — shared player with seek, speed control, track selector
+├── transcript/        # TranscriptDisplay — parser with speaker labels (Agent/Client bubbles)
+├── shared/            # HeaderV2, Button, Card
+├── ui/                # shadcn/ui primitives + cta-form/ (CTAFormCore shared extraction)
 ├── chatbot/           # ChatbotWidget + hooks (useChatbot, useWebhook, useSessionStorage)
 ├── auth/              # LoginForm, LogoutButton, AuthHashHandler
-├── animations/        # FadeIn, RippleBackground, WaveBackground
+├── animations/        # RippleBackground, WaveBackground
+├── providers/         # TanStack QueryClientProvider
 └── tracking/          # LemlistTracker, ClientLemlistTracker
 ```
 
@@ -264,11 +252,14 @@ components/
 | Agent: Alexandra | `#10B981` (Green) |
 | Font | Inter (variable) |
 
+> Full design system specification: [`DESIGN-SPEC.md`](DESIGN-SPEC.md) — tokens, animation primitives, glassmorphism tiers, Lighthouse baseline.
+
 ### UI Patterns
 
 - **Glassmorphism cards**: `bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl`
 - **Gradients**: `bg-gradient-to-br from-purple-500 to-purple-600`
-- **Animations**: Framer Motion for page transitions, hover effects, loading states
+- **Animations**: Motion (`motion/react-m`) for entrance animations, CSS `page-fade-in` for route transitions
+- **Skeletons**: Dedicated skeleton components per route in `components/skeletons/`
 - **Responsive**: Mobile-first with `sm:`, `md:`, `lg:` breakpoints
 - **Dashboard page pattern**: Server Component (auth + Suspense) → Client Component (React Query)
 
@@ -294,10 +285,11 @@ components/
 ```env
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...          # Server-only — API routes for org mutations
 NEXT_PUBLIC_GA_MEASUREMENT_ID=...
+NEXT_PUBLIC_CTA_WEBHOOK_URL=...
+NEXT_PUBLIC_CHATBOT_WEBHOOK_URL=...
 ```
-
-No `SUPABASE_SERVICE_ROLE_KEY` — all auth runs through anon key with RLS.
 
 ### Database Environments
 
@@ -346,10 +338,6 @@ Sidebar:
     └── Ma Conso           → /dashboard/consumption
   Mes Agents (AgentTree — collapsible company → agent hierarchy)
     └── [Company] → [Agent] → /dashboard/agents/[agentId]
-  Financier (admin only)
-    └── Dashboard Financier → /dashboard/financial
-  Administration (admin only)
-    └── Historique Appels   → /dashboard/admin/calls
   Footer
     ├── Parametres          → /dashboard/settings
     └── Deconnexion         → signOut → /login
@@ -371,32 +359,23 @@ Sidebar:
 
 ### Critical
 
-1. **AgentTree sidebar links to dead route** — Links to `/dashboard/agent/[id]` (singular) instead of `/dashboard/agents/[id]` (plural). Sidebar agent navigation is entirely broken.
-2. **ESLint + Biome dual config** — `.eslintrc.json` still exists alongside Biome. Two linters, conflicting configs.
-3. **react-query-devtools in production deps** — Ships DevTools panel to production bundle.
-4. **Hardcoded webhook URLs** — CTA forms hardcode `voipia_louis_from_site` n8n webhook URL.
-
-### High
-
-5. **VoIPIA references** — Landing page content, CTA forms, financial filters still reference "VoIPIA".
-6. **Duplicate CTA forms** — `CTAPopupForm.tsx` (484 lines) and `CTAStaticForm.tsx` (404 lines) are near-identical.
-7. **Duplicate ConsumptionKPIGrid** — Two components with same name in `Financial/` and `Consumption/`, different types.
-8. **Financial page has no admin gate** — Relies solely on RPC enforcement; non-admins see empty UI.
-9. **Inconsistent admin check** — Three different implementations of `checkIsAdmin()`.
+- C3: **Unapplied migration** — `20260302_remove_leasing_prorata.sql` exists but is not applied.
 
 ### Medium
 
-10. **~13 dead files/exports** — Components, charts, queries that are never imported.
-11. **Systemic `any` types in Recharts** — ~20 instances across chart components.
-12. **No test coverage** — Test infrastructure exists but zero tests written.
-13. **Stale sitemap/robots** — Reference removed routes.
+- M4: **No test coverage** — Vitest + RTL infrastructure exists but zero tests written.
+- M10: **Two answered definitions in SQL** — `v_agent_calls_enriched` and `get_admin_calls_paginated` use different outcome exclusion lists.
+
+All other critical/high/medium items have been resolved (Units 1-6). See `docs/TECH_DEBT.md` for full history.
 
 ---
 
 ## References
 
-- `docs/DATABASE_REFERENCE.md` — Complete database schema
+- `DESIGN-SPEC.md` — Design system specification (tokens, animation, UX flows, Lighthouse baseline)
+- `PRD-saas.md` — Client-ready SaaS PRD (Phase 1+2 scope)
+- `API-client-ready.md` — API routes reference for org mutations
+- `docs/DATABASE_REFERENCE.md` — Complete database schema (documents v1 — v2 schema differs)
 - `docs/ARCHITECTURE.md` — Code architecture and data flow
 - `docs/TECH_DEBT.md` — Full tech debt inventory
 - `docs/KNOWN_ISSUES.md` — Bug history and solutions
-- `docs/MIGRATION_BEST_PRACTICES.md` — Migration guidelines
