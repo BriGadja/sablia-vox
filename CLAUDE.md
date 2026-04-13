@@ -38,6 +38,9 @@
   - `lib/hooks/` — TanStack Query hooks + URL state parsers (main hooks directory)
   - `lib/types/` — TypeScript type definitions (dashboard, financial, settings, etc.)
   - `lib/motion-tokens.ts` — JS mirror of CSS animation tokens (DESIGN-SPEC §2.5)
+  - `components/motion/` — 6 animation primitives (FadeIn, SlideUp, SlideIn, ScaleIn, StaggerChildren, FadeInWhenVisible) using `motion/react-m`
+  - `components/audio/AudioPlayer.tsx` — Shared audio player with seek, speed control, track selector
+  - `components/transcript/TranscriptDisplay.tsx` — Transcript parser with speaker labels (User:/Model: → Agent/Client bubbles)
 - API Routes: `app/api/org/` — org mutations (admin-only, service_role). See `API-client-ready.md`
 - Types: `types/` (root — only chatbot types and gtag declarations)
 - Hooks: `hooks/` (root — only `useIsMobile` from shadcn)
@@ -100,12 +103,13 @@ LoginForm reads `?redirect=` via `useSearchParams()` and validates with URL cons
 | Production DB | `mcp__supabase-vox__*` |
 
 ### Data Access Pattern
-All data fetching via 5 RPCs (org-scoped via JWT `app_metadata.org_id`):
+All data fetching via 6 RPCs (org-scoped via JWT `app_metadata.org_id`):
 - `get_dashboard_kpis(start, end, deployment?, template?)` → JSONB
 - `get_call_volume_by_day(start, end, deployment?, template?)` → TABLE
 - `get_outcome_distribution(start, end, deployment?, template?)` → TABLE
 - `get_agent_cards_data(start?, end?, template?)` → TABLE
 - `get_calls_page(start, end, deployment?, template?, outcome?, direction?, phone?, limit?, offset?)` → JSONB
+- `get_consumption_metrics(start_date, end_date)` → JSONB (per-deployment: calls, minutes, billed cost, SMS)
 
 3 views: `v_dashboard_calls`, `v_user_accessible_agents`, `v_agent_30d_stats`
 
@@ -153,7 +157,7 @@ Conversion Rate  = conversions / total_calls × 100
 `/auth/callback`, `/auth/confirm`, `/auth/error`, `/auth/reset-password`, `/auth/update-password`
 
 ### Dashboard
-`/dashboard` (→ redirects to overview), `/dashboard/overview`, `/dashboard/agents`, `/dashboard/agents/[agentId]`, `/dashboard/agents/[agentId]/calls`, `/dashboard/agents/[agentId]/calls/[callId]`, `/dashboard/settings`
+`/dashboard` (→ redirects to overview), `/dashboard/overview`, `/dashboard/agents`, `/dashboard/agents/[agentId]`, `/dashboard/agents/[agentId]/calls`, `/dashboard/agents/[agentId]/calls/[callId]`, `/dashboard/consumption`, `/dashboard/settings`
 
 ## Testing
 - Framework: Vitest + React Testing Library
@@ -167,8 +171,8 @@ Master plan: `plans/vox-saas-master.md` (challenged GO, 2026-04-12)
 PRD: `PRD-saas.md` (Phase 1+2 scope)
 
 **6 units**: Tech Debt → Design System → Auth & Settings → Landing & Onboarding → Customer Success → Polish
-**Completed**: Unit 1 (Tech Debt), Unit 2 (Design System — `DESIGN-SPEC.md`), Unit 3 (Auth & Settings — `API-client-ready.md`)
-**Next**: `/plan vox-saas-landing-onboarding` (Unit 4)
+**Completed**: Unit 1 (Tech Debt), Unit 2 (Design System — `DESIGN-SPEC.md`), Unit 3 (Auth & Settings — `API-client-ready.md`), Unit 4 (Landing & Onboarding), Unit 5 (Customer Success)
+**Next**: `/plan vox-saas-polish` (Unit 6)
 
 Key challenge fixes baked into plan:
 - `inviteUserByEmail()` requires service_role API route (not anon key)

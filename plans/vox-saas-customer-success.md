@@ -353,9 +353,9 @@ Skill: `/validate`
 Final integration, build verification, and visual check.
 
 ### Tasks
-- [ ] E1: Run `npm run type-check` + `npm run lint` + `npm run build` — fix any errors. Ensure zero `any` types in new code, Biome lint clean, build succeeds
-- [ ] E2: Visual verification in shared browser — navigate through: consumption page (with real data), agent detail (quality chart + suggestions empty state), call detail (audio player + transcript with speaker labels). Verify animations render correctly
-- [ ] E3: Verify sidebar navigation — "Consommation" link visible for all users, navigates correctly. Verify consumption page URL params persist on refresh (nuqs)
+- [x] E1: Run `npm run type-check` + `npm run lint` + `npm run build` — fix any errors. Ensure zero `any` types in new code, Biome lint clean, build succeeds
+- [x] E2: Visual verification in shared browser — navigate through: consumption page (with real data), agent detail (quality chart + suggestions empty state), call detail (audio player + transcript with speaker labels). Verify animations render correctly
+- [x] E3: Verify sidebar navigation — "Consommation" link visible for all users, navigates correctly. Verify consumption page URL params persist on refresh (nuqs)
 
 ### Technical Details
 

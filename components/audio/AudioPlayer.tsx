@@ -44,28 +44,12 @@ export function AudioPlayer({ url, className }: AudioPlayerProps) {
   const [availableTracks, setAvailableTracks] = useState<string[]>(['merged'])
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const progressRef = useRef<HTMLDivElement>(null)
-
-  // Check if the URL is valid (full URL, not partial path)
-  if (!isValidUrl(url)) {
-    return (
-      <div
-        className={cn(
-          'flex items-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10',
-          className,
-        )}
-      >
-        <Volume2 className="w-5 h-5 text-white/20" />
-        <span className="text-sm text-white/40">
-          Enregistrement indisponible — lien expiré
-        </span>
-      </div>
-    )
-  }
-
-  const currentUrl = deriveTrackUrl(url, activeTrack)
+  const validUrl = isValidUrl(url)
+  const currentUrl = validUrl ? deriveTrackUrl(url, activeTrack) : ''
 
   // Probe available tracks on mount
   useEffect(() => {
+    if (!validUrl) return
     if (!url.includes('merged_')) {
       setAvailableTracks(['merged'])
       return
@@ -96,10 +80,11 @@ export function AudioPlayer({ url, className }: AudioPlayerProps) {
       audio.addEventListener('error', onError, { once: true })
       audio.src = trackUrl
     }
-  }, [url])
+  }, [url, validUrl])
 
   // Initialize / switch audio element
   useEffect(() => {
+    if (!currentUrl) return
     const audio = new Audio(currentUrl)
     audioRef.current = audio
     audio.playbackRate = speed
@@ -163,6 +148,21 @@ export function AudioPlayer({ url, className }: AudioPlayerProps) {
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0
 
+  // Invalid URL fallback
+  if (!validUrl) {
+    return (
+      <div
+        className={cn(
+          'flex items-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10',
+          className,
+        )}
+      >
+        <Volume2 className="w-5 h-5 text-white/20" />
+        <span className="text-sm text-white/40">Enregistrement indisponible — lien expiré</span>
+      </div>
+    )
+  }
+
   // Skeleton loading state
   if (isLoading) {
     return (
@@ -186,12 +186,7 @@ export function AudioPlayer({ url, className }: AudioPlayerProps) {
   }
 
   return (
-    <div
-      className={cn(
-        'space-y-3 p-4 rounded-xl bg-white/5 border border-white/10',
-        className,
-      )}
-    >
+    <div className={cn('space-y-3 p-4 rounded-xl bg-white/5 border border-white/10', className)}>
       {/* Track selector (only if multiple tracks available) */}
       {availableTracks.length > 1 && (
         <div className="flex gap-1.5">

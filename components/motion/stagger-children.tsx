@@ -43,12 +43,7 @@ export function StaggerChildren({
         }
 
   return (
-    <m.div
-      initial="hidden"
-      animate="visible"
-      variants={variants}
-      className={className}
-    >
+    <m.div initial="hidden" animate="visible" variants={variants} className={className}>
       {children}
     </m.div>
   )

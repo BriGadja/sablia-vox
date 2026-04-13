@@ -60,9 +60,9 @@ export function TranscriptDisplay({
 
   return (
     <div className={cn('space-y-3 overflow-y-auto', maxHeight, className)}>
-      {turns.map((turn, i) => (
+      {turns.map((turn) => (
         <div
-          key={`${turn.speaker}-${i}`}
+          key={`${turn.speaker}-${turn.text.slice(0, 32)}`}
           className={cn(
             'flex flex-col gap-1 max-w-[85%]',
             turn.speaker === 'agent' ? 'items-start' : 'items-end ml-auto',
