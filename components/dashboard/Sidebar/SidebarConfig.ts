@@ -1,4 +1,5 @@
 import {
+  BarChart3,
   LayoutDashboard,
   type LucideIcon,
   Settings,
@@ -43,6 +44,11 @@ export const sidebarConfig: NavGroup[] = [
   {
     label: 'Gestion',
     items: [
+      {
+        title: 'Consommation',
+        href: '/dashboard/consumption',
+        icon: BarChart3,
+      },
       {
         title: 'Paramètres',
         href: '/dashboard/settings',
