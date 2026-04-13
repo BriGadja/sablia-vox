@@ -11,17 +11,17 @@ import {
   Loader2,
   Mail,
   Meh,
-  Pause,
   Phone,
-  Play,
   Smile,
   User,
   Volume2,
   XCircle,
 } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
 import { OUTCOME_CONFIG } from '@/lib/constants'
+import { AudioPlayer } from '@/components/audio/AudioPlayer'
+import { TranscriptDisplay } from '@/components/transcript/TranscriptDisplay'
+import { FadeIn } from '@/components/motion'
 import { fetchCallById } from '@/lib/queries/calls'
 import { cn } from '@/lib/utils'
 
@@ -70,79 +70,6 @@ function formatDuration(seconds: number): string {
   const mins = Math.floor(seconds / 60)
   const secs = Math.floor(seconds % 60)
   return `${mins}:${secs.toString().padStart(2, '0')}`
-}
-
-/**
- * Audio Player Component
- */
-function AudioPlayer({ url }: { url: string }) {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-
-  useEffect(() => {
-    const audio = new Audio(url)
-    audioRef.current = audio
-
-    const onTimeUpdate = () => setCurrentTime(audio.currentTime)
-    const onLoadedMetadata = () => setDuration(audio.duration)
-    const onEnded = () => setIsPlaying(false)
-
-    audio.addEventListener('timeupdate', onTimeUpdate)
-    audio.addEventListener('loadedmetadata', onLoadedMetadata)
-    audio.addEventListener('ended', onEnded)
-
-    return () => {
-      audio.removeEventListener('timeupdate', onTimeUpdate)
-      audio.removeEventListener('loadedmetadata', onLoadedMetadata)
-      audio.removeEventListener('ended', onEnded)
-      audio.pause()
-      audio.src = ''
-    }
-  }, [url])
-
-  const togglePlay = () => {
-    const audio = audioRef.current
-    if (!audio) return
-    if (isPlaying) {
-      audio.pause()
-    } else {
-      audio.play()
-    }
-    setIsPlaying(!isPlaying)
-  }
-
-  const progress = duration > 0 ? (currentTime / duration) * 100 : 0
-  const formatTime = (s: number) => {
-    const m = Math.floor(s / 60)
-    const sec = Math.floor(s % 60)
-    return `${m}:${sec.toString().padStart(2, '0')}`
-  }
-
-  return (
-    <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
-      <button
-        type="button"
-        onClick={togglePlay}
-        className="p-3 rounded-full bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-colors"
-      >
-        {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-      </button>
-      <div className="flex-1">
-        <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-          <div
-            style={{ width: `${progress}%` }}
-            className="h-full bg-purple-500 rounded-full transition-all"
-          />
-        </div>
-      </div>
-      <span className="text-xs text-white/50 tabular-nums">
-        {formatTime(currentTime)} / {formatTime(duration)}
-      </span>
-      <Volume2 className="w-5 h-5 text-white/40" />
-    </div>
-  )
 }
 
 /**
@@ -324,28 +251,28 @@ export function CallDetailModalContent({
 
           {/* Recording */}
           {call.recording_url && (
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-white flex items-center gap-2">
-                <Volume2 className="w-4 h-4 text-purple-400" />
-                Enregistrement
-              </h3>
-              <AudioPlayer url={call.recording_url} />
-            </div>
+            <FadeIn>
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-white flex items-center gap-2">
+                  <Volume2 className="w-4 h-4 text-purple-400" />
+                  Enregistrement
+                </h3>
+                <AudioPlayer url={call.recording_url} />
+              </div>
+            </FadeIn>
           )}
 
           {/* Transcript */}
           {call.transcript && (
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-white flex items-center gap-2">
-                <FileText className="w-4 h-4 text-purple-400" />
-                Transcription
-              </h3>
-              <div className="bg-black/20 rounded-lg p-4 max-h-48 overflow-y-auto">
-                <p className="text-white/80 text-sm whitespace-pre-wrap leading-relaxed">
-                  {call.transcript.replace(/<[^>]*\/?>/g, '')}
-                </p>
+            <FadeIn delay={0.1}>
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-white flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-purple-400" />
+                  Transcription
+                </h3>
+                <TranscriptDisplay transcript={call.transcript} maxHeight="max-h-48" />
               </div>
-            </div>
+            </FadeIn>
           )}
         </div>
 
