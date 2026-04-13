@@ -167,7 +167,7 @@ Conversion Rate  = conversions / total_calls × 100
 
 ## Active Project: Client-Ready SaaS (vox-saas-master)
 
-Master plan: `plans/vox-saas-master.md` (challenged GO, 2026-04-12)
+Master plan: `/home/sablia/workspace/plans/vox-saas-master.md` (challenged GO, 2026-04-12) -- lives at workspace root (/architect creates plans there)
 PRD: `PRD-saas.md` (Phase 1+2 scope)
 
 **6 units**: Tech Debt → Design System → Auth & Settings → Landing & Onboarding → Customer Success → Polish
