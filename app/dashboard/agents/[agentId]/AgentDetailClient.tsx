@@ -8,14 +8,18 @@ import { CallVolumeChart } from '@/components/dashboard/Charts/CallVolumeChart'
 import { EmotionDistribution } from '@/components/dashboard/Charts/EmotionDistribution'
 import { LatencyTimeSeriesChart } from '@/components/dashboard/Charts/LatencyTimeSeriesChart'
 import { OutcomeBreakdown } from '@/components/dashboard/Charts/OutcomeBreakdown'
+import { QualityTrendChart } from '@/components/dashboard/Charts/QualityTrendChart'
 import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import { KPIGrid } from '@/components/dashboard/KPIGrid'
+import { SuggestionsSection } from '@/components/dashboard/SuggestionsSection'
+import { FadeIn } from '@/components/motion'
 import {
   useCallVolumeByDay,
   useDashboardKPIs,
   useEmotionDistribution,
   useOutcomeDistribution,
 } from '@/lib/hooks/useDashboardData'
+import { useQualitySnapshots, useSuggestions } from '@/lib/hooks/useAgentInsights'
 import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
 import { useLatencyMetrics } from '@/lib/hooks/useLatencyData'
 import { createClient } from '@/lib/supabase/client'
@@ -82,6 +86,10 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
   const { data: callVolumeData } = useCallVolumeByDay(deploymentFilters)
   const { data: outcomeData } = useOutcomeDistribution(deploymentFilters)
   const { data: emotionData } = useEmotionDistribution(deploymentFilters)
+
+  // Quality snapshots + suggestions
+  const { data: qualityData } = useQualitySnapshots(agentId)
+  const { data: suggestionsData } = useSuggestions(agentId)
 
   // Fetch latency metrics
   const { data: latencyData, isLoading: isLoadingLatencies } = useLatencyMetrics({
@@ -216,6 +224,23 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
           <LatencyTimeSeriesChart data={latencyData || []} isLoading={isLoadingLatencies} />
         </div>
       </div>
+
+      {/* Quality Trend Chart */}
+      {qualityData && qualityData.length > 0 && (
+        <FadeIn>
+          <div className="h-[300px]">
+            <QualityTrendChart data={qualityData} />
+          </div>
+        </FadeIn>
+      )}
+
+      {/* Improvement Suggestions */}
+      <FadeIn delay={0.1}>
+        <div className="space-y-3">
+          <h3 className="text-sm font-semibold text-white">Suggestions d&apos;amélioration</h3>
+          <SuggestionsSection suggestions={suggestionsData ?? []} />
+        </div>
+      </FadeIn>
     </div>
   )
 }

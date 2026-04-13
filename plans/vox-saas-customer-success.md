@@ -296,10 +296,10 @@ Skill: `/execute` (direct implementation)
 Adds quality trend chart and improvement suggestions section to agent detail page. Addresses US-14 and US-15.
 
 ### Tasks
-- [ ] D1: Create `lib/queries/agent-insights.ts` with `fetchQualitySnapshots(deploymentId, days)` (direct query on `quality_snapshots` table, RLS handles org scoping) and `fetchSuggestions(deploymentId)` (direct query on `improvement_suggestions`). Create corresponding TanStack Query hooks in `lib/hooks/useAgentInsights.ts`
-- [ ] D2: Create `components/dashboard/Charts/QualityTrendChart.tsx` — line chart showing `avg_quality_score` (1-5 scale) over the last 30 days from `quality_snapshots`. Use Recharts (already in project for other charts). Include trend indicator: compare last 7 days avg to previous 7 days avg → up/down/stable arrow. Wrap in `FadeIn`
-- [ ] D3: Create `components/dashboard/SuggestionsSection.tsx` — card list showing improvement suggestions with: `suggestion_type` badge, `suggestion_text`, `status` (pending/applied/dismissed), `created_at`. Empty state: "Aucune suggestion pour le moment — les suggestions sont generees automatiquement." Wrap in `StaggerChildren`
-- [ ] D4: Integrate QualityTrendChart and SuggestionsSection into `AgentDetailClient.tsx` — add below existing charts grid. Quality chart in full-width section, suggestions in full-width section below. Both with section headers and `FadeIn` entrance
+- [x] D1: Create `lib/queries/agent-insights.ts` with `fetchQualitySnapshots(deploymentId, days)` (direct query on `quality_snapshots` table, RLS handles org scoping) and `fetchSuggestions(deploymentId)` (direct query on `improvement_suggestions`). Create corresponding TanStack Query hooks in `lib/hooks/useAgentInsights.ts`
+- [x] D2: Create `components/dashboard/Charts/QualityTrendChart.tsx` — line chart showing `avg_quality_score` (1-5 scale) over the last 30 days from `quality_snapshots`. Use Recharts (already in project for other charts). Include trend indicator: compare last 7 days avg to previous 7 days avg → up/down/stable arrow. Wrap in `FadeIn`
+- [x] D3: Create `components/dashboard/SuggestionsSection.tsx` — card list showing improvement suggestions with: `suggestion_type` badge, `suggestion_text`, `status` (pending/applied/dismissed), `created_at`. Empty state: "Aucune suggestion pour le moment — les suggestions sont generees automatiquement." Wrap in `StaggerChildren`
+- [x] D4: Integrate QualityTrendChart and SuggestionsSection into `AgentDetailClient.tsx` — add below existing charts grid. Quality chart in full-width section, suggestions in full-width section below. Both with section headers and `FadeIn` entrance
 
 ### Technical Details
 
