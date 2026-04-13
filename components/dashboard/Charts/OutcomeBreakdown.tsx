@@ -21,7 +21,7 @@ function OutcomeBreakdownInner({ data }: OutcomeBreakdownProps) {
     if (!data || data.length === 0) return []
 
     return data
-      .filter((item) => item.count > 0)
+      .filter((item) => item.outcome != null && item.count > 0)
       .map((item) => {
         const config = OUTCOME_CONFIG[item.outcome]
         const group = config?.group || 'error'

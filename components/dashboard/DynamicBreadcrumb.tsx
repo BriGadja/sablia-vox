@@ -21,6 +21,7 @@ const routeLabels: Record<string, string> = {
   overview: "Vue d'ensemble",
   calls: 'Appels',
   settings: 'Paramètres',
+  consumption: 'Consommation',
 }
 
 /**

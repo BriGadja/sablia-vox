@@ -30,6 +30,16 @@ export const OUTCOME_CONFIG: Record<
     group: 'success',
     className: 'bg-green-500/20 text-green-400',
   },
+  information_provided: {
+    label: 'Info donnée',
+    group: 'success',
+    className: 'bg-green-500/20 text-green-400',
+  },
+  transfer_completed: {
+    label: 'Transféré',
+    group: 'success',
+    className: 'bg-green-500/20 text-green-400',
+  },
   callback_requested: {
     label: 'Rappel demandé',
     group: 'pending',

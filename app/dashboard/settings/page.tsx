@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { checkIsAdminServer } from '@/lib/auth'
+import { checkIsAdminServer, getOrgId } from '@/lib/auth'
 import { createClient } from '@/lib/supabase/server'
 import type { OrgProfile } from '@/lib/types/settings'
 import SettingsClient from './SettingsClient'
@@ -13,7 +13,7 @@ export default async function SettingsPage() {
   if (!user) redirect('/login')
 
   const isAdmin = await checkIsAdminServer()
-  const orgId = (user.app_metadata as Record<string, string> | undefined)?.org_id
+  const orgId = await getOrgId(supabase)
 
   let org: OrgProfile | null = null
   if (orgId) {
@@ -25,5 +25,5 @@ export default async function SettingsPage() {
     org = data as OrgProfile | null
   }
 
-  return <SettingsClient org={org} isAdmin={isAdmin} />
+  return <SettingsClient org={org} orgId={orgId} isAdmin={isAdmin} />
 }

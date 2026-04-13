@@ -39,7 +39,7 @@ function EmotionDistributionInner({ data }: EmotionDistributionProps) {
   // Filter and transform data with useMemo
   const chartData = useMemo(() => {
     const filteredData = data.filter(
-      (item) => item.emotion !== 'unknown' && item.emotion !== 'Inconnu',
+      (item) => item.emotion != null && item.emotion !== 'unknown' && item.emotion !== 'Inconnu',
     )
     return filteredData.map((item) => ({
       name: emotionLabels[item.emotion] || emotionLabels.unknown,

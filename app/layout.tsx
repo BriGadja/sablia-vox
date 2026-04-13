@@ -68,7 +68,7 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.svg',
     shortcut: '/favicon.svg',
-    apple: '/favicon.svg',
+    apple: '/android-chrome-192x192.png',
   },
   manifest: '/site.webmanifest',
 }

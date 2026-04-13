@@ -63,10 +63,11 @@ const ROLE_LABELS: Record<PermissionLevel, string> = {
 
 interface SettingsClientProps {
   org: OrgProfile | null
+  orgId: string | null
   isAdmin: boolean
 }
 
-export default function SettingsClient({ org, isAdmin }: SettingsClientProps) {
+export default function SettingsClient({ org, orgId, isAdmin }: SettingsClientProps) {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 page-fade-in">
       <div className="mb-8">
@@ -104,7 +105,7 @@ export default function SettingsClient({ org, isAdmin }: SettingsClientProps) {
         </TabsContent>
 
         <TabsContent value="equipe">
-          <TeamTab isAdmin={isAdmin} />
+          <TeamTab orgId={orgId} isAdmin={isAdmin} />
         </TabsContent>
       </Tabs>
     </div>
@@ -263,8 +264,8 @@ function OrgEditForm({ org }: { org: OrgProfile | null }) {
 
 // --- Team Tab ---
 
-function TeamTab({ isAdmin }: { isAdmin: boolean }) {
-  const { data: members, isLoading } = useOrgMembers()
+function TeamTab({ orgId, isAdmin }: { orgId: string | null; isAdmin: boolean }) {
+  const { data: members, isLoading } = useOrgMembers(orgId)
 
   return (
     <div className="space-y-6">
