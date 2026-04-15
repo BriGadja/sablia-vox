@@ -69,10 +69,14 @@ function OutcomeBreakdownInner({ data }: OutcomeBreakdownProps) {
     // biome-ignore lint/suspicious/noExplicitAny: Recharts Legend content prop types are complex and readonly
     (props: any) => {
       const { payload } = props
+      // biome-ignore lint/suspicious/noExplicitAny: Recharts LegendPayload entries have dynamic shape
+      const validEntries = (payload ?? []).filter(
+        (entry: any) => entry.payload?.value != null && typeof entry.payload.value === 'number',
+      )
       return (
         <ul className="flex flex-col gap-2 text-sm text-white">
           {/* biome-ignore lint/suspicious/noExplicitAny: Recharts LegendPayload entries have dynamic shape */}
-          {payload?.map((entry: any) => {
+          {validEntries.map((entry: any) => {
             const percentage = total > 0 ? ((entry.payload.value / total) * 100).toFixed(1) : 0
             return (
               <li key={entry.value} className="flex items-center gap-2">
