@@ -1,3 +1,4 @@
+import { getOrgId } from '@/lib/auth'
 import { createClient } from '@/lib/supabase/server'
 
 export class ApiError extends Error {
@@ -12,8 +13,8 @@ export class ApiError extends Error {
 
 /**
  * Require authenticated admin user for API route handlers.
- * Uses the existing server Supabase client (cookies() works in Route Handlers).
- * Returns user ID and org ID on success, throws ApiError on failure.
+ * Reads org_id from the JWT (injected by custom_access_token_hook) via getOrgId,
+ * NOT from auth.users.app_metadata which is not populated by the hook.
  */
 export async function requireAdmin(): Promise<{ userId: string; orgId: string }> {
   const supabase = await createClient()
@@ -26,7 +27,7 @@ export async function requireAdmin(): Promise<{ userId: string; orgId: string }>
     throw new ApiError('Non authentifié', 401)
   }
 
-  const orgId = (user.app_metadata as Record<string, string> | undefined)?.org_id
+  const orgId = await getOrgId(supabase)
   if (!orgId) {
     throw new ApiError('Organisation introuvable', 403)
   }

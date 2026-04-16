@@ -4,16 +4,19 @@ import { useQueryClient } from '@tanstack/react-query'
 import {
   Building2,
   Check,
+  Copy,
+  ExternalLink,
   Loader2,
   Mail,
   MoreHorizontal,
   Settings,
   Shield,
   Trash2,
+  UserCog,
   UserPlus,
   Users,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
@@ -98,6 +101,15 @@ export default function SettingsClient({ org, orgId, isAdmin }: SettingsClientPr
             <Users className="w-4 h-4 mr-2" />
             Équipe
           </TabsTrigger>
+          {isAdmin && (
+            <TabsTrigger
+              value="debug"
+              className="data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-400"
+            >
+              <UserCog className="w-4 h-4 mr-2" />
+              Debug
+            </TabsTrigger>
+          )}
         </TabsList>
 
         <TabsContent value="organisation">
@@ -107,6 +119,12 @@ export default function SettingsClient({ org, orgId, isAdmin }: SettingsClientPr
         <TabsContent value="equipe">
           <TeamTab orgId={orgId} isAdmin={isAdmin} />
         </TabsContent>
+
+        {isAdmin && (
+          <TabsContent value="debug">
+            <ImpersonatePanel />
+          </TabsContent>
+        )}
       </Tabs>
     </div>
   )
@@ -546,6 +564,158 @@ function InviteMemberForm() {
           Inviter
         </button>
       </form>
+    </div>
+  )
+}
+
+// --- Impersonate Panel (admin-only) ---
+
+interface ImpersonateUser {
+  id: string
+  email: string
+  full_name: string | null
+  orgs: Array<{ org_id: string; permission_level: string }>
+}
+
+function ImpersonatePanel() {
+  const [users, setUsers] = useState<ImpersonateUser[] | null>(null)
+  const [isLoadingUsers, setIsLoadingUsers] = useState(true)
+  const [selectedEmail, setSelectedEmail] = useState('')
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [generatedLink, setGeneratedLink] = useState<string | null>(null)
+  const [generatedFor, setGeneratedFor] = useState<string | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/admin/users')
+      .then(async (res) => {
+        if (!res.ok) throw new Error('Failed')
+        const data = (await res.json()) as { users: ImpersonateUser[] }
+        if (!cancelled) setUsers(data.users)
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setUsers([])
+          toast.error('Impossible de charger les utilisateurs')
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoadingUsers(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const handleGenerate = async () => {
+    if (!selectedEmail) return
+    setIsGenerating(true)
+    setGeneratedLink(null)
+    try {
+      const res = await fetch('/api/admin/impersonate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: selectedEmail }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        toast.error(data.error || 'Erreur lors de la génération')
+        return
+      }
+      setGeneratedLink(data.action_link)
+      setGeneratedFor(data.impersonated_email)
+      toast.success('Lien généré')
+    } catch (_err) {
+      toast.error('Erreur lors de la génération')
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  const handleCopy = async () => {
+    if (!generatedLink) return
+    await navigator.clipboard.writeText(generatedLink)
+    toast.success('Lien copié')
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="rounded-xl glass-subtle p-6">
+        <div className="flex items-center gap-3 mb-2">
+          <UserCog className="w-5 h-5 text-violet-400" />
+          <h2 className="text-lg font-semibold text-white">Se connecter en tant que</h2>
+        </div>
+        <p className="text-sm text-white/60 mb-6">
+          Génère un lien magique pour se connecter en tant qu&apos;un autre utilisateur. Utilisez la
+          navigation privée pour ne pas écraser votre session. Chaque utilisation est enregistrée.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-3 mb-4">
+          <select
+            value={selectedEmail}
+            onChange={(e) => setSelectedEmail(e.target.value)}
+            disabled={isLoadingUsers || isGenerating}
+            className="flex-1 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all disabled:opacity-50"
+          >
+            <option value="" className="bg-gray-900">
+              {isLoadingUsers ? 'Chargement...' : 'Sélectionner un utilisateur'}
+            </option>
+            {users?.map((u) => (
+              <option key={u.id} value={u.email} className="bg-gray-900">
+                {u.full_name ? `${u.full_name} — ${u.email}` : u.email}
+              </option>
+            ))}
+          </select>
+          <button
+            type="button"
+            onClick={handleGenerate}
+            disabled={!selectedEmail || isGenerating}
+            className="px-6 py-2.5 bg-violet-600 hover:bg-violet-700 disabled:bg-violet-600/50 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
+            {isGenerating ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <UserCog className="w-4 h-4" />
+            )}
+            Générer le lien
+          </button>
+        </div>
+
+        {generatedLink && (
+          <div className="rounded-lg border border-violet-500/30 bg-violet-500/5 p-4 space-y-3">
+            <p className="text-sm text-white/80">
+              Lien pour <span className="font-medium text-violet-300">{generatedFor}</span> — à
+              ouvrir en navigation privée :
+            </p>
+            <div className="flex items-center gap-2">
+              <code className="flex-1 px-3 py-2 bg-black/40 border border-white/10 rounded-md text-xs text-white/70 font-mono truncate">
+                {generatedLink}
+              </code>
+              <button
+                type="button"
+                onClick={handleCopy}
+                className="p-2 rounded-md border border-white/10 text-white/70 hover:text-white hover:bg-white/5 transition-colors"
+                aria-label="Copier le lien"
+              >
+                <Copy className="w-4 h-4" />
+              </button>
+              <a
+                href={generatedLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-md border border-white/10 text-white/70 hover:text-white hover:bg-white/5 transition-colors"
+                aria-label="Ouvrir dans un nouvel onglet"
+              >
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
+            <p className="text-xs text-white/40">
+              Le lien est à usage unique. Ouvrez-le dans une fenêtre de navigation privée pour
+              préserver votre session admin.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
