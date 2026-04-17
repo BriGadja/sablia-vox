@@ -133,7 +133,7 @@ All data fetching via 6 RPCs (org-scoped via JWT `app_metadata.org_id`):
 - `get_outcome_distribution(start, end, deployment?, template?)` → TABLE
 - `get_agent_cards_data(start?, end?, template?)` → TABLE
 - `get_calls_page(start, end, deployment?, template?, outcome?, direction?, phone?, limit?, offset?)` → JSONB
-- `get_consumption_metrics(start_date, end_date)` → JSONB (per-deployment: calls, minutes, billed cost, SMS)
+- `get_consumption_metrics(start_date, end_date, clients_only?)` → JSONB (per-deployment: calls, minutes, billed cost, SMS, email; admin sees all orgs, non-admin restricted to JWT `app_metadata.org_ids`; `p_clients_only=true` excludes `organizations.is_internal=true`)
 
 3 views: `v_dashboard_calls`, `v_user_accessible_agents`, `v_agent_30d_stats`
 
@@ -167,6 +167,9 @@ Conversion Rate  = conversions / total_calls × 100
 
 ### Emotions
 `positive`, `neutral`, `negative`, `unknown`
+
+### Billing Groups
+`organizations.billing_client_name` (nullable text) groups multiple orgs under one billing entity for admin views (`/dashboard/consumption`). Falls back to `organizations.name` when NULL. Current groups: `Norloc`, `VB` (Exotic Design + Stefano Design), `Nestenn`. `organizations.is_internal=true` marks Sablia internal orgs (Charlie agent), excluded by default from admin client-billing view via the "Agents clients uniquement" toggle.
 
 ### Design Tokens
 - Background: Dark gradient (black → purple-950/20 → black)

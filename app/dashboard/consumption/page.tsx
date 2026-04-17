@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { ConsumptionSkeleton } from '@/components/skeletons'
+import { checkIsAdminServer } from '@/lib/auth'
 import { ConsumptionClient } from './ConsumptionClient'
 
 export const metadata = {
@@ -7,14 +8,12 @@ export const metadata = {
   description: 'Suivi de la consommation par agent vocal',
 }
 
-/**
- * Consumption Page - Server Component
- * Auth is handled by the dashboard layout
- */
-export default function ConsumptionPage() {
+export default async function ConsumptionPage() {
+  const isAdmin = await checkIsAdminServer()
+
   return (
     <Suspense fallback={<ConsumptionSkeleton />}>
-      <ConsumptionClient />
+      <ConsumptionClient isAdmin={isAdmin} />
     </Suspense>
   )
 }

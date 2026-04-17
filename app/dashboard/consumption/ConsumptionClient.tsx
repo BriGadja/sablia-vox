@@ -3,14 +3,22 @@
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { BarChart3, Calendar, MessageSquare, Phone, TrendingUp } from 'lucide-react'
-import { parseAsString, useQueryStates } from 'nuqs'
+import { parseAsBoolean, parseAsString, parseAsStringEnum, useQueryStates } from 'nuqs'
 import { PageHeader } from '@/components/dashboard/PageHeader'
 import { FadeIn, StaggerChildren, StaggerItem } from '@/components/motion'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Switch } from '@/components/ui/switch'
 import { useConsumptionData } from '@/lib/hooks/useConsumptionData'
-import type { DeploymentConsumption } from '@/lib/types/consumption'
-import { BILLING } from '@/lib/types/consumption'
+import { BILLING, type DeploymentConsumption, type MonthPreset } from '@/lib/types/consumption'
 import { cn } from '@/lib/utils'
+import { type BillingGroup, groupByBillingClient } from '@/lib/utils/group-by-billing-client'
 
 const TEMPLATE_COLORS: Record<string, string> = {
   setter: 'bg-violet-500/20 text-violet-400 border-violet-500/30',
@@ -18,10 +26,19 @@ const TEMPLATE_COLORS: Record<string, string> = {
   transfer: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
 }
 
-function getMonthRange() {
+function getCurrentMonthRange() {
   const now = new Date()
   const start = new Date(now.getFullYear(), now.getMonth(), 1)
-  const end = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+  return {
+    startDate: format(start, 'yyyy-MM-dd'),
+    endDate: format(now, 'yyyy-MM-dd'),
+  }
+}
+
+function getPreviousMonthRange() {
+  const now = new Date()
+  const start = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+  const end = new Date(now.getFullYear(), now.getMonth(), 0)
   return {
     startDate: format(start, 'yyyy-MM-dd'),
     endDate: format(end, 'yyyy-MM-dd'),
@@ -40,7 +57,6 @@ function AgentConsumptionCard({ agent }: { agent: DeploymentConsumption }) {
 
   return (
     <div className="rounded-xl border border-white/10 bg-white/5 p-5 space-y-4">
-      {/* Agent header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h3 className="text-base font-semibold text-white">{agent.agent_name}</h3>
@@ -56,7 +72,6 @@ function AgentConsumptionCard({ agent }: { agent: DeploymentConsumption }) {
         <span className="text-xs text-white/40">{agent.call_count} appels</span>
       </div>
 
-      {/* Minutes progress bar */}
       <div className="space-y-2">
         <div className="flex items-center justify-between text-sm">
           <span className="text-white/60">Minutes utilisées</span>
@@ -80,7 +95,6 @@ function AgentConsumptionCard({ agent }: { agent: DeploymentConsumption }) {
         )}
       </div>
 
-      {/* SMS row */}
       {agent.sms_count > 0 && (
         <div className="flex items-center justify-between text-sm pt-2 border-t border-white/5">
           <span className="text-white/60 flex items-center gap-1.5">
@@ -96,32 +110,89 @@ function AgentConsumptionCard({ agent }: { agent: DeploymentConsumption }) {
   )
 }
 
-export function ConsumptionClient() {
-  const defaults = getMonthRange()
+function BillingGroupSection({ group }: { group: BillingGroup }) {
+  const baseCost = group.deployments.length * BILLING.MONTHLY_BASE_PER_AGENT
+  const overage = group.deployments.reduce((sum, d) => {
+    const over = Math.max(d.total_minutes - BILLING.INCLUDED_MINUTES, 0)
+    return sum + over * BILLING.OVERAGE_RATE
+  }, 0)
+  const smsCost = group.deployments.reduce(
+    (sum, d) => sum + d.sms_count * (d.cost_per_sms ?? BILLING.SMS_RATE),
+    0,
+  )
+  const groupTotal = baseCost + overage + smsCost
+
+  return (
+    <section className="space-y-4">
+      <div className="flex items-center justify-between border-b border-white/10 pb-2">
+        <div className="flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-white">{group.groupName}</h2>
+          {group.isInternal && (
+            <span className="text-[10px] uppercase tracking-wide text-white/40 border border-white/10 rounded px-1.5 py-0.5">
+              Interne
+            </span>
+          )}
+          <span className="text-xs text-white/40">
+            {group.deployments.length} agent{group.deployments.length > 1 ? 's' : ''}
+          </span>
+        </div>
+        <span className="text-sm font-semibold text-white tabular-nums">
+          {groupTotal.toFixed(2)} €
+        </span>
+      </div>
+
+      <StaggerChildren className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {group.deployments.map((agent) => (
+          <StaggerItem key={agent.deployment_id}>
+            <AgentConsumptionCard agent={agent} />
+          </StaggerItem>
+        ))}
+      </StaggerChildren>
+    </section>
+  )
+}
+
+export function ConsumptionClient({ isAdmin }: { isAdmin: boolean }) {
+  const defaults = getCurrentMonthRange()
   const [filters, setFilters] = useQueryStates({
     startDate: parseAsString.withDefault(defaults.startDate),
     endDate: parseAsString.withDefault(defaults.endDate),
+    month: parseAsStringEnum<MonthPreset>(['current', 'previous', 'custom']).withDefault('current'),
+    clientsOnly: parseAsBoolean.withDefault(isAdmin),
   })
+
+  function applyMonthPreset(month: MonthPreset) {
+    if (month === 'current') {
+      const r = getCurrentMonthRange()
+      setFilters({ month, startDate: r.startDate, endDate: r.endDate })
+    } else if (month === 'previous') {
+      const r = getPreviousMonthRange()
+      setFilters({ month, startDate: r.startDate, endDate: r.endDate })
+    } else {
+      setFilters({ month })
+    }
+  }
 
   const { data, isLoading, error } = useConsumptionData({
     startDate: filters.startDate,
     endDate: filters.endDate,
+    clientsOnly: filters.clientsOnly,
   })
 
-  // Compute totals
-  const agents = data?.by_deployment ?? []
-  const totalBase = agents.length * BILLING.MONTHLY_BASE_PER_AGENT
-  const totalOverage = agents.reduce((sum, a) => {
-    const over = Math.max(a.total_minutes - BILLING.INCLUDED_MINUTES, 0)
+  const deployments = data?.by_deployment ?? []
+  const groups = groupByBillingClient(deployments)
+
+  const totalBase = deployments.length * BILLING.MONTHLY_BASE_PER_AGENT
+  const totalOverage = deployments.reduce((sum, d) => {
+    const over = Math.max(d.total_minutes - BILLING.INCLUDED_MINUTES, 0)
     return sum + over * BILLING.OVERAGE_RATE
   }, 0)
-  const totalSms = agents.reduce(
-    (sum, a) => sum + a.sms_count * (a.cost_per_sms ?? BILLING.SMS_RATE),
+  const totalSms = deployments.reduce(
+    (sum, d) => sum + d.sms_count * (d.cost_per_sms ?? BILLING.SMS_RATE),
     0,
   )
   const totalCost = totalBase + totalOverage + totalSms
 
-  // Period label
   const periodLabel = (() => {
     try {
       const start = new Date(`${filters.startDate}T00:00:00`)
@@ -138,22 +209,46 @@ export function ConsumptionClient() {
         description={`Suivi de l'utilisation de vos agents — ${periodLabel}`}
       />
 
-      {/* Date picker */}
       <div className="flex flex-wrap items-center gap-3">
+        <Select value={filters.month} onValueChange={(v) => applyMonthPreset(v as MonthPreset)}>
+          <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-white">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="current">Mois en cours</SelectItem>
+            <SelectItem value="previous">Mois précédent</SelectItem>
+            <SelectItem value="custom">Personnalisé</SelectItem>
+          </SelectContent>
+        </Select>
+
         <Calendar className="w-4 h-4 text-white/40" />
         <input
           type="date"
           value={filters.startDate}
-          onChange={(e) => setFilters({ startDate: e.target.value })}
+          onChange={(e) => setFilters({ startDate: e.target.value, month: 'custom' })}
           className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white [color-scheme:dark]"
         />
         <span className="text-white/40">—</span>
         <input
           type="date"
           value={filters.endDate}
-          onChange={(e) => setFilters({ endDate: e.target.value })}
+          onChange={(e) => setFilters({ endDate: e.target.value, month: 'custom' })}
           className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white [color-scheme:dark]"
         />
+
+        {isAdmin && (
+          <label
+            htmlFor="clients-only-toggle"
+            className="ml-auto flex items-center gap-2 text-sm text-white/70"
+          >
+            <Switch
+              id="clients-only-toggle"
+              checked={filters.clientsOnly}
+              onCheckedChange={(checked) => setFilters({ clientsOnly: checked })}
+            />
+            Agents clients uniquement
+          </label>
+        )}
       </div>
 
       {isLoading && (
@@ -175,8 +270,7 @@ export function ConsumptionClient() {
 
       {data && (
         <>
-          {/* Agent cards */}
-          {agents.length === 0 ? (
+          {groups.length === 0 ? (
             <FadeIn>
               <div className="rounded-xl border border-white/10 bg-white/5 p-12 text-center">
                 <BarChart3 className="w-12 h-12 text-white/20 mx-auto mb-4" />
@@ -184,17 +278,14 @@ export function ConsumptionClient() {
               </div>
             </FadeIn>
           ) : (
-            <StaggerChildren className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {agents.map((agent) => (
-                <StaggerItem key={agent.deployment_id}>
-                  <AgentConsumptionCard agent={agent} />
-                </StaggerItem>
+            <div className="space-y-8">
+              {groups.map((group) => (
+                <BillingGroupSection key={group.groupName} group={group} />
               ))}
-            </StaggerChildren>
+            </div>
           )}
 
-          {/* Totals section */}
-          {agents.length > 0 && (
+          {deployments.length > 0 && (
             <FadeIn delay={0.2}>
               <div className="rounded-xl border border-white/10 bg-white/5 p-6 space-y-4">
                 <h3 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -211,7 +302,7 @@ export function ConsumptionClient() {
                       {totalBase.toFixed(2)} €
                     </p>
                     <p className="text-xs text-white/40">
-                      {agents.length} agent{agents.length > 1 ? 's' : ''} ×{' '}
+                      {deployments.length} agent{deployments.length > 1 ? 's' : ''} ×{' '}
                       {BILLING.MONTHLY_BASE_PER_AGENT} €
                     </p>
                   </div>
@@ -234,7 +325,7 @@ export function ConsumptionClient() {
                     </span>
                     <p className="text-white font-semibold tabular-nums">{totalSms.toFixed(2)} €</p>
                     <p className="text-xs text-white/40">
-                      {agents.reduce((s, a) => s + a.sms_count, 0)} SMS
+                      {deployments.reduce((s, d) => s + d.sms_count, 0)} SMS
                     </p>
                   </div>
                   <div className="space-y-1 bg-purple-500/10 rounded-lg p-3 -m-1">

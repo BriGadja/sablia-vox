@@ -1,0 +1,39 @@
+{
+  "captured_at": "2026-04-17",
+  "period": { "start": "2026-04-01", "end": "2026-04-17" },
+  "rpc_signature": "get_consumption_metrics(date, date)",
+  "note": "Per-org output of OLD RPC (before admin rewrite). AC-5 parity baseline for Phase B regression test.",
+  "by_org": {
+    "sablia": {
+      "org_id": "11111111-1111-1111-1111-111111111111",
+      "deployments": [
+        {"deployment_id":"be965c84-0647-4b96-bf3a-6e21e7e13ee2","agent_name":"Charlie - Sablia","template_type":"setter","call_count":1,"total_seconds":162,"total_minutes":2.7,"billed_call_cost":0,"sms_count":0,"sms_cost":0,"cost_per_min":0,"cost_per_sms":0.14}
+      ]
+    },
+    "norloc": {
+      "org_id": "986c593d-30d7-4912-b41a-e2781c8b018a",
+      "deployments": [
+        {"deployment_id":"e5d460dc-489a-49d7-b3ef-38328e14ebd0","agent_name":"Louis - Norloc","template_type":"setter","call_count":80,"total_seconds":3095,"total_minutes":51.58,"billed_call_cost":13.9275,"sms_count":76,"sms_cost":7.28,"cost_per_min":0.27,"cost_per_sms":0.14}
+      ]
+    },
+    "nestenn": {
+      "org_id": "f7341a5f-f075-41ef-bc4b-eb7e3e86427b",
+      "deployments": [
+        {"deployment_id":"b198e9d1-7007-45e0-8075-023bbd9d6f65","agent_name":"Alexandra - Nestenn","template_type":"secretary","call_count":169,"total_seconds":6246,"total_minutes":104.1,"billed_call_cost":28.107,"sms_count":0,"sms_cost":0,"cost_per_min":0.27,"cost_per_sms":0.14},
+        {"deployment_id":"0742bd38-4330-4469-966e-b2f653ce02d4","agent_name":"Louis - Nestenn","template_type":"setter","call_count":21,"total_seconds":1028,"total_minutes":17.13,"billed_call_cost":4.626,"sms_count":2,"sms_cost":0,"cost_per_min":0.27,"cost_per_sms":0.14}
+      ]
+    },
+    "exotic": {
+      "org_id": "855c1aa5-318c-41d4-b403-8113bc65d8fc",
+      "deployments": [
+        {"deployment_id":"02fd4fb3-a162-41a3-9e3c-a1aac38a6fdc","agent_name":"Louis - Exotic Design","template_type":"setter","call_count":96,"total_seconds":2968,"total_minutes":49.47,"billed_call_cost":13.356,"sms_count":49,"sms_cost":5.6,"cost_per_min":0.27,"cost_per_sms":0.14}
+      ]
+    },
+    "stefano": {
+      "org_id": "14e4f42a-6eca-4307-ac79-ea3dbb4751ff",
+      "deployments": [
+        {"deployment_id":"6879e936-72d1-4590-8b64-54d42d4bbd49","agent_name":"Louis - Stefano Design","template_type":"setter","call_count":20,"total_seconds":512,"total_minutes":8.53,"billed_call_cost":2.304,"sms_count":6,"sms_cost":0,"cost_per_min":0.27,"cost_per_sms":0.14}
+      ]
+    }
+  }
+}
