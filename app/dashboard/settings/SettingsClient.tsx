@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import {
   Building2,
   Check,
+  ChevronDown,
   Copy,
   ExternalLink,
   Loader2,
@@ -237,22 +238,25 @@ function OrgEditForm({ org }: { org: OrgProfile | null }) {
             <label htmlFor="industry" className="block text-sm font-medium text-white/80 mb-2">
               Secteur d&apos;activité
             </label>
-            <select
-              id="industry"
-              value={industry}
-              onChange={(e) => setIndustry(e.target.value)}
-              disabled={isSaving}
-              className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all disabled:opacity-50"
-            >
-              <option value="" className="bg-gray-900">
-                Sélectionner...
-              </option>
-              {INDUSTRIES.map((ind) => (
-                <option key={ind} value={ind} className="bg-gray-900">
-                  {ind}
+            <div className="relative">
+              <select
+                id="industry"
+                value={industry}
+                onChange={(e) => setIndustry(e.target.value)}
+                disabled={isSaving}
+                className="w-full appearance-none px-4 py-2.5 pr-10 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all disabled:opacity-50"
+              >
+                <option value="" className="bg-gray-900">
+                  Sélectionner...
                 </option>
-              ))}
-            </select>
+                {INDUSTRIES.map((ind) => (
+                  <option key={ind} value={ind} className="bg-gray-900">
+                    {ind}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60" />
+            </div>
           </div>
 
           <div>
@@ -535,22 +539,25 @@ function InviteMemberForm() {
           placeholder="email@example.com"
           className="flex-1 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all disabled:opacity-50"
         />
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value as PermissionLevel)}
-          disabled={isInviting}
-          className="px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all disabled:opacity-50"
-        >
-          <option value="read" className="bg-gray-900">
-            Lecteur
-          </option>
-          <option value="write" className="bg-gray-900">
-            Éditeur
-          </option>
-          <option value="admin" className="bg-gray-900">
-            Administrateur
-          </option>
-        </select>
+        <div className="relative">
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value as PermissionLevel)}
+            disabled={isInviting}
+            className="appearance-none px-4 py-2.5 pr-10 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all disabled:opacity-50"
+          >
+            <option value="read" className="bg-gray-900">
+              Lecteur
+            </option>
+            <option value="write" className="bg-gray-900">
+              Éditeur
+            </option>
+            <option value="admin" className="bg-gray-900">
+              Administrateur
+            </option>
+          </select>
+          <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60" />
+        </div>
         <button
           type="submit"
           disabled={isInviting || !email}
@@ -651,21 +658,24 @@ function ImpersonatePanel() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 mb-4">
-          <select
-            value={selectedEmail}
-            onChange={(e) => setSelectedEmail(e.target.value)}
-            disabled={isLoadingUsers || isGenerating}
-            className="flex-1 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all disabled:opacity-50"
-          >
-            <option value="" className="bg-gray-900">
-              {isLoadingUsers ? 'Chargement...' : 'Sélectionner un utilisateur'}
-            </option>
-            {users?.map((u) => (
-              <option key={u.id} value={u.email} className="bg-gray-900">
-                {u.full_name ? `${u.full_name} — ${u.email}` : u.email}
+          <div className="relative flex-1">
+            <select
+              value={selectedEmail}
+              onChange={(e) => setSelectedEmail(e.target.value)}
+              disabled={isLoadingUsers || isGenerating}
+              className="w-full appearance-none px-4 py-2.5 pr-10 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all disabled:opacity-50"
+            >
+              <option value="" className="bg-gray-900">
+                {isLoadingUsers ? 'Chargement...' : 'Sélectionner un utilisateur'}
               </option>
-            ))}
-          </select>
+              {users?.map((u) => (
+                <option key={u.id} value={u.email} className="bg-gray-900">
+                  {u.full_name ? `${u.full_name} — ${u.email}` : u.email}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60" />
+          </div>
           <button
             type="button"
             onClick={handleGenerate}
