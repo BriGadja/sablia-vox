@@ -1,12 +1,14 @@
-import { NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { handleApiError, requireAdmin } from '@/lib/api-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const { userId } = await requireAdmin()
 
     const admin = createAdminClient()
+
+    const debug = req.nextUrl.searchParams.has('debug')
 
     // Find all orgs where the admin has a membership (usually multiple for super-admins)
     const { data: adminOrgs, error: adminOrgsError } = await admin
@@ -16,7 +18,12 @@ export async function GET() {
       .abortSignal(AbortSignal.timeout(5000))
 
     if (adminOrgsError || !adminOrgs?.length) {
-      return NextResponse.json({ users: [] })
+      console.error('admin/users: adminOrgs empty', {
+        userId,
+        error: adminOrgsError,
+        adminOrgsLen: adminOrgs?.length,
+      })
+      return NextResponse.json({ users: [], _debug: { reason: 'adminOrgs_empty', userId, error: adminOrgsError?.message, adminOrgsLen: adminOrgs?.length } })
     }
 
     const orgIds = adminOrgs.map((row) => row.org_id)
@@ -29,8 +36,12 @@ export async function GET() {
       .abortSignal(AbortSignal.timeout(5000))
 
     if (membersError) {
-      console.error('members fetch error:', membersError)
-      return NextResponse.json({ users: [] })
+      console.error('admin/users: members fetch error', membersError)
+      return NextResponse.json({ users: [], _debug: { reason: 'members_error', error: membersError.message, orgIds } })
+    }
+
+    if (debug) {
+      return NextResponse.json({ _debug: { orgIds, membersLen: members?.length, sample: members?.slice(0, 3) } })
     }
 
     // Deduplicate by user_id -- prefer rows with a non-null user + email
