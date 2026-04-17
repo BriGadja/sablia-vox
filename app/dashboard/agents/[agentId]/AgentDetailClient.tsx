@@ -8,13 +8,9 @@ import { CallVolumeChart } from '@/components/dashboard/Charts/CallVolumeChart'
 import { EmotionDistribution } from '@/components/dashboard/Charts/EmotionDistribution'
 import { LatencyTimeSeriesChart } from '@/components/dashboard/Charts/LatencyTimeSeriesChart'
 import { OutcomeBreakdown } from '@/components/dashboard/Charts/OutcomeBreakdown'
-import { QualityTrendChart } from '@/components/dashboard/Charts/QualityTrendChart'
 import { DateRangeFilter } from '@/components/dashboard/Filters/DateRangeFilter'
 import { KPIGrid } from '@/components/dashboard/KPIGrid'
-import { SuggestionsSection } from '@/components/dashboard/SuggestionsSection'
-import { FadeIn } from '@/components/motion'
 import { AgentDetailSkeleton } from '@/components/skeletons'
-import { useQualitySnapshots, useSuggestions } from '@/lib/hooks/useAgentInsights'
 import {
   useCallVolumeByDay,
   useDashboardKPIs,
@@ -25,7 +21,6 @@ import { useDashboardFilters } from '@/lib/hooks/useDashboardFilters'
 import { useLatencyMetrics } from '@/lib/hooks/useLatencyData'
 import { createClient } from '@/lib/supabase/client'
 import type { AccessibleAgent } from '@/lib/types/dashboard'
-import { cn } from '@/lib/utils'
 
 interface AgentDetailClientProps {
   agentId: string
@@ -64,7 +59,7 @@ function useAgentInfo(agentId: string) {
 
 /**
  * Agent Detail Client Component
- * Displays detailed metrics for a specific agent deployment
+ * Mirrors the overview dashboard layout, scoped to a single agent deployment.
  */
 export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
   // Fetch agent info
@@ -87,10 +82,6 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
   const { data: callVolumeData } = useCallVolumeByDay(deploymentFilters)
   const { data: outcomeData } = useOutcomeDistribution(deploymentFilters)
   const { data: emotionData } = useEmotionDistribution(deploymentFilters)
-
-  // Quality snapshots + suggestions
-  const { data: qualityData } = useQualitySnapshots(agentId)
-  const { data: suggestionsData } = useSuggestions(agentId)
 
   // Fetch latency metrics
   const { data: latencyData, isLoading: isLoadingLatencies } = useLatencyMetrics({
@@ -145,99 +136,50 @@ export function AgentDetailClient({ agentId }: AgentDetailClientProps) {
     )
   }
 
-  const templateBadges: Record<string, { color: string; label: string }> = {
-    setter: { color: 'bg-violet-500/20 text-violet-400', label: 'Setter' },
-    secretary: { color: 'bg-blue-500/20 text-blue-400', label: 'Secrétaire' },
-    transfer: { color: 'bg-orange-500/20 text-orange-400', label: 'Transfert' },
-  }
-  const badge = templateBadges[agent.template_type] ?? {
-    color: 'bg-gray-500/20 text-gray-400',
-    label: agent.template_type,
-  }
-
   return (
-    <div className="p-6 space-y-4 page-fade-in">
-      {/* Agent Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-white/5 border border-white/10 p-4">
-        <div className="flex items-center gap-3">
+    <div className="h-full p-6 overflow-x-hidden overflow-y-auto page-fade-in">
+      <div className="flex flex-col gap-4 h-full">
+        {/* Filters Row with View Calls button */}
+        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between flex-shrink-0">
+          <DateRangeFilter
+            startDate={new Date(filters.startDate)}
+            endDate={new Date(filters.endDate)}
+            onChange={handleDateChange}
+          />
           <Link
-            href="/dashboard/agents"
-            className="p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+            href={`/dashboard/agents/${agentId}/calls`}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 text-sm font-medium transition-colors"
           >
-            <ArrowLeft className="w-5 h-5" />
+            Voir les appels
           </Link>
-          <div>
-            <h1 className="text-lg font-bold text-white">{agent.deployment_name}</h1>
-            <div className="flex items-center gap-2 mt-0.5">
-              <span
-                className={cn(
-                  'inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium',
-                  badge.color,
-                )}
-              >
-                {badge.label}
-              </span>
-              {agent.template_display_name && (
-                <span className="text-xs text-white/50">{agent.template_display_name}</span>
-              )}
-            </div>
+        </div>
+
+        {/* KPIs Grid */}
+        <div className="flex-shrink-0">
+          <KPIGrid
+            data={kpiData}
+            isLoading={isLoadingKPIs}
+            agentType={agent.template_type}
+            avgLatency={avgTotalLatency}
+          />
+        </div>
+
+        {/* Charts Grid - 2x2 balanced layout (mirrors overview) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 auto-rows-fr gap-4 flex-1 min-h-0">
+          <div className="min-h-[280px] overflow-hidden">
+            <CallVolumeChart data={callVolumeData || []} />
+          </div>
+          <div className="min-h-[280px] overflow-hidden">
+            <EmotionDistribution data={emotionData || []} />
+          </div>
+          <div className="min-h-[280px] overflow-hidden">
+            <LatencyTimeSeriesChart data={latencyData || []} isLoading={isLoadingLatencies} />
+          </div>
+          <div className="min-h-[280px] overflow-hidden">
+            <OutcomeBreakdown data={outcomeData || []} />
           </div>
         </div>
-        <Link
-          href={`/dashboard/agents/${agentId}/calls`}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 text-sm font-medium transition-colors"
-        >
-          Voir les appels
-        </Link>
       </div>
-
-      {/* Filters */}
-      <DateRangeFilter
-        startDate={new Date(filters.startDate)}
-        endDate={new Date(filters.endDate)}
-        onChange={handleDateChange}
-      />
-
-      {/* KPIs Grid */}
-      <KPIGrid
-        data={kpiData}
-        isLoading={isLoadingKPIs}
-        agentType={agent.template_type}
-        avgLatency={avgTotalLatency}
-      />
-
-      {/* Charts Grid - 2x2 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="h-[250px] lg:h-[300px] overflow-hidden">
-          <CallVolumeChart data={callVolumeData || []} />
-        </div>
-        <div className="h-[250px] lg:h-[300px] overflow-hidden">
-          <EmotionDistribution data={emotionData || []} />
-        </div>
-        <div className="h-[250px] lg:h-[300px] overflow-hidden">
-          <OutcomeBreakdown data={outcomeData || []} />
-        </div>
-        <div className="h-[250px] lg:h-[300px] overflow-hidden">
-          <LatencyTimeSeriesChart data={latencyData || []} isLoading={isLoadingLatencies} />
-        </div>
-      </div>
-
-      {/* Quality Trend Chart */}
-      {qualityData && qualityData.length > 0 && (
-        <FadeIn>
-          <div className="h-[250px] lg:h-[300px]">
-            <QualityTrendChart data={qualityData} />
-          </div>
-        </FadeIn>
-      )}
-
-      {/* Improvement Suggestions */}
-      <FadeIn delay={0.1}>
-        <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-white">Suggestions d&apos;amélioration</h3>
-          <SuggestionsSection suggestions={suggestionsData ?? []} />
-        </div>
-      </FadeIn>
     </div>
   )
 }

@@ -98,17 +98,17 @@ export function OverviewDashboardClient({ userEmail: _userEmail }: OverviewDashb
         </div>
 
         {/* Charts Grid - 2x2 balanced layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1 min-h-0 overflow-auto">
-          <div className="h-[300px] overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 auto-rows-fr gap-4 flex-1 min-h-0">
+          <div className="min-h-[280px] overflow-hidden">
             <CallVolumeChart data={callVolumeData || []} />
           </div>
-          <div className="h-[300px] overflow-hidden">
+          <div className="min-h-[280px] overflow-hidden">
             <EmotionDistribution data={emotionData || []} />
           </div>
-          <div className="h-[300px] overflow-hidden">
+          <div className="min-h-[280px] overflow-hidden">
             <LatencyTimeSeriesChart data={latencyData || []} isLoading={isLoadingLatencies} />
           </div>
-          <div className="h-[300px] overflow-hidden">
+          <div className="min-h-[280px] overflow-hidden">
             <OutcomeBreakdown data={outcomeData || []} />
           </div>
         </div>
