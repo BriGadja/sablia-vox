@@ -23,9 +23,9 @@ export function useDashboardFilters() {
   const filters: DashboardFilters = useMemo(() => {
     const { deploymentId, templateType, startDate, endDate } = searchParams
 
-    // Default date range: last 30 days
+    // Default date range: last 7 days
     const defaultEndDate = format(new Date(), 'yyyy-MM-dd')
-    const defaultStartDate = format(subDays(new Date(), 30), 'yyyy-MM-dd')
+    const defaultStartDate = format(subDays(new Date(), 7), 'yyyy-MM-dd')
 
     return {
       deploymentId: deploymentId || null,
@@ -137,7 +137,7 @@ export function useDashboardFilters() {
    */
   const resetFilters = useCallback(() => {
     const defaultEndDate = format(new Date(), 'yyyy-MM-dd')
-    const defaultStartDate = format(subDays(new Date(), 30), 'yyyy-MM-dd')
+    const defaultStartDate = format(subDays(new Date(), 7), 'yyyy-MM-dd')
 
     setSearchParams({
       deploymentId: null,

@@ -6,8 +6,8 @@
 import { format, subDays } from 'date-fns'
 import { createLoader, createSerializer, parseAsString, type UrlKeys } from 'nuqs/server'
 
-// Default date range: last 30 days
-const getDefaultStartDate = () => format(subDays(new Date(), 30), 'yyyy-MM-dd')
+// Default date range: last 7 days
+const getDefaultStartDate = () => format(subDays(new Date(), 7), 'yyyy-MM-dd')
 const getDefaultEndDate = () => format(new Date(), 'yyyy-MM-dd')
 
 /**
