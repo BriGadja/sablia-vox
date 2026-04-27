@@ -82,6 +82,11 @@ export const OUTCOME_CONFIG: Record<
     className: 'bg-red-500/20 text-red-400',
   },
   rejected: { label: 'Rejeté', group: 'negative', className: 'bg-red-500/20 text-red-400' },
+  transfer_refused: {
+    label: 'Transfert refusé',
+    group: 'negative',
+    className: 'bg-red-500/20 text-red-400',
+  },
   call_failed: { label: 'Appel échoué', group: 'error', className: 'bg-red-900/20 text-red-500' },
   invalid_number: {
     label: 'Numéro invalide',

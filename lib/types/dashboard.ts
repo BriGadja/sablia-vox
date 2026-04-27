@@ -28,12 +28,13 @@ export interface KPIPeriod {
   answered_calls: number
   conversions: number
   answer_rate: number // 0-100
-  conversion_rate: number // 0-100
+  conversion_rate: number // 0-100 — denominator = décroché count (canonical SSOT)
   avg_duration: number // seconds
   total_billed_cost: number // EUR
   avg_billed_cost: number // EUR per call
   voicemail_count: number
   no_answer_count: number
+  quality_score_avg?: number | null // 1.00-5.00, voicemails excluded; nullable when no scored calls
 }
 
 /**
@@ -44,10 +45,12 @@ export interface KPIPeriod {
 export interface CallVolumeData {
   date: string // YYYY-MM-DD
   total_calls: number
-  answered_calls: number
+  answered_calls: number // canonical décroché (lenient), same value as decroche_calls
   outbound_calls: number
   inbound_calls: number
   conversions: number
+  decroche_calls?: number // canonical décroché count, exposed explicitly for client-side conversion_rate computation
+  quality_score_avg?: number | null // voicemails excluded
 }
 
 /**
@@ -99,9 +102,10 @@ export interface AgentCardData {
   answered_calls: number
   conversions: number
   answer_rate: number // 0-100
-  conversion_rate: number // 0-100
+  conversion_rate: number // 0-100 — denominator = décroché count (canonical SSOT)
   avg_duration: number // seconds
   total_billed_cost: number // EUR
+  quality_score_avg?: number | null // 1.00-5.00, voicemails excluded; nullable
   last_call_at: string | null
 }
 
