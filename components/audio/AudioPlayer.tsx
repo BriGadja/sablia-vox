@@ -1,86 +1,56 @@
 'use client'
 
 import { Loader2, Pause, Play, Volume2 } from 'lucide-react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  type CallRecordingTracks,
+  TRACK_LABELS,
+  TRACK_PRIORITY,
+  type TrackKey,
+} from '@/lib/types/call-recording'
 import { cn } from '@/lib/utils'
 
 const SPEED_OPTIONS = [0.75, 1, 1.25, 1.5, 2] as const
-const TRACK_PREFIXES = ['merged', 'user_mic', 'vad', 'iris'] as const
-const TRACK_LABELS: Record<string, string> = {
-  merged: 'Mixé',
-  user_mic: 'Micro',
-  vad: 'VAD',
-  iris: 'Iris',
-}
 
 interface AudioPlayerProps {
-  url: string
+  tracks: CallRecordingTracks
+  isLoading?: boolean
   className?: string
 }
 
-function isValidUrl(url: string): boolean {
-  return url.includes('://')
-}
-
-function deriveTrackUrl(baseUrl: string, trackPrefix: string): string {
-  if (trackPrefix === 'merged') return baseUrl
-  // Replace merged_ prefix with the target track prefix
-  return baseUrl.replace(/merged_/, `${trackPrefix}_`)
-}
-
 function formatTime(seconds: number): string {
+  if (!Number.isFinite(seconds)) return '0:00'
   const m = Math.floor(seconds / 60)
   const s = Math.floor(seconds % 60)
   return `${m}:${s.toString().padStart(2, '0')}`
 }
 
-export function AudioPlayer({ url, className }: AudioPlayerProps) {
+export function AudioPlayer({ tracks, isLoading = false, className }: AudioPlayerProps) {
+  const availableKeys = useMemo<TrackKey[]>(
+    () => TRACK_PRIORITY.filter((k) => Boolean(tracks[k])),
+    [tracks],
+  )
+  const [activeTrack, setActiveTrack] = useState<TrackKey | null>(availableKeys[0] ?? null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isAudioLoading, setIsAudioLoading] = useState(true)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [speed, setSpeed] = useState(1)
-  const [activeTrack, setActiveTrack] = useState('merged')
-  const [availableTracks, setAvailableTracks] = useState<string[]>(['merged'])
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const progressRef = useRef<HTMLDivElement>(null)
-  const validUrl = isValidUrl(url)
-  const currentUrl = validUrl ? deriveTrackUrl(url, activeTrack) : ''
 
-  // Probe available tracks on mount
+  // Reset active track when the available set changes (e.g. fetch resolved)
   useEffect(() => {
-    if (!validUrl) return
-    if (!url.includes('merged_')) {
-      setAvailableTracks(['merged'])
+    if (availableKeys.length === 0) {
+      setActiveTrack(null)
       return
     }
-
-    const tracks: string[] = ['merged']
-    let pending = TRACK_PREFIXES.length - 1
-
-    for (const prefix of TRACK_PREFIXES) {
-      if (prefix === 'merged') continue
-      const trackUrl = deriveTrackUrl(url, prefix)
-      const audio = new Audio()
-      audio.preload = 'metadata'
-
-      const onLoad = () => {
-        tracks.push(prefix)
-        audio.src = ''
-        pending--
-        if (pending === 0) setAvailableTracks([...tracks])
-      }
-      const onError = () => {
-        audio.src = ''
-        pending--
-        if (pending === 0) setAvailableTracks([...tracks])
-      }
-
-      audio.addEventListener('loadedmetadata', onLoad, { once: true })
-      audio.addEventListener('error', onError, { once: true })
-      audio.src = trackUrl
+    if (!activeTrack || !availableKeys.includes(activeTrack)) {
+      setActiveTrack(availableKeys[0] ?? null)
     }
-  }, [url, validUrl])
+  }, [availableKeys, activeTrack])
+
+  const currentUrl = activeTrack ? (tracks[activeTrack] ?? null) : null
 
   // Initialize / switch audio element
   useEffect(() => {
@@ -88,17 +58,17 @@ export function AudioPlayer({ url, className }: AudioPlayerProps) {
     const audio = new Audio(currentUrl)
     audioRef.current = audio
     audio.playbackRate = speed
-    setIsLoading(true)
+    setIsAudioLoading(true)
     setIsPlaying(false)
     setCurrentTime(0)
 
     const onTimeUpdate = () => setCurrentTime(audio.currentTime)
     const onLoadedMetadata = () => {
       setDuration(audio.duration)
-      setIsLoading(false)
+      setIsAudioLoading(false)
     }
     const onEnded = () => setIsPlaying(false)
-    const onError = () => setIsLoading(false)
+    const onError = () => setIsAudioLoading(false)
 
     audio.addEventListener('timeupdate', onTimeUpdate)
     audio.addEventListener('loadedmetadata', onLoadedMetadata)
@@ -148,8 +118,30 @@ export function AudioPlayer({ url, className }: AudioPlayerProps) {
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0
 
-  // Invalid URL fallback
-  if (!validUrl) {
+  // External fetch in flight → skeleton
+  if (isLoading) {
+    return (
+      <div
+        className={cn(
+          'flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10',
+          className,
+        )}
+      >
+        <div className="p-3 rounded-full bg-purple-500/10">
+          <Loader2 className="w-5 h-5 text-purple-400 animate-spin" />
+        </div>
+        <div className="flex-1">
+          <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-full w-1/3 bg-purple-500/30 rounded-full animate-pulse" />
+          </div>
+        </div>
+        <span className="text-xs text-white/30 tabular-nums">0:00 / 0:00</span>
+      </div>
+    )
+  }
+
+  // No tracks resolved (legacy workspace / Dipler returned no signed URLs)
+  if (availableKeys.length === 0) {
     return (
       <div
         className={cn(
@@ -158,13 +150,13 @@ export function AudioPlayer({ url, className }: AudioPlayerProps) {
         )}
       >
         <Volume2 className="w-5 h-5 text-white/20" />
-        <span className="text-sm text-white/40">Enregistrement indisponible — lien expiré</span>
+        <span className="text-sm text-white/40">Enregistrement non disponible</span>
       </div>
     )
   }
 
-  // Skeleton loading state
-  if (isLoading) {
+  // Per-track audio still buffering metadata
+  if (isAudioLoading) {
     return (
       <div
         className={cn(
@@ -187,10 +179,9 @@ export function AudioPlayer({ url, className }: AudioPlayerProps) {
 
   return (
     <div className={cn('space-y-3 p-4 rounded-xl bg-white/5 border border-white/10', className)}>
-      {/* Track selector (only if multiple tracks available) */}
-      {availableTracks.length > 1 && (
+      {availableKeys.length > 1 && (
         <div className="flex gap-1.5">
-          {availableTracks.map((track) => (
+          {availableKeys.map((track) => (
             <button
               key={track}
               type="button"
@@ -202,13 +193,12 @@ export function AudioPlayer({ url, className }: AudioPlayerProps) {
                   : 'bg-white/5 text-white/50 hover:text-white/70 border border-transparent',
               )}
             >
-              {TRACK_LABELS[track] || track}
+              {TRACK_LABELS[track]}
             </button>
           ))}
         </div>
       )}
 
-      {/* Player controls */}
       <div className="flex items-center gap-4">
         <button
           type="button"
@@ -218,7 +208,6 @@ export function AudioPlayer({ url, className }: AudioPlayerProps) {
           {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
         </button>
 
-        {/* Seek bar */}
         <div
           ref={progressRef}
           onClick={handleSeek}
@@ -239,12 +228,10 @@ export function AudioPlayer({ url, className }: AudioPlayerProps) {
           </div>
         </div>
 
-        {/* Time display */}
         <span className="text-xs text-white/50 tabular-nums min-w-[80px] text-right">
           {formatTime(currentTime)} / {formatTime(duration)}
         </span>
 
-        {/* Speed control */}
         <button
           type="button"
           onClick={cycleSpeed}

@@ -16,6 +16,7 @@ import {
 import { AudioPlayer } from '@/components/audio/AudioPlayer'
 import { FadeIn } from '@/components/motion'
 import { TranscriptDisplay } from '@/components/transcript/TranscriptDisplay'
+import { useCallRecording } from '@/lib/hooks/useCallRecording'
 import type { DashboardCall } from '@/lib/types/dashboard'
 import { cn } from '@/lib/utils'
 import {
@@ -81,6 +82,9 @@ export function CallDetailContent({ call, variant }: CallDetailContentProps) {
   const outcomeDisplay = getOutcomeDisplay(call.outcome)
   const emotionConfig = getEmotionDisplay(call.emotion)
   const contactName = getContactName(call.first_name, call.last_name)
+  const { data: recordingTracks, isLoading: isRecordingLoading } = useCallRecording(
+    call.recording_url ? call.call_id : null,
+  )
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -174,7 +178,7 @@ export function CallDetailContent({ call, variant }: CallDetailContentProps) {
                 <Volume2 className={s.sectionTitleIcon} />
                 Enregistrement
               </h3>
-              <AudioPlayer url={call.recording_url} />
+              <AudioPlayer tracks={recordingTracks ?? {}} isLoading={isRecordingLoading} />
             </div>
           </FadeIn>
         )}
