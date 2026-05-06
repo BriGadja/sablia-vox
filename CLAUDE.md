@@ -39,13 +39,16 @@
   - `lib/types/` — TypeScript type definitions (dashboard, financial, settings, etc.)
   - `lib/motion-tokens.ts` — JS mirror of CSS animation tokens (DESIGN-SPEC §2.5)
   - `components/motion/` — 6 animation primitives (FadeIn, SlideUp, SlideIn, ScaleIn, StaggerChildren, FadeInWhenVisible) using `motion/react-m`
-  - `components/audio/AudioPlayer.tsx` — Shared audio player with seek, speed control, track selector
+  - `components/audio/AudioPlayer.tsx` — Shared audio player with seek, speed control, track selector. Props: `tracks: Partial<Record<TrackKey,string>>` + `isLoading?` (no longer takes a single `url` — the prop change shipped 2026-05-06 when AudioPlayer moved to a hook-driven track map; see `lib/hooks/useCallRecording.ts`)
   - `components/transcript/TranscriptDisplay.tsx` — Transcript parser with speaker labels (User:/Model: → Agent/Client bubbles)
+  - `lib/dipler/client.ts` — Server-only Dipler RPC client (`import 'server-only'`). `getConversationRecording({workspaceUlid,conversationId})` mints fresh signed S3 URLs via `conversation.getConversation`. Workspace PAKs loaded lazily from `DIPLER_WORKSPACE_PAKS` env (JSON map of `{ULID: PAK}`). Returns discriminated `DiplerResult<CallRecordingTracks>` with codes `WORKSPACE_PAK_MISSING` / `CONVERSATION_NOT_FOUND` / `DIPLER_TIMEOUT` / `DIPLER_NETWORK` / `DIPLER_INVALID_JSON`
 - `components/skeletons/` — 7 skeleton loading components (Dashboard, AgentDetail, Agents, CallDetail, Consumption, Settings, Table)
 - `components/dashboard/CallDetail/` — Shared call detail content + hook (used by full page + modal)
 - `components/ui/cta-form/` — CTAFormCore shared extraction (form fields + submit logic)
 - `lib/chart-config.ts` — Shared Recharts axis/tooltip/grid styling constants
-- API Routes: `app/api/org/` — org mutations (admin-only, service_role). See `API-client-ready.md`
+- API Routes:
+  - `app/api/org/` — org mutations (admin-only, service_role). See `API-client-ready.md`
+  - `app/api/calls/[callId]/recording/` — GET handler. RLS-scoped server client (no `requireAdmin()`), Zod `z.uuid()` safeParse on `callId`, `.abortSignal(AbortSignal.timeout(5000)).maybeSingle()` on the calls read. Resolves `recording_url`'s ULID prefix → workspace PAK → calls `getConversationRecording()`. Legacy full-URL rows (`includes('://')`) and missing PAK → graceful `{ tracks: {} }` HTTP 200. Consumed by `lib/hooks/useCallRecording.ts` (TanStack staleTime=4 min)
 - Types: `types/` (root — only chatbot types and gtag declarations)
 - Hooks: `hooks/` (root — only `useIsMobile` from shadcn)
 
